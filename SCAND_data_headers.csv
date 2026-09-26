@@ -1,0 +1,38 @@
+SCAND: Socially CompliAnt Navigation Dataset ,,,,,,,,,
+,,,,,,,,,
+"Our dataset contains 25 miles and 8.7 hours of robot driven trajectories through a variety of social environments around the University of Texas at Austin campus.
+
+SCAND also contains:
+
+138 trajectories,
+15 days of social navigation data on 2 robots : A wheeled Clearpath Jackal and a legged Boston Dynamics Spot,
+Indoor and outdoor environments @ UT Austin campus,
+2 highly crowded football game days (including a concert at the same time!),
+Mild to heavily crowded environments,
+4 different human demonstrators.
+",,,,,,,,,
+Format:,,,,,,,,,
+Here is the formal of SCAND. The headers are:,,,,,,,,,
+Trajectory,Person,Robot,Start Location,End Location,Link to rosbag,Video,Tags,Distance Travelled (meters),Time (secs)
+"Trajectory number 
+for that day","Who was 
+driving it ","What robot was 
+used for the 
+trajectory","Starting location 
+for the trajectory","Ending location 
+for the trajectory","The URL for the 
+rosbag containg 
+all the information 
+captured for the 
+trajectory","The URL for the 
+video from the 
+RGB camera 
+captured for the 
+trajectory","Tags associated 
+with the 
+trajectory","How long the 
+trajectory is in 
+terms of 
+distance","How long the 
+trajectory is in 
+terms of time"

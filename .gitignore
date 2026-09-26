@@ -1,0 +1,26 @@
+# Allow-list: everything is ignored unless opted in below. Public-safe by default.
+/*
+!/.gitignore
+!/README.md
+!/SCAND_PUZZLE_QUERY_SUITE.md
+!/SCAND_index.csv
+!/SCAND_data_headers.csv
+!/scand/
+
+# Inside scand/: never data, envs, or generated outputs
+scand/.venv/
+scand/raw/
+scand/derived/
+scand/results/
+scand/bundles/
+scand/annotations/renders/
+scand/*.pdf
+**/__pycache__/
+*.pyc
+.DS_Store
+*.mcap
+*.bag
+*.avi
+*.safetensors
+*.parquet
+.env
