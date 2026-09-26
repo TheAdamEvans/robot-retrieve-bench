@@ -27,6 +27,8 @@ enum UnknownReason {
   CALIBRATION_UNCERTAIN = 7;
   NO_BINDING = 8;               // a related event could not be bound, but its features were not definitively false
   UNEXPRESSIBLE = 9;            // the generator declared this requirement outside the program grammar
+  CLOCK_INCOMPATIBLE = 10;      // header stamps not in the log-time epoch / not before receipt
+  NOT_IN_CONTEXT = 11;          // the anchor search found no instance near this candidate
 }
 
 enum Boundary { BOUNDARY_UNSPECIFIED = 0; STRICT_BEFORE = 1; INCLUSIVE = 2; }

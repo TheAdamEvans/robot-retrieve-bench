@@ -109,15 +109,26 @@ def build_timeline(rec: str, mcap: Path) -> dict[str, list]:
             cols["chunk_offset"].append(off)
             cols["chunk_len"].append(9 + len(content))
             cols["offset_in_chunk"].append(ioff)
-            cols.setdefault("_raw_head", []).append(bytes(m.data[:12]))
+            cols.setdefault("_raw_head", []).append(bytes(m.data[:16]))
     return cols
 
 
-def header_topics(mcap: Path) -> set[str]:
+def header_topics(mcap: Path) -> tuple[set[str], set[str]]:
+    """→ (topics whose message starts with std_msgs/Header, tf2_msgs/TFMessage topics)."""
     from mcap.reader import make_reader
     with open(mcap, "rb") as f:
         summary = make_reader(f).get_summary()
-    return {c.topic for c in summary.channels.values() if c.metadata.get("has_header") == "true"}
+    chans = summary.channels.values()
+    tf = {c.topic for c in chans if summary.schemas[c.schema_id].name == "tf2_msgs/msg/TFMessage"}
+    return {c.topic for c in chans if c.metadata.get("has_header") == "true"}, tf
+
+
+def stamp_of(topic: str, head: bytes, htopics: set[str], tf_topics: set[str]) -> int | None:
+    if topic in htopics and len(head) >= 12:
+        return header_stamp(head)
+    if topic in tf_topics and len(head) >= 16 and struct.unpack_from("<I", head, 0)[0] > 0:
+        return header_stamp(head[4:])  # first TransformStamped's header (TFMessage has no top-level header)
+    return None
 
 
 def convert(rec: str, bundle: Path) -> dict:
@@ -127,13 +138,16 @@ def convert(rec: str, bundle: Path) -> dict:
     t0 = time.perf_counter()
     expected = write_mcap(rec, mcap)
     t1 = time.perf_counter()
+    return finish(rec, bundle, mcap, expected, t0, t1)
+
+
+def finish(rec: str, bundle: Path, mcap: Path, expected: dict | None, t0: float, t1: float) -> dict:
     cols = build_timeline(rec, mcap)
     heads = cols.pop("_raw_head")
-    htopics = header_topics(mcap)
-    cols["header_stamp_ns"] = [header_stamp(h) if t in htopics and len(h) >= 12 else None
-                               for t, h in zip(cols["topic"], heads)]
+    htopics, tf_topics = header_topics(mcap)
+    cols["header_stamp_ns"] = [stamp_of(t, h, htopics, tf_topics) for t, h in zip(cols["topic"], heads)]
     got = {(t, n): s for t, n, s in zip(cols["topic"], cols["topic_ordinal"], cols["payload_sha128"])}
-    if got != expected:
+    if expected is not None and got != expected:
         missing = set(expected) - set(got)
         raise AssertionError(f"{rec}: payload mismatch ({len(missing)} missing, "
                              f"{sum(got.get(k) != v for k, v in expected.items())} differ)")
@@ -152,7 +166,7 @@ def convert(rec: str, bundle: Path) -> dict:
         "recording_id": rec, "bag": bag.name, "bag_bytes": bag.stat().st_size, "bag_sha256": file_sha256(bag),
         "mcap_bytes": mcap.stat().st_size, "messages": table.num_rows,
         "log_start_ns": int(np.min(cols["log_time_ns"])), "log_end_ns": int(np.max(cols["log_time_ns"])),
-        "topics": sorted(set(cols["topic"])), "header_topics": sorted(htopics),
+        "topics": sorted(set(cols["topic"])), "header_topics": sorted(htopics | tf_topics),
         "convert_s": round(t1 - t0, 1), "timeline_s": round(time.perf_counter() - t1, 1),
     }
     (bundle / "mcap" / f"{rec}.json").write_text(json.dumps(info, indent=1))
@@ -162,10 +176,14 @@ def convert(rec: str, bundle: Path) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--bundle", type=Path, required=True)
+    ap.add_argument("--timeline-only", action="store_true", help="rebuild timelines from existing MCAPs")
     ap.add_argument("recs", nargs="*", default=list(RECORDINGS))
     a = ap.parse_args()
     for rec in a.recs:
-        info = convert(rec, a.bundle)
+        if a.timeline_only:
+            info = finish(rec, a.bundle, a.bundle / "mcap" / f"{rec}.mcap", None, time.perf_counter(), time.perf_counter())
+        else:
+            info = convert(rec, a.bundle)
         print(json.dumps({k: info[k] for k in ("recording_id", "messages", "bag_bytes", "mcap_bytes", "convert_s",
                                                "timeline_s")}))
 

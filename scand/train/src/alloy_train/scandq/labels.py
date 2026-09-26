@@ -147,6 +147,8 @@ def cmd_label(a) -> None:
             for line in p.read_text().splitlines():
                 rec = json.loads(line)
                 latest[key_of(a.kind, rec)] = rec
+        for v in latest.values():  # show refs as MessageId strings, as submitted
+            v["refs"] = [f'{x["recordingId"]}{x["topic"]}#{x.get("topicOrdinal", 0)}' for x in v.get("refs", [])]
         rows = [v for v in latest.values()
                 if (not a.rec or v.get("recordingId", v.get("windowId", "")).startswith(a.rec))
                 and (not a.intent or v.get("intentGroupId") == a.intent)]
