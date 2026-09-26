@@ -1,0 +1,72 @@
+syntax = "proto3";
+package alloy.v1;
+
+import "alloy/v1/common.proto";
+import "alloy/v1/query.proto";
+import "alloy/v1/pipeline.proto";
+
+enum AnswerStatus {
+  ANSWER_STATUS_UNSPECIFIED = 0;
+  ANSWERED = 1;
+  ANSWERED_PARTIAL = 2;
+  ANSWERED_UNVERIFIED = 3;
+  INSUFFICIENT_EVIDENCE = 4;
+  NONE_FOUND_EXHAUSTIVE = 5;
+}
+
+enum ProgramState { PROGRAM_STATE_UNSPECIFIED = 0; PROVIDED = 1; GENERATED = 2; FAILED = 3; NOT_REQUESTED = 4; }
+
+message ProgramDiagnostics {
+  ProgramState state = 1;
+  repeated string errors = 2;          // validator codes, e.g. SEM_UNKNOWN_FEATURE
+  uint32 attempts = 3;
+  bool cache_hit = 4;
+  string model = 5;
+}
+
+message ReceiptItem {
+  string sensor = 1;
+  string topic = 2;
+  optional MessageId message = 3;
+  optional int64 age_ns = 4;
+  Truth ok = 5;
+  UnknownReason reason = 6;
+}
+
+message EvidenceReceipt {
+  int64 causal_cutoff_ns = 1;
+  Boundary boundary = 2;
+  int64 max_age_ns = 3;
+  string discovery_mode = 4;           // RETROSPECTIVE: finding the cutoff may use any data
+  repeated ReceiptItem items = 5;
+}
+
+message SearchRequest {
+  string utterance = 1;
+  optional QueryProgram program = 2;   // set => ProgramState PROVIDED (oracle/eval)
+  string pipeline_id = 3;
+  Scope scope = 4;
+  string availability_config_id = 5;
+  uint32 k = 6;
+  ExecutionMode mode = 7;
+  repeated string window_ids = 8;      // SCORE_ALL only
+}
+
+message ResultItem {
+  Candidate candidate = 1;
+  optional EvidenceReceipt receipt = 2;
+  repeated string unsupported = 3;     // human-readable UNKNOWN required clauses
+}
+
+message SearchResponse {
+  repeated ResultItem results = 1;
+  optional QueryProgram program_used = 2;
+  ProgramDiagnostics diagnostics = 3;
+  AnswerStatus status = 4;
+  Completeness completeness = 5;
+  StageReport report = 6;
+  CostReport cost = 7;
+  string bundle_id = 8;
+  repeated string notes = 9;           // e.g. "earliest among retrieved candidates"
+  repeated FilterRecord filtered = 10;
+}

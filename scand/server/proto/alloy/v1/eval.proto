@@ -1,0 +1,51 @@
+syntax = "proto3";
+package alloy.v1;
+
+import "alloy/v1/common.proto";
+import "alloy/v1/query.proto";
+import "alloy/v1/answer.proto";
+
+enum LabelSource { LABEL_SOURCE_UNSPECIFIED = 0; COMPUTED = 1; AGENT_PROVISIONAL = 2; HUMAN = 3; DERIVED = 4; }
+
+message EvalQuery {
+  string query_id = 1;
+  string intent_group_id = 2;
+  string query_set = 3;                // demo5 | demo5_para | compose_dev | compose_test
+  string utterance = 4;
+  Scope scope = 5;
+  optional QueryProgram oracle_program = 6;
+  AnswerStatus expected_status = 7;
+  bool expect_abstain = 8;
+  string intent = 9;                   // plain-language intent the labeller grades against
+}
+
+message Judgment {
+  string intent_group_id = 1;
+  string window_id = 2;
+  int32 grade = 3;                     // 0,1,2; -1 = UNJUDGED (unsure)
+  string rationale = 4;
+  repeated MessageId refs = 5;
+  LabelSource source = 6;
+  string judge = 7;
+  string job_id = 8;
+}
+
+enum Bucket { BUCKET_UNSPECIFIED = 0; ZERO = 1; ONE_TWO = 2; THREE_FIVE = 3; SIX_PLUS = 4; UNSURE = 5; }
+
+message WindowAttributes {
+  string segment_id = 1;               // <rec>@<start_s>, non-overlapping 4 s segments
+  string recording_id = 2;
+  Interval span = 3;
+  Bucket persons_in_corridor = 4;
+  Truth stationary_group = 5;
+  Truth doorway_traversal = 6;
+  Truth vehicle_present = 7;
+  Truth vehicle_interaction = 8;
+  Truth bicycle = 9;
+  Truth indoor = 10;
+  Truth turn_visible = 11;
+  string caption = 12;
+  repeated MessageId refs = 13;
+  string judge = 14;
+  string job_id = 15;
+}

@@ -1,0 +1,40 @@
+syntax = "proto3";
+package alloy.v1;
+
+// Stable identity of one recorded message. Layout (chunk offsets) lives in the timeline, never here.
+message MessageId {
+  string recording_id = 1;
+  string topic = 2;
+  uint64 topic_ordinal = 3;       // 0-based order within the topic in the source bag
+  bytes payload_sha256_128 = 4;   // first 16 bytes of SHA-256(payload)
+}
+
+message Interval {
+  optional int64 start_ns = 1;
+  optional int64 end_ns = 2;
+}
+
+enum Truth { TRUTH_UNSPECIFIED = 0; TRUTH_UNKNOWN = 1; TRUTH_TRUE = 2; TRUTH_FALSE = 3; }
+
+enum UnknownReason {
+  UNKNOWN_REASON_UNSPECIFIED = 0;
+  NOT_INDEXED = 1;
+  NOT_APPLICABLE = 2;
+  OUTSIDE_COVERAGE = 3;
+  STALE = 4;
+  FUTURE_MEASUREMENT = 5;
+  HEADER_MISSING = 6;
+  CALIBRATION_UNCERTAIN = 7;
+  NO_BINDING = 8;               // a related event could not be bound, but its features were not definitively false
+  UNEXPRESSIBLE = 9;            // the generator declared this requirement outside the program grammar
+}
+
+enum Boundary { BOUNDARY_UNSPECIFIED = 0; STRICT_BEFORE = 1; INCLUSIVE = 2; }
+
+enum SpatialBasis {
+  SPATIAL_BASIS_UNSPECIFIED = 0;
+  SPATIAL_NONE = 1;             // no spatial claim made
+  RECORDED_TF = 2;
+  NOMINAL = 3;
+  ESTIMATED = 4;
+}

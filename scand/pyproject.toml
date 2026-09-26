@@ -3,11 +3,20 @@ name = "scand-retrieval-benchmark"
 version = "0.1.0"
 description = "Reproducible experiments for temporal and semantic retrieval over SCAND robot recordings."
 requires-python = ">=3.13,<3.14"
-dependencies = [
-    "av==18.1.0",
-    "pillow==11.3.0",
-    "rosbags==0.11.5",
-]
+dependencies = ["alloy-server", "alloy-train"]
 
 [tool.uv]
 package = false
+
+[tool.uv.workspace]
+members = ["server", "train"]
+
+[tool.uv.sources]
+alloy-server = { workspace = true }
+alloy-train = { workspace = true }
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["server/tests", "train/tests"]

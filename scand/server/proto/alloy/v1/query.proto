@@ -1,0 +1,114 @@
+syntax = "proto3";
+package alloy.v1;
+
+import "alloy/v1/common.proto";
+
+enum Unit {
+  UNIT_UNSPECIFIED = 0;
+  DIMENSIONLESS = 1;   // counts, flags
+  RATIO = 2;           // 0..1
+  PERCENT = 3;         // converted to RATIO by the validator
+  M = 4; CM = 5;
+  MPS = 6; KMH = 7;
+  MPS2 = 8;
+  DEG = 9; DEG_PER_S = 10;
+  S = 11; MS = 12;
+}
+
+message Quantity { double value = 1; Unit unit = 2; }
+
+enum Comparator { COMPARATOR_UNSPECIFIED = 0; GTE = 1; GT = 2; LTE = 3; LT = 4; EQ = 5; }
+
+enum EventKind {
+  EVENT_KIND_UNSPECIFIED = 0;
+  THRESHOLD = 1;        // intervals where `feature comparator threshold` holds for >= min_duration
+  CHANGE = 2;           // feature drops/rises by `change` within `within`; start = last sample before, extremum = min/max
+  ONSET = 3;            // feature below `from_below` for >= min_duration, then above `threshold` for >= sustain
+  EXTREMUM = 4;         // local min/max of feature (direction); anchor = extremum time
+  RETURN_TO = 5;        // first time feature returns to `fraction` x its value at `reference` anchor
+  TRACK_APPEAR = 6;     // first observation of a new track in `feature` (a track feature)
+  TRACK_DISAPPEAR = 7;  // last observation of the track bound by `reference`
+}
+
+enum Direction { DIRECTION_UNSPECIFIED = 0; DOWN = 1; UP = 2; }
+
+enum AnchorPoint { ANCHOR_POINT_UNSPECIFIED = 0; START = 1; END = 2; EXTREMUM_POINT = 3; }
+
+message AnchorRef { string event = 1; AnchorPoint point = 2; }
+
+message EventSpec {
+  string name = 1;                     // referenced by relations, anchors and receipts
+  EventKind kind = 2;
+  string feature = 3;                  // must exist in the FeatureRegistry
+  optional Comparator comparator = 4;
+  optional Quantity threshold = 5;
+  optional Quantity change = 6;        // absolute (e.g. 0.7 MPS) or relative (RATIO / PERCENT)
+  optional Direction direction = 7;
+  optional Quantity within = 8;        // duration
+  optional Quantity min_duration = 9;
+  optional Quantity from_below = 10;   // ONSET
+  optional Quantity sustain = 11;      // ONSET
+  optional double fraction = 12;       // RETURN_TO
+  optional AnchorRef reference = 13;   // RETURN_TO / TRACK_DISAPPEAR
+  bool required = 14;
+  string doc = 15;                     // the utterance span this event encodes
+}
+
+enum RelationKind {
+  RELATION_KIND_UNSPECIFIED = 0;
+  AFTER = 1;     // b after a, gap in [min_gap, max_gap]
+  BEFORE = 2;    // b before a, gap in [min_gap, max_gap]
+  WITHIN = 3;    // |b - a| <= max_gap
+  DURING = 4;    // b's anchor falls inside event a's [start, end]
+}
+
+// Relations form a tree rooted at the primary event: `child` is bound relative to `parent`.
+message Relation {
+  AnchorRef parent = 1;
+  AnchorRef child = 2;
+  RelationKind kind = 3;
+  optional Quantity min_gap = 4;
+  optional Quantity max_gap = 5;
+  bool required = 6;
+  string doc = 7;
+}
+
+enum Quantifier {
+  QUANTIFIER_UNSPECIFIED = 0;
+  ALL = 1;
+  FIRST = 2;       // scope-quantified: asserted only if EXHAUSTIVE
+  ARGMIN = 3;      // scope-quantified
+  ARGMAX = 4;      // scope-quantified
+}
+
+message Selection {
+  Quantifier quantifier = 1;
+  optional string by_feature = 2;      // ARGMIN/ARGMAX: feature evaluated over `by_event`
+  optional string by_event = 3;
+}
+
+message ReceiptSpec {
+  AnchorRef cutoff = 1;
+  repeated string sensors = 2;         // embodiment sensor names, e.g. front_camera, body_cameras, lidar, odom, tf
+  Quantity max_age = 3;
+  Boundary boundary = 4;
+}
+
+message Scope {
+  repeated string recording_ids = 1;   // empty = all
+  repeated string robots = 2;          // empty = all
+}
+
+message QueryProgram {
+  Scope scope = 1;
+  string primary_event = 2;
+  repeated EventSpec events = 3;
+  repeated Relation relations = 4;
+  Selection selection = 5;
+  repeated AnchorRef return_anchors = 6;
+  optional ReceiptSpec receipt = 7;
+  Quantity context_before = 8;         // evaluation context around the primary anchor (independent of retrieval windows)
+  Quantity context_after = 9;
+  repeated string unexpressible = 10;  // requirements the grammar cannot express; each is an UNKNOWN(UNEXPRESSIBLE) clause
+  bool abstain_if_insufficient = 11;
+}

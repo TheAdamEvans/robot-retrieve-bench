@@ -1,0 +1,93 @@
+syntax = "proto3";
+package alloy.v1;
+
+import "alloy/v1/common.proto";
+
+enum CandidateKind { CANDIDATE_KIND_UNSPECIFIED = 0; WINDOW = 1; INTERVAL = 2; }
+enum Completeness { COMPLETENESS_UNSPECIFIED = 0; EXHAUSTIVE = 1; CANDIDATE_LIMITED = 2; COMPLETENESS_UNKNOWN = 3; }
+enum ScoreKind { SCORE_KIND_UNSPECIFIED = 0; BM25 = 1; COSINE = 2; TRUTH_ORDINAL = 3; FUSED = 4; RANK = 5; }
+enum FilterReason { FILTER_REASON_UNSPECIFIED = 0; REQUIRED_CLAUSE_FALSE = 1; TRUNCATED = 2; }
+enum StageOutcome { STAGE_OUTCOME_UNSPECIFIED = 0; RAN = 1; SKIPPED = 2; UNAVAILABLE = 3; ABSTAINED = 4; }
+enum PipelineRole { PIPELINE_ROLE_UNSPECIFIED = 0; TOP_LEVEL = 1; GENERATE = 2; RERANK = 3; }
+enum ExecutionMode { EXECUTION_MODE_UNSPECIFIED = 0; SEARCH = 1; SCORE_ALL = 2; }
+
+message StageScore { string stage_id = 1; string impl = 2; double value = 3; ScoreKind kind = 4; }
+message StageTouch { string stage_id = 1; string action = 2; }
+
+message ClauseResult {
+  string clause_id = 1;                // event name or "rel:<parent>-><child>"
+  string doc = 2;
+  bool required = 3;
+  Truth truth = 4;
+  UnknownReason reason = 5;            // set iff truth == UNKNOWN
+  optional double value = 6;
+  string unit = 7;
+}
+
+message NamedAnchor { string name = 1; int64 t_ns = 2; optional int64 lo_ns = 3; optional int64 hi_ns = 4; }
+
+message Candidate {
+  string candidate_id = 1;
+  CandidateKind kind = 2;
+  string recording_id = 3;
+  Interval seed = 4;                   // never rewritten
+  optional Interval resolved = 5;
+  repeated StageTouch lineage = 6;     // append-only
+  map<string, StageScore> scores = 7;  // key = stage_id; a stage writes only its own key
+  repeated ClauseResult clauses = 8;
+  repeated MessageId evidence = 9;
+  repeated NamedAnchor anchors = 10;
+  Completeness completeness = 11;
+  SpatialBasis spatial_basis = 12;
+  bool filtered = 13;                  // SCORE_ALL only: kept, flagged, ordered last
+  string window_id = 14;               // WINDOW candidates
+}
+
+message FilterRecord { string candidate_id = 1; string stage_id = 2; FilterReason reason = 3; string detail = 4; }
+
+message CostReport {
+  uint64 bytes_read = 1;
+  map<string, uint64> bytes_by_layer = 2;
+  uint64 bytes_served_from_cache = 3;
+  double raw_ratio = 4;                // bytes_read / raw bag bytes in scope
+  uint32 llm_calls = 5;
+  uint32 prompt_tokens = 6;
+  uint32 cached_prompt_tokens = 7;
+  uint32 reasoning_tokens = 8;
+  uint32 completion_tokens = 9;
+  double usd_est = 10;                 // from a pinned price table; an estimate
+  double encoder_forward_ms = 11;
+  double wall_ms = 12;
+}
+
+message StageReport {
+  string stage_id = 1;
+  string impl = 2;
+  PipelineRole role = 3;
+  uint32 candidates_in = 4;
+  uint32 candidates_out = 5;
+  map<string, uint32> filtered_by_reason = 6;
+  uint32 truncated = 7;
+  CostReport cost = 8;
+  optional string triggered_by = 9;
+  repeated StageReport children = 10;
+  StageOutcome outcome = 11;
+  string outcome_detail = 12;
+}
+
+message StageSpec {
+  string stage_id = 1;
+  string impl = 2;                     // registry name, e.g. "EmbeddingCandidates"
+  map<string, string> params = 3;      // impl-specific, validated by the impl
+}
+
+message PipelineSpec {
+  string pipeline_id = 1;
+  PipelineRole role = 2;
+  repeated StageSpec generators = 3;
+  repeated StageSpec rankers = 4;
+  uint32 final_k = 5;
+  string spec_version = 6;
+  bool stub = 7;                       // listed and loadable; running it returns UNAVAILABLE
+  string doc = 8;
+}
