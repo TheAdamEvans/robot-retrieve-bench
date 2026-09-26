@@ -89,8 +89,10 @@ def scope(name: str):
         _current.reset(token)
 
 
-def record_read(layer: str, path: str, offset: int, length: int, cache_hit: bool) -> None:
-    s = _current.get()
+def record_read(layer: str, path: str, offset: int, length: int, cache_hit: bool,
+                scope: CostScope | None = None) -> None:
+    """`scope` pins the destination for reads issued from worker threads (contextvars don't cross into them)."""
+    s = scope if scope is not None else _current.get()
     if s is None:
         return
     if not cache_hit:
