@@ -23,7 +23,7 @@ Start with [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Then read [`docs/INDE
 - **`index/` (`alloy-index`).** Config-driven, incremental indexing (Source → Stages → Sink, `index/index.textproto`):
   intake, conversion, providers, frame and window encoders, applying trained models, the optional Opus labeller
   stage and the `scandq` labeller tools.
-- **`train/` (`alloy-train`).** The benchmark harness, L2 judging, Stage C (FUSED) learning and `alloy-evals`.
+- **`trainer/` (`alloy-train`).** The benchmark harness, L2 judging, Stage C (FUSED) learning and `alloy-evals`.
 - **`server/src/alloy_server/embodiments/*.textproto`.** Robot facts as reviewed data, one profile per robot model.
 - **`benchmark/queries/`.** The frozen query sets and the oracle `QueryProgram`s, with a sha256 manifest.
 - **`benchmark/OPEN_QUESTIONS.md`.** Data questions that change what the system may claim.

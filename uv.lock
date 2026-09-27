@@ -75,7 +75,7 @@ requires-dist = [
 [[package]]
 name = "alloy-train"
 version = "0.1.0"
-source = { editable = "train" }
+source = { editable = "trainer" }
 dependencies = [
     { name = "alloy-index" },
     { name = "alloy-server" },
@@ -1181,7 +1181,7 @@ dev = [
 requires-dist = [
     { name = "alloy-index", editable = "index" },
     { name = "alloy-server", editable = "server" },
-    { name = "alloy-train", editable = "train" },
+    { name = "alloy-train", editable = "trainer" },
 ]
 
 [package.metadata.requires-dev]

@@ -9,7 +9,7 @@ dependencies = ["alloy-server", "alloy-index", "alloy-train"]
 package = false
 
 [tool.uv.workspace]
-members = ["server", "index", "train"]
+members = ["server", "index", "trainer"]
 
 [tool.uv.sources]
 alloy-server = { workspace = true }
@@ -20,7 +20,7 @@ alloy-train = { workspace = true }
 dev = ["pytest>=8"]
 
 [tool.pytest.ini_options]
-testpaths = ["server/tests", "index/tests", "train/tests"]
+testpaths = ["server/tests", "index/tests", "trainer/tests"]
 markers = [
     "moduleeval: a module's self-contained eval suite (evals/*/confeval.py)",
     "requires_bundle: needs the built dev bundle",

@@ -20,7 +20,7 @@ raw/*.bag ─►│ Source ─► ingest ─► providers ─► frames ─► w
 |---|---|---|
 | `server/` `alloy-server` | proto contracts, instrumented readers, the embodiment registry, the pipeline runner, the program generator, validator and executor, receipts, the HTTP API, `evalkit` | nothing from the other two |
 | `index/` `alloy-index` | Sources, Stages and the Sink; conversion, intake, providers, frame and window encoders, applying trained models, the `scandq` labeller tools and the label store | `alloy_server` |
-| `train/` `alloy-train` | the benchmark (query sets, pooling, metrics, reports), L2 judging, FUSED training, `alloy-evals` | both |
+| `trainer/` `alloy-train` | the benchmark (query sets, pooling, metrics, reports), L2 judging, FUSED training, `alloy-evals` | both |
 
 Layering is enforced by tests (`server/tests/test_contracts.py`, `index/tests/test_layering.py`). The server also
 never touches bundle files outside its `io` package, so byte accounting stays complete.
@@ -133,7 +133,7 @@ which is tested), resident bytes, LLM calls and tokens (cached separately), and 
 
 ## Evaluation
 
-- **The benchmark** (`train/src/alloy_train/eval`): pooled graded relevance, macro ROC-AUC (penalised for
+- **The benchmark** (`trainer/src/alloy_train/eval`): pooled graded relevance, macro ROC-AUC (penalised for
   abstention), nDCG@10, recall on condensed lists, bootstrap CIs over intent groups, and latency and token costs.
   See [`benchmark/CORRECTNESS.md`](../benchmark/CORRECTNESS.md).
 - **Module evals**: each module keeps small, self-contained suites. See [EVALS.md](EVALS.md).

@@ -29,7 +29,7 @@ score(q, w) = q · f(w)          (exact dot product over the window index; same 
   heading Δ, acceleration (min, max), front clearance, any-direction clearance, lateral room on each side, gap width,
   a doorway flag, persons (mean, max), persons in the corridor, vehicles, vehicle box fraction, bicycles, new person
   tracks, and a robot flag. Each is standardised using **training-fold statistics only** and paired with a presence
-  mask, giving 46 dimensions. See `SIGNALS` in `train/src/alloy_train/learn/fused.py`.
+  mask, giving 46 dimensions. See `SIGNALS` in `index/src/alloy_index/models/fused.py`.
 - **Head.**
   - Architecture: `Dropout(0.2) → Linear(1198→512) → GELU → Dropout(0.2) → Linear(512→1152)`.
   - Output: added to the image vector (a residual), then L2-normalised.
@@ -174,8 +174,8 @@ which is a labeller job, or report `judged@10` alongside the metrics. Condensed-
 
 | File | What it holds |
 |---|---|
-| `train/src/alloy_train/learn/fused.py` | features, pseudo-label programs, head, loss, LORO, diagnostics |
+| `trainer/src/alloy_train/learn/fused.py` | features, pseudo-label programs, head, loss, LORO, diagnostics |
 | `server/src/alloy_server/models/siglip.py` | the frozen encoder recipe shared by the query and document sides |
-| `train/src/alloy_train/index/pipelines.py` | the `FUSED`, `FUSED_V`, `FUSED_LINEAR` and `FUSED_CONCAT` specs |
-| `train/src/alloy_train/eval/*` | the benchmark runner, pooling, metrics and report |
+| `index/src/alloy_index/build/pipelines.py` | the `FUSED`, `FUSED_V`, `FUSED_LINEAR` and `FUSED_CONCAT` specs |
+| `trainer/src/alloy_train/eval/*` | the benchmark runner, pooling, metrics and report |
 | `benchmark/results/v7/`, `benchmark/results/v8-correctness/` | frozen reference results |

@@ -11,7 +11,7 @@
 !/build_dashboard.py
 !/server/
 !/index/
-!/train/
+!/trainer/
 !/benchmark/
 !/annotations/
 !/annotations_recheck/
