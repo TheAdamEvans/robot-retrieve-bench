@@ -371,7 +371,7 @@ def load_challenge(query_set: str) -> list[eval_pb2.EvalQuery]:
 
 def load(sets: list[str] | None = None) -> list[eval_pb2.EvalQuery]:
     out = []
-    for name in (sets or []):
+    for name in (sets if sets is not None else sorted(challenge_sets())):
         if name in challenge_sets():
             out += load_challenge(name)
     for p in sorted(OUT.glob("*.json")):
