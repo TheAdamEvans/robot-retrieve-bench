@@ -1,0 +1,103 @@
+syntax = "proto3";
+package alloy.v1;
+
+// Declared once per robot model (reviewed data, not code): server/embodiments/<id>.textproto.
+enum Basis {
+  BASIS_UNSPECIFIED = 0;
+  RECORDED = 1;             // measured in this log (e.g. recorded TF, camera_info)
+  URDF_NOMINAL = 2;
+  DATASHEET_NOMINAL = 3;
+  ESTIMATED_BAND = 4;       // plausible range; claims that depend on it are ESTIMATED
+}
+
+enum SensorKind {
+  SENSOR_KIND_UNSPECIFIED = 0;
+  CAMERA = 1; LIDAR_3D = 2; LIDAR_2D = 3; ODOMETRY = 4; IMU = 5; TF = 6; JOYSTICK = 7; CAMERA_INFO = 8;
+}
+
+enum TwistFrame { TWIST_FRAME_UNSPECIFIED = 0; TWIST_IN_ODOM = 1; TWIST_IN_BODY = 2; }
+
+message Band { double nominal = 1; double lo = 2; double hi = 3; Basis basis = 4; }
+
+message CameraModel {
+  uint32 width = 1; uint32 height = 2;
+  Band hfov_deg = 3;
+  Band height_m = 4;           // lens height above ground
+  Band pitch_down_deg = 5;
+  bool intrinsics_recorded = 6;
+}
+
+message SensorSpec {
+  string name = 1;             // front_camera, body_cameras, lidar, lidar_2d, odom, tf, imu, joystick
+  SensorKind kind = 2;
+  repeated string topics = 3;
+  double nominal_hz = 4;
+  repeated int32 display_rotation_deg = 5;   // per topic, same order; views rotate losslessly to upright
+  repeated string display_names = 6;         // per topic, e.g. "frontleft (looks front-right)"
+  optional CameraModel camera = 7;
+  TwistFrame twist_frame = 8;                // ODOMETRY only
+  string note = 9;
+}
+
+enum SmoothingMethod {
+  SMOOTHING_METHOD_UNSPECIFIED = 0;
+  TRAILING_MEDIAN = 1;         // rejects single-sample glitches (wheeled odometry)
+  GAIT_SYNC_MEAN = 2;          // trailing mean over `gait_cycles` x the intake-measured gait period (legged)
+}
+
+message SpeedSmoothing {
+  SmoothingMethod method = 1;
+  double window_s = 2;         // TRAILING_MEDIAN, and GAIT_SYNC_MEAN fallback when no gait period was measured
+  uint32 gait_cycles = 3;      // GAIT_SYNC_MEAN
+}
+
+message Footprint { double length_m = 1; double width_m = 2; double height_m = 3; Basis basis = 4; }
+message Corridor { double half_width_m = 1; double length_m = 2; Basis basis = 3; }
+
+message EmbodimentProfile {
+  string embodiment_id = 1;    // spot, jackal
+  string robot = 2;
+  string locomotion = 3;
+  Footprint footprint = 4;
+  Band max_speed_mps = 5;
+  repeated SensorSpec sensors = 6;
+  Corridor corridor = 7;
+  string clearance_sensor = 8; // sensor name whose returns feed clearance (lidar = 3D, lidar_2d = planar)
+  SpeedSmoothing speed_smoothing = 9;
+  repeated string signature_topics = 10;  // a log matches this profile iff it has all of these
+  repeated string absent = 11;            // things users will ask about that this robot does not have
+  string profile_version = 12;
+}
+
+// Measured per log by intake; consumed by providers, receipts and the labeller tools.
+message TopicProfile {
+  string topic = 1;
+  string msgtype = 2;
+  uint64 count = 3;
+  double hz = 4;
+  double max_gap_s = 5;
+  uint32 gaps_over_2x_period = 6;
+  bool header_present = 7;
+  optional double median_capture_to_receipt_ms = 8;
+  optional double p99_capture_to_receipt_ms = 9;
+  optional double future_stamped_frac = 10;   // header later than receipt
+  optional double max_future_ms = 11;
+}
+
+message GaitEstimate { double period_s = 1; double frequency_hz = 2; double peak_to_median = 3; uint32 windows = 4; }
+
+message IntakeReport {
+  string recording_id = 1;
+  string source = 2;                 // bag file name
+  string source_sha256 = 3;
+  uint64 source_bytes = 4;
+  string embodiment_id = 5;
+  string profile_version = 6;
+  repeated string missing_signature_topics = 7;
+  repeated string unprofiled_topics = 8;     // present in the log, not in the profile
+  repeated TopicProfile topics = 9;
+  optional GaitEstimate gait = 10;
+  repeated string anomalies = 11;            // deviations from the profile worth a human look
+  double duration_s = 12;
+  string intake_version = 13;
+}

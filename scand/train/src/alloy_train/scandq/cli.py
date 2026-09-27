@@ -27,11 +27,13 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
+from alloy_server.catalog import embodiment as E
 from alloy_server.catalog.windows import WINDOW_S, segments, window_span_s, windows
 from alloy_server.io.ros1 import compressed_image
 from alloy_server.timeline.store import NO_HEADER, Recording, mid_str, parse_mid
 from alloy_train import embodiment as emb
-from alloy_train.decode import Decoder
+from alloy_train.decode import Decoder, odom_arrays
+from alloy_train.providers.common import smooth_speed
 from alloy_train.recordings import RECORDINGS, SCAND_ROOT, robot
 
 BUNDLE = Path(os.environ.get("SCANDQ_BUNDLE", SCAND_ROOT / "bundles" / "dev"))
@@ -41,10 +43,7 @@ FONT = ImageFont.load_default(size=18)
 SMALL = ImageFont.load_default(size=14)
 STALE_MS = 100.0
 
-# Spot body cameras are mounted rotated; views show them upright (lossless) and say so. The front stereo pair is
-# cross-eyed: `frontleft` sits on the left but looks right, `frontright` looks left.
-DISPLAY_ROTATION = {"frontleft": -90, "frontright": -90, "right": 180}
-CAM_NOTE = {"frontleft": "frontleft (looks front-right)", "frontright": "frontright (looks front-left)"}
+# Display rotation and naming quirks (e.g. Spot's cross-eyed front stereo pair) come from the embodiment profile.
 
 
 # ---------- plumbing ----------
@@ -100,18 +99,18 @@ def pick(r: Recording, topic: str, t_ns: int, mode: str) -> int | None:
     return tl.last_before(t_ns, inclusive=True) if mode == "last_before" else tl.nearest(t_ns)
 
 
-def rotation_for(topic: str) -> int:
-    return DISPLAY_ROTATION.get(topic.split("/")[3], 0) if topic.startswith("/spot/camera/") else 0
+def rotation_for(r: Recording, topic: str) -> int:
+    return E.topic_display(emb.prof(robot(r.id))).get(topic, (0, topic))[0]
 
 
-def cam_name(topic: str) -> str:
-    return CAM_NOTE.get(topic.split("/")[3], topic.split("/")[3]) if topic.startswith("/spot/camera/") else "front"
+def cam_name(r: Recording, topic: str) -> str:
+    return E.topic_display(emb.prof(robot(r.id))).get(topic, (0, topic))[1]
 
 
 def image(r: Recording, topic: str, i: int) -> Image.Image:
     _, data = compressed_image(r.read(topic, i).data)
     im = Image.open(io.BytesIO(data)).convert("RGB")
-    rot = rotation_for(topic)
+    rot = rotation_for(r, topic)
     return im.rotate(rot, expand=True) if rot else im
 
 
@@ -122,7 +121,7 @@ def cam_topic(r: Recording, cam: str) -> str:
     topic = f"/spot/camera/{cam.removeprefix('body_')}/image/compressed"
     if topic not in r.topics:
         raise SystemExit(f"camera {cam!r} not on {rb}; cameras: front" +
-                         ("".join(f", body_{c}" for c in emb.SPOT_BODY_CAMS) if rb == "spot" else ""))
+                         "".join(f", body_{c}" for c in emb.body_camera_names(rb)))
     return topic
 
 
@@ -144,11 +143,11 @@ def cam_tile(r: Recording, topic: str, t_ns: int, mode: str, size: tuple[int, in
              native: bool) -> Image.Image:
     i = pick(r, topic, t_ns, mode)
     if i is None:
-        return placeholder(size, f"{cam_name(topic)}: no message {'before' if mode == 'last_before' else 'near'} t")
+        return placeholder(size, f"{cam_name(r, topic)}: no message {'before' if mode == 'last_before' else 'near'} t")
     rf = ref(r, topic, i, t_ns, native, warnings)
     refs.append(rf)
     lag = f" age {rf['t'] - rf['header_t']:.2f}s" if "header_t" in rf and rf["t"] - rf["header_t"] > 0.1 else ""
-    return label(image(r, topic, i).resize(size), f"{cam_name(topic)} t={rf['t']:.2f}s{lag}", SMALL)
+    return label(image(r, topic, i).resize(size), f"{cam_name(r, topic)} t={rf['t']:.2f}s{lag}", SMALL)
 
 
 def grid(tiles: list[Image.Image], cols: int) -> Image.Image:
@@ -181,8 +180,9 @@ def save(img: Image.Image, name: str) -> str:
 
 def front_corridor_overlay(img: Image.Image, rb: str) -> Image.Image:
     """Draw the NOMINAL corridor (0-5 m ahead, ±half-width) on a front frame (ESTIMATED: no intrinsics recorded)."""
-    from alloy_train.providers.detections import CAMERA_BANDS
-    b, c = CAMERA_BANDS[rb], emb.CORRIDOR[rb]
+    from alloy_train.providers.detections import camera_bands
+    b, cor = camera_bands(rb), emb.corridor(rb)
+    c = {"half_width_m": cor.half_width_m, "length_m": cor.length_m}
     w, h = img.size
     fx = (w / 2) / np.tan(np.radians(b["hfov"][0] / 2))
     pts = []
@@ -201,11 +201,12 @@ def bev(r: Recording, t_ns: int, rng: float = 10.0, px: int = 600) -> tuple[Imag
     """Top-down lidar in the sensor frame (x forward = up). Spot points coloured by height; ground-level dropped."""
     rb = robot(r.id)
     dec = dec_(r.id)
-    topic = "/velodyne_points" if rb == "spot" else "/velodyne_2dscan"
+    topic = emb.lidar3d_topic(rb) or emb.scan_topic(rb)
+    three_d = topic == emb.lidar3d_topic(rb)
     i = pick(r, topic, t_ns, "last_before")
     if i is None:
         return placeholder((px, px), "lidar: no scan before t"), None
-    if rb == "spot":
+    if three_d:
         p = dec.points_xyz(topic, i)
         p = p[np.isfinite(p).all(1) & (p[:, 2] > -0.35) & (p[:, 2] < 1.5)]  # sensor ~0.5 m up: drop ground returns
         xy, z = p[:, :2], p[:, 2]
@@ -226,56 +227,56 @@ def bev(r: Recording, t_ns: int, rng: float = 10.0, px: int = 600) -> tuple[Imag
     arr[v[ok], u[ok]] = colour[ok]
     img = Image.fromarray(arr)
     d = ImageDraw.Draw(img)
-    fp = emb.CARDS[rb]["footprint_m"]
-    d.rectangle([px / 2 - fp["width"] / 2 * s, px / 2 - fp["length"] / 2 * s,
-                 px / 2 + fp["width"] / 2 * s, px / 2 + fp["length"] / 2 * s], outline=(255, 180, 60), width=2)
-    c = emb.CORRIDOR[rb]
-    d.rectangle([px / 2 - c["half_width_m"] * s, px / 2 - c["length_m"] * s,
-                 px / 2 + c["half_width_m"] * s, px / 2], outline=(120, 255, 120))
+    fp = emb.footprint(rb)
+    d.rectangle([px / 2 - fp.width_m / 2 * s, px / 2 - fp.length_m / 2 * s,
+                 px / 2 + fp.width_m / 2 * s, px / 2 + fp.length_m / 2 * s], outline=(255, 180, 60), width=2)
+    c = emb.corridor(rb)
+    d.rectangle([px / 2 - c.half_width_m * s, px / 2 - c.length_m * s,
+                 px / 2 + c.half_width_m * s, px / 2], outline=(120, 255, 120))
     rf = ref(r, topic, i, t_ns, native=True)
     d.text((6, px - 40), f"lidar t={rf['t']:.2f}s  rings 2 m  ahead = up", fill=(220, 220, 220), font=SMALL)
-    d.text((6, px - 20), "footprint NOMINAL, corridor ESTIMATED" + ("; colour = height" if rb == "spot" else ""),
+    d.text((6, px - 20), "footprint NOMINAL, corridor ESTIMATED" + ("; colour = height" if three_d else ""),
            fill=(160, 160, 160), font=SMALL)
     return img, rf
 
 
 def signal_series(r: Recording, t0_ns: int, t1_ns: int) -> tuple[dict, list[dict]]:
-    """COMPUTED directly from raw odom and scan messages (independent of the indexing providers)."""
+    """COMPUTED from raw odom and lidar messages with the same conventions as the motion/clearance providers
+    (profile twist frame, profile speed smoother with the intake-measured gait period, profile clearance sensor)."""
     rb = robot(r.id)
+    prof = emb.prof(rb)
     dec = dec_(r.id)
     otopic = emb.odom_topic(rb)
     tl = r.topics[otopic]
+    # smooth over a lead-in so the trailing window is full at t0
+    sl_all = tl.range(t0_ns - int(2e9), t1_ns)
     sl = tl.range(t0_ns, t1_ns)
-    speed, yaw = [], []
-    for i in range(sl.start, sl.stop):
-        m = dec.msg(otopic, i)
-        v = m.twist.twist.linear
-        speed.append(np.hypot(v.x, v.y) if rb == "spot" else abs(v.x))
-        yaw.append(np.degrees(m.twist.twist.angular.z))
-    t_od = np.array([r.t_rel(int(x)) for x in tl.log_ns[sl]])
-    speed, yaw = np.array(speed), np.array(yaw)
-    smooth = np.array([np.median(speed[(t_od > tt - 1.0) & (t_od <= tt)]) for tt in t_od]) if len(speed) else speed
+    raw = odom_arrays(dec, otopic, prof, sl_all)
+    smooth, how = smooth_speed(raw["t_ns"], raw["speed_mps"], prof, E.load_intake(BUNDLE, r.id))
+    keep = raw["t_ns"] >= t0_ns
+    t_od = np.array([r.t_rel(int(x)) for x in raw["t_ns"][keep]])
+    speed, yaw, smooth = raw["speed_mps"][keep], raw["yaw_rate_dps"][keep], smooth[keep]
     heading = np.concatenate([[0.0], np.cumsum(yaw[1:] * np.diff(t_od))]) if len(yaw) else yaw
-    stopic = emb.scan_topic(rb)
-    ssl = r.topics[stopic].range(t0_ns, t1_ns)
-    c = emb.CORRIDOR[rb]
+    cs = next(x for x in prof.sensors if x.name == prof.clearance_sensor)
+    ctopic = cs.topics[0]
+    ssl = r.topics[ctopic].range(t0_ns, t1_ns)
+    c = emb.corridor(rb)
     front, corr, t_sc = [], [], []
     for i in range(ssl.start, ssl.stop):
-        xy, a = dec.scan_xy(stopic, i, rmin=0.5)
+        xy, a, _, _ = dec.obstacle_xy(prof, i, by_time=False)
         rr = np.hypot(xy[:, 0], xy[:, 1])
         sel = np.abs(a) < np.radians(30)
         front.append(float(rr[sel].min()) if sel.any() else np.nan)
-        box = (xy[:, 0] > 0) & (xy[:, 0] < c["length_m"]) & (np.abs(xy[:, 1]) < c["half_width_m"])
-        corr.append(float(xy[box, 0].min()) if box.any() else c["length_m"])  # length = corridor clear
-        t_sc.append(r.t_rel(int(r.topics[stopic].log_ns[i])))
-    t_sc = np.array(t_sc)
+        box = (xy[:, 0] > 0) & (xy[:, 0] < c.length_m) & (np.abs(xy[:, 1]) < c.half_width_m)
+        corr.append(float(xy[box, 0].min()) if box.any() else c.length_m)  # length = corridor clear
+        t_sc.append(r.t_rel(int(r.topics[ctopic].log_ns[i])))
     refs = []
-    for topic, s in ((otopic, sl), (stopic, ssl)):
-        if s.stop > s.start:
-            refs += [ref(r, topic, s.start, None, native=True), ref(r, topic, s.stop - 1, None, native=True)]
+    for topic, s_ in ((otopic, sl), (ctopic, ssl)):
+        if s_.stop > s_.start:
+            refs += [ref(r, topic, s_.start, None, native=True), ref(r, topic, s_.stop - 1, None, native=True)]
     return {"speed_mps": (t_od, speed), "speed_smooth_mps": (t_od, smooth), "yaw_rate_dps": (t_od, yaw),
-            "heading_change_deg": (t_od, heading), "min_range_front_m": (t_sc, np.array(front)),
-            "min_range_corridor_m": (t_sc, np.array(corr))}, refs
+            "heading_change_deg": (t_od, heading), "min_range_front_m": (np.array(t_sc), np.array(front)),
+            "min_range_corridor_m": (np.array(t_sc), np.array(corr)), "_smoother": how}, refs
 
 
 def heading_summary(t: np.ndarray, hdg: np.ndarray, t0: float, t1: float) -> dict:
@@ -300,7 +301,7 @@ def signal_plot(series: dict, fields: list[str], span: tuple[float, float] | Non
         t, y = series[f]
         if f == "speed_mps" and "speed_smooth_mps" in series:
             ax.plot(t, y, lw=0.8, alpha=0.5, label="raw (Spot gait oscillates)")
-            ax.plot(*series["speed_smooth_mps"], lw=1.8, label="trailing 1 s median")
+            ax.plot(*series["speed_smooth_mps"], lw=1.8, label=series.get("_smoother", "smoothed"))
             ax.legend(fontsize=7, loc="lower left")
         else:
             ax.plot(t, y, lw=1.4)
@@ -335,7 +336,7 @@ def cmd_recordings(a) -> None:
                        for t, tl in r.topics.items() if len(tl) > 1},
             "tags_recording_level_not_evidence": tags.get(stem, ""),
         })
-    emit("recordings", {}, {"recordings": out, "embodiment_cards": emb.CARDS})
+    emit("recordings", {}, {"recordings": out, "embodiment_profiles": emb.cards()})
 
 
 def cmd_coverage(a) -> None:
@@ -368,7 +369,7 @@ def cmd_frame(a) -> None:
     if i is None:
         raise SystemExit(f"no {topic} message before t={a.t}")
     _, data = compressed_image(r.read(topic, i).data)
-    rot = rotation_for(topic)
+    rot = rotation_for(r, topic)
     ordn = r.topics[topic].ordinal[i]
     if rot:  # upright for viewing; PNG keeps the decoded pixels exactly
         p = out_dir() / f"frame_{a.rec}_{a.cam}_{ordn}.png"
@@ -378,7 +379,7 @@ def cmd_frame(a) -> None:
         p.write_bytes(data)
     warnings: list[str] = []
     rf = ref(r, topic, i, t, native=True, warnings=warnings)
-    emit("frame", vars(a), {"path": str(p), "camera": cam_name(topic), "size": Image.open(p).size,
+    emit("frame", vars(a), {"path": str(p), "camera": cam_name(r, topic), "size": Image.open(p).size,
                             "display_rotation_deg": rot, "warnings": warnings, "refs": [rf]})
 
 
@@ -482,7 +483,8 @@ def cmd_signals(a) -> None:
                           "first": round(float(y[0]), 3), "last": round(float(y[-1]), 3)}
     summary["heading"] = heading_summary(*s["heading_change_deg"], a.t0, a.t1)
     emit("signals", vars(a), {"path": path, "label_source": "COMPUTED", "summary": summary,
-                              "note": "min/max as [value, t]. Use speed_smooth_mps (causal 1 s median) for "
+                              "smoother": s.pop("_smoother"),
+                              "note": "min/max as [value, t]. Use speed_smooth_mps (causal; see `smoother`) for "
                                       "slowdowns. heading = integrated yaw rate (+ = left). min_range_corridor_m = "
                                       "nearest lidar return inside the corridor box (5.0 = clear); min_range_front_m = ±30° cone. "
                                       "refs = first/last odom and scan messages used (cite for turns/speeds).",
@@ -507,7 +509,7 @@ def cmd_window(a) -> None:
         if bref:
             refs.append(bref)
     parts = [grid(fronts, cols=3), grid([x.resize((640, 640)) for x in bevs], cols=3)]
-    if rb == "spot":
+    if emb.body_camera_topics(rb):
         body = [cam_tile(r, topic, r.t_abs(times[1]), "nearest", (384, 288), refs, warnings, native=False)
                 for topic in emb.body_camera_topics(rb)]
         parts.append(grid(body, cols=5))
@@ -515,7 +517,7 @@ def cmd_window(a) -> None:
     refs += srefs
     parts.append(signal_plot(s, ["speed_mps", "yaw_rate_dps", "min_range_corridor_m"], span=(t0, t1)))
     canvas = label(stack(parts), f"window {a.window_id}  [{t0:.0f}s, {t1:.0f}s]  rows: front | lidar | "
-                                 f"{'body (mid) | ' if rb == 'spot' else ''}signals")
+                                 f"{'body (mid) | ' if emb.body_camera_topics(rb) else ''}signals")
     path = save(canvas, f"window_{a.window_id.replace(':', '_')}.jpg")
     emit("window", vars(a), {"path": path, "window": a.window_id, "span_s": [t0, t1], "warnings": warnings,
                              "heading": heading_summary(*s["heading_change_deg"], t0, t1),

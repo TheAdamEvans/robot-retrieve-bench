@@ -143,7 +143,7 @@ def cmd_label(a) -> None:
     if a.op == "get":
         latest: dict[str, dict] = {}
         d = cli.ANN / "labels" / a.kind
-        for p in sorted(d.glob("*.jsonl")) if d.exists() else []:
+        for p in sorted(d.glob("*.jsonl"), key=lambda x: x.stat().st_mtime) if d.exists() else []:  # newest wins
             for line in p.read_text().splitlines():
                 rec = json.loads(line)
                 latest[key_of(a.kind, rec)] = rec

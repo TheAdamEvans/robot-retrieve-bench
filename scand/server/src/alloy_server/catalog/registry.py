@@ -87,22 +87,10 @@ FEATURES: list[Feature] = [
 
 REGISTRY: dict[str, Feature] = {f.name: f for f in FEATURES}
 
-# Sensors a ReceiptSpec may name → topics per robot.
-SENSORS = {
-    "spot": {
-        "front_camera": ["/image_raw/compressed"],
-        "body_cameras": [f"/spot/camera/{c}/image/compressed" for c in ("frontleft", "frontright", "left", "right", "back")],
-        "lidar": ["/velodyne_points"],
-        "odom": ["/odom"],
-        "tf": ["/tf"],
-    },
-    "jackal": {
-        "front_camera": ["/camera/rgb/image_raw/compressed"],
-        "lidar": ["/velodyne_2dscan"],
-        "odom": ["/jackal_velocity_controller/odom"],
-        "imu": ["/imu/data_raw"],
-    },
-}
+# Sensors a ReceiptSpec may name → topics per robot, straight from the embodiment profiles.
+from .embodiment import profiles as _profiles, sensors_by_name as _sensors_by_name
+
+SENSORS = {pid: _sensors_by_name(p) for pid, p in _profiles().items()}
 ALL_SENSORS = sorted({s for m in SENSORS.values() for s in m})
 
 

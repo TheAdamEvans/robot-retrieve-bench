@@ -29,10 +29,14 @@ REVISION = "5650961749fa93567c0d46fc7f43ea4f9e914107"
 HZ = 10.0
 THRESH = 0.5
 VEHICLES = {"car", "truck", "bus", "motorcycle"}
-CAMERA_BANDS = {  # (HFOV deg, height m, pitch-down deg): nominal and band ends — none recorded, all ESTIMATED
-    "spot": {"hfov": (90, 75, 105), "h": (0.50, 0.35, 0.65), "pitch": (0.0, -5.0, 5.0)},
-    "jackal": {"hfov": (62, 55, 70), "h": (0.35, 0.25, 0.45), "pitch": (0.0, -5.0, 5.0)},
-}
+
+
+def camera_bands(rb: str) -> dict:
+    """(nominal, lo, hi) for HFOV, lens height and pitch, from the embodiment profile (ESTIMATED_BAND)."""
+    cm = emb.camera_model(rb)
+    band = lambda b: (b.nominal, b.lo, b.hi)
+    return {"hfov": band(cm.hfov_deg), "h": band(cm.height_m), "pitch": band(cm.pitch_down_deg)}
+
 W, H = 1280, 720
 
 _model = None
@@ -60,9 +64,9 @@ def in_corridor(foot_uv: np.ndarray, hfov: float, h: float, pitch: float, hw: fl
 def corridor_counts(foot_uv: np.ndarray, rb: str) -> tuple[int, int, int]:
     if not len(foot_uv):
         return 0, 0, 0
-    b, c = CAMERA_BANDS[rb], emb.CORRIDOR[rb]
-    nominal = int(in_corridor(foot_uv, b["hfov"][0], b["h"][0], b["pitch"][0], c["half_width_m"], c["length_m"]).sum())
-    masks = [in_corridor(foot_uv, f, hh, p, c["half_width_m"], c["length_m"])
+    b, c = camera_bands(rb), emb.corridor(rb)
+    nominal = int(in_corridor(foot_uv, b["hfov"][0], b["h"][0], b["pitch"][0], c.half_width_m, c.length_m).sum())
+    masks = [in_corridor(foot_uv, f, hh, p, c.half_width_m, c.length_m)
              for f, hh, p in itertools.product(b["hfov"], b["h"], b["pitch"])]
     m = np.stack(masks)
     return nominal, int(m.all(0).sum()), int(m.any(0).sum())
@@ -156,7 +160,7 @@ def build(bundle: Path, rec) -> dict:
     cols = {k: np.array(v, dtype=float) for k, v in rows.items() if k != "t_ns"}
     write(bundle, "detections", rec.id, {"t_ns": t, "available_at_ns": t, **cols},
           {"version": VERSION, "model": MODEL, "revision": REVISION, "hz": HZ, "exhaustive": True,
-           "source_topics": [topic], "causal": True, "threshold": THRESH, "camera_bands": CAMERA_BANDS[rb],
+           "source_topics": [topic], "causal": True, "threshold": THRESH, "camera_bands": camera_bands(rb),
            "spatial_basis": "ESTIMATED"})
     tracks = track(person_frames)
     tt = [x for x in tracks if x[3] >= 3]  # confirmed tracks only

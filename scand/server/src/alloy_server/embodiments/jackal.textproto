@@ -1,0 +1,29 @@
+# proto-file: alloy/v1/embodiment.proto
+# proto-message: EmbodimentProfile
+embodiment_id: "jackal"
+profile_version: "jackal@1"
+robot: "Clearpath Jackal (SCAND configuration)"
+locomotion: "wheeled (skid-steer)"
+footprint { length_m: 0.508 width_m: 0.430 height_m: 0.250 basis: DATASHEET_NOMINAL }
+max_speed_mps { nominal: 2.0 lo: 2.0 hi: 2.0 basis: DATASHEET_NOMINAL }
+corridor { half_width_m: 0.6 length_m: 5.0 basis: ESTIMATED_BAND }
+clearance_sensor: "lidar_2d"
+speed_smoothing { method: TRAILING_MEDIAN window_s: 0.5 }
+signature_topics: ["/camera/rgb/image_raw/compressed", "/velodyne_2dscan", "/jackal_velocity_controller/odom"]
+absent: ["body cameras", "/tf", "3D point cloud (raw Velodyne packets only)"]
+
+sensors {
+  name: "front_camera" kind: CAMERA topics: "/camera/rgb/image_raw/compressed" nominal_hz: 30
+  display_rotation_deg: 0 display_names: "front"
+  camera {
+    width: 1280 height: 720 intrinsics_recorded: false
+    hfov_deg { nominal: 62 lo: 55 hi: 70 basis: ESTIMATED_BAND }
+    height_m { nominal: 0.35 lo: 0.25 hi: 0.45 basis: ESTIMATED_BAND }
+    pitch_down_deg { nominal: 0 lo: -5 hi: 5 basis: ESTIMATED_BAND }
+  }
+  note: "Kinect RGB; no intrinsics recorded"
+}
+sensors { name: "lidar_2d" kind: LIDAR_2D topics: "/velodyne_2dscan" nominal_hz: 10 note: "VLP-16 flattened to 2D; mount URDF_NOMINAL (no /tf)" }
+sensors { name: "odom" kind: ODOMETRY topics: "/jackal_velocity_controller/odom" nominal_hz: 50 twist_frame: TWIST_IN_BODY note: "occasional single-sample glitches" }
+sensors { name: "imu" kind: IMU topics: "/imu/data_raw" nominal_hz: 70 }
+sensors { name: "joystick" kind: JOYSTICK topics: "/bluetooth_teleop/joy" nominal_hz: 65 }

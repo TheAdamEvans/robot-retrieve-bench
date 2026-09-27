@@ -1,7 +1,8 @@
-"""clearance@1: sector minimum ranges, lateral clearances, gap width and a geometric doorway flag from the 2D scan.
+"""clearance@2: sector minimum ranges, lateral clearances, gap width and a geometric doorway flag.
 
-Spot uses /scan (from the Velodyne, RECORDED_TF mount); Jackal uses /velodyne_2dscan (NOMINAL mount, no /tf).
-Ranges are from the sensor origin; lateral clearances use points alongside the NOMINAL footprint.
+Returns come from the profile's clearance sensor: Spot's 3D Velodyne cut to a body-height band (a single scan plane
+misses legs, crutches and low obstacles), Jackal's flattened 2D scan. Ranges are from the sensor origin; lateral
+clearances use points alongside the NOMINAL footprint.
 """
 from __future__ import annotations
 
@@ -14,7 +15,7 @@ from alloy_train.decode import Decoder
 from alloy_train.providers.common import write
 from alloy_train.recordings import robot
 
-VERSION = "clearance@1"
+VERSION = "clearance@2"
 GAP_DOORWAY_M = 1.6
 DOOR_MIN_S, DOOR_MAX_S = 0.3, 5.0
 
@@ -39,13 +40,14 @@ def flag_runs(t_ns: np.ndarray, mask: np.ndarray, min_s: float, max_s: float) ->
 def build(bundle: Path, rec) -> dict:
     rb = robot(rec.id)
     dec = Decoder(bundle, rec)
-    topic = emb.scan_topic(rb)
+    prof = emb.prof(rb)
+    topic = next(s for s in prof.sensors if s.name == prof.clearance_sensor).topics[0]
     tl = rec.topics[topic]
-    half_len = emb.CARDS[rb]["footprint_m"]["length"] / 2
+    half_len = prof.footprint.length_m / 2
     n = len(tl)
     front, anyr, left, right = (np.full(n, np.nan) for _ in range(4))
     for i in range(n):
-        xy, a = dec.scan_xy(topic, i, rmin=0.5)
+        xy, a, _, _ = dec.obstacle_xy(prof, i, by_time=False)
         if not len(xy):
             continue
         r = np.hypot(xy[:, 0], xy[:, 1])

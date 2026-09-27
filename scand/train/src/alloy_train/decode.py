@@ -40,6 +40,25 @@ class Decoder:
         off = {f.name: f.offset for f in m.fields}
         return np.stack([buf[:, off[k] : off[k] + 4].copy().view(np.float32)[:, 0] for k in "xyz"], axis=1)
 
+    def obstacle_xy(self, prof, i_or_t: int, by_time: bool = True) -> tuple[np.ndarray, np.ndarray, str, int]:
+        """Obstacle returns in the sensor plane from the profile's clearance sensor → (xy, angle, topic, index).
+        3D clouds are cut to a body-height band (ground and overhead removed)."""
+        from alloy_server.gen.alloy.v1 import embodiment_pb2 as e
+        s = next(x for x in prof.sensors if x.name == prof.clearance_sensor)
+        topic = s.topics[0]
+        tl = self.rec.topics[topic]
+        i = (tl.last_before(i_or_t, inclusive=True) if by_time else i_or_t)
+        if i is None:
+            return np.zeros((0, 2)), np.zeros(0), topic, -1
+        if s.kind == e.LIDAR_3D:
+            p = self.points_xyz(topic, i)
+            p = p[np.isfinite(p).all(1) & (p[:, 2] > -0.35) & (p[:, 2] < 1.5)]
+            r = np.hypot(p[:, 0], p[:, 1])
+            p = p[r > 0.5]
+            return p[:, :2], np.arctan2(p[:, 1], p[:, 0]), topic, i
+        xy, a = self.scan_xy(topic, i, rmin=0.5)
+        return xy, a, topic, i
+
     def scan_xy(self, topic: str, i: int, rmin: float = 0.3) -> tuple[np.ndarray, np.ndarray]:
         """→ (xy points in sensor frame, per-beam angle) with invalid ranges dropped."""
         m = self.msg(topic, i)
@@ -49,14 +68,20 @@ class Decoder:
         return np.stack([r[ok] * np.cos(a[ok]), r[ok] * np.sin(a[ok])], axis=1), a[ok]
 
 
-def odom_arrays(dec: Decoder, topic: str, robot: str) -> dict[str, np.ndarray]:
-    """speed_mps (planar speed), yaw_rate_dps, header-free times; decoded natively for every message."""
+def odom_arrays(dec: Decoder, topic: str, prof, sl: slice | None = None) -> dict[str, np.ndarray]:
+    """speed_mps (planar speed), yaw_rate_dps per odom message. The twist frame comes from the embodiment profile:
+    in the odom frame planar speed is |(vx, vy)|; in the body frame it is |vx|."""
+    from alloy_server.gen.alloy.v1 import embodiment_pb2 as e
+    odom = next(s for s in prof.sensors if s.kind == e.ODOMETRY)
+    in_odom = odom.twist_frame == e.TWIST_IN_ODOM
     tl = dec.rec.topics[topic]
-    speed = np.empty(len(tl))
-    yaw = np.empty(len(tl))
-    for i in range(len(tl)):
+    idx = range(len(tl)) if sl is None else range(sl.start, sl.stop)
+    speed = np.empty(len(idx))
+    yaw = np.empty(len(idx))
+    for k, i in enumerate(idx):
         m = dec.msg(topic, i)
         v = m.twist.twist.linear
-        speed[i] = np.hypot(v.x, v.y) if robot == "spot" else abs(v.x)
-        yaw[i] = np.degrees(m.twist.twist.angular.z)
-    return {"t_ns": tl.log_ns.copy(), "speed_mps": speed, "yaw_rate_dps": yaw}
+        speed[k] = np.hypot(v.x, v.y) if in_odom else abs(v.x)
+        yaw[k] = np.degrees(m.twist.twist.angular.z)
+    return {"t_ns": tl.log_ns[list(idx)].copy() if len(idx) else np.zeros(0, np.int64), "speed_mps": speed,
+            "yaw_rate_dps": yaw}

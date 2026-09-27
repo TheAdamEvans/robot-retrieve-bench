@@ -1,0 +1,39 @@
+# proto-file: alloy/v1/embodiment.proto
+# proto-message: EmbodimentProfile
+embodiment_id: "spot"
+profile_version: "spot@1"
+robot: "Boston Dynamics Spot (SCAND configuration)"
+locomotion: "legged (trot); speed oscillates at the step frequency"
+footprint { length_m: 1.10 width_m: 0.50 height_m: 0.61 basis: DATASHEET_NOMINAL }
+max_speed_mps { nominal: 1.6 lo: 1.6 hi: 1.6 basis: DATASHEET_NOMINAL }
+corridor { half_width_m: 0.75 length_m: 5.0 basis: ESTIMATED_BAND }
+clearance_sensor: "lidar"
+speed_smoothing { method: GAIT_SYNC_MEAN gait_cycles: 3 window_s: 0.9 }
+signature_topics: ["/image_raw/compressed", "/velodyne_points", "/odom", "/spot/camera/back/image/compressed"]
+absent: ["IMU", "front-camera intrinsics (no camera_info)", "cmd_vel (all zeros: teleoperated)"]
+
+sensors {
+  name: "front_camera" kind: CAMERA topics: "/image_raw/compressed" nominal_hz: 30
+  display_rotation_deg: 0 display_names: "front"
+  camera {
+    width: 1280 height: 720 intrinsics_recorded: false
+    hfov_deg { nominal: 90 lo: 75 hi: 105 basis: ESTIMATED_BAND }
+    height_m { nominal: 0.50 lo: 0.35 hi: 0.65 basis: ESTIMATED_BAND }
+    pitch_down_deg { nominal: 0 lo: -5 hi: 5 basis: ESTIMATED_BAND }
+  }
+  note: "custom payload camera; no camera_info recorded"
+}
+sensors {
+  name: "body_cameras" kind: CAMERA nominal_hz: 4.5
+  topics: ["/spot/camera/frontleft/image/compressed", "/spot/camera/frontright/image/compressed",
+           "/spot/camera/left/image/compressed", "/spot/camera/right/image/compressed",
+           "/spot/camera/back/image/compressed"]
+  display_rotation_deg: [-90, -90, 0, 180, 0]
+  display_names: ["frontleft (looks front-right)", "frontright (looks front-left)", "left", "right", "back"]
+  note: "640x480 mono; mounted rotated; front stereo pair is cross-eyed; frames arrive ~0.4-0.7 s after capture"
+}
+sensors { name: "lidar" kind: LIDAR_3D topics: "/velodyne_points" nominal_hz: 10 note: "Velodyne VLP-16; mount RECORDED in /tf (base_link->velodyne)" }
+sensors { name: "lidar_2d" kind: LIDAR_2D topics: "/scan" nominal_hz: 10 note: "single plane derived from the Velodyne" }
+sensors { name: "odom" kind: ODOMETRY topics: "/odom" nominal_hz: 16.4 twist_frame: TWIST_IN_ODOM }
+sensors { name: "tf" kind: TF topics: "/tf" nominal_hz: 66 }
+sensors { name: "joystick" kind: JOYSTICK topics: "/joystick" nominal_hz: 60 note: "axes are control inputs, not m/s" }
