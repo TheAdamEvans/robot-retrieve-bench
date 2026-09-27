@@ -78,9 +78,24 @@ or use a pre-indexed bag. Restart the server afterwards to load the new recordin
 | Clip is slow the first time | It is encoding once; later plays are cached. |
 | Anything else | Switch to the offline presentation. It needs no service. |
 
+## Known live behaviours (eval v9, prompt v3)
+
+- **Receipt demo:** use `last_safe_evidence:canonical` or `:para3`. For `:para1` ("right before the robot starts
+  moving again after standing still…") the generated program adds a ≥1 s standstill before the onset. Nothing
+  satisfies that composition, so the answer is `none_found_exhaustive`: exhaustive for the *program*, wrong for the
+  *question*. That is the verified-clauses versus correct-interpretation distinction, if you want an example of it.
+- **The six dream questions** (`benchmark/challenges/l1_compositions_v1`) take 11–38 s to generate cold; they are
+  cached now. Two of them have no qualifying episode in scope by exhaustive ground truth ("repeated corrections",
+  "staying slow after the route clears"), but the system still returns partial answers. Say so if you show them.
+- The demo server keeps its own program cache (`cache/programs/`). Its keys differ from the eval's, because the
+  few-shot pool is serialised differently, so a live program can differ from the evaluated one. Warm it after any
+  reindex or prompt change.
+
 ## Honest caveats to say out loud
 
 - The judgments are model-produced (Opus labeller, audited tools), not human.
 - The corpus is small: 16 recordings, 2 held out. Read intent-group CIs as directional.
+- The 9 newest recordings are harder for every config, hand-written programs included (compose_test oracle nDCG
+  0.74 on the original 7, 0.38 on the new 9). Structured signals transfer imperfectly to new scenes.
 - FUSED results are unverified by design: a vector lookup has nothing to check.
 - ESTIMATED spatial claims come from nominal camera models, because SCAND has no calibration.
