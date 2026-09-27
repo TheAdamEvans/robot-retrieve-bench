@@ -41,15 +41,27 @@ CONFIGS = {
 EVAL_SETS = ["demo5", "demo5_para", "compose_test"]
 
 
+def interval_windows(bundle: Bundle, cd) -> list[str]:
+    """An INTERVAL result stands for every window within 1 s of its primary anchor — the same unit the judges grade
+    (grade 2 = contains or is within 1 s of an anchor). Mapping a match to one window would cap PROGRAM's recall."""
+    rec = bundle.recordings[cd.recording_id]
+    t = rec.t_rel(cd.anchors[0].t_ns if cd.anchors else cd.seed.start_ns)
+    first = bundle.window_for_interval(cd)
+    ids = set(bundle.windows[cd.recording_id])
+    near = [f"{cd.recording_id}:{e:04d}" for e in range(int(math.ceil(t - 1)), int(math.floor(t + 1)) + 5)
+            if f"{cd.recording_id}:{e:04d}" in ids and e - 4 <= t + 1 and e >= t - 1]
+    return ([first] if first else []) + [w for w in near if w != first]
+
+
 def ranked_windows(bundle: Bundle, resp: a.SearchResponse) -> list[str]:
-    """Candidates → window ids in rank order. An INTERVAL maps to the window ending just after its primary anchor."""
+    """Candidates → window ids in rank order; INTERVAL candidates expand to their anchor's windows."""
     out, seen = [], set()
     for item in resp.results:
         cd = item.candidate
-        wid = cd.window_id or bundle.window_for_interval(cd)
-        if wid and wid not in seen:
-            seen.add(wid)
-            out.append(wid)
+        for wid in ([cd.window_id] if cd.window_id else interval_windows(bundle, cd)):
+            if wid and wid not in seen:
+                seen.add(wid)
+                out.append(wid)
     return out
 
 
@@ -160,9 +172,16 @@ def main() -> None:
     ap.add_argument("--run", required=True)
     ap.add_argument("--configs", default=",".join(CONFIGS))
     ap.add_argument("--sets", default=",".join(EVAL_SETS))
+    ap.add_argument("--score-all", action="store_true", help="SCORE_ALL over each intent's judged windows")
     a_ = ap.parse_args()
     bundle = Bundle(a_.bundle)
-    run_all(bundle, SCAND_ROOT / "results" / "eval" / a_.run, a_.configs.split(","), a_.sets.split(","))
+    out = SCAND_ROOT / "results" / "eval" / a_.run
+    if a_.score_all:
+        from alloy_train.eval.report import load_judgments
+        judged = {k: sorted(w for w, g in v.items() if g >= 0) for k, v in load_judgments(SCAND_ROOT / "annotations").items()}
+        print(score_all(bundle, out, judged, a_.configs.split(","), a_.sets.split(",")))
+        return
+    run_all(bundle, out, a_.configs.split(","), a_.sets.split(","))
 
 
 if __name__ == "__main__":

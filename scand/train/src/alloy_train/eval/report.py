@@ -181,21 +181,33 @@ def frontier_svg(rows: list[dict], title: str) -> str:
     pts = [(c, x, m) for c, x, m in pts if x and m.get("mean") is not None]
     if not pts:
         return ""
-    W, H, L, R, T, B = 760, 380, 64, 180, 24, 48
+    W, H, L, R, T, B = 900, 400, 64, 250, 24, 48
     xmin, xmax = math.log10(max(1, min(x for _, x, _ in pts) / 1.5)), math.log10(max(x for _, x, _ in pts) * 1.5)
     X = lambda v: L + (math.log10(max(v, 1)) - xmin) / (xmax - xmin) * (W - L - R)
     Y = lambda v: T + (1 - (v - 0.3) / 0.7) * (H - T - B)
     g = [f'<svg class=viz viewBox="0 0 {W} {H}" role="img" aria-label="{html.escape(title)}">']
     for yv in (0.3, 0.5, 0.7, 0.9, 1.0):
         g.append(f'<line x1={L} x2={W - R} y1={Y(yv):.1f} y2={Y(yv):.1f} class=grid /><text x={L - 8} y={Y(yv) + 4:.1f} class=tick text-anchor=end>{yv:.1f}</text>')
-    g.append(f'<text x={L - 8} y={Y(0.5) - 8:.1f} class=tick text-anchor=end>chance</text>')
+    g.append(f'<text x={W - R - 6} y={Y(0.5) - 5:.1f} class=tick text-anchor=end>chance</text>')
     for xv in (1, 10, 100, 1000, 10000, 100000):
         if xmin <= math.log10(xv) <= xmax:
             lab = f"{xv / 1000:g} s" if xv >= 1000 else f"{xv} ms"
             g.append(f'<line x1={X(xv):.1f} x2={X(xv):.1f} y1={T} y2={H - B} class=grid /><text x={X(xv):.1f} y={H - B + 18} class=tick text-anchor=middle>{lab}</text>')
     g.append(f'<text x={(L + W - R) / 2} y={H - 8} class=axis text-anchor=middle>median latency per query (log; includes program generation)</text>')
     g.append(f'<text transform="translate(16,{(T + H - B) / 2}) rotate(-90)" class=axis text-anchor=middle>ROC-AUC, penalised (macro)</text>')
-    for c, x, m in sorted(pts, key=lambda p: p[1]):
+    placed: list[tuple[float, float]] = []  # greedy label nudging: no two labels within 11 px vertically nearby
+
+    def label_y(cx: float, cy: float) -> float:
+        y = cy + 4
+        for _ in range(12):
+            clash = [py for px, py in placed if abs(px - cx) < 110 and abs(py - y) < 11]
+            if not clash:
+                break
+            y = max(clash) + 11
+        placed.append((cx, y))
+        return y
+
+    for c, x, m in sorted(pts, key=lambda p: (-p[2]["mean"], p[1])):
         fam = FAMILY.get(c, 1)
         cx, cy = X(x), Y(m["mean"])
         ci = m.get("ci")
@@ -204,7 +216,10 @@ def frontier_svg(rows: list[dict], title: str) -> str:
             g.append(f'<line x1={cx:.1f} x2={cx:.1f} y1={Y(ci[0]):.1f} y2={Y(ci[1]):.1f} class="ci s{fam}" />')
         hollow = c.endswith("ORACLE")
         g.append(f'<circle cx={cx:.1f} cy={cy:.1f} r=6 class="pt s{fam}{" hollow" if hollow else ""}"><title>{html.escape(tip)}</title></circle>')
-        g.append(f'<text x={cx + 10:.1f} y={cy + 4:.1f} class=lbl>{c}</text>')
+        ly_ = label_y(cx, cy)
+        if abs(ly_ - (cy + 4)) > 1:  # leader line to a nudged label
+            g.append(f'<line x1={cx + 6:.1f} y1={cy:.1f} x2={cx + 9:.1f} y2={ly_ - 4:.1f} class=grid />')
+        g.append(f'<text x={cx + 10:.1f} y={ly_:.1f} class=lbl>{c}</text>')
     ly = T
     for fam, name in FAMILY_NAME.items():
         g.append(f'<circle cx={W - R + 24} cy={ly + 6} r=5 class="pt s{fam}" /><text x={W - R + 36} y={ly + 10} class=lbl>{name}</text>')

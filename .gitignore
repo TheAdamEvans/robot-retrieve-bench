@@ -25,3 +25,4 @@ scand/*.pdf
 *.parquet
 .env
 scand/annotations/tmp/
+scand/annotations_recheck/renders/
