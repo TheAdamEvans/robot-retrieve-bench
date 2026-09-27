@@ -15,6 +15,7 @@ from pathlib import Path
 
 from alloy_server.catalog.windows import parse_window_id, window_span_s, windows
 from alloy_train.eval import querysets
+from alloy_train.annotate.store import load_labels
 
 POOL_DEPTH = 20
 RANDOM_PER_INTENT = 10
@@ -22,13 +23,7 @@ MAX_ATTRIBUTE = 25  # cap attribute-derived additions (seeded sample) so broad r
 
 
 def l1_labels(ann: Path) -> dict[str, dict]:
-    latest: dict[str, dict] = {}
-    d = ann / "labels" / "attributes"
-    for p in sorted(d.glob("*.jsonl"), key=lambda x: x.stat().st_mtime):
-        for line in p.read_text().splitlines():
-            r = json.loads(line)
-            latest[r["segmentId"]] = r
-    return latest
+    return load_labels(ann, "attributes")
 
 
 def attribute_candidates(intent: str, labels: dict[str, dict]) -> list[str]:

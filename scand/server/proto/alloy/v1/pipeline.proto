@@ -86,7 +86,7 @@ message PipelineSpec {
   PipelineRole role = 2;
   repeated StageSpec generators = 3;
   repeated StageSpec rankers = 4;
-  uint32 final_k = 5;
+  uint32 final_k = 5;                  // default result count; a nonzero SearchRequest.k overrides this
   string spec_version = 6;
   bool stub = 7;                       // listed and loadable; running it returns UNAVAILABLE
   string doc = 8;

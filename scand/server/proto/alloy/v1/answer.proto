@@ -47,7 +47,7 @@ message SearchRequest {
   string pipeline_id = 3;
   Scope scope = 4;
   string availability_config_id = 5;
-  uint32 k = 6;
+  uint32 k = 6;                        // 0 => pipeline default (or 10); SCORE_ALL is never truncated
   ExecutionMode mode = 7;
   repeated string window_ids = 8;      // SCORE_ALL only
 }

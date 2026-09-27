@@ -9,7 +9,8 @@ from collections import defaultdict
 from pathlib import Path
 
 from alloy_train.eval import metrics as M
-from alloy_train.eval.run import CONFIGS, EVAL_SETS
+from alloy_train.annotate.store import load_labels
+from alloy_train.eval.run import CONFIGS, EVAL_SETS, generation_costs
 from alloy_train.recordings import SCAND_ROOT
 
 ACCEPTABLE = {  # status outcomes that answer the intent honestly (the puzzle allows either for P12)
@@ -20,11 +21,8 @@ ACCEPTABLE = {  # status outcomes that answer the intent honestly (the puzzle al
 
 def load_judgments(ann: Path) -> dict[str, dict[str, int]]:
     qrels: dict[str, dict[str, int]] = defaultdict(dict)
-    d = ann / "labels" / "judgment"
-    for p in sorted(d.glob("*.jsonl"), key=lambda x: x.stat().st_mtime) if d.exists() else []:
-        for line in p.read_text().splitlines():
-            r = json.loads(line)
-            qrels[r["intentGroupId"]][r["windowId"]] = int(r.get("grade", 0))
+    for r in load_labels(ann, "judgment").values():
+        qrels[r["intentGroupId"]][r["windowId"]] = int(r.get("grade", 0))
     return qrels
 
 
@@ -60,12 +58,7 @@ def build(run_dir: Path, ann: Path) -> dict:
                       if r["config"].endswith("ORACLE")}
     oracle_prog = {r["query_id"]: r["program"] for r in runs if r["config"] == "PROGRAM_ORACLE"}
     # program generation as paid by the first (uncached) LUNA config for each query: every LUNA config would pay it
-    gen_first = {}
-    for r in runs:
-        if r["config"].endswith("LUNA"):
-            pg = next((s for s in r["stages"] if s["stage_id"] == "program_generation"), None)
-            if pg is not None and not r["program_cache_hit"]:
-                gen_first.setdefault(r["query_id"], {"ms": pg["wall_ms"], "tokens": pg["tokens"]})
+    gen_first = {qid: {"ms": c["wall_ms"], "tokens": c["tokens"]} for qid, c in generation_costs(runs).items()}
     tables = {}
     for qset in EVAL_SETS:
         rows = []
@@ -91,6 +84,7 @@ def build(run_dir: Path, ann: Path) -> dict:
                     per["gen_precision"][qid] = (sum(judged[w] >= M.POS for w in gj) / len(gj)) if gj else None
                 if judged:
                     per["judged10"][qid] = M.judged_at(r["windows"], judged, 10)
+                    per["judged50"][qid] = M.judged_at(r["windows"], judged, 50)
                 s = sa.get((qid, cfg))
                 if auc_eligible and s is not None:
                     wins = sorted(judged)
@@ -145,7 +139,9 @@ def build(run_dir: Path, ann: Path) -> dict:
                 row[f"{name}_p95"] = walls[min(len(walls) - 1, int(0.95 * len(walls)))] if walls else None
             rows.append(row)
         tables[qset] = rows
-    return {"tables": tables, "n_judged": {k: len(v) for k, v in qrels.items()},
+    return {"tables": tables, "generation_cost_sources": sorted({r["generation_cost_source"] for r in runs
+                                                                 if r.get("generation_cost_source")}),
+            "n_judged": {k: sum(g >= 0 for g in v.values()) for k, v in qrels.items()},
             "n_positive": {k: sum(g >= M.POS for g in v.values()) for k, v in qrels.items()}}
 
 
@@ -164,7 +160,8 @@ def fmt(x, pct=False, digits=2):
 
 COLS = [("roc_pen", "ROC-AUC (penalised)", False), ("coverage", "coverage", True), ("roc_cond", "ROC-AUC (cond.)", False),
         ("pr_pen", "PR-AUC (pen.)", False), ("ndcg10", "nDCG@10", False), ("ndcg10_unj0", "nDCG@10 unj=0", False),
-        ("r10", "R@10", False), ("judged10", "judged@10", True), ("gen_recall", "gen. recall", True),
+        ("r10", "R@10", False), ("r50", "R@50", False), ("judged10", "judged@10", True),
+        ("judged50", "judged@50", True), ("gen_recall", "gen. recall", True),
         ("gen_precision", "gen. precision", True), ("filter_precision", "filter precision", True),
         ("status_ok", "status ok", True), ("tokens", "tokens/query", None), ("raw_ratio", "bytes / raw", None)]
 
@@ -249,6 +246,14 @@ def html_page(rep: dict) -> str:
            "<p>Judgments are single-judge, agent-provisional (Opus labeller with audited tools). Unjudged windows are never counted "
            "as non-relevant except in the labelled <i>unj=0</i> column. AUC is macro over queries; <b>penalised</b> scores an "
            "abstaining config at chance. CIs: bootstrap over intent groups; <b>n is small</b> — read differences as directional.</p>"]
+    out.append(f"<p><b>{sum(rep['n_judged'].values()):,} judged intent/window pairs.</b> Recall is against known positives in "
+               "the judgment pool; judged@50 shows how much of each returned top-50 list has been graded. "
+               "ORACLE rows use supplied programs; LUNA rows use model-generated programs.</p>")
+    if rep.get("generation_cost_sources"):
+        sources = html.escape(", ".join(rep["generation_cost_sources"]))
+        out.append(f"<p><b>Cached-program replay.</b> Programs were reused from {sources} without new API calls. "
+                   "Uncached latency is an estimate: measured replay execution time plus the original measured generation "
+                   "time. Token counts retain the original generation usage. Cached-program latency measures this replay.</p>")
     ag = SCAND_ROOT / "results" / "eval" / "agreement.json"
     if ag.exists():
         g = json.loads(ag.read_text())

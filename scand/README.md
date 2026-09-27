@@ -47,4 +47,12 @@ uv run python -m alloy_train.index.siglip_frames --bundle bundles/dev
 uv run uvicorn alloy_server.server:app --port 8787               # demo page at http://localhost:8787
 uv run pytest -q server/tests
 ```
-Raw bags, bundles, renders and results are not in version control.
+Raw bags, bundles, renders and working evaluation outputs are not in version control.
+
+Frozen evaluation checkpoints are kept under `benchmark/results/`; see
+[`benchmark/CORRECTNESS.md`](benchmark/CORRECTNESS.md) for the corrected result limits, label precedence,
+and the commands to replay the benchmark without new API calls.
+
+Program generation uses a 20-second request timeout with automatic API retries disabled; override it with
+`ALLOY_PROGRAM_TIMEOUT_S`. API failures produce an explicit insufficient-evidence or unverified response and are
+not cached, so the next search can retry.

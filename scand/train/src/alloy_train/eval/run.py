@@ -84,9 +84,24 @@ def request_for(q, spec_id: str, source: str | None, k: int, mode=pp.SEARCH, win
     return req
 
 
-def run_all(bundle: Bundle, out_dir: Path, configs: list[str], sets: list[str], k: int = 50) -> Path:
+def generation_costs(rows: list[dict]) -> dict[str, dict]:
+    """Original API costs, including references carried by a cache-only correctness replay."""
+    costs = {}
+    for row in rows:
+        if row.get("generation_cost"):
+            costs.setdefault(row["query_id"], row["generation_cost"])
+        if row["config"].endswith("LUNA") and not row["program_cache_hit"]:
+            pg = next((s for s in row["stages"] if s["stage_id"] == "program_generation"), None)
+            if pg is not None:
+                costs[row["query_id"]] = {"wall_ms": pg["wall_ms"], "tokens": pg["tokens"]}
+    return costs
+
+
+def run_all(bundle: Bundle, out_dir: Path, configs: list[str], sets: list[str], k: int = 50,
+            reuse_programs_from: Path | None = None) -> Path:
     dev = [(q.utterance, json_format.MessageToDict(q.oracle_program)) for q in querysets.load(["compose_dev"])]
-    gen = OpenAIProgramGenerator(bundle, dev, cache_dir=out_dir / "program_cache")
+    gen = OpenAIProgramGenerator(bundle, dev, cache_dir=(reuse_programs_from or out_dir) / "program_cache",
+                                 cache_only=reuse_programs_from is not None)
     assert not gen.fewshot_utterances & {querysets.normalise_utt(q.utterance) for q in querysets.load(sets)}, \
         "few-shot pool overlaps an evaluated utterance"
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -97,6 +112,11 @@ def run_all(bundle: Bundle, out_dir: Path, configs: list[str], sets: list[str], 
     if rows_path.exists():
         done = {(r["query_id"], r["config"]) for r in map(json.loads, rows_path.read_text().splitlines())}
     gen_cost: dict[str, dict] = {}
+    if reuse_programs_from is not None:
+        source_rows = [json.loads(x) for x in (reuse_programs_from / "runs.jsonl").read_text().splitlines()]
+        gen_cost = generation_costs(source_rows)
+    if rows_path.exists():
+        gen_cost.update(generation_costs([json.loads(x) for x in rows_path.read_text().splitlines()]))
     with open(rows_path, "a") as f:
         for q in querysets.load(sets):
             for name in configs:
@@ -131,6 +151,7 @@ def run_all(bundle: Bundle, out_dir: Path, configs: list[str], sets: list[str], 
                     "filtered": [json_format.MessageToDict(x) for x in resp.filtered],
                     "unsupported_top": list(resp.results[0].unsupported) if resp.results else [],
                     "generation_cost": gen_cost.get(q.query_id) if source == "luna" else None,
+                    "generation_cost_source": reuse_programs_from.name if source == "luna" and reuse_programs_from else None,
                 }
                 f.write(json.dumps(row) + "\n")
                 f.flush()
@@ -139,11 +160,13 @@ def run_all(bundle: Bundle, out_dir: Path, configs: list[str], sets: list[str], 
     return rows_path
 
 
-def score_all(bundle: Bundle, out_dir: Path, judged: dict[str, list[str]], configs: list[str], sets: list[str]) -> Path:
+def score_all(bundle: Bundle, out_dir: Path, judged: dict[str, list[str]], configs: list[str], sets: list[str],
+              reuse_programs_from: Path | None = None) -> Path:
     """SCORE_ALL over each intent's judged windows: every window gets a position under the config's own order,
     filtered ones last and flagged. Costs here are eval-only and never mixed into search cost."""
     dev = [(q.utterance, json_format.MessageToDict(q.oracle_program)) for q in querysets.load(["compose_dev"])]
-    gen = OpenAIProgramGenerator(bundle, dev, cache_dir=out_dir / "program_cache")  # cache hits from the search run
+    gen = OpenAIProgramGenerator(bundle, dev, cache_dir=(reuse_programs_from or out_dir) / "program_cache",
+                                 cache_only=reuse_programs_from is not None)
     path = out_dir / "score_all.jsonl"
     with open(path, "w") as f:
         for q in querysets.load(sets):
@@ -173,15 +196,17 @@ def main() -> None:
     ap.add_argument("--configs", default=",".join(CONFIGS))
     ap.add_argument("--sets", default=",".join(EVAL_SETS))
     ap.add_argument("--score-all", action="store_true", help="SCORE_ALL over each intent's judged windows")
+    ap.add_argument("--reuse-programs-from", type=Path,
+                    help="replay this run's cached programs without API calls; retain its original generation costs")
     a_ = ap.parse_args()
     bundle = Bundle(a_.bundle)
     out = SCAND_ROOT / "results" / "eval" / a_.run
     if a_.score_all:
         from alloy_train.eval.report import load_judgments
         judged = {k: sorted(w for w, g in v.items() if g >= 0) for k, v in load_judgments(SCAND_ROOT / "annotations").items()}
-        print(score_all(bundle, out, judged, a_.configs.split(","), a_.sets.split(",")))
+        print(score_all(bundle, out, judged, a_.configs.split(","), a_.sets.split(","), a_.reuse_programs_from))
         return
-    run_all(bundle, out, a_.configs.split(","), a_.sets.split(","))
+    run_all(bundle, out, a_.configs.split(","), a_.sets.split(","), reuse_programs_from=a_.reuse_programs_from)
 
 
 if __name__ == "__main__":

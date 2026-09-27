@@ -1,7 +1,7 @@
 .venv/
 raw/
 derived/
-results/
+/results/
 __pycache__/
 *.pyc
 .DS_Store

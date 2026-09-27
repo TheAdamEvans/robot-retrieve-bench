@@ -10,10 +10,10 @@ import hashlib
 import json
 import os
 import re
-import time
 from pathlib import Path
 
 from google.protobuf import json_format
+from openai import APIError, OpenAI
 
 from ..catalog import embodiment as E
 from ..catalog.registry import FEATURES, SENSORS, registry_hash
@@ -126,9 +126,9 @@ def normalise(utt: str) -> str:
 
 class OpenAIProgramGenerator:
     def __init__(self, bundle, fewshots: list[tuple[str, dict]], cache_dir: Path | None = None,
-                 model: str = MODEL, reasoning: str = REASONING):
-        from openai import OpenAI
-        self.client = OpenAI()
+                 model: str = MODEL, reasoning: str = REASONING, cache_only: bool = False):
+        self.cache_only = cache_only
+        self.client = None if cache_only else OpenAI(timeout=float(os.environ.get("ALLOY_PROGRAM_TIMEOUT_S", "20")), max_retries=0)
         self.model, self.reasoning = model, reasoning
         self.system = "\n\n".join([GRAMMAR, _registry_block(), _embodiment_block(), _recordings_block(bundle),
                                    _fewshot_block(fewshots)])
@@ -158,17 +158,17 @@ class OpenAIProgramGenerator:
             (self.cache_dir / f"{key}.json").write_text(json.dumps(value))
 
     def _call(self, messages: list[dict]) -> tuple[dict | None, str]:
-        t0 = time.perf_counter()
+        s = cost.current()
+        if s is not None:
+            s.llm_calls += 1  # a failed request is still an attempted call
         r = self.client.chat.completions.create(
             model=self.model, messages=messages, reasoning_effort=self.reasoning,
             response_format={"type": "json_schema", "json_schema": {"name": "QueryProgram", "strict": True,
                                                                     "schema": self.schema}})
-        s = cost.current()
         u = r.usage
         if s is not None and u is not None:
             cached = getattr(getattr(u, "prompt_tokens_details", None), "cached_tokens", 0) or 0
             reasoning = getattr(getattr(u, "completion_tokens_details", None), "reasoning_tokens", 0) or 0
-            s.llm_calls += 1
             s.prompt_tokens += u.prompt_tokens
             s.cached_prompt_tokens += cached
             s.completion_tokens += u.completion_tokens
@@ -195,11 +195,19 @@ class OpenAIProgramGenerator:
             prog = json_format.ParseDict(hit["program"], q.QueryProgram())
             bundle.validate(prog)  # canonicalise units in place
             return prog, diag
+        if self.cache_only:
+            raise RuntimeError(f"No cached program for {utterance!r}; refusing a new API call during replay")
         messages = [{"role": "system", "content": self.system}, {"role": "user", "content": utterance}]
         errors: list[str] = []
         for attempt in (1, 2):
             diag.attempts = attempt
-            raw, text = self._call(messages)
+            try:
+                raw, text = self._call(messages)
+            except (APIError, TimeoutError) as ex:
+                # Return through the runner's abstain/unverified path. Transient failures must never poison the cache.
+                diag.state = a.FAILED
+                diag.errors.append(f"Program generation unavailable ({type(ex).__name__}); retry the search.")
+                return None, diag
             if raw is None:
                 errors = ["PARSE: model output is not JSON"]
             else:
@@ -214,7 +222,7 @@ class OpenAIProgramGenerator:
                     self._cache_put(key, {"program": raw, "utterance": utterance, "attempts": attempt,
                                           "repaired_from": list(diag.errors)})
                     return prog, diag
-                diag.errors.extend(f"attempt{attempt}: {e}" for e in errors)  # kept on success too: repair reasons
+            diag.errors.extend(f"attempt{attempt}: {e}" for e in errors)  # kept on success too: repair reasons
             messages += [{"role": "assistant", "content": text},
                          {"role": "user", "content": "The program failed validation:\n- " + "\n- ".join(errors) +
                           "\nReturn a corrected program for the same question."}]

@@ -19,6 +19,7 @@ from alloy_server.catalog.windows import WINDOW_S, parse_window_id, window_span_
 from alloy_server.gen.alloy.v1 import common_pb2, eval_pb2
 from alloy_server.timeline.store import parse_mid
 from alloy_train.scandq import cli
+from alloy_train.annotate.store import key_of, load_labels
 
 JUDGE = os.environ.get("SCANDQ_JUDGE", "claude-opus-5-5")
 TRUTH_FIELDS = ["stationary_group", "doorway_traversal", "vehicle_present", "vehicle_interaction", "bicycle",
@@ -135,18 +136,9 @@ def validate_judgment(d: dict) -> tuple[eval_pb2.Judgment, list[str]]:
     return msg, errors
 
 
-def key_of(kind: str, rec: dict) -> str:
-    return rec["segmentId"] if kind == "attributes" else f'{rec["intentGroupId"]}|{rec["windowId"]}'
-
-
 def cmd_label(a) -> None:
     if a.op == "get":
-        latest: dict[str, dict] = {}
-        d = cli.ANN / "labels" / a.kind
-        for p in sorted(d.glob("*.jsonl"), key=lambda x: x.stat().st_mtime) if d.exists() else []:  # newest wins
-            for line in p.read_text().splitlines():
-                rec = json.loads(line)
-                latest[key_of(a.kind, rec)] = rec
+        latest = load_labels(cli.ANN, a.kind)
         for v in latest.values():  # show refs as MessageId strings, as submitted
             v["refs"] = [f'{x["recordingId"]}{x["topic"]}#{x.get("topicOrdinal", 0)}' for x in v.get("refs", [])]
         rows = [v for v in latest.values()

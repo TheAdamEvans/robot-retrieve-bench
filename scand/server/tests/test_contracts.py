@@ -239,3 +239,80 @@ def test_detector_silence_never_yields_none_found_exhaustive(bundle):
                                            "required": True}]}, q.QueryProgram())
     resp = run(bundle, bundle.specs["PROGRAM"], a.SearchRequest(utterance="x", pipeline_id="PROGRAM", program=p))
     assert not resp.results and resp.status == a.INSUFFICIENT_EVIDENCE
+
+
+@needs_bundle
+@pytest.mark.parametrize("requested,default,expected", [(5, 10, 5), (20, 10, 20), (50, 10, 50), (0, 20, 20), (0, 0, 10)])
+def test_search_result_count_uses_request_then_pipeline_default(bundle, requested, default, expected):
+    from alloy_server.pipeline.runner import run
+    spec = pp.PipelineSpec()
+    spec.CopyFrom(bundle.specs["TAGS"])
+    spec.final_k = default
+    req = a.SearchRequest(utterance="doorway", pipeline_id="TAGS", k=requested)
+    resp = run(bundle, spec, req)
+    assert len(resp.results) == expected
+
+
+@needs_bundle
+def test_score_all_ignores_search_result_limits(bundle):
+    from alloy_server.pipeline.runner import run
+    wins = next(ws[:25] for ws in bundle.windows.values() if len(ws) >= 25)
+    req = a.SearchRequest(utterance="doorway", pipeline_id="TAGS", k=5, mode=pp.SCORE_ALL, window_ids=wins)
+    resp = run(bundle, bundle.specs["TAGS"], req)
+    assert {r.candidate.window_id for r in resp.results} == set(wins)
+
+
+@needs_bundle
+@pytest.mark.parametrize("failure", ["timeout", "rate_limit", "connection"])
+def test_program_api_failure_is_reported_and_next_search_can_recover(bundle, tmp_path, monkeypatch, failure):
+    import httpx
+    from openai import APIConnectionError, APITimeoutError, RateLimitError
+    from unittest.mock import Mock
+    from alloy_server.pipeline.runner import run
+    from alloy_server.programs.openai_generator import OpenAIProgramGenerator
+
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    monkeypatch.setenv("ALLOY_PROGRAM_TIMEOUT_S", "20")
+    gen = OpenAIProgramGenerator(bundle, [], cache_dir=tmp_path)
+    assert gen.client.timeout == 20 and gen.client.max_retries == 0
+    request = httpx.Request("POST", "https://example.invalid")
+    errors = {
+        "timeout": APITimeoutError(request=request),
+        "connection": APIConnectionError(request=request),
+        "rate_limit": RateLimitError("test", response=httpx.Response(429, request=request), body=None),
+    }
+    call = Mock(side_effect=errors[failure])
+    monkeypatch.setattr(gen.client.chat.completions, "create", call)
+    try:
+        for pid, expected in [("PROGRAM", a.INSUFFICIENT_EVIDENCE), ("HYBRID", a.ANSWERED_UNVERIFIED)]:
+            req = a.SearchRequest(utterance="the robot moves", pipeline_id=pid, k=3)
+            resp = run(bundle, bundle.specs[pid], req, generator=gen)
+            assert resp.status == expected and resp.diagnostics.state == a.FAILED
+            assert resp.cost.llm_calls == 1 and resp.diagnostics.attempts == 1
+            assert any("Program generation unavailable" in note for note in resp.notes)
+            assert bool(resp.results) == (pid == "HYBRID")
+        assert call.call_count == 2 and not list(tmp_path.iterdir())
+
+        program = {"primaryEvent": "moving", "events": [{"name": "moving", "kind": "THRESHOLD",
+                   "feature": "speed_mps", "comparator": "GT", "required": True,
+                   "threshold": {"value": 0.1, "unit": "MPS"}}], "selection": {"quantifier": "ALL"},
+                   "contextBefore": {"value": 4, "unit": "S"}, "contextAfter": {"value": 4, "unit": "S"}}
+        import json
+        call.side_effect = None
+        call.return_value = SimpleNamespace(usage=None, choices=[SimpleNamespace(message=SimpleNamespace(content=json.dumps(program)))])
+        recovered = run(bundle, bundle.specs["PROGRAM"], a.SearchRequest(utterance="the robot moves", pipeline_id="PROGRAM"),
+                        generator=gen)
+        assert recovered.diagnostics.state == a.GENERATED and recovered.results
+        assert call.call_count == 3 and list(tmp_path.glob("*.json"))
+    finally:
+        gen.client.close()
+
+
+@needs_bundle
+def test_cache_only_generation_fails_on_miss_without_an_api_client(bundle, tmp_path, monkeypatch):
+    from alloy_server.programs.openai_generator import OpenAIProgramGenerator
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    gen = OpenAIProgramGenerator(bundle, [], cache_dir=tmp_path, cache_only=True)
+    assert gen.client is None
+    with pytest.raises(RuntimeError, match="refusing a new API call"):
+        gen("a query with no cached program", bundle)

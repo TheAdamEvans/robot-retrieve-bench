@@ -1,0 +1,17 @@
+{
+  "attributes": {
+    "l1-smoke-butler.jsonl": -1
+  },
+  "judgment": {
+    "l2-chained_turn_person-extra.jsonl": 1,
+    "l2-crowd_hesitation-extra.jsonl": 1,
+    "l2-doorway_crossing-extra.jsonl": 1,
+    "l2-last_safe_evidence-extra.jsonl": 1,
+    "l2-test_body_cam_person-extra.jsonl": 1,
+    "l2-test_car_close_fast-extra.jsonl": 1,
+    "l2-test_speedup_after_person-extra.jsonl": 1,
+    "l2-test_tight_right-extra.jsonl": 1,
+    "l2-test_turn_then_brake-extra.jsonl": 1,
+    "l2-vehicle_interaction_gdc-extra.jsonl": 1
+  }
+}

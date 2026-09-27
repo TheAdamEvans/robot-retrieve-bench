@@ -73,6 +73,7 @@ def run(bundle, spec: pp.PipelineSpec, req: a.SearchRequest, generator: Callable
         return resp
     with cost.scope("request") as req_scope:
         ctx = QueryContext(bundle, req, generator)
+        ctx.k = req.k or spec.final_k or 10  # request overrides the pipeline's default everywhere
         score_all = ctx.mode == pp.SCORE_ALL
         gens = [FixedCandidates("fixed", {})] if score_all else [build(g) for g in spec.generators]
         cands: list[pp.Candidate] = []
@@ -128,7 +129,7 @@ def run(bundle, spec: pp.PipelineSpec, req: a.SearchRequest, generator: Callable
                     by_id[f.candidate_id].filtered = True
                     filtered_cands.append(by_id[f.candidate_id])
             cands = res.ordered
-        final = cands + filtered_cands if score_all else cands[: spec.final_k or ctx.k]
+        final = cands + filtered_cands if score_all else cands[:ctx.k]
         prog = ctx.program
         for cd in final:
             item = resp.results.add()
@@ -143,7 +144,7 @@ def run(bundle, spec: pp.PipelineSpec, req: a.SearchRequest, generator: Callable
                 item.receipt.CopyFrom(receipt(bundle.recordings[cd.recording_id], bundle.sensors(cd.recording_id),
                                               list(r.sensors), cut, int(r.max_age.value * 1e9), r.boundary))
         for ch in root.children:  # say why verification did not happen
-            if ch.outcome in (pp.SKIPPED, pp.ABSTAINED) and "not expressible as a program" in ch.outcome_detail:
+            if ch.outcome in (pp.SKIPPED, pp.ABSTAINED) and "program_unavailable: " in ch.outcome_detail:
                 note = ch.outcome_detail.split("program_unavailable: ", 1)[-1].split("; results unverified")[0]
                 if note not in resp.notes:
                     resp.notes.append(note)

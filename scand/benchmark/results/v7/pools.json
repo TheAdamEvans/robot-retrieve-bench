@@ -1,0 +1,4678 @@
+{
+ "test_speedup_after_person": {
+  "intent": "The robot speeds up (by at least 0.3 m/s within 2 s) shortly after a new person appears in front of it.",
+  "scope": [
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "JCL",
+   "Library_MLK",
+   "RLM",
+   "Sanjac"
+  ],
+  "windows": [
+   "Brackenridge:0013",
+   "Brackenridge:0014",
+   "Brackenridge:0015",
+   "Brackenridge:0016",
+   "Brackenridge:0017",
+   "Brackenridge:0018",
+   "Brackenridge:0039",
+   "Brackenridge:0040",
+   "Brackenridge:0041",
+   "Brackenridge:0042",
+   "Brackenridge:0043",
+   "Brackenridge:0044",
+   "Brackenridge:0054",
+   "Brackenridge:0059",
+   "Brackenridge:0060",
+   "Brackenridge:0061",
+   "Brackenridge:0062",
+   "Brackenridge:0066",
+   "Brackenridge:0067",
+   "Brackenridge:0068",
+   "Brackenridge:0069",
+   "Brackenridge:0083",
+   "Brackenridge:0085",
+   "Brackenridge:0087",
+   "Brackenridge:0088",
+   "Butler:0052",
+   "Butler:0064",
+   "Butler:0068",
+   "Butler:0070",
+   "Butler:0071",
+   "Butler:0072",
+   "Butler:0073",
+   "Butler:0074",
+   "Butler:0075",
+   "Butler:0076",
+   "Butler:0096",
+   "Butler:0104",
+   "GDC:0015",
+   "GDC:0017",
+   "JCL:0012",
+   "JCL:0016",
+   "JCL:0017",
+   "JCL:0020",
+   "JCL:0029",
+   "JCL:0030",
+   "JCL:0038",
+   "JCL:0039",
+   "JCL:0060",
+   "JCL:0076",
+   "JCL:0083",
+   "JCL:0084",
+   "JCL:0085",
+   "JCL:0086",
+   "JCL:0087",
+   "JCL:0088",
+   "Library_MLK:0011",
+   "Library_MLK:0024",
+   "Library_MLK:0028",
+   "Library_MLK:0031",
+   "Library_MLK:0032",
+   "Library_MLK:0033",
+   "Library_MLK:0078",
+   "Library_MLK:0079",
+   "Library_MLK:0080",
+   "Library_MLK:0086",
+   "Library_MLK:0087",
+   "Library_MLK:0088",
+   "Library_MLK:0089",
+   "Library_MLK:0091",
+   "Library_MLK:0092",
+   "Library_MLK:0093",
+   "Library_MLK:0094",
+   "Library_MLK:0096",
+   "Library_MLK:0104",
+   "Library_MLK:0107",
+   "Library_MLK:0108",
+   "Library_MLK:0116",
+   "RLM:0004",
+   "RLM:0024",
+   "RLM:0056",
+   "RLM:0060",
+   "Sanjac:0004",
+   "Sanjac:0016",
+   "Sanjac:0022",
+   "Sanjac:0028",
+   "Sanjac:0031",
+   "Sanjac:0041",
+   "Sanjac:0042",
+   "Sanjac:0043",
+   "Sanjac:0044",
+   "Sanjac:0045",
+   "Sanjac:0046",
+   "Sanjac:0052",
+   "Sanjac:0068",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac:0072",
+   "Sanjac:0074",
+   "Sanjac:0077",
+   "Sanjac:0082",
+   "Sanjac:0083"
+  ],
+  "n": 101,
+  "sources": {
+   "Brackenridge:0061": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0039": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0067": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "RANDOM"
+   ],
+   "Brackenridge:0060": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0038": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0062": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0068": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0059": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0069": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0066": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0042": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0041": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0043": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0044": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0045": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0046": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0084": [
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0083": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0085": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0086": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0087": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0088": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0071": [
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0070": [
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0072": [
+    "L1_ATTRIBUTES",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0073": [
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0074": [
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0075": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0030": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0029": [
+    "PROGRAM_ORACLE"
+   ],
+   "Brackenridge:0040": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0039": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0041": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0042": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0043": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0044": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0014": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0013": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0015": [
+    "FUSED_LINEAR",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0016": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0017": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0018": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0083": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0082": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0032": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0079": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0070": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0031": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0033": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0068": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0080": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0078": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "RLM:0004": [
+    "FUSED_LINEAR"
+   ],
+   "Library_MLK:0107": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0087": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0085": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0083": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0088": [
+    "FUSED_LINEAR"
+   ],
+   "Library_MLK:0094": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0092": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0093": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0089": [
+    "FUSED_CONCAT"
+   ],
+   "JCL:0017": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0086": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0087": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0088": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0091": [
+    "FUSED_CONCAT"
+   ],
+   "JCL:0016": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0052": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0064": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0068": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0076": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0096": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0104": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0012": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0020": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0060": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0076": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0024": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0028": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0096": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0104": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0108": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0116": [
+    "L1_ATTRIBUTES"
+   ],
+   "RLM:0024": [
+    "L1_ATTRIBUTES"
+   ],
+   "RLM:0056": [
+    "L1_ATTRIBUTES"
+   ],
+   "RLM:0060": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0016": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0052": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0072": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0017": [
+    "RANDOM"
+   ],
+   "Sanjac:0077": [
+    "RANDOM"
+   ],
+   "Sanjac:0074": [
+    "RANDOM"
+   ],
+   "Sanjac:0028": [
+    "RANDOM"
+   ],
+   "Sanjac:0022": [
+    "RANDOM"
+   ],
+   "Sanjac:0031": [
+    "RANDOM"
+   ],
+   "Library_MLK:0011": [
+    "RANDOM"
+   ],
+   "Brackenridge:0054": [
+    "RANDOM"
+   ],
+   "GDC:0015": [
+    "RANDOM"
+   ]
+  }
+ },
+ "test_tight_right": {
+  "intent": "The robot squeezes past something with less than 40 cm of room on its right side.",
+  "scope": [
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "JCL",
+   "Library_MLK",
+   "RLM",
+   "Sanjac"
+  ],
+  "windows": [
+   "Brackenridge:0051",
+   "Brackenridge:0073",
+   "Brackenridge:0074",
+   "Brackenridge:0085",
+   "Butler:0022",
+   "Butler:0038",
+   "Butler:0049",
+   "Butler:0069",
+   "Butler:0070",
+   "Butler:0071",
+   "Butler:0072",
+   "Butler:0073",
+   "Butler:0074",
+   "GDC:0085",
+   "JCL:0004",
+   "JCL:0005",
+   "JCL:0011",
+   "JCL:0033",
+   "JCL:0034",
+   "JCL:0035",
+   "JCL:0036",
+   "JCL:0037",
+   "JCL:0038",
+   "JCL:0039",
+   "JCL:0040",
+   "JCL:0041",
+   "JCL:0042",
+   "JCL:0091",
+   "Library_MLK:0022",
+   "Library_MLK:0023",
+   "Library_MLK:0031",
+   "Library_MLK:0032",
+   "Library_MLK:0034",
+   "RLM:0010",
+   "RLM:0024",
+   "RLM:0025",
+   "RLM:0043",
+   "RLM:0059",
+   "RLM:0060",
+   "RLM:0061",
+   "Sanjac:0016",
+   "Sanjac:0049",
+   "Sanjac:0068",
+   "Sanjac:0069",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac:0072",
+   "Sanjac:0073",
+   "Sanjac:0074",
+   "Sanjac:0075",
+   "Sanjac:0076",
+   "Sanjac:0077",
+   "Sanjac:0078",
+   "Sanjac:0079",
+   "Sanjac:0080",
+   "Sanjac:0093",
+   "Sanjac:0094"
+  ],
+  "n": 57,
+  "sources": {
+   "JCL:0039": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0078": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0079": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0049": [
+    "EMBED"
+   ],
+   "Sanjac:0077": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "RLM:0010": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0093": [
+    "EMBED"
+   ],
+   "Sanjac:0094": [
+    "EMBED"
+   ],
+   "Sanjac:0076": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0080": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0070": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0069": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0071": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0072": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0073": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0074": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0034": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0033": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0035": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0036": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0037": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0038": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0069": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0068": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0070": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0072": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0073": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0004": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0005": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0040": [
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0023": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0075": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0022": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0074": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "RLM:0059": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "JCL:0091": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0074": [
+    "FUSED"
+   ],
+   "JCL:0041": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0032": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "RLM:0060": [
+    "FUSED_LINEAR",
+    "RANDOM"
+   ],
+   "RLM:0025": [
+    "FUSED_LINEAR"
+   ],
+   "RLM:0061": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0073": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0042": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0085": [
+    "FUSED_LINEAR"
+   ],
+   "RLM:0024": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0051": [
+    "FUSED_CONCAT",
+    "RANDOM"
+   ],
+   "Library_MLK:0031": [
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0038": [
+    "RANDOM"
+   ],
+   "GDC:0085": [
+    "RANDOM"
+   ],
+   "Library_MLK:0034": [
+    "RANDOM"
+   ],
+   "Butler:0049": [
+    "RANDOM"
+   ],
+   "RLM:0043": [
+    "RANDOM"
+   ],
+   "Butler:0022": [
+    "RANDOM"
+   ],
+   "Sanjac:0016": [
+    "RANDOM"
+   ],
+   "JCL:0011": [
+    "RANDOM"
+   ]
+  }
+ },
+ "test_turn_then_brake": {
+  "intent": "Ordered: the robot turns (>=45 degrees within 3 s) and then brakes (>=30% speed drop) within 5 s after the turn starts.",
+  "scope": [
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "JCL",
+   "Library_MLK",
+   "RLM",
+   "Sanjac"
+  ],
+  "windows": [
+   "Brackenridge:0014",
+   "Brackenridge:0015",
+   "Brackenridge:0016",
+   "Brackenridge:0040",
+   "Brackenridge:0041",
+   "Brackenridge:0042",
+   "Brackenridge:0049",
+   "Brackenridge:0050",
+   "Brackenridge:0051",
+   "Brackenridge:0052",
+   "Brackenridge:0053",
+   "Brackenridge:0061",
+   "Brackenridge:0073",
+   "Brackenridge:0074",
+   "Brackenridge:0075",
+   "Brackenridge:0085",
+   "Brackenridge:0087",
+   "Brackenridge:0100",
+   "Butler:0016",
+   "Butler:0020",
+   "Butler:0024",
+   "Butler:0032",
+   "GDC:0038",
+   "GDC:0083",
+   "GDC:0096",
+   "JCL:0004",
+   "JCL:0005",
+   "JCL:0006",
+   "JCL:0007",
+   "JCL:0008",
+   "JCL:0012",
+   "JCL:0032",
+   "JCL:0033",
+   "JCL:0034",
+   "JCL:0039",
+   "JCL:0041",
+   "JCL:0042",
+   "JCL:0043",
+   "JCL:0044",
+   "JCL:0047",
+   "JCL:0048",
+   "JCL:0050",
+   "JCL:0051",
+   "JCL:0052",
+   "JCL:0053",
+   "JCL:0054",
+   "JCL:0064",
+   "JCL:0092",
+   "Library_MLK:0028",
+   "Library_MLK:0029",
+   "Library_MLK:0030",
+   "Library_MLK:0031",
+   "Library_MLK:0032",
+   "Library_MLK:0033",
+   "Library_MLK:0036",
+   "Library_MLK:0064",
+   "Library_MLK:0071",
+   "Library_MLK:0072",
+   "Library_MLK:0073",
+   "Library_MLK:0074",
+   "Library_MLK:0075",
+   "Library_MLK:0076",
+   "Library_MLK:0111",
+   "Library_MLK:0118",
+   "RLM:0004",
+   "RLM:0008",
+   "RLM:0016",
+   "RLM:0027",
+   "RLM:0038",
+   "RLM:0039",
+   "RLM:0058",
+   "RLM:0059",
+   "Sanjac:0004",
+   "Sanjac:0006",
+   "Sanjac:0007",
+   "Sanjac:0016",
+   "Sanjac:0020",
+   "Sanjac:0055",
+   "Sanjac:0060",
+   "Sanjac:0061",
+   "Sanjac:0062",
+   "Sanjac:0063",
+   "Sanjac:0064",
+   "Sanjac:0065",
+   "Sanjac:0066",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac:0072",
+   "Sanjac:0081",
+   "Sanjac:0082",
+   "Sanjac:0083",
+   "Sanjac:0084",
+   "Sanjac:0085",
+   "Sanjac:0086",
+   "Sanjac:0087",
+   "Sanjac:0088",
+   "Sanjac:0093",
+   "Sanjac:0094",
+   "Sanjac:0095",
+   "Sanjac:0096",
+   "Sanjac:0097",
+   "Sanjac:0104",
+   "Sanjac:0108"
+  ],
+  "n": 103,
+  "sources": {
+   "Brackenridge:0051": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0050": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0052": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0042": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "RLM:0039": [
+    "EMBED"
+   ],
+   "Brackenridge:0049": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0041": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "RLM:0038": [
+    "EMBED"
+   ],
+   "JCL:0039": [
+    "EMBED"
+   ],
+   "Brackenridge:0053": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0072": [
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0071": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0073": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0074": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0075": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0076": [
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0062": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0061": [
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0063": [
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0064": [
+    "L1_ATTRIBUTES",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0065": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0066": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0084": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0083": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0085": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0086": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0087": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0088": [
+    "L1_ATTRIBUTES",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0007": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0006": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0029": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0028": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0030": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0031": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0032": [
+    "FUSED_V_LUNA",
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0033": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0004": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0005": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0006": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0007": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0094": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0093": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0095": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0096": [
+    "FUSED_V_LUNA",
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0053": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0043": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0054": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0052": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0082": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0044": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0051": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0081": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0118": [
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0050": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0074": [
+    "FUSED"
+   ],
+   "Brackenridge:0075": [
+    "FUSED"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0072": [
+    "FUSED"
+   ],
+   "Brackenridge:0073": [
+    "FUSED"
+   ],
+   "JCL:0034": [
+    "FUSED"
+   ],
+   "Sanjac:0070": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "JCL:0033": [
+    "FUSED"
+   ],
+   "RLM:0058": [
+    "FUSED_LINEAR"
+   ],
+   "RLM:0059": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0015": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0016": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0014": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0087": [
+    "FUSED_LINEAR",
+    "RANDOM"
+   ],
+   "Brackenridge:0085": [
+    "FUSED_LINEAR"
+   ],
+   "RLM:0004": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0042": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0041": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0061": [
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0040": [
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0097": [
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0100": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0016": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0020": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0024": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0032": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0008": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0012": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0032": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0048": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0064": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0092": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0036": [
+    "L1_ATTRIBUTES"
+   ],
+   "RLM:0008": [
+    "L1_ATTRIBUTES"
+   ],
+   "RLM:0016": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0016": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0060": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0104": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0108": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0038": [
+    "RANDOM"
+   ],
+   "Sanjac:0020": [
+    "RANDOM"
+   ],
+   "GDC:0096": [
+    "RANDOM"
+   ],
+   "RLM:0027": [
+    "RANDOM"
+   ],
+   "Library_MLK:0111": [
+    "RANDOM"
+   ],
+   "JCL:0047": [
+    "RANDOM"
+   ],
+   "Library_MLK:0064": [
+    "RANDOM"
+   ],
+   "GDC:0083": [
+    "RANDOM"
+   ],
+   "Sanjac:0055": [
+    "RANDOM"
+   ]
+  }
+ },
+ "test_car_close_fast": {
+  "intent": "A vehicle close in front (large in the image) while the robot moves faster than 1.5 m/s.",
+  "scope": [
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "JCL",
+   "Library_MLK",
+   "RLM",
+   "Sanjac"
+  ],
+  "windows": [
+   "Brackenridge:0004",
+   "Brackenridge:0005",
+   "Brackenridge:0006",
+   "Brackenridge:0007",
+   "Brackenridge:0008",
+   "Brackenridge:0009",
+   "Brackenridge:0012",
+   "Brackenridge:0014",
+   "Brackenridge:0015",
+   "Brackenridge:0016",
+   "Brackenridge:0027",
+   "Brackenridge:0040",
+   "Brackenridge:0041",
+   "Brackenridge:0042",
+   "Brackenridge:0043",
+   "Brackenridge:0044",
+   "Brackenridge:0045",
+   "Brackenridge:0046",
+   "Brackenridge:0047",
+   "Brackenridge:0048",
+   "Brackenridge:0049",
+   "Brackenridge:0050",
+   "Brackenridge:0051",
+   "Brackenridge:0059",
+   "Brackenridge:0060",
+   "Brackenridge:0061",
+   "Brackenridge:0062",
+   "Brackenridge:0066",
+   "Brackenridge:0070",
+   "Brackenridge:0074",
+   "Brackenridge:0080",
+   "Brackenridge:0083",
+   "Brackenridge:0084",
+   "Brackenridge:0085",
+   "Brackenridge:0087",
+   "Brackenridge:0088",
+   "Brackenridge:0092",
+   "Butler:0004",
+   "Butler:0008",
+   "Butler:0012",
+   "Butler:0020",
+   "Butler:0024",
+   "Butler:0028",
+   "Butler:0032",
+   "Butler:0036",
+   "Butler:0040",
+   "Butler:0080",
+   "Butler:0084",
+   "Butler:0088",
+   "Butler:0112",
+   "Butler:0116",
+   "GDC:0044",
+   "GDC:0048",
+   "GDC:0080",
+   "JCL:0013",
+   "JCL:0051",
+   "JCL:0091",
+   "Library_MLK:0004",
+   "Library_MLK:0008",
+   "Library_MLK:0061",
+   "RLM:0004",
+   "Sanjac:0004",
+   "Sanjac:0006",
+   "Sanjac:0009",
+   "Sanjac:0023",
+   "Sanjac:0047",
+   "Sanjac:0048",
+   "Sanjac:0049",
+   "Sanjac:0051",
+   "Sanjac:0052",
+   "Sanjac:0062",
+   "Sanjac:0063",
+   "Sanjac:0064",
+   "Sanjac:0065",
+   "Sanjac:0066",
+   "Sanjac:0067",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac:0072",
+   "Sanjac:0079",
+   "Sanjac:0080",
+   "Sanjac:0081",
+   "Sanjac:0083",
+   "Sanjac:0084",
+   "Sanjac:0085",
+   "Sanjac:0086",
+   "Sanjac:0087",
+   "Sanjac:0088",
+   "Sanjac:0089",
+   "Sanjac:0090",
+   "Sanjac:0091",
+   "Sanjac:0092",
+   "Sanjac:0094",
+   "Sanjac:0095",
+   "Sanjac:0105",
+   "Sanjac:0106",
+   "Sanjac:0107",
+   "Sanjac:0108"
+  ],
+  "n": 98,
+  "sources": {
+   "Brackenridge:0049": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Brackenridge:0050": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Brackenridge:0015": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA"
+   ],
+   "Brackenridge:0048": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Brackenridge:0042": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0047": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0041": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0014": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA"
+   ],
+   "Brackenridge:0051": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Brackenridge:0061": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0084": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0083": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0085": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0086": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0087": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0088": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0063": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0062": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0064": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0065": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0066": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0067": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0106": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0105": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0107": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0108": [
+    "FUSED",
+    "HYBRID_ORACLE",
+    "L1_ATTRIBUTES",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0089": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0090": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0091": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0092": [
+    "PROGRAM_ORACLE"
+   ],
+   "Brackenridge:0040": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0043": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0044": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0045": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0005": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0004": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0006": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0007": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0008": [
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0009": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0046": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0079": [
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0049": [
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0048": [
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0080": [
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0070": [
+    "HYBRID_ORACLE",
+    "RANDOM"
+   ],
+   "Sanjac:0047": [
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0095": [
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0094": [
+    "HYBRID_ORACLE",
+    "RANDOM"
+   ],
+   "Sanjac:0081": [
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0087": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0072": [
+    "FUSED"
+   ],
+   "Sanjac:0051": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0070": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0009": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0085": [
+    "FUSED_LINEAR"
+   ],
+   "RLM:0004": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0088": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0016": [
+    "FUSED_LINEAR",
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0083": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0084": [
+    "FUSED_LINEAR",
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0060": [
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0059": [
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0062": [
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0052": [
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0074": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0006": [
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0012": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0080": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0092": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0004": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0008": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0012": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0020": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0024": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0028": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0032": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0036": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0040": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0080": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0084": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0088": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0112": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0116": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0044": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0048": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0004": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0008": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0066": [
+    "RANDOM"
+   ],
+   "JCL:0013": [
+    "RANDOM"
+   ],
+   "Sanjac:0023": [
+    "RANDOM"
+   ],
+   "Library_MLK:0061": [
+    "RANDOM"
+   ],
+   "GDC:0080": [
+    "RANDOM"
+   ],
+   "JCL:0091": [
+    "RANDOM"
+   ],
+   "JCL:0051": [
+    "RANDOM"
+   ],
+   "Brackenridge:0027": [
+    "RANDOM"
+   ]
+  }
+ },
+ "test_body_cam_person": {
+  "intent": "Spot's body cameras see a person while the front camera sees nobody.",
+  "scope": [
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "JCL",
+   "Library_MLK",
+   "RLM",
+   "Sanjac"
+  ],
+  "windows": [
+   "Brackenridge:0013",
+   "Brackenridge:0014",
+   "Brackenridge:0015",
+   "Brackenridge:0032",
+   "Brackenridge:0033",
+   "Brackenridge:0044",
+   "Brackenridge:0060",
+   "Brackenridge:0067",
+   "Brackenridge:0068",
+   "Brackenridge:0072",
+   "Brackenridge:0085",
+   "Brackenridge:0087",
+   "Brackenridge:0088",
+   "Butler:0008",
+   "Butler:0017",
+   "Butler:0028",
+   "Butler:0048",
+   "Butler:0056",
+   "Butler:0062",
+   "Butler:0063",
+   "Butler:0064",
+   "Butler:0065",
+   "Butler:0066",
+   "Butler:0075",
+   "Butler:0076",
+   "Butler:0082",
+   "Butler:0106",
+   "Butler:0107",
+   "Butler:0109",
+   "Butler:0110",
+   "Butler:0111",
+   "Butler:0112",
+   "Butler:0113",
+   "Butler:0114",
+   "Butler:0115",
+   "Butler:0116",
+   "GDC:0004",
+   "GDC:0024",
+   "GDC:0025",
+   "GDC:0026",
+   "GDC:0028",
+   "GDC:0033",
+   "GDC:0044",
+   "GDC:0052",
+   "GDC:0053",
+   "GDC:0054",
+   "GDC:0056",
+   "GDC:0060",
+   "GDC:0063",
+   "GDC:0068",
+   "GDC:0074",
+   "GDC:0076",
+   "GDC:0077",
+   "JCL:0044",
+   "JCL:0063",
+   "JCL:0085",
+   "JCL:0090",
+   "JCL:0091",
+   "JCL:0092",
+   "JCL:0093",
+   "JCL:0094",
+   "Library_MLK:0012",
+   "Library_MLK:0018",
+   "Library_MLK:0019",
+   "Library_MLK:0020",
+   "Library_MLK:0021",
+   "Library_MLK:0022",
+   "Library_MLK:0023",
+   "Library_MLK:0030",
+   "Library_MLK:0032",
+   "Library_MLK:0068",
+   "Library_MLK:0069",
+   "Library_MLK:0070",
+   "Library_MLK:0071",
+   "Library_MLK:0072",
+   "Library_MLK:0073",
+   "Library_MLK:0079",
+   "Library_MLK:0092",
+   "RLM:0004",
+   "RLM:0005",
+   "RLM:0006",
+   "RLM:0010",
+   "RLM:0011",
+   "RLM:0012",
+   "RLM:0013",
+   "RLM:0028",
+   "RLM:0044",
+   "Sanjac:0004",
+   "Sanjac:0008",
+   "Sanjac:0009",
+   "Sanjac:0036",
+   "Sanjac:0048",
+   "Sanjac:0049",
+   "Sanjac:0050",
+   "Sanjac:0051",
+   "Sanjac:0052",
+   "Sanjac:0053",
+   "Sanjac:0054",
+   "Sanjac:0060",
+   "Sanjac:0061",
+   "Sanjac:0062",
+   "Sanjac:0063",
+   "Sanjac:0064",
+   "Sanjac:0065",
+   "Sanjac:0077",
+   "Sanjac:0078",
+   "Sanjac:0084",
+   "Sanjac:0106",
+   "Sanjac:0108"
+  ],
+  "n": 109,
+  "sources": {
+   "GDC:0077": [
+    "TAGS"
+   ],
+   "GDC:0053": [
+    "TAGS"
+   ],
+   "GDC:0054": [
+    "TAGS"
+   ],
+   "GDC:0052": [
+    "L1_ATTRIBUTES",
+    "TAGS"
+   ],
+   "GDC:0056": [
+    "TAGS"
+   ],
+   "GDC:0074": [
+    "RANDOM",
+    "TAGS"
+   ],
+   "GDC:0063": [
+    "TAGS"
+   ],
+   "GDC:0068": [
+    "TAGS"
+   ],
+   "GDC:0033": [
+    "TAGS"
+   ],
+   "GDC:0028": [
+    "L1_ATTRIBUTES",
+    "TAGS"
+   ],
+   "Sanjac:0052": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0053": [
+    "EMBED"
+   ],
+   "Sanjac:0051": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0013": [
+    "EMBED"
+   ],
+   "Brackenridge:0014": [
+    "EMBED"
+   ],
+   "Sanjac:0054": [
+    "EMBED"
+   ],
+   "Brackenridge:0015": [
+    "EMBED"
+   ],
+   "Sanjac:0050": [
+    "EMBED"
+   ],
+   "Brackenridge:0067": [
+    "EMBED"
+   ],
+   "Sanjac:0049": [
+    "EMBED"
+   ],
+   "Library_MLK:0069": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0068": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0070": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0071": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0072": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0073": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0091": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0090": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0092": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0093": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0094": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0019": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0018": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0020": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0021": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0022": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0023": [
+    "PROGRAM_ORACLE"
+   ],
+   "RLM:0004": [
+    "PROGRAM_ORACLE"
+   ],
+   "RLM:0005": [
+    "PROGRAM_ORACLE"
+   ],
+   "RLM:0006": [
+    "PROGRAM_ORACLE"
+   ],
+   "RLM:0011": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "RLM:0012": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "RLM:0010": [
+    "HYBRID_ORACLE"
+   ],
+   "RLM:0013": [
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0114": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0115": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0113": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0116": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0112": [
+    "HYBRID_LUNA"
+   ],
+   "Butler:0111": [
+    "HYBRID_LUNA"
+   ],
+   "Butler:0110": [
+    "HYBRID_LUNA"
+   ],
+   "Butler:0109": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac:0108": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0061": [
+    "FUSED"
+   ],
+   "Sanjac:0063": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0062": [
+    "FUSED"
+   ],
+   "Sanjac:0008": [
+    "FUSED"
+   ],
+   "Sanjac:0064": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0004": [
+    "FUSED"
+   ],
+   "Sanjac:0009": [
+    "FUSED"
+   ],
+   "Sanjac:0065": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0106": [
+    "FUSED_LINEAR",
+    "RANDOM"
+   ],
+   "Brackenridge:0085": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0087": [
+    "FUSED_LINEAR"
+   ],
+   "Butler:0065": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0107": [
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0077": [
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0033": [
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0078": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0106": [
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0048": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0075": [
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0063": [
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0079": [
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0064": [
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0066": [
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0076": [
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0017": [
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0032": [
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0062": [
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0032": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0044": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0060": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0068": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0072": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0088": [
+    "L1_ATTRIBUTES",
+    "RANDOM"
+   ],
+   "Butler:0008": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0028": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0048": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0056": [
+    "L1_ATTRIBUTES",
+    "RANDOM"
+   ],
+   "GDC:0004": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0024": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0044": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0060": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0076": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0044": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0012": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0092": [
+    "L1_ATTRIBUTES"
+   ],
+   "RLM:0028": [
+    "L1_ATTRIBUTES"
+   ],
+   "RLM:0044": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0036": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0060": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0084": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0030": [
+    "RANDOM"
+   ],
+   "JCL:0063": [
+    "RANDOM"
+   ],
+   "JCL:0085": [
+    "RANDOM"
+   ],
+   "GDC:0025": [
+    "RANDOM"
+   ],
+   "Butler:0082": [
+    "RANDOM"
+   ],
+   "GDC:0026": [
+    "RANDOM"
+   ]
+  }
+ },
+ "crowd_hesitation": {
+  "intent": "In the Butler run: the first time at least six people occupy the robot's forward travel corridor and the robot loses at least 0.7 m/s within 3 s; anchors: just before deceleration, minimum speed, recovery to 90% of the pre-event speed.",
+  "scope": [
+   "Butler"
+  ],
+  "windows": [
+   "Butler:0004",
+   "Butler:0005",
+   "Butler:0006",
+   "Butler:0014",
+   "Butler:0020",
+   "Butler:0021",
+   "Butler:0022",
+   "Butler:0023",
+   "Butler:0024",
+   "Butler:0027",
+   "Butler:0028",
+   "Butler:0029",
+   "Butler:0030",
+   "Butler:0033",
+   "Butler:0037",
+   "Butler:0040",
+   "Butler:0041",
+   "Butler:0046",
+   "Butler:0049",
+   "Butler:0054",
+   "Butler:0056",
+   "Butler:0057",
+   "Butler:0063",
+   "Butler:0064",
+   "Butler:0065",
+   "Butler:0066",
+   "Butler:0067",
+   "Butler:0068",
+   "Butler:0070",
+   "Butler:0071",
+   "Butler:0072",
+   "Butler:0073",
+   "Butler:0074",
+   "Butler:0075",
+   "Butler:0076",
+   "Butler:0077",
+   "Butler:0078",
+   "Butler:0079",
+   "Butler:0083",
+   "Butler:0085",
+   "Butler:0086",
+   "Butler:0090",
+   "Butler:0091",
+   "Butler:0093",
+   "Butler:0097",
+   "Butler:0098",
+   "Butler:0099",
+   "Butler:0100",
+   "Butler:0101",
+   "Butler:0102",
+   "Butler:0104",
+   "Butler:0105",
+   "Butler:0106",
+   "Butler:0107",
+   "Butler:0108",
+   "Butler:0109",
+   "Butler:0110",
+   "Butler:0111",
+   "Butler:0112",
+   "Butler:0113",
+   "Butler:0114",
+   "Butler:0115",
+   "Butler:0116"
+  ],
+  "n": 63,
+  "sources": {
+   "Butler:0041": [
+    "TAGS"
+   ],
+   "Butler:0102": [
+    "EMBED",
+    "TAGS"
+   ],
+   "Butler:0071": [
+    "TAGS"
+   ],
+   "Butler:0075": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "TAGS"
+   ],
+   "Butler:0073": [
+    "TAGS"
+   ],
+   "Butler:0004": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "RANDOM",
+    "TAGS"
+   ],
+   "Butler:0029": [
+    "EMBED",
+    "TAGS"
+   ],
+   "Butler:0049": [
+    "TAGS"
+   ],
+   "Butler:0107": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Butler:0111": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "TAGS"
+   ],
+   "Butler:0023": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0022": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "RANDOM"
+   ],
+   "Butler:0024": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0028": [
+    "EMBED"
+   ],
+   "Butler:0030": [
+    "EMBED"
+   ],
+   "Butler:0070": [
+    "EMBED"
+   ],
+   "Butler:0083": [
+    "EMBED"
+   ],
+   "Butler:0067": [
+    "EMBED",
+    "FUSED"
+   ],
+   "Butler:0085": [
+    "EMBED"
+   ],
+   "Butler:0112": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0113": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0114": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0115": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0116": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0108": [
+    "EMBED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0109": [
+    "EMBED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0110": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "RANDOM"
+   ],
+   "Butler:0076": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0077": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0065": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0078": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0066": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "RANDOM"
+   ],
+   "Butler:0068": [
+    "FUSED"
+   ],
+   "Butler:0106": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0105": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0104": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0020": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0056": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0057": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0046": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0099": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0100": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0093": [
+    "EMBED"
+   ],
+   "Butler:0101": [
+    "EMBED"
+   ],
+   "Butler:0090": [
+    "EMBED"
+   ],
+   "Butler:0098": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0091": [
+    "EMBED"
+   ],
+   "Butler:0074": [
+    "FUSED"
+   ],
+   "Butler:0064": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0063": [
+    "FUSED_LINEAR"
+   ],
+   "Butler:0021": [
+    "FUSED_LINEAR"
+   ],
+   "Butler:0097": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0005": [
+    "EMBED",
+    "RANDOM"
+   ],
+   "Butler:0006": [
+    "EMBED"
+   ],
+   "Butler:0086": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0014": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0054": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0072": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0033": [
+    "RANDOM"
+   ],
+   "Butler:0079": [
+    "RANDOM"
+   ],
+   "Butler:0027": [
+    "RANDOM"
+   ],
+   "Butler:0037": [
+    "RANDOM"
+   ],
+   "Butler:0040": [
+    "RANDOM"
+   ]
+  }
+ },
+ "doorway_crossing": {
+  "intent": "In the Library_MLK run: the narrowest doorway the robot actually passes through (not beside); approach, threshold crossing and full-body-clear times, minimum left/right clearance.",
+  "scope": [
+   "Library_MLK"
+  ],
+  "windows": [
+   "Library_MLK:0005",
+   "Library_MLK:0006",
+   "Library_MLK:0012",
+   "Library_MLK:0013",
+   "Library_MLK:0014",
+   "Library_MLK:0017",
+   "Library_MLK:0018",
+   "Library_MLK:0019",
+   "Library_MLK:0020",
+   "Library_MLK:0021",
+   "Library_MLK:0022",
+   "Library_MLK:0023",
+   "Library_MLK:0024",
+   "Library_MLK:0025",
+   "Library_MLK:0026",
+   "Library_MLK:0027",
+   "Library_MLK:0028",
+   "Library_MLK:0029",
+   "Library_MLK:0030",
+   "Library_MLK:0031",
+   "Library_MLK:0032",
+   "Library_MLK:0033",
+   "Library_MLK:0034",
+   "Library_MLK:0035",
+   "Library_MLK:0036",
+   "Library_MLK:0037",
+   "Library_MLK:0044",
+   "Library_MLK:0046",
+   "Library_MLK:0051",
+   "Library_MLK:0055",
+   "Library_MLK:0056",
+   "Library_MLK:0057",
+   "Library_MLK:0060",
+   "Library_MLK:0063",
+   "Library_MLK:0066",
+   "Library_MLK:0068",
+   "Library_MLK:0069",
+   "Library_MLK:0070",
+   "Library_MLK:0071",
+   "Library_MLK:0072",
+   "Library_MLK:0073",
+   "Library_MLK:0074",
+   "Library_MLK:0076",
+   "Library_MLK:0078",
+   "Library_MLK:0082",
+   "Library_MLK:0086",
+   "Library_MLK:0092",
+   "Library_MLK:0105",
+   "Library_MLK:0108",
+   "Library_MLK:0113",
+   "Library_MLK:0115",
+   "Library_MLK:0116",
+   "Library_MLK:0117",
+   "Library_MLK:0118"
+  ],
+  "n": 54,
+  "sources": {
+   "Library_MLK:0046": [
+    "TAGS"
+   ],
+   "Library_MLK:0005": [
+    "TAGS"
+   ],
+   "Library_MLK:0078": [
+    "TAGS"
+   ],
+   "Library_MLK:0068": [
+    "TAGS"
+   ],
+   "Library_MLK:0105": [
+    "TAGS"
+   ],
+   "Library_MLK:0055": [
+    "TAGS"
+   ],
+   "Library_MLK:0063": [
+    "TAGS"
+   ],
+   "Library_MLK:0066": [
+    "TAGS"
+   ],
+   "Library_MLK:0117": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Library_MLK:0108": [
+    "TAGS"
+   ],
+   "Library_MLK:0025": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0023": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0024": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0022": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0021": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0026": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0020": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM"
+   ],
+   "Library_MLK:0027": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0118": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0028": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0033": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0032": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0034": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0035": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0036": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0037": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0019": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0029": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0030": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0031": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0070": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0069": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM"
+   ],
+   "Library_MLK:0071": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0072": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM"
+   ],
+   "Library_MLK:0073": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0074": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0116": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0018": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0115": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0017": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0086": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0014": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0013": [
+    "FUSED_LINEAR"
+   ],
+   "Library_MLK:0012": [
+    "FUSED_LINEAR"
+   ],
+   "Library_MLK:0006": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0056": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0060": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0076": [
+    "L1_ATTRIBUTES",
+    "RANDOM"
+   ],
+   "Library_MLK:0092": [
+    "L1_ATTRIBUTES",
+    "RANDOM"
+   ],
+   "Library_MLK:0057": [
+    "RANDOM"
+   ],
+   "Library_MLK:0051": [
+    "RANDOM"
+   ],
+   "Library_MLK:0082": [
+    "RANDOM"
+   ],
+   "Library_MLK:0044": [
+    "RANDOM"
+   ],
+   "Library_MLK:0113": [
+    "RANDOM"
+   ]
+  }
+ },
+ "vehicle_interaction_gdc": {
+  "intent": "In the GDC run: the strongest localized vehicle interaction (a vehicle near the robot with a motion response by the robot), or insufficient evidence. The recording-level tag is not evidence.",
+  "scope": [
+   "GDC"
+  ],
+  "windows": [
+   "GDC:0004",
+   "GDC:0010",
+   "GDC:0017",
+   "GDC:0028",
+   "GDC:0033",
+   "GDC:0036",
+   "GDC:0037",
+   "GDC:0039",
+   "GDC:0040",
+   "GDC:0041",
+   "GDC:0042",
+   "GDC:0043",
+   "GDC:0044",
+   "GDC:0045",
+   "GDC:0046",
+   "GDC:0047",
+   "GDC:0048",
+   "GDC:0052",
+   "GDC:0053",
+   "GDC:0054",
+   "GDC:0055",
+   "GDC:0056",
+   "GDC:0057",
+   "GDC:0058",
+   "GDC:0061",
+   "GDC:0062",
+   "GDC:0063",
+   "GDC:0064",
+   "GDC:0065",
+   "GDC:0066",
+   "GDC:0067",
+   "GDC:0068",
+   "GDC:0069",
+   "GDC:0070",
+   "GDC:0071",
+   "GDC:0072",
+   "GDC:0073",
+   "GDC:0074",
+   "GDC:0075",
+   "GDC:0076",
+   "GDC:0077",
+   "GDC:0078",
+   "GDC:0079",
+   "GDC:0080",
+   "GDC:0081",
+   "GDC:0082",
+   "GDC:0083",
+   "GDC:0084",
+   "GDC:0085",
+   "GDC:0086",
+   "GDC:0087",
+   "GDC:0088",
+   "GDC:0089",
+   "GDC:0090",
+   "GDC:0091"
+  ],
+  "n": 55,
+  "sources": {
+   "GDC:0077": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "TAGS"
+   ],
+   "GDC:0053": [
+    "TAGS"
+   ],
+   "GDC:0054": [
+    "FUSED_CONCAT",
+    "RANDOM",
+    "TAGS"
+   ],
+   "GDC:0052": [
+    "TAGS"
+   ],
+   "GDC:0056": [
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "GDC:0074": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA",
+    "TAGS"
+   ],
+   "GDC:0063": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA",
+    "TAGS"
+   ],
+   "GDC:0068": [
+    "FUSED_LINEAR",
+    "TAGS"
+   ],
+   "GDC:0033": [
+    "TAGS"
+   ],
+   "GDC:0028": [
+    "TAGS"
+   ],
+   "GDC:0044": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0045": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "GDC:0046": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "GDC:0043": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA"
+   ],
+   "GDC:0047": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "GDC:0042": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA"
+   ],
+   "GDC:0073": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0075": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA",
+    "RANDOM"
+   ],
+   "GDC:0064": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0081": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC:0080": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC:0082": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC:0083": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM"
+   ],
+   "GDC:0084": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC:0085": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC:0076": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0078": [
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0079": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0062": [
+    "PROGRAM_LUNA",
+    "RANDOM"
+   ],
+   "GDC:0061": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0065": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0066": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0070": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0069": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0071": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0072": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0040": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0039": [
+    "EMBED",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0086": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0004": [
+    "FUSED"
+   ],
+   "GDC:0087": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "RANDOM"
+   ],
+   "GDC:0088": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC:0067": [
+    "FUSED_LINEAR"
+   ],
+   "GDC:0036": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0037": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0057": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0058": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0055": [
+    "FUSED_CONCAT",
+    "RANDOM"
+   ],
+   "GDC:0041": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "GDC:0048": [
+    "EMBED",
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0089": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC:0090": [
+    "HYBRID_LUNA",
+    "RANDOM"
+   ],
+   "GDC:0010": [
+    "RANDOM"
+   ],
+   "GDC:0091": [
+    "RANDOM"
+   ],
+   "GDC:0017": [
+    "RANDOM"
+   ]
+  }
+ },
+ "last_safe_evidence": {
+  "intent": "Immediately before the robot accelerates from a stop: the latest available front image, side/rear images, lidar scan, pose and transform that could have informed the action, with each age.",
+  "scope": [
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "JCL",
+   "Library_MLK",
+   "RLM",
+   "Sanjac"
+  ],
+  "windows": [
+   "Brackenridge:0004",
+   "Brackenridge:0005",
+   "Brackenridge:0006",
+   "Brackenridge:0007",
+   "Brackenridge:0008",
+   "Brackenridge:0009",
+   "Brackenridge:0015",
+   "Brackenridge:0051",
+   "Brackenridge:0052",
+   "Brackenridge:0053",
+   "Brackenridge:0054",
+   "Brackenridge:0056",
+   "Brackenridge:0058",
+   "Brackenridge:0059",
+   "Brackenridge:0060",
+   "Brackenridge:0061",
+   "Brackenridge:0062",
+   "Brackenridge:0067",
+   "Brackenridge:0072",
+   "Brackenridge:0085",
+   "Brackenridge:0087",
+   "Butler:0014",
+   "Butler:0068",
+   "Butler:0097",
+   "Butler:0107",
+   "Butler:0113",
+   "Butler:0114",
+   "Butler:0115",
+   "JCL:0014",
+   "JCL:0015",
+   "JCL:0016",
+   "JCL:0017",
+   "JCL:0018",
+   "JCL:0019",
+   "JCL:0020",
+   "JCL:0021",
+   "JCL:0022",
+   "JCL:0023",
+   "JCL:0024",
+   "JCL:0025",
+   "JCL:0026",
+   "JCL:0027",
+   "JCL:0028",
+   "JCL:0029",
+   "JCL:0031",
+   "JCL:0032",
+   "JCL:0033",
+   "JCL:0038",
+   "JCL:0039",
+   "JCL:0040",
+   "JCL:0041",
+   "JCL:0042",
+   "JCL:0054",
+   "JCL:0064",
+   "JCL:0065",
+   "JCL:0091",
+   "JCL:0092",
+   "JCL:0093",
+   "JCL:0094",
+   "Library_MLK:0004",
+   "Library_MLK:0005",
+   "Library_MLK:0015",
+   "Library_MLK:0020",
+   "Library_MLK:0021",
+   "Library_MLK:0022",
+   "Library_MLK:0023",
+   "Library_MLK:0024",
+   "Library_MLK:0025",
+   "Library_MLK:0026",
+   "Library_MLK:0027",
+   "Library_MLK:0028",
+   "Library_MLK:0029",
+   "Library_MLK:0030",
+   "Library_MLK:0031",
+   "Library_MLK:0032",
+   "Library_MLK:0033",
+   "Library_MLK:0034",
+   "Library_MLK:0056",
+   "Library_MLK:0058",
+   "Library_MLK:0059",
+   "Library_MLK:0060",
+   "Library_MLK:0061",
+   "Library_MLK:0079",
+   "Library_MLK:0085",
+   "Library_MLK:0086",
+   "Library_MLK:0087",
+   "Library_MLK:0088",
+   "Library_MLK:0089",
+   "Library_MLK:0092",
+   "Library_MLK:0098",
+   "Library_MLK:0117",
+   "Library_MLK:0118",
+   "RLM:0004",
+   "RLM:0026",
+   "RLM:0027",
+   "RLM:0037",
+   "RLM:0038",
+   "RLM:0039",
+   "RLM:0040",
+   "RLM:0041",
+   "RLM:0042",
+   "RLM:0043",
+   "RLM:0058",
+   "RLM:0059",
+   "RLM:0060",
+   "Sanjac:0004",
+   "Sanjac:0051",
+   "Sanjac:0061",
+   "Sanjac:0062",
+   "Sanjac:0063",
+   "Sanjac:0064",
+   "Sanjac:0065",
+   "Sanjac:0068",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac:0072",
+   "Sanjac:0079",
+   "Sanjac:0081",
+   "Sanjac:0093",
+   "Sanjac:0094",
+   "Sanjac:0095",
+   "Sanjac:0107",
+   "Sanjac:0108"
+  ],
+  "n": 123,
+  "sources": {
+   "Brackenridge:0059": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0060": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "JCL:0039": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0061": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0058": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "JCL:0040": [
+    "EMBED",
+    "FUSED"
+   ],
+   "Brackenridge:0062": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0079": [
+    "EMBED"
+   ],
+   "JCL:0015": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "JCL:0038": [
+    "EMBED"
+   ],
+   "Library_MLK:0026": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0025": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0027": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0028": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0029": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0030": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Brackenridge:0004": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Brackenridge:0005": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0025": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0024": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0026": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0027": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0028": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0029": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0004": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0005": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0023": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0022": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0032": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0031": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0092": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0093": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0094": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0091": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0063": [
+    "FUSED"
+   ],
+   "Sanjac:0062": [
+    "FUSED"
+   ],
+   "Sanjac:0064": [
+    "FUSED"
+   ],
+   "Sanjac:0065": [
+    "FUSED"
+   ],
+   "Sanjac:0070": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0072": [
+    "FUSED"
+   ],
+   "Sanjac:0108": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0061": [
+    "FUSED"
+   ],
+   "RLM:0004": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0087": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0042": [
+    "FUSED_LINEAR"
+   ],
+   "RLM:0058": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0085": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0041": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0015": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0051": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0017": [
+    "FUSED_CONCAT"
+   ],
+   "JCL:0016": [
+    "FUSED_CONCAT"
+   ],
+   "JCL:0018": [
+    "FUSED_CONCAT"
+   ],
+   "JCL:0014": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0032": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0031": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0033": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0107": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0093": [
+    "EMBED"
+   ],
+   "Sanjac:0094": [
+    "EMBED"
+   ],
+   "Sanjac:0095": [
+    "EMBED"
+   ],
+   "JCL:0033": [
+    "EMBED",
+    "FUSED"
+   ],
+   "JCL:0064": [
+    "EMBED"
+   ],
+   "JCL:0065": [
+    "EMBED"
+   ],
+   "RLM:0059": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "JCL:0020": [
+    "FUSED_LINEAR",
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0079": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Library_MLK:0086": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0087": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0088": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0089": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0092": [
+    "FUSED_CONCAT"
+   ],
+   "JCL:0054": [
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0052": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0051": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0053": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0067": [
+    "EMBED",
+    "RANDOM"
+   ],
+   "Brackenridge:0054": [
+    "EMBED"
+   ],
+   "Library_MLK:0024": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0021": [
+    "FUSED_LINEAR",
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0022": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0023": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0008": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0007": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0006": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0113": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0114": [
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0009": [
+    "HYBRID_LUNA"
+   ],
+   "Library_MLK:0021": [
+    "HYBRID_LUNA"
+   ],
+   "Library_MLK:0020": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac:0068": [
+    "FUSED"
+   ],
+   "JCL:0019": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0056": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0107": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0034": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "RLM:0039": [
+    "EMBED"
+   ],
+   "RLM:0038": [
+    "EMBED"
+   ],
+   "RLM:0040": [
+    "EMBED"
+   ],
+   "RLM:0041": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "RLM:0037": [
+    "EMBED"
+   ],
+   "RLM:0042": [
+    "EMBED"
+   ],
+   "RLM:0043": [
+    "EMBED"
+   ],
+   "Library_MLK:0117": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0118": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "RLM:0027": [
+    "FUSED_LINEAR"
+   ],
+   "RLM:0060": [
+    "FUSED_LINEAR"
+   ],
+   "RLM:0026": [
+    "FUSED_LINEAR"
+   ],
+   "Library_MLK:0059": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0060": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0058": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0085": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0061": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0098": [
+    "RANDOM"
+   ],
+   "Sanjac:0081": [
+    "RANDOM"
+   ],
+   "Library_MLK:0015": [
+    "RANDOM"
+   ],
+   "Butler:0097": [
+    "RANDOM"
+   ],
+   "Brackenridge:0072": [
+    "RANDOM"
+   ],
+   "Butler:0115": [
+    "RANDOM"
+   ],
+   "Library_MLK:0056": [
+    "RANDOM"
+   ],
+   "Butler:0068": [
+    "RANDOM"
+   ],
+   "Butler:0014": [
+    "RANDOM"
+   ]
+  }
+ },
+ "chained_turn_person": {
+  "intent": "Earliest event across recordings: a person becomes visible only after a turn; the robot then slows >=30%; lidar clearance reaches a local minimum within 2 s of the speed minimum; the robot returns to 90% of pre-event speed before the person disappears from every camera view.",
+  "scope": [
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "JCL",
+   "Library_MLK",
+   "RLM",
+   "Sanjac"
+  ],
+  "windows": [
+   "Brackenridge:0004",
+   "Brackenridge:0013",
+   "Brackenridge:0014",
+   "Brackenridge:0015",
+   "Brackenridge:0016",
+   "Brackenridge:0017",
+   "Brackenridge:0033",
+   "Brackenridge:0034",
+   "Brackenridge:0035",
+   "Brackenridge:0036",
+   "Brackenridge:0037",
+   "Brackenridge:0038",
+   "Brackenridge:0039",
+   "Brackenridge:0049",
+   "Brackenridge:0050",
+   "Brackenridge:0051",
+   "Brackenridge:0052",
+   "Brackenridge:0053",
+   "Brackenridge:0054",
+   "Brackenridge:0056",
+   "Brackenridge:0057",
+   "Brackenridge:0059",
+   "Brackenridge:0060",
+   "Brackenridge:0061",
+   "Brackenridge:0062",
+   "Brackenridge:0063",
+   "Brackenridge:0064",
+   "Brackenridge:0074",
+   "Brackenridge:0078",
+   "Brackenridge:0080",
+   "Brackenridge:0081",
+   "Brackenridge:0082",
+   "Brackenridge:0083",
+   "Brackenridge:0084",
+   "Brackenridge:0085",
+   "Brackenridge:0086",
+   "Brackenridge:0087",
+   "Brackenridge:0088",
+   "Brackenridge:0095",
+   "Brackenridge:0096",
+   "Brackenridge:0097",
+   "Brackenridge:0098",
+   "Brackenridge:0099",
+   "Brackenridge:0100",
+   "Butler:0005",
+   "Butler:0006",
+   "Butler:0020",
+   "Butler:0056",
+   "Butler:0064",
+   "Butler:0068",
+   "Butler:0075",
+   "Butler:0105",
+   "Butler:0106",
+   "Butler:0107",
+   "Butler:0113",
+   "Butler:0114",
+   "Butler:0115",
+   "Butler:0116",
+   "GDC:0036",
+   "GDC:0037",
+   "GDC:0055",
+   "GDC:0056",
+   "GDC:0057",
+   "GDC:0059",
+   "GDC:0080",
+   "GDC:0081",
+   "GDC:0082",
+   "GDC:0083",
+   "JCL:0004",
+   "JCL:0008",
+   "JCL:0010",
+   "JCL:0011",
+   "JCL:0012",
+   "JCL:0013",
+   "JCL:0014",
+   "JCL:0015",
+   "JCL:0016",
+   "JCL:0017",
+   "JCL:0018",
+   "JCL:0028",
+   "JCL:0029",
+   "JCL:0030",
+   "JCL:0031",
+   "JCL:0032",
+   "JCL:0033",
+   "JCL:0037",
+   "JCL:0038",
+   "JCL:0039",
+   "JCL:0040",
+   "JCL:0041",
+   "JCL:0042",
+   "JCL:0044",
+   "JCL:0046",
+   "JCL:0047",
+   "JCL:0048",
+   "JCL:0049",
+   "JCL:0050",
+   "JCL:0051",
+   "JCL:0052",
+   "JCL:0053",
+   "JCL:0054",
+   "JCL:0055",
+   "JCL:0056",
+   "JCL:0057",
+   "JCL:0064",
+   "JCL:0068",
+   "JCL:0084",
+   "JCL:0088",
+   "JCL:0089",
+   "JCL:0090",
+   "JCL:0091",
+   "JCL:0092",
+   "JCL:0093",
+   "Library_MLK:0030",
+   "Library_MLK:0031",
+   "Library_MLK:0032",
+   "Library_MLK:0033",
+   "Library_MLK:0034",
+   "Library_MLK:0035",
+   "Library_MLK:0036",
+   "Library_MLK:0076",
+   "Library_MLK:0078",
+   "Library_MLK:0079",
+   "Library_MLK:0086",
+   "RLM:0004",
+   "RLM:0005",
+   "RLM:0006",
+   "RLM:0007",
+   "RLM:0008",
+   "RLM:0009",
+   "RLM:0016",
+   "RLM:0039",
+   "RLM:0056",
+   "RLM:0058",
+   "RLM:0059",
+   "Sanjac:0004",
+   "Sanjac:0006",
+   "Sanjac:0007",
+   "Sanjac:0008",
+   "Sanjac:0009",
+   "Sanjac:0010",
+   "Sanjac:0011",
+   "Sanjac:0012",
+   "Sanjac:0014",
+   "Sanjac:0015",
+   "Sanjac:0016",
+   "Sanjac:0047",
+   "Sanjac:0051",
+   "Sanjac:0052",
+   "Sanjac:0055",
+   "Sanjac:0056",
+   "Sanjac:0057",
+   "Sanjac:0058",
+   "Sanjac:0059",
+   "Sanjac:0060",
+   "Sanjac:0061",
+   "Sanjac:0062",
+   "Sanjac:0063",
+   "Sanjac:0064",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac:0072",
+   "Sanjac:0076",
+   "Sanjac:0077",
+   "Sanjac:0078",
+   "Sanjac:0079",
+   "Sanjac:0080",
+   "Sanjac:0081",
+   "Sanjac:0082",
+   "Sanjac:0083",
+   "Sanjac:0084",
+   "Sanjac:0085",
+   "Sanjac:0086",
+   "Sanjac:0087",
+   "Sanjac:0088",
+   "Sanjac:0089",
+   "Sanjac:0090",
+   "Sanjac:0093",
+   "Sanjac:0094",
+   "Sanjac:0095",
+   "Sanjac:0096",
+   "Sanjac:0097",
+   "Sanjac:0098",
+   "Sanjac:0101",
+   "Sanjac:0102",
+   "Sanjac:0103",
+   "Sanjac:0104",
+   "Sanjac:0105",
+   "Sanjac:0106",
+   "Sanjac:0107",
+   "Sanjac:0108"
+  ],
+  "n": 191,
+  "sources": {
+   "JCL:0039": [
+    "EMBED",
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "JCL:0038": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "JCL:0040": [
+    "EMBED",
+    "FUSED"
+   ],
+   "JCL:0053": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0051": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0061": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "JCL:0052": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0062": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "JCL:0050": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0054": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0031": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0030": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0032": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "L1_ATTRIBUTES",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0033": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0034": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0035": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0084": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0083": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0085": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0086": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0087": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0088": [
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0007": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0006": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0008": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0009": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0010": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0011": [
+    "PROGRAM_ORACLE"
+   ],
+   "Brackenridge:0096": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Brackenridge:0095": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0056": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0055": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0057": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0058": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0059": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0060": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0029": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0028": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0030": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0031": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0032": [
+    "EMBED",
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0033": [
+    "EMBED",
+    "PROGRAM_LUNA"
+   ],
+   "RLM:0005": [
+    "PROGRAM_LUNA"
+   ],
+   "RLM:0004": [
+    "FUSED_LINEAR",
+    "PROGRAM_LUNA"
+   ],
+   "RLM:0006": [
+    "PROGRAM_LUNA"
+   ],
+   "RLM:0007": [
+    "PROGRAM_LUNA"
+   ],
+   "RLM:0008": [
+    "PROGRAM_LUNA"
+   ],
+   "RLM:0009": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0047": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0046": [
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0048": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0049": [
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0055": [
+    "FUSED_CONCAT",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0037": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0070": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0072": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "JCL:0041": [
+    "EMBED",
+    "FUSED"
+   ],
+   "Sanjac:0062": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0015": [
+    "FUSED_LINEAR"
+   ],
+   "RLM:0059": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0014": [
+    "EMBED",
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0085": [
+    "FUSED_LINEAR",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0087": [
+    "FUSED_LINEAR",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0016": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0084": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Butler:0107": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0106": [
+    "FUSED_CONCAT"
+   ],
+   "JCL:0056": [
+    "FUSED_CONCAT",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0105": [
+    "FUSED_CONCAT"
+   ],
+   "JCL:0017": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0086": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0079": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0075": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0063": [
+    "EMBED"
+   ],
+   "Brackenridge:0060": [
+    "EMBED"
+   ],
+   "Brackenridge:0064": [
+    "EMBED"
+   ],
+   "Brackenridge:0059": [
+    "EMBED"
+   ],
+   "Sanjac:0104": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0103": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0105": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0106": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0107": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0108": [
+    "FUSED_V_LUNA",
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0102": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0101": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0097": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0098": [
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0099": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0100": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0089": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0088": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0090": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0091": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0092": [
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0093": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0077": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0013": [
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0057": [
+    "FUSED_CONCAT",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0012": [
+    "HYBRID_ORACLE",
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0010": [
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0078": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0011": [
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0114": [
+    "HYBRID_LUNA"
+   ],
+   "Butler:0113": [
+    "HYBRID_LUNA"
+   ],
+   "Butler:0115": [
+    "HYBRID_LUNA"
+   ],
+   "Butler:0116": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac:0063": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0064": [
+    "FUSED",
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0078": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0042": [
+    "FUSED_LINEAR"
+   ],
+   "RLM:0058": [
+    "FUSED_LINEAR"
+   ],
+   "Brackenridge:0083": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "JCL:0016": [
+    "FUSED_CONCAT"
+   ],
+   "JCL:0015": [
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0098": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0035": [
+    "EMBED"
+   ],
+   "Brackenridge:0036": [
+    "EMBED"
+   ],
+   "Brackenridge:0034": [
+    "EMBED"
+   ],
+   "Brackenridge:0037": [
+    "EMBED"
+   ],
+   "Brackenridge:0038": [
+    "EMBED"
+   ],
+   "Brackenridge:0033": [
+    "EMBED"
+   ],
+   "Brackenridge:0053": [
+    "EMBED"
+   ],
+   "Brackenridge:0054": [
+    "EMBED"
+   ],
+   "Brackenridge:0039": [
+    "EMBED"
+   ],
+   "Brackenridge:0052": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0079": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0076": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0080": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0016": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0015": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0014": [
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0081": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0082": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0074": [
+    "FUSED"
+   ],
+   "Sanjac:0061": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0088": [
+    "FUSED_LINEAR"
+   ],
+   "GDC:0082": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0083": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0037": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0081": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0036": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0056": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0080": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0057": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0055": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0059": [
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0051": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0050": [
+    "EMBED"
+   ],
+   "Brackenridge:0049": [
+    "EMBED"
+   ],
+   "Brackenridge:0013": [
+    "EMBED"
+   ],
+   "Sanjac:0094": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0093": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0095": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0096": [
+    "FUSED_V_LUNA",
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0097": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0080": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0086": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0082": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac:0081": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac:0051": [
+    "FUSED"
+   ],
+   "Sanjac:0052": [
+    "FUSED"
+   ],
+   "Brackenridge:0017": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0014": [
+    "FUSED_CONCAT"
+   ],
+   "JCL:0018": [
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0056": [
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0089": [
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0078": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0090": [
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0020": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0064": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0068": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0004": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0008": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0064": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0084": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0036": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0076": [
+    "L1_ATTRIBUTES"
+   ],
+   "RLM:0016": [
+    "L1_ATTRIBUTES"
+   ],
+   "RLM:0056": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0044": [
+    "RANDOM"
+   ],
+   "Sanjac:0047": [
+    "RANDOM"
+   ],
+   "Brackenridge:0057": [
+    "RANDOM"
+   ],
+   "Butler:0006": [
+    "RANDOM"
+   ],
+   "Brackenridge:0004": [
+    "RANDOM"
+   ],
+   "Sanjac:0012": [
+    "RANDOM"
+   ],
+   "Butler:0056": [
+    "RANDOM"
+   ],
+   "RLM:0039": [
+    "RANDOM"
+   ],
+   "Butler:0005": [
+    "RANDOM"
+   ],
+   "JCL:0068": [
+    "RANDOM"
+   ]
+  }
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "n": 80,
+ "exact": 0.8375,
+ "within_one": 0.975,
+ "binary_pos": 0.9,
+ "kappa_graded": 0.6450511945392492,
+ "kappa_binary": 0.6721311475409837,
+ "per_intent": {
+  "crowd_hesitation": {
+   "n": 8,
+   "exact": 1.0
+  },
+  "doorway_crossing": {
+   "n": 8,
+   "exact": 0.88
+  },
+  "vehicle_interaction_gdc": {
+   "n": 8,
+   "exact": 0.62
+  },
+  "test_body_cam_person": {
+   "n": 8,
+   "exact": 0.88
+  },
+  "test_car_close_fast": {
+   "n": 8,
+   "exact": 1.0
+  },
+  "test_speedup_after_person": {
+   "n": 8,
+   "exact": 0.88
+  },
+  "test_tight_right": {
+   "n": 8,
+   "exact": 0.88
+  },
+  "test_turn_then_brake": {
+   "n": 8,
+   "exact": 0.75
+  },
+  "last_safe_evidence": {
+   "n": 8,
+   "exact": 0.75
+  },
+  "chained_turn_person": {
+   "n": 8,
+   "exact": 0.75
+  }
+ },
+ "confusion": {
+  "0->0": 53,
+  "1->0": 5,
+  "1->1": 3,
+  "1->2": 3,
+  "2->0": 2,
+  "2->1": 3,
+  "2->2": 11
+ }
+}
