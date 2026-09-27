@@ -19,9 +19,9 @@ import torch
 from PIL import Image
 
 from alloy_server.io.ros1 import compressed_image
-from alloy_train import embodiment as emb
-from alloy_train.providers.common import write
-from alloy_train.recordings import robot
+from alloy_index import embodiment as emb
+from alloy_index.providers.common import write
+from alloy_index.recordings import robot
 
 VERSION = "detections@1"
 MODEL = "PekingU/rtdetr_v2_r18vd"

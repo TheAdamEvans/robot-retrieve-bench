@@ -7,9 +7,11 @@ from pathlib import Path
 
 from alloy_server.bundle import Bundle
 from alloy_train.eval import pooling
-from alloy_train.recordings import SCAND_ROOT
+from alloy_index.recordings import SCAND_ROOT
 
-BRIEF = Path(__file__).parent / "prompts" / "l2_judgments.md"
+import alloy_index.annotate
+
+BRIEF = Path(alloy_index.annotate.__file__).parent / "prompts" / "l2_judgments.md"
 
 
 def main() -> None:

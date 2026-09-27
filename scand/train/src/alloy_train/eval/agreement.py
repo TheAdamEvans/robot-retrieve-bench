@@ -10,7 +10,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 from alloy_train.eval.report import load_judgments
-from alloy_train.recordings import SCAND_ROOT
+from alloy_index.recordings import SCAND_ROOT
 
 
 def kappa(pairs: list[tuple[int, int]]) -> float | None:

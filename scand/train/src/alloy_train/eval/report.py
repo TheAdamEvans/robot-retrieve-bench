@@ -9,9 +9,9 @@ from collections import defaultdict
 from pathlib import Path
 
 from alloy_train.eval import metrics as M
-from alloy_train.annotate.store import load_labels
+from alloy_index.annotate.store import load_labels
 from alloy_train.eval.run import CONFIGS, EVAL_SETS, generation_costs
-from alloy_train.recordings import SCAND_ROOT
+from alloy_index.recordings import SCAND_ROOT
 
 ACCEPTABLE = {  # status outcomes that answer the intent honestly (the puzzle allows either for P12)
     "vehicle_interaction_gdc": {"ANSWERED", "ANSWERED_PARTIAL", "INSUFFICIENT_EVIDENCE"},

@@ -18,8 +18,8 @@ from google.protobuf import json_format
 from alloy_server.catalog.windows import WINDOW_S, parse_window_id, window_span_s
 from alloy_server.gen.alloy.v1 import common_pb2, eval_pb2
 from alloy_server.timeline.store import parse_mid
-from alloy_train.scandq import cli
-from alloy_train.annotate.store import key_of, load_labels
+from alloy_index.scandq import cli
+from alloy_index.annotate.store import key_of, load_labels
 
 JUDGE = os.environ.get("SCANDQ_JUDGE", "claude-opus-5-5")
 TRUTH_FIELDS = ["stationary_group", "doorway_traversal", "vehicle_present", "vehicle_interaction", "bicycle",

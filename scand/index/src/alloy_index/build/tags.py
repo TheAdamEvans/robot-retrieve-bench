@@ -5,7 +5,7 @@ import csv
 import json
 from pathlib import Path
 
-from alloy_train.recordings import RECORDINGS, SCAND_ROOT
+from alloy_index.recordings import RECORDINGS, SCAND_ROOT
 
 
 def build(bundle: Path) -> dict:

@@ -20,8 +20,8 @@ from PIL import Image
 from alloy_server.io.ros1 import compressed_image
 from alloy_server.models.siglip import SPACE_ID, SPEC, SiglipEncoder
 from alloy_server.timeline.store import Recording
-from alloy_train import embodiment as emb
-from alloy_train.recordings import RECORDINGS, robot
+from alloy_index import embodiment as emb
+from alloy_index.recordings import RECORDINGS, robot
 
 FRONT_HZ = 10.0
 BATCH = 16

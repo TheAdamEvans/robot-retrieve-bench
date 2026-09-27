@@ -19,9 +19,9 @@ from rosbags.highlevel import AnyReader
 from alloy_server.catalog import embodiment as E
 from alloy_server.gen.alloy.v1 import embodiment_pb2 as e
 from alloy_server.timeline.store import NO_HEADER, Recording
-from alloy_train.convert.bag_to_mcap import convert, file_sha256
-from alloy_train.decode import Decoder, odom_arrays
-from alloy_train.recordings import RECORDINGS, bag_path
+from alloy_index.convert.bag_to_mcap import convert, file_sha256
+from alloy_index.decode import Decoder, odom_arrays
+from alloy_index.recordings import RECORDINGS, bag_path
 
 VERSION = "intake@1"
 LATENCY_NOTE_MS = 200.0
@@ -140,7 +140,7 @@ def intake(bundle: Path, rec_id: str, src: Path, skip_convert: bool = False) -> 
     with AnyReader([src]) as reader:
         topics = {c.topic for c in reader.connections}
     prof = E.profile(recognise(topics))
-    from alloy_train.recordings import robot
+    from alloy_index.recordings import robot
     assert robot(rec_id) == prof.embodiment_id, f"{rec_id}: file name says {robot(rec_id)}, topics say {prof.embodiment_id}"
     if not skip_convert:
         convert(rec_id, bundle)

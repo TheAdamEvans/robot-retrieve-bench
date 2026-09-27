@@ -24,7 +24,7 @@ from alloy_server.gen.alloy.v1 import pipeline_pb2 as pp
 from alloy_server.pipeline.runner import run as pipeline_run
 from alloy_server.programs.openai_generator import OpenAIProgramGenerator
 from alloy_train.eval import querysets
-from alloy_train.recordings import SCAND_ROOT
+from alloy_index.recordings import SCAND_ROOT
 
 CONFIGS = {
     "TAGS": ("TAGS", None),

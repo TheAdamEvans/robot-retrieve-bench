@@ -22,7 +22,7 @@ from rosbags.highlevel import AnyReader
 from alloy_server.io.mcap_chunks import (
     MAGIC, OP_CHANNEL, OP_CHUNK, OP_DATA_END, OP_MESSAGE, decompress_chunk, iter_records, parse_channel, parse_message,
 )
-from alloy_train.recordings import RECORDINGS, bag_path
+from alloy_index.recordings import RECORDINGS, bag_path
 
 CHUNK_SIZE = 1 << 20
 

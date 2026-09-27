@@ -10,10 +10,10 @@ from pathlib import Path
 
 import numpy as np
 
-from alloy_train import embodiment as emb
-from alloy_train.decode import Decoder
-from alloy_train.providers.common import write
-from alloy_train.recordings import robot
+from alloy_index import embodiment as emb
+from alloy_index.decode import Decoder
+from alloy_index.providers.common import write
+from alloy_index.recordings import robot
 
 VERSION = "clearance@3"
 GAP_DOORWAY_M = 1.6

@@ -12,8 +12,8 @@ import pyarrow.parquet as pq
 from alloy_server.catalog.windows import window_span_s, windows
 from alloy_server.models.siglip import SPACE_ID, SPEC
 from alloy_server.timeline.store import Recording
-from alloy_train import embodiment as emb
-from alloy_train.recordings import RECORDINGS, robot
+from alloy_index import embodiment as emb
+from alloy_index.recordings import RECORDINGS, robot
 
 
 def build(bundle: Path) -> dict:

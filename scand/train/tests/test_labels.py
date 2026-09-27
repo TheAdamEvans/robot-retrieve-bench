@@ -3,7 +3,7 @@ import os
 
 import pytest
 
-from alloy_train.annotate.store import load_labels
+from alloy_index.annotate.store import load_labels
 from alloy_train.eval.report import load_judgments
 
 

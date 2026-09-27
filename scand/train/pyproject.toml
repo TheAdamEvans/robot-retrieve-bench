@@ -1,24 +1,16 @@
 [project]
 name = "alloy-train"
 version = "0.1.0"
-description = "Offline side: conversion, providers, indexing, labeller tools, eval, learning."
+description = "Learning and evaluation: benchmark runner, pooling, metrics, reports, Stage C training."
 requires-python = ">=3.13,<3.14"
 dependencies = [
     "alloy-server",
-    "rosbags==0.11.5",
-    "mcap>=1.2",
-    "av==18.1.0",
-    "grpcio-tools>=1.68",
-    "matplotlib>=3.9",
-    "scipy>=1.14",
-    "torchvision>=0.29.0",
+    "alloy-index",
 ]
-
-[project.scripts]
-scandq = "alloy_train.scandq.cli:main"
 
 [tool.uv.sources]
 alloy-server = { workspace = true }
+alloy-index = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

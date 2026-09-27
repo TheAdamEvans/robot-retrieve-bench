@@ -31,10 +31,10 @@ from alloy_server.catalog import embodiment as E
 from alloy_server.catalog.windows import WINDOW_S, segments, window_span_s, windows
 from alloy_server.io.ros1 import compressed_image
 from alloy_server.timeline.store import NO_HEADER, Recording, mid_str, parse_mid
-from alloy_train import embodiment as emb
-from alloy_train.decode import Decoder, odom_arrays
-from alloy_train.providers.common import smooth_speed
-from alloy_train.recordings import RECORDINGS, SCAND_ROOT, robot
+from alloy_index import embodiment as emb
+from alloy_index.decode import Decoder, odom_arrays
+from alloy_index.providers.common import smooth_speed
+from alloy_index.recordings import RECORDINGS, SCAND_ROOT, robot
 
 BUNDLE = Path(os.environ.get("SCANDQ_BUNDLE", SCAND_ROOT / "bundles" / "dev"))
 ANN = Path(os.environ.get("SCANDQ_ANNOTATIONS", SCAND_ROOT / "annotations"))
@@ -180,7 +180,7 @@ def save(img: Image.Image, name: str) -> str:
 
 def front_corridor_overlay(img: Image.Image, rb: str) -> Image.Image:
     """Draw the NOMINAL corridor (0-5 m ahead, ±half-width) on a front frame (ESTIMATED: no intrinsics recorded)."""
-    from alloy_train.providers.detections import camera_bands
+    from alloy_index.providers.detections import camera_bands
     b, cor = camera_bands(rb), emb.corridor(rb)
     c = {"half_width_m": cor.half_width_m, "length_m": cor.length_m}
     w, h = img.size
@@ -619,7 +619,7 @@ def cmd_message(a) -> None:
 
 
 def main(argv: list[str] | None = None) -> None:
-    from alloy_train.scandq import labels
+    from alloy_index.scandq import labels
 
     ap = argparse.ArgumentParser(prog="scandq", description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
     sp = ap.add_subparsers(dest="cmd", required=True)

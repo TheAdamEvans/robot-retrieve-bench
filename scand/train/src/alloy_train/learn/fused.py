@@ -35,7 +35,7 @@ from alloy_server.catalog.windows import window_span_s
 from alloy_server.gen.alloy.v1 import query_pb2 as q
 from alloy_server.models.siglip import SPACE_ID, SPEC, SiglipEncoder
 from alloy_train.eval.pooling import l1_labels
-from alloy_train.recordings import SCAND_ROOT
+from alloy_index.recordings import SCAND_ROOT
 
 NS = 1_000_000_000
 SIGNALS = [  # (feature, reducer) over the window

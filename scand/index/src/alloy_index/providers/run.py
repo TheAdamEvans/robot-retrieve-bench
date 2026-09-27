@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 
 from alloy_server.timeline.store import Recording
-from alloy_train.recordings import RECORDINGS
+from alloy_index.recordings import RECORDINGS
 
 
 def main() -> None:
@@ -17,7 +17,7 @@ def main() -> None:
     ap.add_argument("--providers", default="motion,clearance")
     ap.add_argument("recs", nargs="*", default=list(RECORDINGS))
     a = ap.parse_args()
-    mods = [importlib.import_module(f"alloy_train.providers.{p}") for p in a.providers.split(",")]
+    mods = [importlib.import_module(f"alloy_index.providers.{p}") for p in a.providers.split(",")]
     for rec_id in a.recs:
         rec = Recording(a.bundle, rec_id)
         for m in mods:

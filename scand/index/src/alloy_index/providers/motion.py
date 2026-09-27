@@ -9,11 +9,11 @@ from pathlib import Path
 
 import numpy as np
 
-from alloy_train import embodiment as emb
-from alloy_train.decode import Decoder, odom_arrays
+from alloy_index import embodiment as emb
+from alloy_index.decode import Decoder, odom_arrays
 from alloy_server.catalog import embodiment as E
-from alloy_train.providers.common import smooth_speed, trailing, write
-from alloy_train.recordings import robot
+from alloy_index.providers.common import smooth_speed, trailing, write
+from alloy_index.recordings import robot
 
 VERSION = "motion@2"
 

@@ -15,7 +15,7 @@ from pathlib import Path
 
 from alloy_server.catalog.windows import parse_window_id, window_span_s, windows
 from alloy_train.eval import querysets
-from alloy_train.annotate.store import load_labels
+from alloy_index.annotate.store import load_labels
 
 POOL_DEPTH = 20
 RANDOM_PER_INTENT = 10
