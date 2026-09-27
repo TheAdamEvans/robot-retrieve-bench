@@ -1,0 +1,48 @@
+{
+  "version": 2,
+  "status": "candidate_queries_not_scored",
+  "counts": {
+    "l1_compositions_dev": 6,
+    "l1_compositions_test": 2
+  },
+  "headlessReportsReviewed": 17,
+  "headlessLabelSegments": 397,
+  "headlessRecordings": 9,
+  "heldOutRecordings": [
+    "Bass_Garage_134",
+    "Rec_Tent_129"
+  ],
+  "newJudgments": 0,
+  "newModelApiCalls": 0,
+  "files": {
+    "README.md": "8ad19a87b70a3c41382f7f9420d01ee3ccf505e09e01b62c77b11053be1b339b",
+    "attention_dev.json": "4d17f083ef703d65bcea6d6f4bea66809fab83b6f601d5e11a32ff555782e478",
+    "attention_test.json": "10543d349dd89db01bda17f59ccff55452638bf9eb54e5eee8966bdbc8855141",
+    "catalog_dev.md": "8a03db2a2daa42883ae0f8eb0cec40953c62bcd3b44a048b10c2e7ea3821f149",
+    "catalog_test.md": "0bf38f545cfa8f4abd4122bacdbf9c5e0987c28e66e58790fac878e65360fecb",
+    "queries_dev.jsonl": "3dcad9f10cc26d5e26cfb8c2e761689d323a310521176870733e4a8faf594c0f",
+    "queries_test.jsonl": "a6b4a113a1c00398c4d75c9711d5bf15fd8822660b45e4ef36dc56885bba3fdf",
+    "regression_notes.md": "6c3e8db4687ec348f302d0849fc287fe5e14a78753667eb4f41114971cbe39cd",
+    "requests_dev.jsonl": "452119ee772cf75a08e41b513bbab3d3fb6adb9176b39d954c5d75296cd01db4",
+    "requests_test.jsonl": "2a521c803da9754889f95a3132df200a7f6096fe1272faf6a5134c650b2081cb",
+    "sources_dev.jsonl": "4624f82fc558d6e7e991c7a6a1790b11b58a501c5f3ad2fe195382dc877e50bb",
+    "sources_test.jsonl": "296cd020bbe4be75c03c0310dc91a7c53c7a374104a587a9063fd8fe7bb28896",
+    "validate.py": "4eed5eaa4e4f6201c3dcdd2a43e83e4ce2c3023c3c2fedf6f3b76e1625e3b9da"
+  },
+  "protectedFiles": {
+    "benchmark/queries/MANIFEST.json": "2ae69c47075356d10c3d741b980ae33dfd6652ffb3a7f20b815d448cafb0f636",
+    "benchmark/queries/compose_dev.json": "474cdaa1e3ab0c9fcae3ea5dbe528ad26217b7c3abbddb0215613a6a9e045fc1",
+    "benchmark/queries/compose_test.json": "1134124ec191e9f808b4887ff24c26ed61e412305d8ccef985c7e97060417dad",
+    "benchmark/queries/demo5.json": "fd4799be2588cd6d5c498928352b6e7cccbf96dda69270bfc64f0b0a04da8ad5",
+    "benchmark/queries/demo5_para.json": "b4a8bb780aa9c21a837773123fbfafb66d5cf8ca07d1a2da05f2eb4c7240e395",
+    "server/src/alloy_server/programs/evals/generator/cases_dev.jsonl": "4163779eb3c36931055e4e69d0254618497bcd9a4c6dd15f6e89591fb446d054",
+    "server/src/alloy_server/programs/evals/generator/cases_test.jsonl": "d9e6c67e2ac8a6ebfc63c5a5018e1045006f37b2e5414e18a7dadbe831636eb7"
+  },
+  "initialJudgingPlan": {
+    "maxEpisodesPerIntent": 3,
+    "maxEpisodeIntentJudgments": 24,
+    "devMaximum": 18,
+    "testMaximum": 6,
+    "status": "planned_not_run"
+  }
+}

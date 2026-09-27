@@ -122,7 +122,7 @@ The dev failures that recur at both settings are the ones v2 targets. Test failu
 v3 is the default. It costs about 1.5k more tokens per generation (more repair turns: 1.24 attempts on test,
 against 1.05). A failed generation was replayed as 0 tokens until 27 Sep; the table's token means are lower bounds.
 
-**Confirmed on the benchmark (eval v9 corpus, same judgments; `results/eval/v9-prompt-v1` against `benchmark/results/v9`).**
+**Confirmed on the benchmark (eval v9 corpus, same judgments; `benchmark/results/v9-prompt-v1` against `benchmark/results/v9`).**
 
 | Set | v1 → v3 (PROGRAM / HYBRID / FUSED_V with gpt-6-luna) |
 |---|---|

@@ -1,0 +1,170 @@
+{
+  "method": "Count window_id and point-time requests from the 17 headless jobs. Point t maps to ceil(t/4)*4, with 0 mapped to 0004. Broad signals and requests without these fields excluded. Repeats include tool friction; this is an attention heuristic, not difficulty ground truth.",
+  "segments": [
+    {
+      "segmentId": "Rec_Tent_129:0364",
+      "directRequests": 8,
+      "calls": {
+        "window": 1,
+        "frame": 3,
+        "step": 1,
+        "lidar": 2,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0028",
+      "directRequests": 5,
+      "calls": {
+        "window": 2,
+        "sync": 2,
+        "step": 1
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0032",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "sync": 2,
+        "step": 1
+      }
+    },
+    {
+      "segmentId": "Rec_Tent_129:0368",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "sync": 1,
+        "frame": 1,
+        "step": 1
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0036",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "sync": 2
+      }
+    },
+    {
+      "segmentId": "Rec_Tent_129:0300",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "lidar": 1
+      }
+    },
+    {
+      "segmentId": "Rec_Tent_129:0308",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 2
+      }
+    },
+    {
+      "segmentId": "Rec_Tent_129:0360",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 2
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0040",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0044",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0048",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0076",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0080",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0084",
+      "directRequests": 2,
+      "calls": {
+        "window": 2
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0088",
+      "directRequests": 2,
+      "calls": {
+        "window": 2
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0096",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0100",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Rec_Tent_129:0296",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Rec_Tent_129:0304",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Bass_Garage_134:0092",
+      "directRequests": 1,
+      "calls": {
+        "window": 1
+      }
+    }
+  ]
+}

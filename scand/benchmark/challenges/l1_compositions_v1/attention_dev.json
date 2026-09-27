@@ -1,0 +1,520 @@
+{
+  "method": "Count window_id and point-time requests from the 17 headless jobs. Point t maps to ceil(t/4)*4, with 0 mapped to 0004. Broad signals and requests without these fields excluded. Repeats include tool friction; this is an attention heuristic, not difficulty ground truth.",
+  "segments": [
+    {
+      "segmentId": "Sanjac_Rec_91:0004",
+      "directRequests": 7,
+      "calls": {
+        "window": 1,
+        "frame": 2,
+        "lidar": 3,
+        "step": 1
+      }
+    },
+    {
+      "segmentId": "Sanjac_Rec_91:0032",
+      "directRequests": 7,
+      "calls": {
+        "window": 1,
+        "frame": 2,
+        "lidar": 4
+      }
+    },
+    {
+      "segmentId": "Thompson_Thompson_100:0256",
+      "directRequests": 7,
+      "calls": {
+        "window": 1,
+        "frame": 2,
+        "lidar": 4
+      }
+    },
+    {
+      "segmentId": "GDC_Library_42:0032",
+      "directRequests": 5,
+      "calls": {
+        "window": 1,
+        "step": 1,
+        "lidar": 1,
+        "frame": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Stadium_Sanjac_90:0068",
+      "directRequests": 5,
+      "calls": {
+        "window": 1,
+        "frame": 2,
+        "lidar": 2
+      }
+    },
+    {
+      "segmentId": "Thompson_Thompson_100:0260",
+      "directRequests": 5,
+      "calls": {
+        "window": 2,
+        "frame": 1,
+        "lidar": 2
+      }
+    },
+    {
+      "segmentId": "Library_Fountain_5:0012",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 2,
+        "lidar": 1
+      }
+    },
+    {
+      "segmentId": "Library_Fountain_5:0016",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 3
+      }
+    },
+    {
+      "segmentId": "Library_Jester_75:0064",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "step": 1,
+        "frame": 2
+      }
+    },
+    {
+      "segmentId": "Sanjac_Rec_91:0016",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "lidar": 2
+      }
+    },
+    {
+      "segmentId": "Sanjac_Rec_91:0020",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "lidar": 2
+      }
+    },
+    {
+      "segmentId": "Sanjac_Rec_91:0024",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "lidar": 2
+      }
+    },
+    {
+      "segmentId": "Sanjac_Rec_91:0028",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "lidar": 2
+      }
+    },
+    {
+      "segmentId": "Sanjac_Rec_91:0036",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "lidar": 2
+      }
+    },
+    {
+      "segmentId": "Stadium_Sanjac_90:0052",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "lidar": 1,
+        "frame": 2
+      }
+    },
+    {
+      "segmentId": "Stadium_Sanjac_90:0056",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 2,
+        "lidar": 1
+      }
+    },
+    {
+      "segmentId": "Stadium_Sanjac_90:0060",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 2,
+        "lidar": 1
+      }
+    },
+    {
+      "segmentId": "Stadium_Sanjac_90:0064",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 2,
+        "lidar": 1
+      }
+    },
+    {
+      "segmentId": "Stadium_Sanjac_90:0080",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 2,
+        "lidar": 1
+      }
+    },
+    {
+      "segmentId": "Thompson_Thompson_100:0248",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "lidar": 2
+      }
+    },
+    {
+      "segmentId": "Thompson_Thompson_100:0252",
+      "directRequests": 4,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "lidar": 2
+      }
+    },
+    {
+      "segmentId": "GDC_Library_42:0036",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Library_Fountain_5:0020",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 2
+      }
+    },
+    {
+      "segmentId": "Library_Fountain_5:0024",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 2
+      }
+    },
+    {
+      "segmentId": "Library_Fountain_5:0036",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "step": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Library_Jester_75:0016",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 2
+      }
+    },
+    {
+      "segmentId": "Library_Jester_75:0024",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "sync": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Library_Jester_75:0056",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "sync": 2
+      }
+    },
+    {
+      "segmentId": "Parlin_Parlin_51:0040",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "sync": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Sanjac_Rec_91:0008",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 2
+      }
+    },
+    {
+      "segmentId": "Stadium_Sanjac_90:0048",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 2
+      }
+    },
+    {
+      "segmentId": "Stadium_Sanjac_90:0072",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "lidar": 1
+      }
+    },
+    {
+      "segmentId": "Stadium_Sanjac_90:0076",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "lidar": 1
+      }
+    },
+    {
+      "segmentId": "Stadium_Sanjac_90:0084",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 2
+      }
+    },
+    {
+      "segmentId": "Stadium_Sanjac_90:0088",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 2
+      }
+    },
+    {
+      "segmentId": "Thompson_Thompson_100:0244",
+      "directRequests": 3,
+      "calls": {
+        "window": 1,
+        "frame": 1,
+        "lidar": 1
+      }
+    },
+    {
+      "segmentId": "GDC_Library_42:0028",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "GDC_Library_42:0292",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "GDC_Library_42:0296",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "GDC_Library_42:0300",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Library_Fountain_5:0004",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Library_Fountain_5:0008",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Library_Fountain_5:0028",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Library_Fountain_5:0032",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Library_Fountain_5:0040",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Library_Jester_75:0012",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "step": 1
+      }
+    },
+    {
+      "segmentId": "Library_Jester_75:0020",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Library_Jester_75:0052",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Library_Jester_75:0060",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Parlin_Parlin_51:0044",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Parlin_Parlin_51:0048",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "sync": 1
+      }
+    },
+    {
+      "segmentId": "Sanjac_Rec_91:0012",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Sanjac_Rec_91:0040",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Thompson_Thompson_100:0224",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Thompson_Thompson_100:0228",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Thompson_Thompson_100:0232",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Thompson_Thompson_100:0236",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "Thompson_Thompson_100:0240",
+      "directRequests": 2,
+      "calls": {
+        "window": 1,
+        "frame": 1
+      }
+    },
+    {
+      "segmentId": "GDC_Library_42:0288",
+      "directRequests": 1,
+      "calls": {
+        "window": 1
+      }
+    },
+    {
+      "segmentId": "GDC_Library_42:0304",
+      "directRequests": 1,
+      "calls": {
+        "window": 1
+      }
+    },
+    {
+      "segmentId": "GDC_Library_42:0308",
+      "directRequests": 1,
+      "calls": {
+        "window": 1
+      }
+    }
+  ]
+}
