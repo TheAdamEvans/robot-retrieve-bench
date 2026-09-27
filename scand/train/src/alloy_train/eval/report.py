@@ -169,6 +169,51 @@ COLS = [("roc_pen", "ROC-AUC (penalised)", False), ("coverage", "coverage", True
         ("status_ok", "status ok", True), ("tokens", "tokens/query", None), ("raw_ratio", "bytes / raw", None)]
 
 
+FAMILY = {"TAGS": 1, "EMBED": 1, "FUSED_CONCAT": 1, "PROGRAM_ORACLE": 2, "PROGRAM_LUNA": 2, "HYBRID_ORACLE": 2,
+          "HYBRID_LUNA": 2, "FUSED_V_LUNA": 2, "FUSED": 3, "FUSED_LINEAR": 3}
+FAMILY_NAME = {1: "baselines", 2: "program-based (LLM or oracle)", 3: "learned single-vector (Stage C)"}
+
+
+def frontier_svg(rows: list[dict], title: str) -> str:
+    """Quality (penalised macro ROC-AUC, CI) vs median latency (log). Colour = family; hollow = oracle ceiling."""
+    import math
+    pts = [(r["config"], r.get("wall_p50"), r.get("roc_pen") or {}) for r in rows]
+    pts = [(c, x, m) for c, x, m in pts if x and m.get("mean") is not None]
+    if not pts:
+        return ""
+    W, H, L, R, T, B = 760, 380, 64, 180, 24, 48
+    xmin, xmax = math.log10(max(1, min(x for _, x, _ in pts) / 1.5)), math.log10(max(x for _, x, _ in pts) * 1.5)
+    X = lambda v: L + (math.log10(max(v, 1)) - xmin) / (xmax - xmin) * (W - L - R)
+    Y = lambda v: T + (1 - (v - 0.3) / 0.7) * (H - T - B)
+    g = [f'<svg class=viz viewBox="0 0 {W} {H}" role="img" aria-label="{html.escape(title)}">']
+    for yv in (0.3, 0.5, 0.7, 0.9, 1.0):
+        g.append(f'<line x1={L} x2={W - R} y1={Y(yv):.1f} y2={Y(yv):.1f} class=grid /><text x={L - 8} y={Y(yv) + 4:.1f} class=tick text-anchor=end>{yv:.1f}</text>')
+    g.append(f'<text x={L - 8} y={Y(0.5) - 8:.1f} class=tick text-anchor=end>chance</text>')
+    for xv in (1, 10, 100, 1000, 10000, 100000):
+        if xmin <= math.log10(xv) <= xmax:
+            lab = f"{xv / 1000:g} s" if xv >= 1000 else f"{xv} ms"
+            g.append(f'<line x1={X(xv):.1f} x2={X(xv):.1f} y1={T} y2={H - B} class=grid /><text x={X(xv):.1f} y={H - B + 18} class=tick text-anchor=middle>{lab}</text>')
+    g.append(f'<text x={(L + W - R) / 2} y={H - 8} class=axis text-anchor=middle>median latency per query (log; includes program generation)</text>')
+    g.append(f'<text transform="translate(16,{(T + H - B) / 2}) rotate(-90)" class=axis text-anchor=middle>ROC-AUC, penalised (macro)</text>')
+    for c, x, m in sorted(pts, key=lambda p: p[1]):
+        fam = FAMILY.get(c, 1)
+        cx, cy = X(x), Y(m["mean"])
+        ci = m.get("ci")
+        tip = f"{c}: ROC-AUC {m['mean']:.2f}" + (f" [{ci[0]:.2f}–{ci[1]:.2f}]" if ci else "") + f", p50 {x:.0f} ms, {m.get('n_groups', 0)} intent groups"
+        if ci:
+            g.append(f'<line x1={cx:.1f} x2={cx:.1f} y1={Y(ci[0]):.1f} y2={Y(ci[1]):.1f} class="ci s{fam}" />')
+        hollow = c.endswith("ORACLE")
+        g.append(f'<circle cx={cx:.1f} cy={cy:.1f} r=6 class="pt s{fam}{" hollow" if hollow else ""}"><title>{html.escape(tip)}</title></circle>')
+        g.append(f'<text x={cx + 10:.1f} y={cy + 4:.1f} class=lbl>{c}</text>')
+    ly = T
+    for fam, name in FAMILY_NAME.items():
+        g.append(f'<circle cx={W - R + 24} cy={ly + 6} r=5 class="pt s{fam}" /><text x={W - R + 36} y={ly + 10} class=lbl>{name}</text>')
+        ly += 20
+    g.append(f'<circle cx={W - R + 24} cy={ly + 6} r=5 class="pt s2 hollow" /><text x={W - R + 36} y={ly + 10} class=lbl>oracle program (ceiling)</text>')
+    g.append("</svg>")
+    return "".join(g)
+
+
 def html_page(rep: dict) -> str:
     out = ["<!doctype html><meta charset=utf-8><title>SCAND search eval</title><style>",
            ":root{--bg:#fff;--fg:#1a1a1a;--mute:#666;--line:#e5e5e5}",
@@ -176,7 +221,15 @@ def html_page(rep: dict) -> str:
            "body{background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,sans-serif;margin:24px auto;max-width:1400px;padding:0 16px}",
            "table{border-collapse:collapse;margin:8px 0 24px;font-variant-numeric:tabular-nums;display:block;overflow-x:auto}",
            "th,td{border-bottom:1px solid var(--line);padding:5px 9px;text-align:right;white-space:nowrap}",
-           "th:first-child,td:first-child{text-align:left}.ci{color:var(--mute);font-size:11px}</style>",
+           "th:first-child,td:first-child{text-align:left}.ci{color:var(--mute);font-size:11px}",
+           ":root{--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--grid:#e8e7e3}",
+           "@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--s1:#3987e5;--s2:#d95926;--s3:#199e70;--grid:#2c2c2a}}",
+           ".viz{width:100%;max-width:900px;height:auto;margin:8px 0 20px}.viz .grid{stroke:var(--grid);stroke-width:1}",
+           ".viz .tick,.viz .lbl{fill:var(--mute);font-size:11px}.viz .axis{fill:var(--fg);font-size:12px}",
+           ".viz .pt{stroke:var(--bg);stroke-width:2}.viz .s1{fill:var(--s1);stroke:var(--s1)}.viz .s2{fill:var(--s2);stroke:var(--s2)}",
+           ".viz .s3{fill:var(--s3);stroke:var(--s3)}.viz .pt.s1,.viz .pt.s2,.viz .pt.s3{stroke:var(--bg)}",
+           ".viz .hollow{fill:var(--bg)!important;stroke-width:2.5}.viz .hollow.s2{stroke:var(--s2)}.viz line.ci{stroke-width:2;opacity:.55}",
+           "</style>",
            "<h1>SCAND search — evaluation</h1>",
            "<p>Judgments are single-judge, agent-provisional (Opus labeller with audited tools). Unjudged windows are never counted "
            "as non-relevant except in the labelled <i>unj=0</i> column. AUC is macro over queries; <b>penalised</b> scores an "
@@ -185,6 +238,7 @@ def html_page(rep: dict) -> str:
         if not rows:
             continue
         out.append(f"<h2>{html.escape(qset)} <span class=ci>({rows[0]['n_queries']} queries, {rows[0]['n_groups']} intent groups)</span></h2>")
+        out.append(frontier_svg(rows, f"{qset}: quality vs latency"))
         out.append("<table><tr><th>config</th>" + "".join(f"<th>{html.escape(c[1])}</th>" for c in COLS) + "<th>p50 ms</th><th>p95 ms</th><th>p50 ms (cached program)</th></tr>")
         for r in rows:
             cells = []

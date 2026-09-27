@@ -15,7 +15,7 @@ from alloy_train.decode import Decoder
 from alloy_train.providers.common import write
 from alloy_train.recordings import robot
 
-VERSION = "clearance@2"
+VERSION = "clearance@3"
 GAP_DOORWAY_M = 1.6
 DOOR_MIN_S, DOOR_MAX_S = 0.3, 5.0
 
@@ -44,6 +44,7 @@ def build(bundle: Path, rec) -> dict:
     topic = next(s for s in prof.sensors if s.name == prof.clearance_sensor).topics[0]
     tl = rec.topics[topic]
     half_len = prof.footprint.length_m / 2
+    half_w = prof.footprint.width_m / 2
     n = len(tl)
     front, anyr, left, right = (np.full(n, np.nan) for _ in range(4))
     for i in range(n):
@@ -55,13 +56,15 @@ def build(bundle: Path, rec) -> dict:
         sel = np.abs(a) < np.radians(30)
         if sel.any():
             front[i] = r[sel].min()
-        beside = (np.abs(xy[:, 0]) <= half_len + 0.3) & (np.abs(xy[:, 1]) < 5.0)
-        lp = xy[beside & (xy[:, 1] > 0), 1]
-        rp = -xy[beside & (xy[:, 1] < 0), 1]
+        # strictly alongside the body (a follower directly behind is not "on the right"), measured from the body
+        # side (the L2 labeller found both problems in clearance@2)
+        beside = (np.abs(xy[:, 0]) <= half_len) & (np.abs(xy[:, 1]) >= half_w) & (np.abs(xy[:, 1]) < 5.0)
+        lp = xy[beside & (xy[:, 1] > 0), 1] - half_w
+        rp = -xy[beside & (xy[:, 1] < 0), 1] - half_w
         left[i] = lp.min() if len(lp) else 5.0
         right[i] = rp.min() if len(rp) else 5.0
     t = tl.log_ns.copy()
-    gap = left + right
+    gap = left + right + 2 * half_w  # full width of the gap the body passes through
     door = flag_runs(t, gap < GAP_DOORWAY_M, DOOR_MIN_S, DOOR_MAX_S)
     cols = {"t_ns": t, "available_at_ns": t, "min_clearance_front_m": front, "min_clearance_any_m": anyr,
             "lateral_clearance_left_m": left, "lateral_clearance_right_m": right, "gap_width_m": gap,
