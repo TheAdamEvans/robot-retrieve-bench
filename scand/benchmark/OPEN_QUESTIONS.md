@@ -18,4 +18,4 @@ system is allowed to claim.
 ## Stale leading front-camera frames
 - **Observation.** In several recordings the first two front frames (t ≈ 1.4 s) come from a different scene, followed
   by a 0.4 s gap: a buffer flush.
-- **Plan.** Intake should detect this pattern and mask those ordinals.
+- **Status.** Intake now detects it: all 5 Spot logs show it on the front camera and neither Jackal log does. Masking those ordinals in the timeline is pending.

@@ -102,6 +102,19 @@ def measure(bundle: Path, rec_id: str, prof: e.EmbodimentProfile, src: Path) -> 
         if tp.HasField("future_stamped_frac") and tp.future_stamped_frac > 0.005:
             rep.anomalies.append(f"{topic}: {100 * tp.future_stamped_frac:.0f}% of headers stamped after receipt "
                                  f"(up to {tp.max_future_ms:.0f} ms)")
+    for sp in prof.sensors:  # buffer flush: a few frames, then a gap > 5 periods within the first 2 s
+        if sp.kind != e.CAMERA:
+            continue
+        for t in sp.topics:
+            tl = r.topics.get(t)
+            if tl is None or len(tl) < 10:
+                continue
+            gaps = np.diff(tl.log_ns[:20]) / 1e9
+            period = float(np.median(np.diff(tl.log_ns)) / 1e9)
+            big = np.where(gaps > 5 * period)[0]
+            if len(big) and big[0] < 5 and (tl.log_ns[big[0] + 1] - r.start_ns) / 1e9 < 2.0:
+                rep.anomalies.append(f"{t}: first {big[0] + 1} frame(s) precede a {gaps[big[0]]:.2f} s gap at the "
+                                     f"start (likely a stale buffer flush; ordinals 0..{big[0]})")
     for s in prof.sensors:
         for t in s.topics:
             if t not in r.topics:

@@ -33,6 +33,8 @@ CONFIGS = {
     "PROGRAM_LUNA": ("PROGRAM", "luna"),
     "HYBRID_ORACLE": ("HYBRID", "oracle"),
     "HYBRID_LUNA": ("HYBRID", "luna"),
+    "FUSED": ("FUSED", None),
+    "FUSED_V_LUNA": ("FUSED_V", "luna"),
 }
 EVAL_SETS = ["demo5", "demo5_para", "compose_test"]
 
