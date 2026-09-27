@@ -68,7 +68,7 @@ def schema(recordings: list[str], robots: list[str]) -> dict:
 # message-typed fields the model may leave null (proto3 `optional` on messages is expressed via this table)
 _NULLABLE_MESSAGES = {
     "EventSpec": ("threshold", "change", "within", "min_duration", "from_below", "sustain", "reference"),
-    "Relation": ("min_gap", "max_gap"),
+    "Relation": ("min_gap",),  # max_gap is required by AFTER/BEFORE/WITHIN: the schema enforces it outright
     "QueryProgram": ("receipt",),
 }
 

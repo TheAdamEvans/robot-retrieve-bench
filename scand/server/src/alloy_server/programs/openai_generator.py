@@ -64,9 +64,11 @@ CONTEXT: contextBefore/contextAfter (durations) around the primary anchor; cover
 
 RULES
 1. Encode every requirement of the question as an event or relation, with `doc` quoting the phrase it encodes.
-2. Never approximate a requirement with an unrelated feature. If it cannot be expressed with these features and event
-   kinds, add a short phrase to `unexpressible` instead. Features marked NOT INDEXED may still be used: the system
-   will report them as unknown rather than guess.
+2. Never approximate a requirement with an unrelated feature. If a requirement that decides WHICH MOMENTS QUALIFY
+   cannot be expressed with these features and event kinds, add a short phrase to `unexpressible`. Do NOT put caveats
+   there: limits on precision, on which values get reported, on approach/clear times you can approximate with
+   START/END, or on sensors a robot lacks belong in `doc`. Each `unexpressible` entry makes every answer partial.
+   Features marked NOT INDEXED may still be used: the system reports them as unknown rather than guessing.
 3. Set abstainIfInsufficient when the question says to abstain / return insufficient evidence when unsure.
 4. Scope: set recordingIds only when the question names a specific run; otherwise leave it empty (all recordings).
 5. Always give units. Counts are DIMENSIONLESS. Use the feature's own unit family (e.g. CM is fine for a length).

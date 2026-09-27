@@ -18,6 +18,7 @@ from alloy_train.eval import querysets
 
 POOL_DEPTH = 20
 RANDOM_PER_INTENT = 10
+MAX_ATTRIBUTE = 25  # cap attribute-derived additions (seeded sample) so broad rules don't swamp the pool
 
 
 def l1_labels(ann: Path) -> dict[str, dict]:
@@ -63,11 +64,15 @@ def build(runs: Path, ann: Path, bundle_windows: dict[str, list[str]], seed: int
     out = {}
     for intent, pool in by_intent.items():
         q = next(q for q in queries.values() if q.intent_group_id == intent)
+        if q.expect_abstain:  # nothing in the data can be relevant: scored on status only, not judged
+            continue
         scope = list(q.scope.recording_ids) or sorted(bundle_windows)
-        for w in attribute_candidates(intent, labels):
-            if parse_window_id(w)[0] in scope:
-                pool["windows"].add(w)
-                pool["sources"][w].add("L1_ATTRIBUTES")
+        attr = [w for w in attribute_candidates(intent, labels) if parse_window_id(w)[0] in scope]
+        if len(attr) > MAX_ATTRIBUTE:
+            attr = sorted(rng.sample(attr, MAX_ATTRIBUTE))
+        for w in attr:
+            pool["windows"].add(w)
+            pool["sources"][w].add("L1_ATTRIBUTES")
         universe = [w for rec in scope for w in bundle_windows[rec]]
         for w in rng.sample(universe, min(RANDOM_PER_INTENT, len(universe))):
             pool["windows"].add(w)

@@ -171,8 +171,7 @@ def _status(resp: a.SearchResponse, verified: bool, abstained: bool, prog, compl
     ordinal = next((s.value for s in top.scores.values() if s.kind == pp.TRUTH_ORDINAL), 0.0)
     if ordinal >= 2.0:
         return a.ANSWERED
-    if prog is not None and prog.abstain_if_insufficient and not any(
-            next((s.value for s in r.candidate.scores.values() if s.kind == pp.TRUTH_ORDINAL), 0) >= 2 for r in live):
-        # nothing definite: the program asked to abstain rather than offer possibilities
-        return a.INSUFFICIENT_EVIDENCE if not live[0].unsupported else a.ANSWERED_PARTIAL
+    if prog is not None and prog.abstain_if_insufficient:
+        # nothing definite: the question asked to abstain rather than be offered possibilities
+        return a.INSUFFICIENT_EVIDENCE
     return a.ANSWERED_PARTIAL

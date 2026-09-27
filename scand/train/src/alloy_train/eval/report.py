@@ -14,6 +14,7 @@ from alloy_train.recordings import SCAND_ROOT
 
 ACCEPTABLE = {  # status outcomes that answer the intent honestly (the puzzle allows either for P12)
     "vehicle_interaction_gdc": {"ANSWERED", "ANSWERED_PARTIAL", "INSUFFICIENT_EVIDENCE"},
+    "test_body_cam_person": {"ANSWERED_PARTIAL", "INSUFFICIENT_EVIDENCE"},  # the decisive feature is not indexed
 }
 
 
@@ -57,6 +58,14 @@ def build(run_dir: Path, ann: Path) -> dict:
     sa = {(r["query_id"], r["config"]): r for r in score_all}
     oracle_windows = {(r["query_id"], r["config"].split("_")[0]): r["windows"][:10] for r in runs
                       if r["config"].endswith("ORACLE")}
+    oracle_prog = {r["query_id"]: r["program"] for r in runs if r["config"] == "PROGRAM_ORACLE"}
+    # program generation as paid by the first (uncached) LUNA config for each query: every LUNA config would pay it
+    gen_first = {}
+    for r in runs:
+        if r["config"].endswith("LUNA"):
+            pg = next((s for s in r["stages"] if s["stage_id"] == "program_generation"), None)
+            if pg is not None and not r["program_cache_hit"]:
+                gen_first.setdefault(r["query_id"], {"ms": pg["wall_ms"], "tokens": pg["tokens"]})
     tables = {}
     for qset in EVAL_SETS:
         rows = []
@@ -100,32 +109,40 @@ def build(run_dir: Path, ann: Path) -> dict:
                     if fl:
                         per["filter_precision"][qid] = sum(judged[w] == 0 for w in fl) / len(fl)
                 ok = ACCEPTABLE.get(r["intent_group_id"], {r["expected_status"]})
-                per["status_ok"][qid] = float(r["status"] in ok)
-                per["wall_ms"][qid] = r["wall_ms"]
+                if judged and npos == 0 and not any(g == 1 for g in judged.values()):
+                    ok = {"NONE_FOUND_EXHAUSTIVE", "INSUFFICIENT_EVIDENCE"}  # judgments say nothing qualifies
+                if r["status"] != "ANSWERED_UNVERIFIED":  # unverified configs make no status claim to score
+                    per["status_ok"][qid] = float(r["status"] in ok)
                 c = r["cost"]
+                cold_model = float(c.get("encoderForwardMs", 0)) > 2000  # one-off model load: reported, not in p50/p95
                 per["raw_ratio"][qid] = float(c.get("rawRatio", 0.0))
-                gen = r.get("generation_cost") or {}
+                gen = gen_first.get(qid, {}) if CONFIGS[cfg][1] == "luna" else {}
+                own_gen = any(s["stage_id"] == "program_generation" for s in r["stages"]) and not r["program_cache_hit"]
                 per["tokens"][qid] = float(c.get("promptTokens", 0)) + float(c.get("completionTokens", 0)) + \
-                    (gen.get("tokens", 0) if c.get("promptTokens", 0) == 0 else 0)
+                    (0 if own_gen else gen.get("tokens", 0))
+                cached_ms = r["wall_ms"] - (gen.get("ms", 0) if own_gen else 0)
+                if not cold_model:
+                    per["wall_ms"][qid] = cached_ms + gen.get("ms", 0)  # as if the program were generated now
+                    per["wall_ms_cached"][qid] = cached_ms
                 if CONFIGS[cfg][1] == "luna":
                     per["program_valid"][qid] = float(r["program_state"] == "GENERATED")
                     per["program_attempts"][qid] = float(r["program_attempts"])
-                    oracle = next((x["program"] for x in by.get((qset, cfg.replace("LUNA", "ORACLE")), {}).values()
-                                   if x["query_id"] == qid), None)
+                    oracle = oracle_prog.get(qid)
                     got, want = clause_set(r["program"]), clause_set(oracle)
                     if want:
                         per["clause_p"][qid] = len(got & want) / len(got) if got else 0.0
                         per["clause_r"][qid] = len(got & want) / len(want)
-                    ow = oracle_windows.get((qid, cfg.split("_")[0]), [])
-                    if ow or r["windows"]:
+                    ow = oracle_windows.get((qid, cfg.split("_")[0]), None)
+                    if ow is not None:
                         a_, b_ = set(r["windows"][:10]), set(ow)
                         per["exec_jaccard"][qid] = len(a_ & b_) / len(a_ | b_) if a_ | b_ else 1.0
             row = {"config": cfg, "n_queries": len(rs), "n_groups": len({group_of[q] for q in rs})}
             for k, v in per.items():
                 row[k] = M.summarise(v, group_of)
-            walls = sorted(per["wall_ms"].values())
-            row["wall_p50"] = statistics.median(walls) if walls else None
-            row["wall_p95"] = walls[min(len(walls) - 1, int(0.95 * len(walls)))] if walls else None
+            for key, name in (("wall_ms", "wall"), ("wall_ms_cached", "wall_cached")):
+                walls = sorted(per[key].values())
+                row[f"{name}_p50"] = statistics.median(walls) if walls else None
+                row[f"{name}_p95"] = walls[min(len(walls) - 1, int(0.95 * len(walls)))] if walls else None
             rows.append(row)
         tables[qset] = rows
     return {"tables": tables, "n_judged": {k: len(v) for k, v in qrels.items()},
@@ -168,7 +185,7 @@ def html_page(rep: dict) -> str:
         if not rows:
             continue
         out.append(f"<h2>{html.escape(qset)} <span class=ci>({rows[0]['n_queries']} queries, {rows[0]['n_groups']} intent groups)</span></h2>")
-        out.append("<table><tr><th>config</th>" + "".join(f"<th>{html.escape(c[1])}</th>" for c in COLS) + "<th>p50 ms</th><th>p95 ms</th></tr>")
+        out.append("<table><tr><th>config</th>" + "".join(f"<th>{html.escape(c[1])}</th>" for c in COLS) + "<th>p50 ms</th><th>p95 ms</th><th>p50 ms (cached program)</th></tr>")
         for r in rows:
             cells = []
             for key, _, pct in COLS:
@@ -181,7 +198,8 @@ def html_page(rep: dict) -> str:
                     cells.append(fmt(v, pct=bool(pct)))
             p50 = f"{r['wall_p50']:.0f}" if r.get("wall_p50") is not None else "–"
             p95 = f"{r['wall_p95']:.0f}" if r.get("wall_p95") is not None else "–"
-            out.append(f"<tr><td>{r['config']}</td>" + "".join(f"<td>{c}</td>" for c in cells) + f"<td>{p50}</td><td>{p95}</td></tr>")
+            p50c = f"{r['wall_cached_p50']:.0f}" if r.get("wall_cached_p50") is not None else "–"
+            out.append(f"<tr><td>{r['config']}</td>" + "".join(f"<td>{c}</td>" for c in cells) + f"<td>{p50}</td><td>{p95}</td><td>{p50c}</td></tr>")
         out.append("</table>")
     return "\n".join(out)
 

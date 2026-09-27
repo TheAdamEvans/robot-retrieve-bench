@@ -126,7 +126,8 @@ class ProgramCandidates(Stage):
                 self.score(cand, m.ordinal, pp.TRUTH_ORDINAL)
                 out.append(cand)
         out = ctx.order_by_selection(prog, out, self.stage_id)
-        comp = pp.EXHAUSTIVE if exhaustive else pp.COMPLETENESS_UNKNOWN
+        # a program with requirements it could not express can never claim to have searched exhaustively for them
+        comp = pp.EXHAUSTIVE if exhaustive and not prog.unexpressible else pp.COMPLETENESS_UNKNOWN
         return StageResult(out, completeness=comp, verified=True)
 
 

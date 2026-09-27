@@ -76,6 +76,8 @@ def run_all(bundle: Bundle, out_dir: Path, configs: list[str], sets: list[str], 
     assert not gen.fewshot_utterances & {querysets.normalise_utt(q.utterance) for q in querysets.load(sets)}, \
         "few-shot pool overlaps an evaluated utterance"
     out_dir.mkdir(parents=True, exist_ok=True)
+    from alloy_server.models.siglip import SPACE_ID
+    bundle.encode_query(SPACE_ID, "warm-up")  # model load is startup cost, never charged to the first query
     rows_path = out_dir / "runs.jsonl"
     done = set()
     if rows_path.exists():
