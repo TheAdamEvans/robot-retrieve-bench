@@ -33,7 +33,7 @@ def _price() -> tuple[float, float, float] | None:
 
 
 PROMPTS = Path(__file__).parent / "prompts"
-PROMPT = os.environ.get("ALLOY_PROGRAM_PROMPT", "v1")  # versioned grammar/rules text: prompts/<version>.md
+PROMPT = os.environ.get("ALLOY_PROGRAM_PROMPT", "v3")  # versioned grammar/rules text: prompts/<version>.md
 
 
 def grammar(version: str = PROMPT) -> str:
@@ -193,5 +193,6 @@ class OpenAIProgramGenerator:
                          {"role": "user", "content": "The program failed validation:\n- " + "\n- ".join(errors) +
                           "\nReturn a corrected program for the same question."}]
         diag.state = a.FAILED
-        self._cache_put(key, {"program": None, "errors": list(diag.errors), "utterance": utterance})
+        self._cache_put(key, {"program": None, "errors": list(diag.errors), "utterance": utterance, "attempts": 2,
+                              "usage": self._usage(start)})
         return None, diag

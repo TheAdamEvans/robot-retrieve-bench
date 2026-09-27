@@ -82,7 +82,7 @@ are *promoted* into them by the train-side CLI, which keeps the import rule inta
 ## Hill-climbing the program generator
 
 The generator's grammar and rules live in versioned files, `server/src/alloy_server/programs/prompts/<v>.md`
-(select one with `ALLOY_PROGRAM_PROMPT`). The prompt hash is part of the program cache key, so every version keeps
+(select one with `ALLOY_PROGRAM_PROMPT`; default `v3`). The prompt hash is part of the program cache key, so every version keeps
 its own cache and re-running a configuration costs nothing.
 
 ```bash
@@ -106,8 +106,18 @@ Then confirm on the benchmark.
 Medium reasoning is not a clear win: it recalls slightly more features, but its validity drops. On test,
 `chained_turn_person` paraphrases fail validation 3 times out of 3. **Low stays the default.**
 
-The failures that recur at both settings are what v2 should target:
+The dev failures that recur at both settings are the ones v2 targets. Test failures are reported, never tuned on:
 - **Over-partial answers.** Reportable details ("full-body-clear times", "supporting frames") are put in
   `unexpressible`, which marks answers partial. Rule 2 already says these are not requirements.
 - **Vehicle interaction without a motion response.** `speed_mps` is omitted.
-- **"Close car".** It uses `vehicles_visible_front` rather than `vehicle_box_frac`.
+
+**First hill-climb, 27 Sep (gpt-6-luna, low reasoning).** v2 and v3 were written from **dev** failures only.
+
+| prompt | change | dev partial ✓ | dev leak-free | test valid | test feature recall | test partial ✓ | tokens (mean) |
+|---|---|---|---|---|---|---|---|
+| v1 | baseline | 0.63 | 1.00 | 0.95 | 0.87 | 0.70 | 5.4k |
+| v2 | "what to return is output, not a requirement"; interaction = presence + speed change | 0.88 | 0.90 | 0.95 | 0.92 | 0.75 | 6.6k |
+| v3 | v2 + "state defaults in plain words, never feature names" (v2 leaked `speed_mps` into `doc`) | **1.00** | **1.00** | **1.00** | **0.93** | **0.81** | 6.9k |
+
+v3 is the default. It costs about 1.5k more tokens per generation (more repair turns: 1.24 attempts on test,
+against 1.05). A failed generation was replayed as 0 tokens until 27 Sep; the table's token means are lower bounds.
