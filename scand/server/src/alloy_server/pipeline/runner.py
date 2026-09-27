@@ -55,7 +55,9 @@ def _stage_report(stage: Stage, role: int, n_in: int, res: StageResult, scope, b
         rep.filtered_by_reason[key] = rep.filtered_by_reason.get(key, 0) + 1
     if stage.truncates:
         rep.truncated = max(0, n_in - len(res.ordered))
-    rep.cost.CopyFrom(bundle.cost_report(scope, recs, wall_ms))
+    gen = next((c for c in scope.children if c.name == "program_generation"), None)
+    rep.cost.CopyFrom(bundle.cost_report(scope, recs, wall_ms - (gen.wall_ms if gen else 0.0),
+                                         exclude=("program_generation",)))
     return rep
 
 

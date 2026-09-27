@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fleet Search</title>
+<style>
+:root{--bg:#fbfaf7;--panel:#fff;--fg:#1b1b1b;--mute:#6b6b6b;--line:#e6e3dc;--accent:#2f6fde;
+--ok:#1f8a4c;--warn:#b7791f;--bad:#c53030;--unk:#6b6b6b;--chip:#f1efe9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121212;--panel:#1b1b1b;--fg:#ececec;--mute:#9a9a9a;--line:#2e2e2e;--accent:#6ea0ff;--ok:#48bb78;--warn:#ecc94b;--bad:#fc8181;--unk:#a0a0a0;--chip:#262626}}
+:root[data-theme="dark"]{--bg:#121212;--panel:#1b1b1b;--fg:#ececec;--mute:#9a9a9a;--line:#2e2e2e;--accent:#6ea0ff;--ok:#48bb78;--warn:#ecc94b;--bad:#fc8181;--unk:#a0a0a0;--chip:#262626}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 ui-sans-serif,system-ui,-apple-system,sans-serif}
+header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+header h1{font-size:17px;margin:0}header .meta{color:var(--mute);font-size:12px}
+main{padding:16px;max-width:1800px;margin:0 auto}
+.q{display:grid;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
+textarea{width:100%;min-height:58px;font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+select,button{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+button.run{background:var(--accent);color:#fff;border:0;font-weight:600}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.row label{display:flex;gap:4px;align-items:center}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:12px;margin-top:14px}
+.col{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}
+.col h2{font-size:15px;margin:0 0 6px;display:flex;justify-content:space-between;gap:8px}
+.badge{font-size:11px;padding:2px 7px;border-radius:99px;background:var(--chip);white-space:nowrap}
+.s-ANSWERED{color:var(--ok)}.s-ANSWERED_PARTIAL{color:var(--warn)}.s-INSUFFICIENT_EVIDENCE,.s-NONE_FOUND_EXHAUSTIVE{color:var(--bad)}.s-ANSWERED_UNVERIFIED{color:var(--unk)}
+.cost{color:var(--mute);font-size:12px;margin:4px 0 8px}
+table.tree{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}
+.tree td{border-bottom:1px solid var(--line);padding:3px 4px}.tree td.n{text-align:right}
+.res{display:grid;grid-template-columns:120px 1fr;gap:8px;padding:8px 0;border-top:1px solid var(--line)}
+.res img{width:120px;height:68px;object-fit:cover;border-radius:6px;background:var(--chip)}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}.chip{font-size:11px;padding:1px 6px;border-radius:6px;background:var(--chip)}
+.T{color:var(--ok)}.F{color:var(--bad)}.U{color:var(--warn)}
+.est{font-size:10px;padding:1px 5px;border-radius:4px;border:1px solid var(--warn);color:var(--warn)}
+details{margin-top:6px}summary{cursor:pointer;color:var(--mute);font-size:12px}
+pre{white-space:pre-wrap;font-size:11px;background:var(--chip);padding:8px;border-radius:6px;max-height:280px;overflow:auto}
+.rc{font-size:11px;width:100%;border-collapse:collapse}.rc td{padding:1px 4px;border-bottom:1px solid var(--line)}
+.notes{font-size:12px;color:var(--warn)}
+@media (max-width:600px){.res{grid-template-columns:1fr}.res img{width:100%;height:auto}}
+</style></head><body>
+<header><h1>Fleet Search</h1><span class="meta" id="health">loading bundle…</span></header>
+<main>
+<div class="q">
+  <div class="row"><select id="ex"><option value="">— example from the benchmark —</option></select></div>
+  <textarea id="utt" placeholder="Ask about the recordings, e.g. 'the robot turns and then brakes'"></textarea>
+  <div class="row" id="pipes"></div>
+  <div class="row">
+    <label><input type="radio" name="src" value="generated" checked> program: generated (LLM)</label>
+    <label><input type="radio" name="src" value="oracle"> program: oracle (example only)</label>
+    <label>k <select id="k"><option>5</option><option selected>10</option><option>20</option></select></label>
+    <button class="run" id="go">Search</button>
+  </div>
+</div>
+<div class="cols" id="cols"></div>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+let examples = [], specs = [];
+const LIVE = ["TAGS","EMBED","PROGRAM","HYBRID","FUSED","FUSED_V"];
+const fmtB = b => b > 1e6 ? (b/1e6).toFixed(1)+" MB" : b > 1e3 ? (b/1e3).toFixed(0)+" kB" : (b||0)+" B";
+const rel = (rec, ns) => rec && health.starts ? ((ns - health.starts[rec]) / 1e9).toFixed(2) + "s" : "";
+let health = {};
+async function init(){
+  const h = await (await fetch("/v1/health")).json();
+  health = h; health.starts = h.starts || {};
+  $("#health").textContent = `${h.bundle_id} · ${Object.keys(h.recordings).length} recordings · resident sidecar ${fmtB(h.resident.session_bytes_read)} = ${(100*h.resident.sidecar_ratio).toFixed(2)}% of ${fmtB(h.resident.raw_corpus_bytes)} raw · generator: ${h.generator}`;
+  specs = await (await fetch("/v1/pipelines")).json();
+  $("#pipes").innerHTML = specs.map(s => `<label title="${s.doc||""}"><input type="checkbox" value="${s.pipelineId}" ${LIVE.slice(0,4).includes(s.pipelineId)?"checked":""} ${s.stub?"disabled":""}> ${s.pipelineId}${s.stub?" (stub)":""}</label>`).join("");
+  examples = await (await fetch("/v1/examples")).json();
+  $("#ex").innerHTML += examples.map((e,i) => `<option value="${i}">[${e.set}] ${e.query_id}</option>`).join("");
+}
+$("#ex").onchange = e => { const x = examples[e.target.value]; if (x) $("#utt").value = x.utterance; };
+function tree(r, d=0){
+  const f = Object.entries(r.filteredByReason||{}).map(([k,v])=>`${v} ${k==="REQUIRED_CLAUSE_FALSE"?"false":k}`).join(", ");
+  const c = r.cost||{}; const tok = (c.promptTokens||0)+(c.completionTokens||0);
+  let h = `<tr><td style="padding-left:${4+d*12}px">${r.stageId}${r.triggeredBy?` <span class=badge>← ${r.triggeredBy}</span>`:""}<br><span style="color:var(--mute)">${r.impl}${r.outcome&&r.outcome!=="RAN"?" · "+r.outcome:""}</span></td>
+    <td class=n>${r.candidatesIn||0}→${r.candidatesOut||0}${f?`<br><span class=F>−${f}</span>`:""}</td><td class=n>${(c.wallMs||0).toFixed(0)} ms</td><td class=n>${fmtB(c.bytesRead)}${tok?`<br>${tok} tok`:""}</td></tr>`;
+  (r.children||[]).forEach(ch => h += tree(ch, d+1));
+  return h;
+}
+function card(pid, resp){
+  const c = resp.cost||{};
+  const tok = (c.promptTokens||0)+(c.completionTokens||0);
+  const d = resp.diagnostics||{};
+  let h = `<h2><span>${pid}</span><span class="badge s-${resp.status}">${(resp.status||"").replaceAll("_"," ").toLowerCase()}</span></h2>
+  <div class=cost>${(c.wallMs||0).toFixed(0)} ms · ${fmtB(c.bytesRead)} read (${((c.rawRatio||0)*100).toFixed(3)}% of raw) · ${tok} LLM tokens${c.cachedPromptTokens?` (${c.cachedPromptTokens} cached)`:""} · ${(resp.completeness||"").replace("COMPLETENESS_","").toLowerCase()}${d.state&&d.state!=="NOT_REQUESTED"?` · program ${d.state.toLowerCase()}${d.cacheHit?" (cache)":""}`:""}</div>
+  ${(resp.notes||[]).map(n=>`<div class=notes>${n}</div>`).join("")}
+  <table class=tree>${tree(resp.report||{})}</table>`;
+  if (resp.programUsed) h += `<details><summary>program (${(resp.programUsed.events||[]).length} events)</summary><pre>${JSON.stringify(resp.programUsed,null,1)}</pre></details>`;
+  (resp.results||[]).forEach((it,i) => {
+    const cd = it.candidate; const a0 = (cd.anchors||[])[0];
+    const t = a0 ? a0.tNs : (cd.seed||{}).endNs;
+    const when = cd.windowId || (a0 ? `${cd.recordingId} ${a0.name} @ ${rel(cd.recordingId, a0.tNs)}` : cd.recordingId);
+    const chips = (cd.clauses||[]).map(cl => { const tv = {TRUTH_TRUE:"T",TRUTH_FALSE:"F",TRUTH_UNKNOWN:"U"}[cl.truth];
+      return `<span class="chip ${tv}" title="${cl.doc||""}">${tv} ${cl.clauseId}${tv==="U"&&cl.reason?" · "+cl.reason.toLowerCase():""}</span>`; }).join("");
+    const est = cd.spatialBasis === "ESTIMATED" ? ` <span class=est>ESTIMATED</span>` : "";
+    let rc = "";
+    if (it.receipt) rc = `<details><summary>causal receipt (${(it.receipt.items||[]).length} items, ${it.receipt.boundary})</summary><table class=rc>${it.receipt.items.map(x=>`<tr><td>${x.sensor}</td><td>${(x.topic||"").split("/").slice(-3).join("/")}</td><td>${x.ageNs!==undefined?(x.ageNs/1e6).toFixed(0)+" ms":"–"}</td><td class="${x.ok==="TRUTH_TRUE"?"T":"U"}">${x.ok==="TRUTH_TRUE"?"ok":(x.reason||"").toLowerCase()}</td></tr>`).join("")}</table></details>`;
+    h += `<div class=res><img loading=lazy src="/v1/frame?rec=${cd.recordingId}&t_ns=${t}" alt="">
+      <div><b>${i+1}.</b> ${when}${est}${cd.filtered?" <span class=F>(filtered)</span>":""}<div class=chips>${chips}</div>${rc}</div></div>`;
+  });
+  if (!(resp.results||[]).length) h += `<p style="color:var(--mute)">no results</p>`;
+  return h;
+}
+$("#go").onclick = async () => {
+  const utt = $("#utt").value.trim(); if (!utt) return;
+  const src = document.querySelector("input[name=src]:checked").value;
+  const ex = examples[$("#ex").value];
+  const pids = [...document.querySelectorAll("#pipes input:checked")].map(x => x.value);
+  $("#cols").innerHTML = pids.map(p => `<div class=col id="c-${p}"><h2>${p}</h2><p style="color:var(--mute)">running…</p></div>`).join("");
+  await Promise.all(pids.map(async p => {
+    const body = {utterance: utt, pipelineId: p, k: +$("#k").value};
+    if (ex && ex.utterance === utt && ex.scope) body.scope = ex.scope;
+    if (src === "oracle" && ex && ex.utterance === utt && ex.program) body.program = ex.program;
+    try { const r = await fetch("/v1/search", {method:"POST", headers:{"content-type":"application/json"}, body: JSON.stringify(body)});
+      const j = await r.json(); $(`#c-${p}`).innerHTML = r.ok ? card(p, j) : `<h2>${p}</h2><pre>${JSON.stringify(j,null,1)}</pre>`;
+    } catch(e){ $(`#c-${p}`).innerHTML = `<h2>${p}</h2><pre>${e}</pre>`; }
+  }));
+};
+init();
+</script></body></html>

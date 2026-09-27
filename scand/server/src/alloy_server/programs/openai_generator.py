@@ -71,6 +71,11 @@ RULES
 4. Scope: set recordingIds only when the question names a specific run; otherwise leave it empty (all recordings).
 5. Always give units. Counts are DIMENSIONLESS. Use the feature's own unit family (e.g. CM is fine for a length).
 6. Mark every event and relation required unless the question makes it optional.
+7. Vague magnitudes are not unexpressible. When the question names a concept without a number, use these defaults and
+   say so in `doc` (e.g. "turn (default: >=30 deg within 3 s)"): turn = heading_deg CHANGE >= 30 DEG within 3 S;
+   brake / slow down = speed_mps CHANGE DOWN >= 30 PERCENT within 3 S; speed up = speed_mps CHANGE UP >= 30 PERCENT
+   within 3 S; stop = speed_mps <= 0.05 MPS for >= 1 S; fast = speed_mps > 1.2 MPS; close / near = within 2 M;
+   crowd = >= 3 people; "then" / "after" = AFTER with maxGap 5 S unless stated.
 """
 
 

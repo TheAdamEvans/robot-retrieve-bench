@@ -35,13 +35,16 @@ class CostScope:
     wall_ms: float = 0.0
     _chunks_seen: set[tuple[str, int]] = field(default_factory=set)
 
-    def iter_all(self):
+    def iter_all(self, exclude: tuple[str, ...] = ()):
         yield self
         for c in self.children:
-            yield from c.iter_all()
+            if c.name not in exclude:
+                yield from c.iter_all(exclude)
 
-    def totals(self) -> dict:
-        scopes = list(self.iter_all())
+    def totals(self, exclude: tuple[str, ...] = ()) -> dict:
+        """exclude: child scope names reported as their own stage (e.g. program_generation) so a stage tree never
+        counts them twice."""
+        scopes = list(self.iter_all(exclude))
         evs = [e for s in scopes for e in s.events]
         by_layer: dict[str, int] = {}
         for e in evs:

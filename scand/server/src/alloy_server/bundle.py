@@ -164,8 +164,8 @@ class Bundle:
                 if hashlib.sha256(rec.read(mid.topic, i).data).digest()[:16] != mid.payload_sha256_128:
                     raise RuntimeError(f"payload hash mismatch for {mid}")
 
-    def cost_report(self, scope, recs: list[str], wall_ms: float) -> pp.CostReport:
-        t = scope.totals()
+    def cost_report(self, scope, recs: list[str], wall_ms: float, exclude: tuple[str, ...] = ()) -> pp.CostReport:
+        t = scope.totals(exclude)
         raw = sum(self.raw_bytes[r] for r in recs) or 1
         rep = pp.CostReport(bytes_read=t["bytes_read"], bytes_served_from_cache=t["bytes_served_from_cache"],
                             raw_ratio=t["bytes_read"] / raw, llm_calls=t["llm_calls"], prompt_tokens=t["prompt_tokens"],
