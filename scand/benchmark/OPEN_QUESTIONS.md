@@ -18,4 +18,12 @@ system is allowed to claim.
 ## Stale leading front-camera frames
 - **Observation.** In several recordings the first two front frames (t ≈ 1.4 s) come from a different scene, followed
   by a 0.4 s gap: a buffer flush.
-- **Status.** Intake now detects it: all 5 Spot logs show it on the front camera and neither Jackal log does. Masking those ordinals in the timeline is pending.
+- **Status.** Resolved for derived data. Intake records `stale_leading_frames` per topic (Butler 2, GDC 2, Rec_Tent_129 1;
+  none on Jackal), and detections@2 and the window index skip those ordinals. Raw clips still show them, since they
+  are in the recording.
+
+## Front camera absent in Bass_Garage_134
+- **Observation.** This SCAND Val-split Spot log has every Spot topic except `/image_raw/compressed`.
+- **Status.** Intake recognises it as Spot from its identity topics and records `absent_sensors: [front_camera]`.
+  Front-camera clauses evaluate to `UNKNOWN(SENSOR_ABSENT_IN_LOG)`, detections are not applicable, and its windows
+  use front-stereo body-camera vectors (`source=body_cameras`). Its eval rows are reported separately.

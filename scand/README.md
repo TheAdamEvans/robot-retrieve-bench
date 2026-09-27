@@ -1,7 +1,8 @@
 # Fleet search over robot logs: SCAND retrieval benchmark
 
-This repo runs natural-language search over archived robot recordings. It uses 7 complete bags from the public
-[SCAND](https://www.cs.utexas.edu/~xiao/SCAND/SCAND.html) dataset: Boston Dynamics Spot and Clearpath Jackal, 701 s, 6.05 GB.
+This repo runs natural-language search over archived robot recordings. It uses 16 complete bags from the public
+[SCAND](https://www.cs.utexas.edu/~xiao/SCAND/SCAND.html) dataset: Boston Dynamics Spot and Clearpath Jackal, 2,309 s, 21 GB.
+Two of them (`Rec_Tent_129`, `Bass_Garage_134`) are SCAND's Val split and are held out of all training and tuning.
 
 Every search config runs through one pipeline runner, and one evaluation harness scores quality, speed and cost for all of them.
 
@@ -12,9 +13,14 @@ bag ─► intake (recognise robot, convert to MCAP, measure) ─► providers �
 ```
 
 ## Layout
-- **`server/` (`alloy-server`).** Proto contracts, instrumented readers, the pipeline runner, the program executor,
-  causal receipts and the HTTP API. It never imports `train/`, a rule enforced by a test.
-- **`train/` (`alloy-train`).** Intake, providers, indexing, the `scandq` labeller tools, the eval harness and Stage C learning.
+Start with [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Then read [`docs/INDEXING.md`](docs/INDEXING.md),
+[`docs/EVALS.md`](docs/EVALS.md), [`docs/FUSED.md`](docs/FUSED.md) and [`docs/DEMO.md`](docs/DEMO.md).
+- **`server/` (`alloy-server`).** Proto contracts, instrumented readers, the pipeline runner, the program generator
+  and executor, causal receipts, `evalkit` and the HTTP API. It imports neither of the other packages, a rule enforced by a test.
+- **`index/` (`alloy-index`).** Config-driven, incremental indexing (Source → Stages → Sink, `index/index.textproto`):
+  intake, conversion, providers, frame and window encoders, applying trained models, the optional Opus labeller
+  stage and the `scandq` labeller tools.
+- **`train/` (`alloy-train`).** The benchmark harness, L2 judging, Stage C (FUSED) learning and `alloy-evals`.
 - **`server/src/alloy_server/embodiments/*.textproto`.** Robot facts as reviewed data, one profile per robot model.
 - **`benchmark/queries/`.** The frozen query sets and the oracle `QueryProgram`s, with a sha256 manifest.
 - **`benchmark/OPEN_QUESTIONS.md`.** Data questions that change what the system may claim.
@@ -41,11 +47,11 @@ indexed, calibration uncertain, stale, future-stamped or outside coverage.
 ## Quick start
 ```bash
 uv sync
-uv run python -m alloy_train.intake --bundle bundles/dev          # recognise, convert, measure
-uv run python -m alloy_train.providers.run --bundle bundles/dev --providers motion,clearance,detections
-uv run python -m alloy_train.index.siglip_frames --bundle bundles/dev
+uv run alloy-index plan                                          # what's missing or stale for bags in raw/
+uv run alloy-index run                                           # build it (the paid labeller needs --annotate)
+uv run alloy-index status                                        # stages x recordings
 uv run uvicorn alloy_server.server:app --port 8787               # demo page at http://localhost:8787
-uv run pytest -q server/tests
+uv run pytest -q                                                 # contracts, layering and module evals
 ```
 Raw bags, bundles, renders and working evaluation outputs are not in version control.
 
