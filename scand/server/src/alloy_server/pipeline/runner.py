@@ -142,6 +142,11 @@ def run(bundle, spec: pp.PipelineSpec, req: a.SearchRequest, generator: Callable
                 cut = min(cut, next((x.lo_ns for x in cd.anchors if x.HasField("lo_ns")), cut))  # onset band: use lo
                 item.receipt.CopyFrom(receipt(bundle.recordings[cd.recording_id], bundle.sensors(cd.recording_id),
                                               list(r.sensors), cut, int(r.max_age.value * 1e9), r.boundary))
+        for ch in root.children:  # say why verification did not happen
+            if ch.outcome in (pp.SKIPPED, pp.ABSTAINED) and "not expressible as a program" in ch.outcome_detail:
+                note = ch.outcome_detail.split("program_unavailable: ", 1)[-1].split("; results unverified")[0]
+                if note not in resp.notes:
+                    resp.notes.append(note)
         if not score_all:
             bundle.verify_evidence(resp)  # hash-check cited payloads (reads MCAP chunks: counted bytes)
         resp.filtered.extend(filtered_all)

@@ -26,3 +26,4 @@ scand/*.pdf
 .env
 scand/annotations/tmp/
 scand/annotations_recheck/renders/
+scand/cache/

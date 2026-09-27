@@ -52,9 +52,11 @@ def validate(program: q.QueryProgram, recordings: dict[str, str]) -> list[Valida
     events = {ev.name: ev for ev in program.events}
     if len(events) != len(program.events):
         e.append(ValidationError("SEM_DUPLICATE_EVENT", "events", "event names must be unique"))
-    if not program.events:
-        e.append(ValidationError("SEM_NO_EVENTS", "events", "a program needs at least one event"))
-    if program.primary_event not in events:
+    unverifiable = not program.events and bool(program.unexpressible)  # nothing expressible: a valid, honest program
+    if not program.events and not program.unexpressible:
+        e.append(ValidationError("SEM_NO_EVENTS", "events", "a program needs at least one event (or, if nothing in the "
+                                 "question is expressible, zero events and the question's words in `unexpressible`)"))
+    if not unverifiable and program.primary_event not in events:
         e.append(ValidationError("SEM_PRIMARY_MISSING", "primary_event", f"{program.primary_event!r} is not an event"))
 
     for rid in program.scope.recording_ids:
@@ -148,6 +150,8 @@ def validate(program: q.QueryProgram, recordings: dict[str, str]) -> list[Valida
                                          f"{ev.reference.event!r} must be an ancestor of {ev.name!r} in the relation tree"))
 
     sel = program.selection
+    if unverifiable:
+        return e
     if sel.quantifier == q.QUANTIFIER_UNSPECIFIED:
         e.append(ValidationError("SEM_MISSING_PARAM", "selection.quantifier", "quantifier is required (ALL if unsure)"))
     if sel.quantifier in (q.ARGMIN, q.ARGMAX):

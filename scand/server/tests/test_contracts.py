@@ -211,3 +211,18 @@ def test_onset_not_delayed_by_gait_oscillation():
                                 "sustain": {"value": 0.5, "unit": "S"}}, q.EventSpec())
     (inst,) = onset_instances(s, ev, raw)
     assert abs(inst.start / 1e9 - 3.0) < 0.1
+
+
+@needs_bundle
+def test_unexpressible_only_program_abstains_or_is_unverified(bundle):
+    """A purely visual question ('legs close up') has no expressible requirement: PROGRAM abstains, HYBRID ranks by
+    similarity and says it is unverified — never a loosely related proxy feature."""
+    from alloy_server.pipeline.runner import run
+    p = json_format.ParseDict({"primaryEvent": "", "events": [], "unexpressible": ["legs close up"],
+                               "selection": {"quantifier": "ALL"}, "contextBefore": {"value": 4, "unit": "S"},
+                               "contextAfter": {"value": 4, "unit": "S"}}, q.QueryProgram())
+    assert not validate(p, bundle.robots)
+    prog = run(bundle, bundle.specs["PROGRAM"], a.SearchRequest(utterance="legs close up", pipeline_id="PROGRAM", program=p))
+    hyb = run(bundle, bundle.specs["HYBRID"], a.SearchRequest(utterance="legs close up", pipeline_id="HYBRID", k=3, program=p))
+    assert prog.status == a.INSUFFICIENT_EVIDENCE and not prog.results
+    assert hyb.status == a.ANSWERED_UNVERIFIED and hyb.results and any("not expressible" in n for n in hyb.notes)

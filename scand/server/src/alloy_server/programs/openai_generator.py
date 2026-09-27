@@ -63,11 +63,17 @@ CONTEXT: contextBefore/contextAfter (durations) around the primary anchor; cover
 (e.g. a recovery up to 20 s later).
 
 RULES
-1. Encode every requirement of the question as an event or relation, with `doc` quoting the phrase it encodes.
+1. Encode every requirement of the question as an event or relation. `doc` is shown to the user: COPY the exact words
+   of the question it encodes (plus a default, if rule 7 applied). Never explain, and never mention features,
+   registries, indexes, detectors or this system in `doc` or `unexpressible`.
 2. Never approximate a requirement with an unrelated feature. If a requirement that decides WHICH MOMENTS QUALIFY
    cannot be expressed with these features and event kinds, add a short phrase to `unexpressible`. Do NOT put caveats
    there: limits on precision, on which values get reported, on approach/clear times you can approximate with
-   START/END, or on sensors a robot lacks belong in `doc`. Each `unexpressible` entry makes every answer partial.
+   START/END, or on sensors a robot lacks belong nowhere. Each `unexpressible` entry is the question's own words and
+   makes every answer partial. Never substitute a loosely related feature for a visual requirement (appearance, body
+   parts, clothing, close-ups, objects without a detector). If NOTHING in the question is expressible, return
+   `events: []`, `primaryEvent: ""` and the question's words in `unexpressible`: search will rank by similarity and
+   say the results are unverified.
    Features marked NOT INDEXED may still be used: the system reports them as unknown rather than guessing.
 3. Set abstainIfInsufficient when the question says to abstain / return insufficient evidence when unsure.
 4. Scope: set recordingIds only when the question names a specific run; otherwise leave it empty (all recordings).

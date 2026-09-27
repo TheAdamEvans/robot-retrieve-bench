@@ -24,7 +24,8 @@ button.run{background:var(--accent);color:#fff;border:0;font-weight:600}
 table.tree{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}
 .tree td{border-bottom:1px solid var(--line);padding:3px 4px}.tree td.n{text-align:right}
 .res{display:grid;grid-template-columns:120px 1fr;gap:8px;padding:8px 0;border-top:1px solid var(--line)}
-.res img{width:120px;height:68px;object-fit:cover;border-radius:6px;background:var(--chip)}
+.res img,.res video{width:160px;height:90px;object-fit:cover;border-radius:6px;background:var(--chip);cursor:pointer}
+.res{grid-template-columns:160px 1fr}.vwrap{position:relative}.vwrap .hint{position:absolute;left:4px;bottom:4px;font-size:10px;padding:0 4px;border-radius:3px;background:rgba(0,0,0,.6);color:#fff}
 .chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}.chip{font-size:11px;padding:1px 6px;border-radius:6px;background:var(--chip)}
 .T{color:var(--ok)}.F{color:var(--bad)}.U{color:var(--warn)}
 .est{font-size:10px;padding:1px 5px;border-radius:4px;border:1px solid var(--warn);color:var(--warn)}
@@ -32,7 +33,7 @@ details{margin-top:6px}summary{cursor:pointer;color:var(--mute);font-size:12px}
 pre{white-space:pre-wrap;font-size:11px;background:var(--chip);padding:8px;border-radius:6px;max-height:280px;overflow:auto}
 .rc{font-size:11px;width:100%;border-collapse:collapse}.rc td{padding:1px 4px;border-bottom:1px solid var(--line)}
 .notes{font-size:12px;color:var(--warn)}
-@media (max-width:600px){.res{grid-template-columns:1fr}.res img{width:100%;height:auto}}
+@media (max-width:600px){.res{grid-template-columns:1fr}.res img,.res video{width:100%;height:auto}}
 </style></head><body>
 <header><h1>Fleet Search</h1><span class="meta" id="health">loading bundle…</span></header>
 <main>
@@ -44,6 +45,7 @@ pre{white-space:pre-wrap;font-size:11px;background:var(--chip);padding:8px;borde
     <label><input type="radio" name="src" value="generated" checked> program: generated (LLM)</label>
     <label><input type="radio" name="src" value="oracle"> program: oracle (example only)</label>
     <label>k <select id="k"><option>5</option><option selected>10</option><option>20</option></select></label>
+    <label title="play every visible clip instead of on hover"><input type="checkbox" id="autoplay"> autoplay clips</label>
     <button class="run" id="go">Search</button>
   </div>
 </div>
@@ -92,7 +94,13 @@ function card(pid, resp){
     const est = cd.spatialBasis === "ESTIMATED" ? ` <span class=est>ESTIMATED</span>` : "";
     let rc = "";
     if (it.receipt) rc = `<details><summary>causal receipt (${(it.receipt.items||[]).length} items, ${it.receipt.boundary})</summary><table class=rc>${it.receipt.items.map(x=>`<tr><td>${x.sensor}</td><td>${(x.topic||"").split("/").slice(-3).join("/")}</td><td>${x.ageNs!==undefined?(x.ageNs/1e6).toFixed(0)+" ms":"–"}</td><td class="${x.ok==="TRUTH_TRUE"?"T":"U"}">${x.ok==="TRUTH_TRUE"?"ok":(x.reason||"").toLowerCase()}</td></tr>`).join("")}</table></details>`;
-    h += `<div class=res><img loading=lazy src="/v1/frame?rec=${cd.recordingId}&t_ns=${t}" alt="">
+    const S = 1e9, a = a0 ? +a0.tNs : null;
+    let t0, t1;
+    if (cd.windowId) { t0 = +cd.seed.startNs; t1 = +cd.seed.endNs; }
+    else { const r0 = +((cd.resolved||cd.seed).startNs), r1 = +((cd.resolved||cd.seed).endNs);
+           if (r1 - r0 >= 2*S && r1 - r0 <= 8*S) { t0 = r0 - S; t1 = r1 + S; } else { t0 = a - 2*S; t1 = a + 2*S; } }
+    const clip = `/v1/clip?rec=${cd.recordingId}&t0_ns=${t0}&t1_ns=${t1}` + (a ? `&anchor_ns=${a}` : "");
+    h += `<div class=res><div class=vwrap><video class=clip muted loop playsinline preload=none poster="/v1/frame?rec=${cd.recordingId}&t_ns=${t}" data-src="${clip}"></video><span class=hint>▶ ${((t1-t0)/S).toFixed(0)}s</span></div>
       <div><b>${i+1}.</b> ${when}${est}${cd.filtered?" <span class=F>(filtered)</span>":""}<div class=chips>${chips}</div>${rc}</div></div>`;
   });
   if (!(resp.results||[]).length) h += `<p style="color:var(--mute)">no results</p>`;
@@ -113,5 +121,19 @@ $("#go").onclick = async () => {
     } catch(e){ $(`#c-${p}`).innerHTML = `<h2>${p}</h2><pre>${e}</pre>`; }
   }));
 };
+function wireClips(root){
+  root.querySelectorAll("video.clip").forEach(v => {
+    const load = () => { if (!v.src) v.src = v.dataset.src; return v.play().catch(()=>{}); };
+    v.addEventListener("mouseenter", () => { if (!$("#autoplay").checked) load(); });
+    v.addEventListener("mouseleave", () => { if (!$("#autoplay").checked) v.pause(); });
+    v.addEventListener("click", () => v.paused ? load() : v.pause());
+    if ($("#autoplay").checked) io.observe(v);
+  });
+}
+const io = new IntersectionObserver(es => es.forEach(e => {
+  const v = e.target; if (e.isIntersecting) { if (!v.src) v.src = v.dataset.src; v.play().catch(()=>{}); } else v.pause();
+}), {threshold: 0.5});
+$("#autoplay").onchange = () => document.querySelectorAll("video.clip").forEach(v => $("#autoplay").checked ? io.observe(v) : (io.unobserve(v), v.pause()));
+new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => n.querySelectorAll && wireClips(n)))).observe($("#cols"), {childList: true, subtree: true});
 init();
 </script></body></html>

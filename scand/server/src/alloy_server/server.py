@@ -121,6 +121,36 @@ def examples():
     return out
 
 
+CLIP_CACHE = Path(os.environ.get("ALLOY_CLIP_CACHE", Path(__file__).resolve().parents[3] / "cache" / "clips"))
+
+
+@app.get("/v1/clip")
+def clip(rec: str, t0_ns: int, t1_ns: int, cam: str = "front_camera", anchor_ns: int | None = None):
+    """H.264 MP4 of [t0, t1] from one camera, rendered from the MCAP and cached on disk."""
+    import hashlib
+    from fastapi.responses import FileResponse
+    from .catalog.embodiment import topic_display
+    from .io.clips import render
+    if rec not in bundle.recordings:
+        raise HTTPException(404, "unknown recording")
+    s = profile_sensor(profile(bundle.robots[rec]), cam)
+    if s is None:
+        raise HTTPException(404, f"{cam} not on {bundle.robots[rec]}")
+    topic = s.topics[0]
+    key = hashlib.sha256(f"{bundle.bundle_id}|{rec}|{topic}|{t0_ns}|{t1_ns}|{anchor_ns}|v1".encode()).hexdigest()[:24]
+    path = CLIP_CACHE / f"{key}.mp4"
+    headers = {"cache-control": "max-age=86400"}
+    if not path.exists():
+        CLIP_CACHE.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_suffix(f".{os.getpid()}.tmp.mp4")
+        with cost.scope("clip") as sc:
+            render(bundle.recordings[rec], topic, t0_ns, t1_ns, str(tmp), anchor_ns,
+                   rotation=topic_display(profile(bundle.robots[rec])).get(topic, (0, ""))[0], label=rec)
+        tmp.replace(path)
+        headers["x-bytes-read"] = str(sc.totals()["bytes_read"])
+    return FileResponse(path, media_type="video/mp4", headers=headers)
+
+
 @app.get("/", response_class=HTMLResponse)
 def page():
     return (Path(__file__).parent / "static" / "index.html").read_text()

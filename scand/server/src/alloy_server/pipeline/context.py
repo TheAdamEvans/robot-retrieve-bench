@@ -21,6 +21,10 @@ class ProgramUnavailable(Exception):
     pass
 
 
+class ProgramUnverifiable(ProgramUnavailable):
+    """The question has no requirement the grammar can express (e.g. purely about appearance)."""
+
+
 class UndeclaredProgramAccess(Exception):
     pass
 
@@ -58,7 +62,7 @@ class QueryContext:
         if not stage.needs_program:
             raise UndeclaredProgramAccess(f"{stage.stage_id} did not declare needs_program")
         if self.program is not None:
-            return self.program
+            return self._check_verifiable(self.program)
         if self.diagnostics.state == a.FAILED or self._generation_attempted or self._generator is None:
             if self._generator is None and self.diagnostics.state == a.NOT_REQUESTED:
                 self.diagnostics = a.ProgramDiagnostics(state=a.FAILED, errors=["NO_GENERATOR"])
@@ -76,6 +80,12 @@ class QueryContext:
         if prog is None:
             raise ProgramUnavailable(";".join(diag.errors))
         self.program = prog
+        return self._check_verifiable(prog)
+
+    @staticmethod
+    def _check_verifiable(prog: q.QueryProgram) -> q.QueryProgram:
+        if not prog.events:
+            raise ProgramUnverifiable("not expressible as a program: " + "; ".join(prog.unexpressible))
         return prog
 
     def program_recordings(self, prog: q.QueryProgram) -> list[str]:
