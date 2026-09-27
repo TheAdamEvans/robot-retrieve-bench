@@ -1,0 +1,12 @@
+{
+ "code_commit": "39856fdf52d8c4222ed5ab85a8f453fa54b300fb",
+ "note": "Abstention controls (benchmark/controls/abstain_v1) on the v9 corpus with imu@2, prompt v3. True answer: nowhere. Only PROGRAM_ORACLE and PROGRAM_LUNA return none_found_exhaustive.",
+ "files": {
+  "program_cache/33da26fdd2a30c5adaa700ec.json": "deebb47c6f442a4c18beaac0e7ac4b810b33d5d4858aa52a9ec1180639fe8c08",
+  "program_cache/91b040d44aa6ee43e9a1f6fb.json": "3e113ac4237608d45c4928b0e99f52bccd48ee93212bdbb6910e671c26e6276f",
+  "report.html": "dded4e5da310ac2a0af39cefd54f17a852e4cd377573e1420ec2efea0186aaed",
+  "report.json": "f9d1dea66626fa11290c6fd3a2c964ae65b9af9b7dc7f6b4f98faed9f002ccd3",
+  "runs.jsonl": "1381696cc71aa4df04a1cd4745c9bdebccf2411adf08aa047ef43666e59ba502",
+  "score_all.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+ }
+}

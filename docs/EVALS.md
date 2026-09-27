@@ -167,3 +167,31 @@ episodes. The exhaustive campaign takes precedence (priority 2 in its `labels/me
 **What the ground truth exposed.** On the two questions whose true answer is "none", every config still returns
 results, marked unverified or partial. None says `none_found_exhaustive` or `insufficient_evidence`. Pooled
 evaluation could not see this failure.
+
+## Abstention controls
+
+A question whose **true answer is "nowhere"**, and which the system can prove, measures whether an approach will say
+so instead of returning plausible-looking results. The sets live in `benchmark/controls/` (they are not part of the
+fingerprinted `benchmark/queries/`) and join `EVAL_SETS` as `abstain_controls`. The report's `abstain_ok` scores
+**every** config, unverified ones included: it is 1 only for `none_found_exhaustive` with no results.
+
+**abstain_v1 / ctl_odom_gyro_agree:** "Where does the Jackal's wheel odometry disagree with its gyro about how fast it
+is turning, by more than 30 °/s for at least half a second?" The feature `odom_gyro_yaw_disagreement_dps` never
+crosses 30 °/s at any instant, and never crosses 11 °/s for half a second, on any Jackal log. The evidence is in
+the set's README.
+
+Frozen run: `benchmark/results/v9-abstain`.
+
+| Config | abstain_ok |
+|---|---|
+| PROGRAM_ORACLE, PROGRAM_LUNA | **1.00**: `none_found_exhaustive`, no results. The generated program picked the new feature itself. |
+| HYBRID, FUSED_V | 0.00: `insufficient_evidence`, or `answered_partial` with 1–2 windows |
+| TAGS, EMBED, FUSED (all heads) | 0.00: 50 unverified windows each |
+
+**What it caught.** The verify configs keep Jackal windows from the very end of a recording (`Sanjac:0107`,
+`Sanjac_Rec_91:0139`) as partial matches. The clause's 0.5 s minimum plus 2 s of context runs past the end of the
+data, so it evaluates to `UNKNOWN (outside coverage)`, and an unknown clause never filters. The program path scans
+the recorded data and correctly finds nothing.
+
+**Follow-up.** Decide whether context that falls beyond the end of a log should make a clause unknown when the event
+itself would lie inside the covered span. Today the verifier cannot say "nowhere", even when the executor can.

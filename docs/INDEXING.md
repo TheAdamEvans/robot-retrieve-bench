@@ -41,7 +41,7 @@ A second source (for example, downloading by `FileName` from the SCAND index lin
 | `ingest` | recording | ingest@2 | `mcap/<rec>/*.mcap` (`layout: by_sensor`), `timeline/<rec>`, `intake/<rec>` |
 | `providers.motion` | recording | motion@3 | speed, yaw rate, heading, acceleration, `speed_frac_max` |
 | `providers.clearance` | recording | clearance@4 | front, any-direction and body-side clearance, gap, doorway, `clearance_margin_front_m` |
-| `providers.imu` | recording | imu@1 | `imu_vibration_rms` and gyro yaw rate. Jackal only; Spot has no IMU (not applicable) |
+| `providers.imu` | recording | imu@2 | `imu_vibration_rms`, gyro yaw rate, `odom_gyro_yaw_disagreement_dps`. Jackal only; Spot has no IMU (not applicable) |
 | `providers.detections` | recording | detections@2 | RT-DETR counts, corridor occupancy, tracks, boxes. Not applicable without a front camera |
 | `frames.siglip2` | recording | params `front_hz: 10`, `body_hz: native` | per-frame SigLIP2 vectors |
 | `annotate.l1` | recording | `requires_flag` | L1 per-segment labels (paid; see below) |

@@ -1,0 +1,595 @@
+{
+ "tables": {
+  "demo5": [],
+  "demo5_para": [],
+  "compose_test": [],
+  "l1_compositions_dev": [],
+  "abstain_controls": [
+   {
+    "config": "TAGS",
+    "n_queries": 2,
+    "n_groups": 1,
+    "abstain_ok": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "raw_ratio": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "tokens": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms": {
+     "mean": 8.852978993672878,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms_cached": {
+     "mean": 8.852978993672878,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_p50": 8.852978993672878,
+    "wall_p95": 8.958291029557586,
+    "wall_cached_p50": 8.852978993672878,
+    "wall_cached_p95": 8.958291029557586
+   },
+   {
+    "config": "EMBED",
+    "n_queries": 2,
+    "n_groups": 1,
+    "abstain_ok": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "raw_ratio": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "tokens": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms": {
+     "mean": 28.90139544615522,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms_cached": {
+     "mean": 28.90139544615522,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_p50": 28.90139544615522,
+    "wall_p95": 32.24529093131423,
+    "wall_cached_p50": 28.90139544615522,
+    "wall_cached_p95": 32.24529093131423
+   },
+   {
+    "config": "PROGRAM_ORACLE",
+    "n_queries": 2,
+    "n_groups": 1,
+    "abstain_ok": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "status_ok": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "raw_ratio": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "tokens": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms": {
+     "mean": 6.7753540351986885,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms_cached": {
+     "mean": 6.7753540351986885,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_p50": 6.7753540351986885,
+    "wall_p95": 7.032667053863406,
+    "wall_cached_p50": 6.7753540351986885,
+    "wall_cached_p95": 7.032667053863406
+   },
+   {
+    "config": "PROGRAM_LUNA",
+    "n_queries": 2,
+    "n_groups": 1,
+    "abstain_ok": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "status_ok": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "raw_ratio": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "tokens": {
+     "mean": 5309.5,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms": {
+     "mean": 3613.540541497059,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms_cached": {
+     "mean": 13.670208456460387,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "program_valid": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "program_attempts": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "clause_p": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "clause_r": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "exec_jaccard": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_p50": 3613.540541497059,
+    "wall_p95": 4003.461749991402,
+    "wall_cached_p50": 13.670208456460387,
+    "wall_cached_p95": 13.983707991428673
+   },
+   {
+    "config": "HYBRID_ORACLE",
+    "n_queries": 2,
+    "n_groups": 1,
+    "abstain_ok": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "status_ok": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "raw_ratio": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "tokens": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms": {
+     "mean": 90.45262500876561,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms_cached": {
+     "mean": 90.45262500876561,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_p50": 90.45262500876561,
+    "wall_p95": 94.44566594902426,
+    "wall_cached_p50": 90.45262500876561,
+    "wall_cached_p95": 94.44566594902426
+   },
+   {
+    "config": "HYBRID_LUNA",
+    "n_queries": 2,
+    "n_groups": 1,
+    "abstain_ok": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "status_ok": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "raw_ratio": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "tokens": {
+     "mean": 5309.5,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms": {
+     "mean": 3635.4160625487566,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms_cached": {
+     "mean": 35.54572950815782,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "program_valid": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "program_attempts": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "clause_p": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "clause_r": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "exec_jaccard": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_p50": 3635.4160625487566,
+    "wall_p95": 4025.410250062123,
+    "wall_cached_p50": 35.54572950815782,
+    "wall_cached_p95": 35.78625002410263
+   },
+   {
+    "config": "FUSED",
+    "n_queries": 2,
+    "n_groups": 1,
+    "abstain_ok": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "raw_ratio": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "tokens": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms": {
+     "mean": 33.879937953315675,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms_cached": {
+     "mean": 33.879937953315675,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_p50": 33.879937953315675,
+    "wall_p95": 34.1630419716239,
+    "wall_cached_p50": 33.879937953315675,
+    "wall_cached_p95": 34.1630419716239
+   },
+   {
+    "config": "FUSED_LINEAR",
+    "n_queries": 2,
+    "n_groups": 1,
+    "abstain_ok": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "raw_ratio": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "tokens": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms": {
+     "mean": 26.34743752423674,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms_cached": {
+     "mean": 26.34743752423674,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_p50": 26.34743752423674,
+    "wall_p95": 26.548625086434186,
+    "wall_cached_p50": 26.34743752423674,
+    "wall_cached_p95": 26.548625086434186
+   },
+   {
+    "config": "FUSED_CONCAT",
+    "n_queries": 2,
+    "n_groups": 1,
+    "abstain_ok": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "raw_ratio": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "tokens": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms": {
+     "mean": 25.017375068273395,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms_cached": {
+     "mean": 25.017375068273395,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_p50": 25.017375068273395,
+    "wall_p95": 25.60250007081777,
+    "wall_cached_p50": 25.017375068273395,
+    "wall_cached_p95": 25.60250007081777
+   },
+   {
+    "config": "FUSED_V_LUNA",
+    "n_queries": 2,
+    "n_groups": 1,
+    "abstain_ok": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "status_ok": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "raw_ratio": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "tokens": {
+     "mean": 5309.5,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms": {
+     "mean": 3627.9300826136023,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_ms_cached": {
+     "mean": 28.0597495730035,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "program_valid": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "program_attempts": {
+     "mean": 0.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "clause_p": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "clause_r": {
+     "mean": 1.0,
+     "ci": null,
+     "n_groups": 1,
+     "n_queries": 2
+    },
+    "wall_p50": 3627.9300826136023,
+    "wall_p95": 4018.757874146104,
+    "wall_cached_p50": 28.0597495730035,
+    "wall_cached_p95": 28.65283307619393
+   }
+  ],
+  "compose_test@val": [],
+  "compose_test@train": []
+ },
+ "generation_cost_sources": [],
+ "ground_truth": {
+  "l1x_dream_person_adjusts": {
+   "complete": true,
+   "missing_chunks": [],
+   "grade2": 0,
+   "grade1": 2
+  },
+  "l1x_dream_opportunity_to_go": {
+   "complete": true,
+   "missing_chunks": [],
+   "grade2": 0,
+   "grade1": 0
+  },
+  "l1x_dream_steer_or_brake": {
+   "complete": true,
+   "missing_chunks": [],
+   "grade2": 1,
+   "grade1": 8
+  },
+  "l1x_dream_turn_creates_exposure": {
+   "complete": true,
+   "missing_chunks": [],
+   "grade2": 0,
+   "grade1": 2
+  },
+  "l1x_dream_recover_person_present": {
+   "complete": true,
+   "missing_chunks": [],
+   "grade2": 3,
+   "grade1": 10
+  },
+  "l1x_dream_multiple_attempts": {
+   "complete": true,
+   "missing_chunks": [],
+   "grade2": 0,
+   "grade1": 0
+  }
+ },
+ "n_judged": {
+  "chained_turn_person": 407,
+  "crowd_hesitation": 91,
+  "doorway_crossing": 79,
+  "last_safe_evidence": 249,
+  "test_body_cam_person": 233,
+  "test_car_close_fast": 225,
+  "test_speedup_after_person": 218,
+  "test_tight_right": 173,
+  "test_turn_then_brake": 221,
+  "vehicle_interaction_gdc": 73,
+  "l1x_dream_multiple_attempts": 452,
+  "l1x_dream_opportunity_to_go": 526,
+  "l1x_dream_person_adjusts": 583,
+  "l1x_dream_recover_person_present": 526,
+  "l1x_dream_steer_or_brake": 452,
+  "l1x_dream_test_small_turn_close_pass": 19,
+  "l1x_dream_test_stairs_vs_people": 45,
+  "l1x_dream_turn_creates_exposure": 504
+ },
+ "n_positive": {
+  "chained_turn_person": 14,
+  "crowd_hesitation": 10,
+  "doorway_crossing": 7,
+  "last_safe_evidence": 43,
+  "test_body_cam_person": 20,
+  "test_car_close_fast": 10,
+  "test_speedup_after_person": 114,
+  "test_tight_right": 53,
+  "test_turn_then_brake": 97,
+  "vehicle_interaction_gdc": 6,
+  "l1x_dream_multiple_attempts": 0,
+  "l1x_dream_opportunity_to_go": 0,
+  "l1x_dream_person_adjusts": 0,
+  "l1x_dream_recover_person_present": 31,
+  "l1x_dream_steer_or_brake": 5,
+  "l1x_dream_test_small_turn_close_pass": 0,
+  "l1x_dream_test_stairs_vs_people": 33,
+  "l1x_dream_turn_creates_exposure": 0
+ }
+}

@@ -38,7 +38,7 @@ CONFIGS = {
     "FUSED_CONCAT": ("FUSED_CONCAT", None),
     "FUSED_V_LUNA": ("FUSED_V", "luna"),
 }
-EVAL_SETS = ["demo5", "demo5_para", "compose_test", "l1_compositions_dev"]
+EVAL_SETS = ["demo5", "demo5_para", "compose_test", "l1_compositions_dev", "abstain_controls"]
 
 
 def interval_windows(bundle: Bundle, cd) -> list[str]:

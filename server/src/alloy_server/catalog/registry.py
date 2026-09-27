@@ -97,6 +97,10 @@ FEATURES: list[Feature] = [
             "Accelerometer vibration: |a| high-passed (minus its trailing 0.5 s mean), RMS over 0.5 s. Rough terrain "
             "and hard braking or acceleration raise it; it collapses at a true standstill (< 0.05). Typical: ~0.5-1 "
             "driving at 2 m/s, ~0.2-0.3 at 0.5 m/s. Jackal only (Spot records no IMU).", robots=("jackal",)),
+    Feature("odom_gyro_yaw_disagreement_dps", "imu", "DEG_PER_S", "continuous",
+            "How far wheel odometry and the gyro disagree about the turn rate: |odometry yaw rate - gyro yaw rate| on "
+            "the same 0.5 s window. Large values mean wheel slip, skid or an odometry glitch. Jackal only.",
+            robots=("jackal",)),
 ]
 
 # Which sensor each provider reads: if a log did not record it, the feature is UNKNOWN(SENSOR_ABSENT_IN_LOG).

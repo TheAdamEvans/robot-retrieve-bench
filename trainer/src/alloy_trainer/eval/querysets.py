@@ -337,6 +337,16 @@ def normalise_utt(u: str) -> str:
 
 
 CHALLENGES = OUT.parent / "challenges"
+CONTROLS = OUT.parent / "controls"
+
+
+def control_sets() -> dict[str, Path]:
+    """{query_set: queries.json} for benchmark/controls/<name>/: questions with a provable answer (e.g. "nowhere")."""
+    out = {}
+    for p in sorted(CONTROLS.glob("*/queries.json")):
+        for d in json.loads(p.read_text()):
+            out[d["querySet"]] = p
+    return out
 
 
 def challenge_sets() -> dict[str, tuple[Path, str]]:
@@ -371,9 +381,12 @@ def load_challenge(query_set: str) -> list[eval_pb2.EvalQuery]:
 
 def load(sets: list[str] | None = None) -> list[eval_pb2.EvalQuery]:
     out = []
-    for name in (sets if sets is not None else sorted(challenge_sets())):
+    for name in (sets if sets is not None else sorted(challenge_sets()) + sorted(control_sets())):
         if name in challenge_sets():
             out += load_challenge(name)
+        if name in control_sets():
+            out += [json_format.ParseDict(d, eval_pb2.EvalQuery()) for d in json.loads(control_sets()[name].read_text())
+                    if d["querySet"] == name]
     for p in sorted(OUT.glob("*.json")):
         if p.name == "MANIFEST.json" or (sets and p.stem not in sets):
             continue

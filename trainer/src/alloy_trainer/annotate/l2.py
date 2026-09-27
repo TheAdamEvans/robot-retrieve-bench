@@ -36,6 +36,7 @@ def main() -> None:
     jobs: list[tuple[str, str, dict]] = []
     a_.run_tag = a_.run
     challenge = {q.intent_group_id for name in querysets.challenge_sets() for q in querysets.load_challenge(name)}
+    challenge |= {q.intent_group_id for q in querysets.load(sorted(querysets.control_sets()))}  # provable: not pooled
     for intent, pool in pools.items():
         if intent in challenge:
             continue  # judged exhaustively (alloy_trainer.annotate.episodes --exhaustive), not by pooling
