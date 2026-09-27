@@ -179,20 +179,69 @@ on the same frozen benchmark, especially on held-out Val and composition
 questions. The importance sampler uses 50% uniform and 50% score-proportional
 selection within each recording, with a four-times-uniform cap.
 
-The v2 retriever expands the 20 fixed programs into numeric threshold variants
-and safe compositions. It excludes the held-out `compose_test` pairings.
+The v2 retriever expands the 20 fixed programs into 140 program/text examples,
+including numeric threshold variants and safe compositions. It excludes the
+held-out `compose_test` pairings.
 The executor supplies temporal and co-occurrence supervision; these
 observations alone do not establish that one event caused another.
 Each required clause is executed on the Train recording. A definite match is
 positive; a fully covered one-clause failure is a hard negative; an unknown
 never becomes a negative. L1 captions and attributes add visual supervision.
 Each step samples one positive, one near miss when available and one other
-verified negative, with equal total positive and negative loss weight. Both
-sampling arms use the same program pool, architecture, seed, steps and negatives.
+verified negative, with equal total positive and negative loss weight.
+`--mine-every 25` optionally refreshes a pool of top-scoring false windows
+across Train recordings and draws half of the second negatives from it.
+Only executor-verified negatives enter this pool. The default keeps online
+mining off because it reduced global top-10 quality in the development
+ablation. Both sampling arms use the same program pool, architecture, seed,
+steps and negative-selection procedure.
 The loss also gives a small weight to a positive-over-negative ranking term and
 to an in-batch caption contrastive term, which preserve text specificity.
 The one-hidden-layer head defaults to width 512 and is configurable with
 `--hidden-dim` and `--dropout`.
+
+### Train-only model selection
+
+`alloy_trainer.eval.fused_development` scores 26 held-out Train queries.
+Their exact wording and numeric program settings are absent from training.
+Each Train recording is embedded by a model that did not train on it; the
+command refuses an in-sample serving index. It reports global and
+within-recording hit@10, recall@50, judged precision and nDCG@10, judged
+coverage@10, and per-recording results. Unknown executor outcomes stay
+unjudged: they earn no nDCG credit and their frequency is exposed by coverage,
+without being asserted false. The main selection target is **global judged
+nDCG@10**, alongside global recall@50 and judged coverage@10. A higher pairwise
+AUC alone is not
+grounds to ship a new retriever. Keep the frozen Val and `compose_test` sets
+for final confirmation after choosing a recipe on Train-only development.
+
+```bash
+uv run python -m alloy_trainer.eval.fused_development --bundle bundles/dev
+```
+
+Before expanding the programs or mining negatives, FUSED v1 achieved global
+nDCG@10 .640 and recall@50 .183 on these queries; v2 uniform achieved .589
+and .141, and v2 importance .565 and .140. Within-recording nDCG was .568
+for v1 and .644 for v2 uniform. The gap shows that local separation is not
+yet transferring to global retrieval.
+
+The expanded program set raises executor-verified positive window/text pairs
+from 47,900 to 61,124 and one-clause hard-negative pairs from 16,862 to
+21,947. These are additional query/window pairings on the same recordings,
+not 13,224 independent sensor scenes. At 150 steps with uniform sampling:
+
+| Train-only development model | Global nDCG@10 | Global recall@50 | Judged@10 | Within-recording nDCG@10 |
+|---|---:|---:|---:|---:|
+| FUSED v1 | .640 | .183 | .981 | .568 |
+| Prior v2 uniform, 105 examples | .589 | .141 | .954 | .644 |
+| Expanded v2 uniform, online mining off | .597 | .136 | .946 | .628 |
+| Expanded v2 uniform, mining every 25 steps | .548 | .150 | .965 | .632 |
+
+The extra verified examples slightly improved v2's global top-10 score when
+online mining was off, but v1 is still stronger on the selection target and
+recall@50. Online mining improved recall but caused a larger top-10 regression.
+Keep v1 as the serving default. This comparison is directional because the
+26 development queries share ten program families.
 
 ```bash
 uv run python -m alloy_trainer.learn.importance --bundle bundles/dev --labels labels

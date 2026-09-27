@@ -92,7 +92,7 @@ def _encode_texts(enc: SiglipEncoder, texts: list[str]) -> dict[str, np.ndarray]
 def train_model(wins: list[str], img: np.ndarray, sig: np.ndarray, groups: list[Supervision],
                 captions: list[tuple[str, str]], vectors: dict[str, np.ndarray], scores: dict[str, float], mode: str,
                 *, epochs: int = 150, batch_size: int = 256, hidden_dim: int = 512, dropout: float = 0.2,
-                seed: int = 0) -> tuple[Head, dict]:
+                mine_every: int = 0, seed: int = 0) -> tuple[Head, dict]:
     rng = random.Random(seed)
     torch.manual_seed(seed)
     device = "mps" if torch.backends.mps.is_available() else "cpu"
@@ -136,8 +136,26 @@ def train_model(wins: list[str], img: np.ndarray, sig: np.ndarray, groups: list[
         same_rec = [i for i in pool if rec[i] == rec[positive]]
         return rng.choice(matched or same_rec or pool)
 
+    def mine_negatives() -> dict[tuple[str, str], list[int]]:
+        """Find current-model false positives among executor-verified negatives only."""
+        model.eval()
+        with torch.no_grad():
+            sim = (model(I, S) @ T.T).cpu().numpy()
+        mined = {}
+        for family, items in by_family.items():
+            for txt, _, hard, easy in items:
+                pool = sorted(set(hard + easy))
+                if not pool:
+                    continue
+                rank = np.argsort(-sim[pool, text_row[txt]], kind="stable")
+                mined[(family, txt)] = [pool[i] for i in rank[:max(8, len(pool) // 10)]]
+        return mined
+
+    mined: dict[tuple[str, str], list[int]] = {}
     last = 0.0
-    for _ in range(epochs):
+    for epoch in range(epochs):
+        if mine_every and epoch % mine_every == 0:
+            mined = mine_negatives()
         pairs_w, pairs_t, signs, weights = [], [], [], []
         for _ in range(batch_size):
             family = rng.choice(families)
@@ -148,7 +166,10 @@ def train_model(wins: list[str], img: np.ndarray, sig: np.ndarray, groups: list[
             candidates = [i for i in pos if rec[i] == chosen_rec]
             k = rng.choices(candidates, weights=[p[i] for i in candidates])[0]
             h = choose_negative(hard or easy, k)
-            e = choose_negative(easy or hard, k)
+            # Half the second negatives are cross-record failures of the latest
+            # model. Every chosen window has a checked FALSE verdict.
+            e = (rng.choice(mined[(family, text)]) if (family, text) in mined and rng.random() < 0.5
+                 else choose_negative(easy or hard, k))
             for wi, sign, weight in ((k, 1, 0.5), (h, -1, 0.25), (e, -1, 0.25)):
                 pairs_w.append(wi); pairs_t.append(text_row[text]); signs.append(sign); weights.append(weight)
         ix, inv = np.unique(pairs_w, return_inverse=True)
@@ -175,7 +196,8 @@ def train_model(wins: list[str], img: np.ndarray, sig: np.ndarray, groups: list[
     model.eval()
     return model.cpu(), {"final_loss": round(last, 5), "groups": sum(len(v) for v in by_family.values()),
                          "families": len(families), "captions": sum(map(len, caption_rows.values())),
-                         "unique_captions": len(caption_texts), "device": device}
+                         "unique_captions": len(caption_texts), "device": device,
+                         "mined_negative_pools": len(mined), "mine_every": mine_every}
 
 
 def _write_index(path: Path, wins: list[str], vectors: dict[str, np.ndarray], source: list[str],
@@ -235,7 +257,7 @@ def diagnose(bundle: Bundle, groups: list[Supervision], text_vectors: dict[str, 
 
 def run(bundle: Bundle, root: Path, mode: str, all_groups: list[Supervision], text_vectors: dict[str, np.ndarray],
         fold_salience: dict[str, dict[str, float]], *, epochs: int = 150, seed: int = 0, hidden_dim: int = 512,
-        dropout: float = 0.2) -> dict:
+        dropout: float = 0.2, mine_every: int = 0) -> dict:
     name = f"fused_v2_{mode}"
     wins = bundle.embedding_index("siglip2").ids
     imgs = image_vectors(bundle)
@@ -252,7 +274,8 @@ def run(bundle: Bundle, root: Path, mode: str, all_groups: list[Supervision], te
         model, stats = train_model(tr, np.stack([imgs[w] for w in tr]),
                                    np.stack([standardise(sig_raw[w], mu, sd) for w in tr]),
                                    all_groups, caption_pairs(root, recs, set(tr)), text_vectors, salience, mode,
-                                   epochs=epochs, hidden_dim=hidden_dim, dropout=dropout, seed=seed)
+                                   epochs=epochs, hidden_dim=hidden_dim, dropout=dropout,
+                                   mine_every=mine_every, seed=seed)
         embedded = encode("mlp", model, np.stack([imgs[w] for w in hw]),
                           np.stack([standardise(sig_raw[w], mu, sd) for w in hw]))
         outputs.update(zip(hw, embedded))
@@ -264,7 +287,8 @@ def run(bundle: Bundle, root: Path, mode: str, all_groups: list[Supervision], te
     model, stats = train_model(tr, np.stack([imgs[w] for w in tr]),
                                np.stack([standardise(sig_raw[w], mu, sd) for w in tr]),
                                all_groups, caption_pairs(root, train_recs, set(tr)), text_vectors, salience, mode,
-                               epochs=epochs, hidden_dim=hidden_dim, dropout=dropout, seed=seed)
+                               epochs=epochs, hidden_dim=hidden_dim, dropout=dropout,
+                               mine_every=mine_every, seed=seed)
     model_dir = bundle.root / "models" / name
     save(model_dir, "mlp", model, mu, sd,
          {"trained_on": train_recs, "recipe": f"{name}: balanced verified supervision",
@@ -299,6 +323,8 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--hidden-dim", type=int, default=512)
     ap.add_argument("--dropout", type=float, default=0.2)
+    ap.add_argument("--mine-every", type=int, default=0,
+                    help="refresh verified hard-negative pools every N optimizer steps; 0 disables mining")
     ap.add_argument("--diagnose-only", action="store_true",
                     help="score program families on existing OOF indexes without fitting a model")
     ap.add_argument("--salience-scores", type=Path,
@@ -344,7 +370,7 @@ def main() -> None:
         map(json.loads, a.salience_scores.read_text().splitlines()) if r["source"] == "train_oof"}
     for mode in (("uniform", "importance") if a.sampler == "both" else (a.sampler,)):
         report = run(bundle, a.labels, mode, groups, vectors, fold_salience, epochs=a.epochs, seed=a.seed,
-                     hidden_dim=a.hidden_dim, dropout=a.dropout)
+                     hidden_dim=a.hidden_dim, dropout=a.dropout, mine_every=a.mine_every)
         print(json.dumps({"completed": mode, "windows": report["windows"],
                           "positive_pairs": report["positive_pairs"],
                           "hard_negative_pairs": report["hard_negative_pairs"]}), flush=True)

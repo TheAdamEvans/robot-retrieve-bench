@@ -1,11 +1,14 @@
 from pathlib import Path
 
 import numpy as np
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 from alloy_index.models.fused import Head, load, save
+from alloy_trainer.eval.fused_development import ranked_metrics, require_out_of_fold
 from alloy_trainer.learn import importance
 from alloy_trainer.learn.fused_v2 import probabilities
-from alloy_trainer.learn.fused_supervision import programs
+from alloy_trainer.learn.fused_supervision import development_programs, programs
 
 
 def test_interval_counts_deduplicate_an_intent_and_add_distinct_answers():
@@ -48,9 +51,38 @@ def test_crossfit_never_fits_on_the_scored_recording(monkeypatch):
 
 def test_expansion_excludes_reserved_composition_features():
     expanded = programs()
-    assert len(expanded) >= 100
+    assert len(expanded) >= 140
     assert all("lateral_clearance_right_m" not in str(p.program) for p in expanded)
     assert all("speed-up" not in p.text for p in expanded)
+
+
+def test_development_queries_hold_out_programs_and_texts():
+    import json
+    train, development = programs(), development_programs()
+    assert not {p.text for p in train} & {p.text for p in development}
+    assert not {json.dumps(p.program, sort_keys=True) for p in train} & {
+        json.dumps(p.program, sort_keys=True) for p in development}
+
+
+def test_ranked_metrics_expose_unknown_top_results_without_calling_them_negative():
+    result = ranked_metrics(["unknown", "positive", "negative"], {"positive"}, {"negative"})
+    assert result["hit_at_10"] == 1
+    assert result["judged_at_10"] == 2 / 3
+    assert result["precision_at_10_judged"] == 0.5
+    assert result["recall_at_50"] == 1
+    assert result["ndcg_at_10_judged"] == 1 / np.log2(3)
+
+
+def test_development_measurement_rejects_in_sample_train_vectors(tmp_path):
+    from types import SimpleNamespace
+    import pytest
+
+    (tmp_path / "index").mkdir()
+    path = tmp_path / "index" / "candidate_windows.parquet"
+    pq.write_table(pa.table({"recording_id": ["Train_A", "Val_B"],
+                             "source": ["full_model", "full_model"]}), path)
+    with pytest.raises(ValueError, match="not out of fold"):
+        require_out_of_fold(SimpleNamespace(root=tmp_path), "candidate", ["Train_A"])
 
 
 def test_configured_single_hidden_layer_survives_save_and_load(tmp_path):
