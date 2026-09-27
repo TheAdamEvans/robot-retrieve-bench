@@ -1,0 +1,105 @@
+{
+ "version": "sweep@1",
+ "code_sha": "273643a004d7",
+ "intent": "l1x_dream_turn_creates_exposure",
+ "split": "dev",
+ "scope": [
+  "GDC_Library_42",
+  "Library_Jester_75",
+  "Parlin_Parlin_51"
+ ],
+ "members": {
+  "episode": {
+   "exact": "turn >= 45 deg",
+   "loose": "|net heading change| >= 40 deg within 1-10 s",
+   "candidates": {
+    "GDC_Library_42": [
+     {
+      "start_s": -0.4705338320000001,
+      "end_s": 136.279466168,
+      "n_windows": 3665,
+      "max_baseline_mps": 1.4833318728119704,
+      "max_loss": 0.9902702783091104,
+      "max_excursion_deg": 182.12589638186932,
+      "max_net_heading_deg": 170.28001936927583
+     }
+    ],
+    "Library_Jester_75": [
+     {
+      "start_s": 6.788679403,
+      "end_s": 31.788679403,
+      "n_windows": 348,
+      "max_baseline_mps": 1.477032404702009,
+      "max_loss": 0.763299499876556,
+      "max_excursion_deg": 68.36131165799702,
+      "max_net_heading_deg": 68.28805170932472
+     },
+     {
+      "start_s": 40.038679403,
+      "end_s": 66.038679403,
+      "n_windows": 440,
+      "max_baseline_mps": 1.4816928831235532,
+      "max_loss": 0.9003369043662318,
+      "max_excursion_deg": 101.1655324594466,
+      "max_net_heading_deg": -40.30237209753738
+     },
+     {
+      "start_s": 74.288679403,
+      "end_s": 92.788679403,
+      "n_windows": 165,
+      "max_baseline_mps": 1.4100036583228428,
+      "max_loss": 0.902688998439731,
+      "max_excursion_deg": 49.56870117353486,
+      "max_net_heading_deg": -40.18992269991302
+     }
+    ],
+    "Parlin_Parlin_51": [
+     {
+      "start_s": -0.9747820859999998,
+      "end_s": 69.525217914,
+      "n_windows": 2117,
+      "max_baseline_mps": 1.2678500878250216,
+      "max_loss": 0.8644386545986491,
+      "max_excursion_deg": 267.7018448721603,
+      "max_net_heading_deg": 267.7018448721603
+     }
+    ]
+   },
+   "n": 5,
+   "seconds": 276.8
+  }
+ },
+ "sweep_recall_check": [
+  {
+   "episode": "ep-l1x_dream_turn_creates_exposure:E1",
+   "recording": "Library_Jester_75",
+   "span": [
+    52.0,
+    56.0
+   ],
+   "grade": 1,
+   "covered": true
+  },
+  {
+   "episode": "ep-l1x_dream_turn_creates_exposure:E2",
+   "recording": "GDC_Library_42",
+   "span": [
+    29.5,
+    35.0
+   ],
+   "grade": 0,
+   "covered": true
+  },
+  {
+   "episode": "ep-l1x_dream_turn_creates_exposure:E3",
+   "recording": "Parlin_Parlin_51",
+   "span": [
+    35.5,
+    42.0
+   ],
+   "grade": 0,
+   "covered": true
+  }
+ ],
+ "sweep_recall_ok": true
+}

@@ -1,0 +1,443 @@
+{
+ "version": "sweep@1",
+ "code_sha": "273643a004d7",
+ "intent": "l1x_dream_steer_or_brake",
+ "split": "dev",
+ "scope": [
+  "Library_Jester_75",
+  "Stadium_Sanjac_90",
+  "Thompson_Thompson_100"
+ ],
+ "members": {
+  "slowing": {
+   "exact": "loss >= 30%, excursion < 15 deg",
+   "loose": "loss >= 25%, excursion < 20 deg",
+   "candidates": {
+    "Library_Jester_75": [
+     {
+      "start_s": 6.038679403,
+      "end_s": 19.788679403,
+      "n_windows": 284,
+      "max_baseline_mps": 1.4704590204586605,
+      "max_loss": 0.7675511957472916,
+      "max_excursion_deg": 15.111445659041006,
+      "max_net_heading_deg": 15.06840718828687
+     },
+     {
+      "start_s": 23.288679403,
+      "end_s": 53.288679403,
+      "n_windows": 1169,
+      "max_baseline_mps": 1.4598998541885813,
+      "max_loss": 0.8706838131346434,
+      "max_excursion_deg": 19.572247072076124,
+      "max_net_heading_deg": 18.223000415889203
+     },
+     {
+      "start_s": 53.788679403,
+      "end_s": 56.788679403,
+      "n_windows": 12,
+      "max_baseline_mps": 1.3583513787809216,
+      "max_loss": 0.8912872605590861,
+      "max_excursion_deg": 15.60230785733247,
+      "max_net_heading_deg": 0.34060744032878176
+     },
+     {
+      "start_s": 77.788679403,
+      "end_s": 87.788679403,
+      "n_windows": 19,
+      "max_baseline_mps": 1.4100036583228428,
+      "max_loss": 0.5250297997424807,
+      "max_excursion_deg": 17.053789272690732,
+      "max_net_heading_deg": -11.032791189735605
+     },
+     {
+      "start_s": 88.038679403,
+      "end_s": 90.788679403,
+      "n_windows": 11,
+      "max_baseline_mps": 1.3950712322821186,
+      "max_loss": 0.9016474105264239,
+      "max_excursion_deg": 15.38223938940978,
+      "max_net_heading_deg": 1.144508110179956
+     }
+    ],
+    "Stadium_Sanjac_90": [
+     {
+      "start_s": 4.0,
+      "end_s": 9.0,
+      "n_windows": 33,
+      "max_baseline_mps": 1.9838972672979973,
+      "max_loss": 0.6722655994923337,
+      "max_excursion_deg": 18.059360950571396,
+      "max_net_heading_deg": 12.694961560275136
+     },
+     {
+      "start_s": 14.25,
+      "end_s": 24.5,
+      "n_windows": 223,
+      "max_baseline_mps": 1.997202950831633,
+      "max_loss": 0.6049349066410767,
+      "max_excursion_deg": 19.199848331372092,
+      "max_net_heading_deg": 18.18570037287393
+     },
+     {
+      "start_s": 29.0,
+      "end_s": 37.5,
+      "n_windows": 37,
+      "max_baseline_mps": 1.9950511453219548,
+      "max_loss": 0.7553310540086016,
+      "max_excursion_deg": 19.82792055988637,
+      "max_net_heading_deg": -3.6664123038493273
+     },
+     {
+      "start_s": 40.0,
+      "end_s": 42.75,
+      "n_windows": 19,
+      "max_baseline_mps": 1.9937692900464836,
+      "max_loss": 0.9918351184100487,
+      "max_excursion_deg": 18.34192605887237,
+      "max_net_heading_deg": 18.34192605887237
+     },
+     {
+      "start_s": 46.5,
+      "end_s": 49.75,
+      "n_windows": 26,
+      "max_baseline_mps": 1.9920844733548875,
+      "max_loss": 0.9965172884116879,
+      "max_excursion_deg": 19.269108567149683,
+      "max_net_heading_deg": 13.098483240227257
+     },
+     {
+      "start_s": 55.75,
+      "end_s": 64.0,
+      "n_windows": 53,
+      "max_baseline_mps": 1.9932631830412417,
+      "max_loss": 0.6903094702618129,
+      "max_excursion_deg": 19.354265727457992,
+      "max_net_heading_deg": 18.6218886493836
+     },
+     {
+      "start_s": 64.75,
+      "end_s": 65.75,
+      "n_windows": 1,
+      "max_baseline_mps": 1.7617236096430553,
+      "max_loss": 0.7281752538940541,
+      "max_excursion_deg": 19.958661410617637,
+      "max_net_heading_deg": -9.29048514354784
+     },
+     {
+      "start_s": 69.75,
+      "end_s": 81.0,
+      "n_windows": 67,
+      "max_baseline_mps": 1.9794410778001787,
+      "max_loss": 0.7439483095247204,
+      "max_excursion_deg": 19.81583416506585,
+      "max_net_heading_deg": 18.752173875770765
+     },
+     {
+      "start_s": 90.5,
+      "end_s": 94.0,
+      "n_windows": 24,
+      "max_baseline_mps": 2.000780204161913,
+      "max_loss": 0.8140827885432973,
+      "max_excursion_deg": 15.759574510742038,
+      "max_net_heading_deg": 0.8888853718886711
+     }
+    ],
+    "Thompson_Thompson_100": [
+     {
+      "start_s": 39.821740914,
+      "end_s": 61.821740914,
+      "n_windows": 751,
+      "max_baseline_mps": 1.475048715960806,
+      "max_loss": 0.8797705551710482,
+      "max_excursion_deg": 19.475412792378904,
+      "max_net_heading_deg": 16.127190916980425
+     },
+     {
+      "start_s": 62.821740914,
+      "end_s": 70.071740914,
+      "n_windows": 49,
+      "max_baseline_mps": 1.3688439606972969,
+      "max_loss": 0.35823670489334436,
+      "max_excursion_deg": 19.921150553870064,
+      "max_net_heading_deg": 19.921150553870064
+     },
+     {
+      "start_s": 70.821740914,
+      "end_s": 74.071740914,
+      "n_windows": 22,
+      "max_baseline_mps": 1.3397386722853917,
+      "max_loss": 0.3350762881833719,
+      "max_excursion_deg": 18.698391238487687,
+      "max_net_heading_deg": -0.10485761390503967
+     },
+     {
+      "start_s": 77.821740914,
+      "end_s": 121.321740914,
+      "n_windows": 1417,
+      "max_baseline_mps": 1.4002380827933738,
+      "max_loss": 0.7223281859207025,
+      "max_excursion_deg": 17.91462789503987,
+      "max_net_heading_deg": 17.91462789503987
+     },
+     {
+      "start_s": 125.821740914,
+      "end_s": 146.571740914,
+      "n_windows": 270,
+      "max_baseline_mps": 1.1883205420829996,
+      "max_loss": 0.43313032353167524,
+      "max_excursion_deg": 19.869276842566222,
+      "max_net_heading_deg": 19.728480551106372
+     },
+     {
+      "start_s": 147.821740914,
+      "end_s": 162.321740914,
+      "n_windows": 410,
+      "max_baseline_mps": 1.3008660289556935,
+      "max_loss": 0.4794904740079561,
+      "max_excursion_deg": 17.181869883968005,
+      "max_net_heading_deg": 16.897125250987358
+     },
+     {
+      "start_s": 163.821740914,
+      "end_s": 198.571740914,
+      "n_windows": 909,
+      "max_baseline_mps": 1.4169921648357342,
+      "max_loss": 0.6456305515515729,
+      "max_excursion_deg": 19.769691366795,
+      "max_net_heading_deg": 18.57946157985512
+     },
+     {
+      "start_s": 210.571740914,
+      "end_s": 220.071740914,
+      "n_windows": 190,
+      "max_baseline_mps": 1.023747825681116,
+      "max_loss": 0.7446844711370487,
+      "max_excursion_deg": 19.744198688599027,
+      "max_net_heading_deg": 7.955303781646933
+     },
+     {
+      "start_s": 220.571740914,
+      "end_s": 228.071740914,
+      "n_windows": 83,
+      "max_baseline_mps": 0.8952627926299874,
+      "max_loss": 0.6062198083506749,
+      "max_excursion_deg": 19.961299868913443,
+      "max_net_heading_deg": 19.65873731304896
+     },
+     {
+      "start_s": 229.071740914,
+      "end_s": 277.571740914,
+      "n_windows": 1627,
+      "max_baseline_mps": 0.8815223646694637,
+      "max_loss": 0.8284873882152527,
+      "max_excursion_deg": 19.947985817792954,
+      "max_net_heading_deg": 19.23946832600413
+     }
+    ]
+   },
+   "n": 24,
+   "seconds": 324.8
+  },
+  "steering": {
+   "exact": "excursion >= 30 deg, loss < 20%",
+   "loose": "excursion >= 25 deg, loss < 25%",
+   "candidates": {
+    "Library_Jester_75": [
+     {
+      "start_s": 17.038679403,
+      "end_s": 30.038679403,
+      "n_windows": 246,
+      "max_baseline_mps": 1.477032404702009,
+      "max_loss": 0.17566957127302307,
+      "max_excursion_deg": 68.36131165799702,
+      "max_net_heading_deg": 68.28805170932472
+     },
+     {
+      "start_s": 47.538679403,
+      "end_s": 53.788679403,
+      "n_windows": 2,
+      "max_baseline_mps": 0.25781261325864524,
+      "max_loss": 0.24107385310675966,
+      "max_excursion_deg": 40.31137854528354,
+      "max_net_heading_deg": -25.022583998362222
+     },
+     {
+      "start_s": 54.538679403,
+      "end_s": 66.788679403,
+      "n_windows": 166,
+      "max_baseline_mps": 1.4059604307734646,
+      "max_loss": 0.059509509956533924,
+      "max_excursion_deg": 42.3050822816932,
+      "max_net_heading_deg": -18.493775715611307
+     }
+    ],
+    "Stadium_Sanjac_90": [
+     {
+      "start_s": 2.0,
+      "end_s": 17.5,
+      "n_windows": 174,
+      "max_baseline_mps": 1.9996447123044536,
+      "max_loss": 0.20651780150107824,
+      "max_excursion_deg": 45.78731226848892,
+      "max_net_heading_deg": 37.96219141186484
+     },
+     {
+      "start_s": 18.25,
+      "end_s": 35.75,
+      "n_windows": 478,
+      "max_baseline_mps": 1.9978421810291118,
+      "max_loss": 0.0992741863149077,
+      "max_excursion_deg": 58.226218691773056,
+      "max_net_heading_deg": 58.13824128972435
+     },
+     {
+      "start_s": 37.0,
+      "end_s": 40.5,
+      "n_windows": 8,
+      "max_baseline_mps": 1.9885956571551633,
+      "max_loss": 0.24111667632171863,
+      "max_excursion_deg": 28.496126584794414,
+      "max_net_heading_deg": -8.665247744406916
+     },
+     {
+      "start_s": 41.75,
+      "end_s": 48.0,
+      "n_windows": 85,
+      "max_baseline_mps": 1.9990975190004705,
+      "max_loss": 0.22080543120078144,
+      "max_excursion_deg": 64.27290196278798,
+      "max_net_heading_deg": 62.752593018926056
+     },
+     {
+      "start_s": 50.25,
+      "end_s": 61.0,
+      "n_windows": 204,
+      "max_baseline_mps": 1.9933331598902542,
+      "max_loss": 0.004561102829284791,
+      "max_excursion_deg": 34.7124612040741,
+      "max_net_heading_deg": 34.62082206010582
+     },
+     {
+      "start_s": 63.75,
+      "end_s": 65.0,
+      "n_windows": 2,
+      "max_baseline_mps": 1.7634960231662025,
+      "max_loss": 0.05953984311697447,
+      "max_excursion_deg": 42.76382302210752,
+      "max_net_heading_deg": 42.76382302210752
+     },
+     {
+      "start_s": 66.5,
+      "end_s": 92.75,
+      "n_windows": 720,
+      "max_baseline_mps": 1.9999891070068836,
+      "max_loss": 0.2395576028807016,
+      "max_excursion_deg": 82.93952901850353,
+      "max_net_heading_deg": 43.134783695762074
+     }
+    ],
+    "Thompson_Thompson_100": [
+     {
+      "start_s": 2.321740914,
+      "end_s": 41.321740914,
+      "n_windows": 1273,
+      "max_baseline_mps": 1.4824146152781683,
+      "max_loss": 0.24933979008507334,
+      "max_excursion_deg": 105.22137701234233,
+      "max_net_heading_deg": 34.61331824868992
+     },
+     {
+      "start_s": 52.071740914,
+      "end_s": 84.071740914,
+      "n_windows": 409,
+      "max_baseline_mps": 1.1851404741769884,
+      "max_loss": 0.24942715521820447,
+      "max_excursion_deg": 55.43763273847304,
+      "max_net_heading_deg": 34.49408640498589
+     },
+     {
+      "start_s": 111.571740914,
+      "end_s": 180.321740914,
+      "n_windows": 1206,
+      "max_baseline_mps": 1.3078471994379217,
+      "max_loss": 0.24927612402830124,
+      "max_excursion_deg": 58.538525462353675,
+      "max_net_heading_deg": 43.73339096561662
+     },
+     {
+      "start_s": 182.821740914,
+      "end_s": 192.821740914,
+      "n_windows": 19,
+      "max_baseline_mps": 0.8330028560114071,
+      "max_loss": 0.23452622941899637,
+      "max_excursion_deg": 28.282115535721317,
+      "max_net_heading_deg": -21.46773010536981
+     },
+     {
+      "start_s": 195.821740914,
+      "end_s": 210.321740914,
+      "n_windows": 423,
+      "max_baseline_mps": 0.9777015464088916,
+      "max_loss": 0.24155518010630916,
+      "max_excursion_deg": 63.65501008222245,
+      "max_net_heading_deg": 39.7603659806112
+     },
+     {
+      "start_s": 211.571740914,
+      "end_s": 226.071740914,
+      "n_windows": 105,
+      "max_baseline_mps": 0.7400640423656413,
+      "max_loss": 0.19313556783920682,
+      "max_excursion_deg": 52.05113104103563,
+      "max_net_heading_deg": -23.98188655597636
+     },
+     {
+      "start_s": 227.321740914,
+      "end_s": 238.571740914,
+      "n_windows": 44,
+      "max_baseline_mps": 0.6500983112131942,
+      "max_loss": 0.17158394106097563,
+      "max_excursion_deg": 27.828632501849995,
+      "max_net_heading_deg": 25.691748280963225
+     }
+    ]
+   },
+   "n": 17,
+   "seconds": 302.5
+  }
+ },
+ "sweep_recall_check": [
+  {
+   "episode": "ep-l1x_dream_steer_or_brake:E3",
+   "recording": "Thompson_Thompson_100",
+   "span": [
+    253.0,
+    256.0
+   ],
+   "grade": 0,
+   "covered": true
+  },
+  {
+   "episode": "ep-l1x_dream_steer_or_brake:E1",
+   "recording": "Library_Jester_75",
+   "span": [
+    14.4,
+    18.5
+   ],
+   "grade": 0,
+   "covered": true
+  },
+  {
+   "episode": "ep-l1x_dream_steer_or_brake:E2",
+   "recording": "Stadium_Sanjac_90",
+   "span": [
+    53.0,
+    57.5
+   ],
+   "grade": 0,
+   "covered": true
+  }
+ ],
+ "sweep_recall_ok": true
+}

@@ -1,0 +1,102 @@
+{
+ "version": "sweep@1",
+ "code_sha": "273643a004d7",
+ "intent": "l1x_dream_opportunity_to_go",
+ "split": "dev",
+ "scope": [
+  "GDC_Library_42",
+  "Library_Jester_75",
+  "Stadium_Sanjac_90"
+ ],
+ "members": {
+  "episode": {
+   "exact": "speed < 50% of pre-encounter baseline for 2 s",
+   "loose": "speed < 55% of the highest baseline in the previous 10 s for 1.75 s",
+   "candidates": {
+    "GDC_Library_42": [
+     {
+      "start_s": 0.2794661679999999,
+      "end_s": 44.779466168,
+      "n_windows": 28,
+      "max_baseline_mps": 0.9443285798728078,
+      "max_slow_from_s": 41.029466168
+     },
+     {
+      "start_s": 87.529466168,
+      "end_s": 98.279466168,
+      "n_windows": 5,
+      "max_baseline_mps": 1.3545534427710932,
+      "max_slow_from_s": 94.529466168
+     },
+     {
+      "start_s": 100.029466168,
+      "end_s": 110.279466168,
+      "n_windows": 3,
+      "max_baseline_mps": 1.4833318728119704,
+      "max_slow_from_s": 106.529466168
+     }
+    ],
+    "Library_Jester_75": [
+     {
+      "start_s": 39.788679403,
+      "end_s": 57.038679403,
+      "n_windows": 9,
+      "max_baseline_mps": 1.4816928831235532,
+      "max_slow_from_s": 53.288679403
+     }
+    ],
+    "Stadium_Sanjac_90": [
+     {
+      "start_s": 34.5,
+      "end_s": 44.5,
+      "n_windows": 2,
+      "max_baseline_mps": 1.9950511453219548,
+      "max_slow_from_s": 40.75
+     },
+     {
+      "start_s": 59.25,
+      "end_s": 69.0,
+      "n_windows": 1,
+      "max_baseline_mps": 1.9930678476993988,
+      "max_slow_from_s": 65.25
+     }
+    ]
+   },
+   "n": 6,
+   "seconds": 102.5
+  }
+ },
+ "sweep_recall_check": [
+  {
+   "episode": "ep-l1x_dream_opportunity_to_go:E1",
+   "recording": "GDC_Library_42",
+   "span": [
+    296.0,
+    301.5
+   ],
+   "grade": 0,
+   "covered": false
+  },
+  {
+   "episode": "ep-l1x_dream_opportunity_to_go:E2",
+   "recording": "Library_Jester_75",
+   "span": [
+    14.2,
+    18.4
+   ],
+   "grade": 0,
+   "covered": false
+  },
+  {
+   "episode": "ep-l1x_dream_opportunity_to_go:E3",
+   "recording": "Stadium_Sanjac_90",
+   "span": [
+    47.0,
+    50.5
+   ],
+   "grade": 0,
+   "covered": false
+  }
+ ],
+ "sweep_recall_ok": true
+}

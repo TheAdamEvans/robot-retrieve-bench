@@ -1,0 +1,172 @@
+{
+ "version": "sweep@1",
+ "code_sha": "273643a004d7",
+ "intent": "l1x_dream_person_adjusts",
+ "split": "dev",
+ "scope": [
+  "GDC_Library_42",
+  "Library_Fountain_5",
+  "Sanjac_Rec_91"
+ ],
+ "members": {
+  "episode": {
+   "exact": "speed range < 0.2 m/s, heading excursion < 15 deg, a person changes course",
+   "loose": "4 s segments with speed range < 0.25 m/s, excursion < 20 deg, and a person present by L1 labels or the detector (recall is relative to that person coverage)",
+   "candidates": {
+    "GDC_Library_42": [
+     {
+      "start_s": 112.0,
+      "end_s": 120.0,
+      "n_windows": 2,
+      "max_speed_range_mps": 0.07336329858385127,
+      "max_excursion_deg": 7.286057459039284,
+      "person_source": "detector"
+     },
+     {
+      "start_s": 128.0,
+      "end_s": 156.0,
+      "n_windows": 7,
+      "max_speed_range_mps": 0.053154968683473136,
+      "max_excursion_deg": 12.17485247170589,
+      "person_source": "detector"
+     },
+     {
+      "start_s": 160.0,
+      "end_s": 172.0,
+      "n_windows": 3,
+      "max_speed_range_mps": 0.12526680894141684,
+      "max_excursion_deg": 13.670892237513385,
+      "person_source": "l1+detector"
+     },
+     {
+      "start_s": 176.0,
+      "end_s": 296.0,
+      "n_windows": 30,
+      "max_speed_range_mps": 0.0823177135037716,
+      "max_excursion_deg": 5.2929924709845295,
+      "person_source": "detector"
+     },
+     {
+      "start_s": 304.0,
+      "end_s": 348.0,
+      "n_windows": 11,
+      "max_speed_range_mps": 0.05814690356951524,
+      "max_excursion_deg": 15.414951837247088,
+      "person_source": "detector"
+     }
+    ],
+    "Library_Fountain_5": [
+     {
+      "start_s": 4.0,
+      "end_s": 16.0,
+      "n_windows": 3,
+      "max_speed_range_mps": 0.08686246342614723,
+      "max_excursion_deg": 15.9210980747078,
+      "person_source": "l1+detector"
+     },
+     {
+      "start_s": 24.0,
+      "end_s": 36.0,
+      "n_windows": 3,
+      "max_speed_range_mps": 0.053090007461886524,
+      "max_excursion_deg": 19.147841042372285,
+      "person_source": "detector"
+     },
+     {
+      "start_s": 44.0,
+      "end_s": 72.0,
+      "n_windows": 7,
+      "max_speed_range_mps": 0.04379172889344818,
+      "max_excursion_deg": 17.948778676415046,
+      "person_source": "detector"
+     },
+     {
+      "start_s": 80.0,
+      "end_s": 100.0,
+      "n_windows": 5,
+      "max_speed_range_mps": 0.09721558631765248,
+      "max_excursion_deg": 16.44401310415936,
+      "person_source": "detector"
+     }
+    ],
+    "Sanjac_Rec_91": [
+     {
+      "start_s": 8.0,
+      "end_s": 16.0,
+      "n_windows": 2,
+      "max_speed_range_mps": 0.018376235593008605,
+      "max_excursion_deg": 12.269495408084516,
+      "person_source": "detector"
+     },
+     {
+      "start_s": 40.0,
+      "end_s": 44.0,
+      "n_windows": 1,
+      "max_speed_range_mps": 0.019892743295031767,
+      "max_excursion_deg": 13.754192422525374,
+      "person_source": "detector"
+     },
+     {
+      "start_s": 72.0,
+      "end_s": 84.0,
+      "n_windows": 3,
+      "max_speed_range_mps": 0.03627423024821952,
+      "max_excursion_deg": 19.417705613206593,
+      "person_source": "detector"
+     },
+     {
+      "start_s": 104.0,
+      "end_s": 108.0,
+      "n_windows": 1,
+      "max_speed_range_mps": 0.017440618653475015,
+      "max_excursion_deg": 13.161930526169368,
+      "person_source": "detector"
+     },
+     {
+      "start_s": 116.0,
+      "end_s": 124.0,
+      "n_windows": 2,
+      "max_speed_range_mps": 0.06617288754605988,
+      "max_excursion_deg": 19.98174743659069,
+      "person_source": "l1+detector"
+     }
+    ]
+   },
+   "n": 14,
+   "seconds": 320.0
+  }
+ },
+ "sweep_recall_check": [
+  {
+   "episode": "ep-l1x_dream_person_adjusts:E1",
+   "recording": "Sanjac_Rec_91",
+   "span": [
+    17.0,
+    19.5
+   ],
+   "grade": 0,
+   "covered": false
+  },
+  {
+   "episode": "ep-l1x_dream_person_adjusts:E2",
+   "recording": "Library_Fountain_5",
+   "span": [
+    17.0,
+    21.5
+   ],
+   "grade": 0,
+   "covered": false
+  },
+  {
+   "episode": "ep-l1x_dream_person_adjusts:E3",
+   "recording": "GDC_Library_42",
+   "span": [
+    293.2,
+    298.3
+   ],
+   "grade": 0,
+   "covered": true
+  }
+ ],
+ "sweep_recall_ok": true
+}

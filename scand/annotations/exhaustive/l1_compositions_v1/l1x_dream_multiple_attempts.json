@@ -1,0 +1,57 @@
+{
+ "version": "sweep@1",
+ "code_sha": "273643a004d7",
+ "intent": "l1x_dream_multiple_attempts",
+ "split": "dev",
+ "scope": [
+  "Library_Jester_75",
+  "Stadium_Sanjac_90",
+  "Thompson_Thompson_100"
+ ],
+ "members": {
+  "episode": {
+   "exact": "8 s, net planar displacement < 2 m from raw pose, two speed dips >= 0.2 m/s",
+   "loose": "8 s, net displacement < 2.5 m, raw speed reaches >= 0.15 m/s",
+   "candidates": {
+    "Library_Jester_75": [],
+    "Stadium_Sanjac_90": [],
+    "Thompson_Thompson_100": []
+   },
+   "n": 0,
+   "seconds": 0
+  }
+ },
+ "sweep_recall_check": [
+  {
+   "episode": "ep-l1x_dream_multiple_attempts:E1",
+   "recording": "Stadium_Sanjac_90",
+   "span": [
+    64.0,
+    72.1
+   ],
+   "grade": 0,
+   "covered": false
+  },
+  {
+   "episode": "ep-l1x_dream_multiple_attempts:E2",
+   "recording": "Thompson_Thompson_100",
+   "span": [
+    236.0,
+    244.0
+   ],
+   "grade": 0,
+   "covered": false
+  },
+  {
+   "episode": "ep-l1x_dream_multiple_attempts:E3",
+   "recording": "Library_Jester_75",
+   "span": [
+    50.0,
+    58.0
+   ],
+   "grade": 0,
+   "covered": false
+  }
+ ],
+ "sweep_recall_ok": true
+}
