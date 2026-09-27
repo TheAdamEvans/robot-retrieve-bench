@@ -1,0 +1,44 @@
+{
+ "job": "ep-l1x_dream_turn_creates_exposure",
+ "campaign": "episodes-l1_compositions_v1-leads",
+ "labels": {
+  "train/judgments": 26,
+  "train/episodes": 3
+ },
+ "tool_calls": 50,
+ "leads": [
+  {
+   "recording": "Library_Jester_75",
+   "window": "Library_Jester_75:0060",
+   "context": [
+    48,
+    68
+   ],
+   "episode_id": "E1"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "window": "GDC_Library_42:0032",
+   "context": [
+    20,
+    40
+   ],
+   "episode_id": "E2"
+  },
+  {
+   "recording": "Parlin_Parlin_51",
+   "window": "Parlin_Parlin_51:0044",
+   "context": [
+    32,
+    52
+   ],
+   "episode_id": "E3"
+  }
+ ],
+ "brief_sha256": "76eebfd37b51bbe02920420144b64f57d8893f0f2669c8181250fc86f097d79b",
+ "cost_usd": 2.5726614000000003,
+ "turns": 90,
+ "minutes": 10.0,
+ "is_error": false,
+ "report": "None of the three leads fully matches the question. E1 is relevant but unresolved (grade 1), and E2 and E3 are near misses (grade 0). The stored labels read back as submitted: 3 episode records and 26 window grades, with nothing rejected.\n\n**Per episode** (clauses in order: turn \u226545\u00b0 / same person at side before turn / reorientation, not crossing / slowdown vs geometry):\n\n- **E1, Library_Jester_75, 52.0\u201356.0 s, grade 1:** TRUE / UNKNOWN / UNKNOWN / TRUE.\n  - The robot turns right by 58.5\u00b0 (52.95\u201355.43 s). It starts braking at about 52.7 s, while heading has moved less than 1\u00b0, which is about 1.1 s before the candidate enters the corridor (about 53.8 s).\n  - The candidate (blonde, dark backpack) first shows up at the right edge of the front camera just as the turn starts. Before that she is hidden by a person crossing close in front, so I couldn't show she was visible at the side earlier.\n  - The other person who ends up ahead (orange jacket) had already walked across the robot's path, so she doesn't qualify.\n- **E2, GDC_Library_42, 29.5\u201335.0 s, grade 0:** TRUE / TRUE / **FALSE** / TRUE.\n  - The robot turns left by 86\u00b0. The man with the backpack is on the left camera from 30.1 to 31.9 s and then continuous in the front camera.\n  - He fails clause 3 because he walks across the robot's path himself. His lidar bearing moves from about +55\u00b0 to \u221244\u00b0, roughly 100\u00b0, while the robot yaws only about 37\u00b0.\n  - Slowing (29.8 s, down to a near stop) comes about 2.4 s before he enters the corridor.\n- **E3, Parlin_Parlin_51, 35.5\u201342.0 s, grade 0:** TRUE / **FALSE** / TRUE / TRUE.\n  - The robot spins about 174\u00b0 in place on a stairwell landing. This brings a man standing still (TEXAS shirt, holding a controller) into the corridor about 1.7 m ahead.\n  - Before the turn he is behind the robot, on the back camera. He only reaches the left camera at 39.06 s, after about 55\u00b0 of the turn. I didn't count just the later part of the turn, because that would split one continuous turn to meet the threshold.\n  - Slowing (about 36.5 s) coincides with the turn starting and comes about 4.8 s before he enters the corridor (about 41.3 s).\n\n**Comparison:** There's no qualifying episode. Among the leads, slowing always starts before the change in relative geometry: by about 1.1 s in E1, 2.4 s in E2 and 4.8 s in E3. There is no \"after\" case to contrast with, and in each lead the slowdown overlaps something else:\n- **E1:** a person crossing close in front.\n- **E2:** the end of an earlier 64\u00b0 turn.\n- **E3:** the start of the turn itself.\n\n**What the data couldn't establish:**\n- **E1 identity:** in a dense crowd I couldn't follow one person from a side camera into the front view. The body cameras run at 4.5 Hz with about 0.45 s delay, and the one pre-turn view that could show her is blocked.\n- **Separating crossing from rotation:** I did this by hand, comparing lidar bearing against robot yaw. It only works for close, isolated people. Near railings (E2) the lidar clusters merge, so the pre-turn bearing there is approximate.\n- **E3 \"pedestrian\":** the man appears to be the robot's handler, which weakens that episode even apart from clause 2.\n\nThe inputs are in `annotations/tmp/ep-l1x_dream_turn_creates_exposure/` (`episodes.json` and `windows.json`)."
+}

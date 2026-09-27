@@ -1,0 +1,14 @@
+{
+ "campaign": "l2-original",
+ "kinds": [
+  "judgment"
+ ],
+ "priority": 0,
+ "brief": "l2_judgments.md",
+ "purpose": "Pooled graded relevance judgments for eval v7 (demo5, demo5_para and compose_test intents).",
+ "date": "2026-09-27",
+ "judge": "claude-opus-5-5",
+ "jobs": 10,
+ "cost_usd": null,
+ "cost_note": "Run as interactive agent sessions before per-job cost was recorded; see git history for estimates."
+}

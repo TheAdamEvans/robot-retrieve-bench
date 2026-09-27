@@ -121,6 +121,15 @@ exhaustive coverage. Detector silence is never proof of absence.
 **Cost accounting.** Each response has a `CostReport`: wall time, bytes read (equal to the timeline's chunk lengths,
 which is tested), resident bytes, LLM calls and tokens (cached separately), and whether the program came from cache.
 
+## Labels
+
+`labels/` holds every label, organized by what it may be used for: `train/`, `eval/` (never trained or tuned on)
+and `agreement/` (blind re-judgments for agreement statistics only). Provenance lives per labelling campaign in
+`labels/metadata/<campaign>/`: purpose, judge, cost, priority, each job's assignment and report, and the audit log
+of every labeller tool call. The FUSED trainer reads only `train/`. One loader
+(`alloy_index.annotate.store.load_labels`) applies campaign precedence and fails on ambiguity. See
+[`labels/README.md`](../labels/README.md).
+
 ## Learning loop: usage becomes datasets
 
 1. **Labels.** The Opus labeller writes L1 per-segment attributes and captions through audited `scandq` views. L2

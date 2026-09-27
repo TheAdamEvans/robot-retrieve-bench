@@ -12,7 +12,7 @@ def test_replayed_report_preserves_original_generation_cost_and_marks_its_source
         "generation_cost": {"wall_ms": 5000, "tokens": 1234}, "generation_cost_source": "v7",
     }
     (tmp_path / "runs.jsonl").write_text(json.dumps(row) + "\n")
-    report = build(tmp_path, tmp_path / "annotations")
+    report = build(tmp_path, tmp_path / "labels")
     result = report["tables"]["demo5"][0]
     assert result["wall_p50"] == 5025 and result["wall_cached_p50"] == 25
     assert result["tokens"]["mean"] == 1234

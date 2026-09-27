@@ -12,7 +12,7 @@ of the current report. Both checkpoints include hashes of their artifacts.
 - Program API errors return failed diagnostics and an explanatory note. PROGRAM abstains; HYBRID/FUSED_V keep
   unverified retrieval results. Requests use a 20-second timeout and no automatic API retries. Failed API requests
   count as calls, and transient failures are never cached. The existing one-repair policy for invalid programs remains.
-- Label readers share explicit shard precedence in `annotations/labels/precedence.json`. Follow-up judgments
+- Label readers share explicit campaign precedence (`priority` in `labels/metadata/<campaign>/campaign.json`; see `labels/README.md`). Follow-up judgments
   supersede the original shards; complete Butler labels supersede the smoke sample. Equal-priority cross-shard
   conflicts fail. The resolved 173 L1 labels and 1,061 L2 judgments match the original checkpoint.
 - The report distinguishes supplied ORACLE programs from generated LUNA programs and includes R@50 and judged@50.

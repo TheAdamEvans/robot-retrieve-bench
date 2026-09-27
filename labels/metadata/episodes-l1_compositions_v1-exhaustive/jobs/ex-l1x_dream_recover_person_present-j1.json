@@ -1,0 +1,65 @@
+{
+ "job": "ex-l1x_dream_recover_person_present-j1",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/judgments": 39,
+  "train/episodes": 13
+ },
+ "tool_calls": 63,
+ "chunks": [
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 1.8,
+   "end_s": 25.2,
+   "chunk_id": "K1"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 23.2,
+   "end_s": 48.7,
+   "chunk_id": "K2"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 46.7,
+   "end_s": 72.1,
+   "chunk_id": "K3"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 78.5,
+   "end_s": 94.7,
+   "chunk_id": "K4"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 92.7,
+   "end_s": 110.9,
+   "chunk_id": "K5"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 147.3,
+   "end_s": 160.7,
+   "chunk_id": "K6"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 289.3,
+   "end_s": 302.9,
+   "chunk_id": "K7"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 6.0,
+   "end_s": 19.5,
+   "chunk_id": "K8"
+  }
+ ],
+ "brief_sha256": "62618fcfb04514d48374e5b9c982d1545f29b005155ca3d357bed815d1f1e80e",
+ "cost_usd": 4.4722748,
+ "turns": 140,
+ "minutes": 13.8,
+ "is_error": false,
+ "report": "I found two full matches: K4-b (door-holder) and K7-a (woman on the walkway). Two more are relevant but incomplete (grade 1); the other nine are near misses. All 13 episodes and 39 window grades were accepted with no rejects, and `label get` returns all 13 episodes.\n\n**Per chunk**\n- **K1** (1.8\u201325.2 s):\n  - K1-a, grade 0: the slowdown comes from a left turn past desks; there's no pedestrian.\n  - K1-b, grade 0: the robot waits at a closed door. At the ~19.0 s recovery the person opening the door is still in the path.\n  - K1-c, grade 1: the door-opener crosses in front and holds the door open. The baseline speed is about 0.12 m/s, below the 0.2 floor, so the drop, recovery and \"beside\" clauses stay UNKNOWN.\n- **K2** (23.2\u201348.7 s):\n  - K2-a, grade 0: a masked person is on the stairs behind a glass railing and never enters the path.\n  - K2-b, grade 0: a person with a backpack walks in the path while the robot speeds back up, and speed never reaches 90% of baseline.\n  - K2-c, grade 0: dips on the stairs with no pedestrian.\n- **K3** (46.7\u201372.1 s):\n  - K3-a, grade 0: stairwell only, no pedestrian.\n- **K4** (78.5\u201394.7 s):\n  - K4-a, grade 0: a person in red leads the robot to a door. Measured from the fixed baseline (~0.85 m/s) the loss is about 26%, under 30%. It would pass only if the baseline were anchored at the 87.3 s speed peak.\n  - K4-b, grade 2: full match, below.\n- **K5** (92.7\u2013110.9 s):\n  - K5-a, grade 0: the robot stops at a building wall and turns; no pedestrian. The dip at the start of K5 is K4-b.\n- **K6** (147.3\u2013160.7 s):\n  - K6-a, grade 0: a 35% loss, but the cyclist and the pedestrian both pass on the left, and lidar shows the path empty throughout.\n- **K7** (289.3\u2013302.9 s):\n  - K7-a, grade 2: full match, below.\n- **K8** (Library_Jester_75, 6.0\u201319.5 s):\n  - K8-a, grade 1: all numeric clauses hold, but \"beside\" stays UNKNOWN (next list).\n\n**Full matches (grade 2)**\n- **K4-b**, GDC_Library_42 90.7\u201398.5 s: a person holding the door (sandals, shorts, bottle) steps aside, then stands beside the robot on its left.\n  - Speed falls from a baseline of ~1.08 to 0.47 m/s at 95.8 s (57% loss).\n  - They leave the path at 94.28 s and speed recovers at about 96.8 s.\n  - They're visible front-left and in the left camera from 96.55 to 98.42 s. Last supported visibility: 98.42 s.\n  - The door frame fills the lidar corridor from 93.5 to 97.8 s, so the exit time comes from the camera.\n- **K7-a**, GDC_Library_42 296.1\u2013303.8 s: a woman with a backpack walking ahead veers right and climbs nearby stairs.\n  - Speed falls from 1.40 to 0.88 m/s at 299.53 s (37% loss).\n  - She leaves the path at 297.78 s (lidar) and speed recovers at about 301.08 s.\n  - She's in the right camera at recovery (capture 301.13 s), roughly 5\u20138 m to the side. Last supported visibility: 303.8 s.\n  - I counted \"beside\" as visible in the side camera at a few metres. That's a judgement call.\n\n**Relevant but incomplete (grade 1)**\n- **K1-c**, GDC_Library_42 18.8\u201322.5 s: same person throughout (TRUE); the other three clauses are UNKNOWN because of the low baseline.\n- **K8-a**, Library_Jester_75 14.1\u201318.5 s: a pedestrian clears the path by 16.75 s and speed recovers at about 17.57 s (76% loss from 1.40 m/s).\n  - At recovery she's about 3 m ahead and to the left, not alongside.\n  - The one beside the robot on the right is a cyclist, who isn't a pedestrian.\n\nThis isn't a comparison question, so there are no pairs to report."
+}

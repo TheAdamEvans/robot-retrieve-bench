@@ -162,7 +162,7 @@ Pooled judgments cannot support recall claims: a window nobody judged is unknown
   by L1 labels or the detector.
 
 Where the lead-based pass and the exhaustive pass overlap, they agree on relevant versus not for 16 of 18
-episodes. Exhaustive shards take precedence (`annotations/labels/precedence.json`).
+episodes. The exhaustive campaign takes precedence (priority 2 in its `labels/metadata/<campaign>/campaign.json`).
 
 **What the ground truth exposed.** On the two questions whose true answer is "none", every config still returns
 results, marked unverified or partial. None says `none_found_exhaustive` or `insufficient_evidence`. Pooled

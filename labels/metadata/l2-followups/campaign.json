@@ -1,0 +1,14 @@
+{
+ "campaign": "l2-followups",
+ "kinds": [
+  "judgment"
+ ],
+ "priority": 1,
+ "brief": "l2_judgments.md",
+ "purpose": "Follow-up judging rounds after v7; they supersede l2-original where they re-grade a window.",
+ "date": "2026-09-27",
+ "judge": "claude-opus-5-5",
+ "jobs": 10,
+ "cost_usd": null,
+ "cost_note": "Run as interactive agent sessions before per-job cost was recorded; see git history for estimates."
+}

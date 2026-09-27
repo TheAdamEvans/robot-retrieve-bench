@@ -1,0 +1,35 @@
+{
+ "job": "ep-l1x_dream_test_small_turn_close_pass",
+ "campaign": "episodes-l1_compositions_v1-leads",
+ "labels": {
+  "eval/judgments": 19,
+  "eval/episodes": 2
+ },
+ "tool_calls": 34,
+ "leads": [
+  {
+   "recording": "Rec_Tent_129",
+   "window": "Rec_Tent_129:0364",
+   "context": [
+    352,
+    372
+   ],
+   "episode_id": "E1"
+  },
+  {
+   "recording": "Rec_Tent_129",
+   "window": "Rec_Tent_129:0304",
+   "context": [
+    288,
+    312
+   ],
+   "episode_id": "E2"
+  }
+ ],
+ "brief_sha256": "b6bd7ca7c75de2eea304ba809b5f61942627b4f764526bf7e194d92a36461087",
+ "cost_usd": 1.9756752000000002,
+ "turns": 64,
+ "minutes": 8.0,
+ "is_error": false,
+ "report": "Neither lead gives a full match. E1 is relevant but incomplete (grade 1), and E2 is a near miss (grade 0). Both episode records and all 19 window grades are stored; `label get` shows one record per lead.\n\n**E1: 360.0\u2013364.5 s, grade 1**\n1. **Close oncoming pass: TRUE.** Two men walk toward the robot and pass on its right at about 362.8 s. Lidar shows them at 1.18 m, bearing \u221272\u00b0 (several people merged into one cluster). The food truck is visibly farther back, so the nearest return is the people, not the truck.\n2. **Speed \u226590% and heading <15\u00b0: UNKNOWN.**\n   - Speed passes easily. Baseline over 358.5\u2013360.5 s is about 1.40 m/s, and the lowest filtered speed is 1.386 m/s, about 99%.\n   - Heading is right on the limit. The swerve alone is 13.3\u00b0. Over 360.5\u2013364.0 s it is 14.8\u00b0. Extend the span to 365.5 s and it is 15.0\u00b0.\n   - Because the verdict flips with where the span ends, the rules require UNKNOWN.\n3. **Did the people change course: UNKNOWN.** Neither man visibly sidesteps. But the robot yaws 13\u00b0 left during the pass, and that motion can't be separated from a small shift by them in the front camera.\n4. **Comparator: UNKNOWN.** No qualifying comparator is confirmed. The only candidate is E2 (see below).\n\nAnchors for E1: approach 360.5 s, heading peak 362.09 s, closest pass 362.8 s, after 364.0 s.\n\n**E2: 296.5\u2013304.0 s, grade 0 (near miss)**\n1. **Close oncoming pass: UNKNOWN.** An oncoming man is present but stays outside the corridor, at 2.6\u20133.2 m and about 1.6 m to the side. The person in the robot's path is a woman standing still, facing away.\n2. **Speed and heading: FALSE.** Speed drops from about 1.42 to 0.11 m/s at 301.65 s, and the robot turns 57\u00b0 right to get around her.\n3. **Did the people change course: UNKNOWN.** Same problem as E1: the robot's own turn masks any shift by the man.\n4. **As E1's comparator: UNKNOWN.** Details in the next section.\n\nAnchors for E2: slowdown onset 297.3 s, lowest speed 301.65 s, turn low point 301.89 s, recovery 303.56 s.\n\n**Is there a qualifying pair?** No. E2 has far more than 30% speed loss (about 92%), but the robot slows for a woman standing still in its path, not for oncoming traffic. The oncoming man passes alongside, outside the corridor. Using E2 as the comparator would be exactly the mismatch the brief warns about, so I flagged it rather than counting it. E1 is also weak on its own side, since its heading sits on the 15\u00b0 line.\n\n**What the data couldn't establish**\n- **Course changes:** with a single forward camera, a person's small sideways move looks the same as the robot's own yaw.\n- **Heading margin:** the heading is integrated from yaw rate, and a 0.2\u00b0 margin at 15\u00b0 is smaller than the uncertainty from choosing where the span ends.\n- **Distances:** the lidar figures are distances to clusters, not body-to-body clearance. At 362.8 s the cluster merges several people.\n\nE2's context span also has a separate speed dip at about 292.5 s. It's a different encounter from the lead, so I didn't judge it, and I didn't go looking for other comparators.\n\nOne fix along the way: E1 was rejected once because its comparator clause cited E2's refs, which fall outside E1's time span. I switched those refs to E1's own and named E2 in the text. The resubmission was accepted with both records intact."
+}

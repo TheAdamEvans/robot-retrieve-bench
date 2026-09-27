@@ -41,7 +41,7 @@ message ArtifactRecord {
   string recording_id = 4;            // empty for CORPUS stages
   string params_sha256 = 5;
   repeated string input_keys = 6;
-  repeated string paths = 7;          // outputs, relative to the sink root (or the repository root for annotations)
+  repeated string paths = 7;          // outputs, relative to the sink root (or the repository root for labels)
   string content_key = 8;             // layout-independent identity downstream stages depend on (e.g. payload hashes)
   double wall_s = 9;
   string created_at = 10;

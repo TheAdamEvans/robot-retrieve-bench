@@ -25,8 +25,8 @@ def kappa(pairs: list[tuple[int, int]]) -> float | None:
 
 
 def main() -> dict:
-    first = load_judgments(SCAND_ROOT / "annotations")
-    second = load_judgments(SCAND_ROOT / "annotations_recheck")
+    first = load_judgments(uses=("train", "eval"))
+    second = load_judgments(uses=("agreement",))
     pairs, per = [], defaultdict(list)
     for intent, wg in second.items():
         for w, g2 in wg.items():

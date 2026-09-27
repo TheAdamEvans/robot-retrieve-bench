@@ -39,7 +39,7 @@ phases, whether the route is visibly clear, what surface produces a return.
 
 ## What to submit
 
-**1. One episode record per lead** (`label put episode --json @annotations/tmp/{JOB}/episodes.json`, a JSON list):
+**1. One episode record per lead** (`label put episode --json @labels/.work/{JOB}/episodes.json`, a JSON list):
 
 ```json
 {"intent_group_id": "{INTENT_ID}", "episode_id": "E1", "recording_id": "...", "start_s": 0.0, "end_s": 0.0,
@@ -57,7 +57,7 @@ phases, whether the route is visibly clear, what surface produces a return.
   near miss (a known FALSE clause) or off-topic.
 - `window_ids`: the 4 s windows (`Rec:EEEE` covers `[EEEE-4 s, EEEE s]`, 1 s stride) that overlap the episode.
 
-**2. Window grades** for every window in `window_ids` (`label put judgment --json @annotations/tmp/{JOB}/windows.json`),
+**2. Window grades** for every window in `window_ids` (`label put judgment --json @labels/.work/{JOB}/windows.json`),
 each `{"intent_group_id": "{INTENT_ID}", "window_id": ..., "grade": ..., "rationale": ..., "refs": [...]}`:
 **2** the window contains, or is within 1 s of, an anchor of a grade-2 episode; **1** it lies inside a relevant
 episode without an anchor, or its episode is grade 1; **0** its episode is a near miss or off-topic; **-1** only if

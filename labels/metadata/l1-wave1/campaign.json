@@ -1,0 +1,13 @@
+{
+ "campaign": "l1-wave1",
+ "kinds": [
+  "attributes"
+ ],
+ "priority": 0,
+ "brief": "l1_attributes.md",
+ "purpose": "L1 attributes for the nine data-wave-1 recordings: headless jobs of at most 30 segments.",
+ "date": "2026-09-27",
+ "judge": "claude-opus-5-5",
+ "jobs": 17,
+ "cost_usd": 84.06
+}

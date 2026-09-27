@@ -1,0 +1,6 @@
+{
+ "job": "adhoc-orchestrator",
+ "campaign": "adhoc",
+ "labels": {},
+ "tool_calls": 1
+}

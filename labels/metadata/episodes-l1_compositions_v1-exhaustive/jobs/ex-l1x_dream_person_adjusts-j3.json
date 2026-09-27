@@ -1,0 +1,46 @@
+{
+ "job": "ex-l1x_dream_person_adjusts-j3",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/episodes": 9
+ },
+ "tool_calls": 55,
+ "chunks": [
+  {
+   "recording": "Sanjac_Rec_91",
+   "start_s": 8.0,
+   "end_s": 16.0,
+   "chunk_id": "K14"
+  },
+  {
+   "recording": "Sanjac_Rec_91",
+   "start_s": 40.0,
+   "end_s": 44.0,
+   "chunk_id": "K15"
+  },
+  {
+   "recording": "Sanjac_Rec_91",
+   "start_s": 72.0,
+   "end_s": 84.0,
+   "chunk_id": "K16"
+  },
+  {
+   "recording": "Sanjac_Rec_91",
+   "start_s": 104.0,
+   "end_s": 108.0,
+   "chunk_id": "K17"
+  },
+  {
+   "recording": "Sanjac_Rec_91",
+   "start_s": 116.0,
+   "end_s": 124.0,
+   "chunk_id": "K18"
+  }
+ ],
+ "brief_sha256": "834efa33fe79c041c07523b98d34004f3de1aa01a17732704007d14d8427948c",
+ "cost_usd": 3.2392655999999995,
+ "turns": 108,
+ "minutes": 9.0,
+ "is_error": false,
+ "report": "No episode in K14\u2013K18 (Sanjac_Rec_91) meets the question. I recorded 9 candidate moments, all near misses (grade 0), so there are no grade 2 or grade 1 episodes and no window grades to submit. All 9 records were accepted with no rejects, and `label get` shows them stored.\n\nThe main problem across these chunks is that the robot drives at about 2.0 m/s and constantly weaves, so a person's sideways drift in the image mostly comes from the robot's own motion. I tracked each person in the lidar scans and removed the robot's movement by hand. The helper script for that (`track.py` in the job's tmp folder) wasn't permitted to run.\n\n| Chunk | Moment | Grade | Why it fails |\n|---|---|---|---|\n| K14 | K14-a, 8.0\u20139.2 s: person in the road on the right | 0 | Standing still looking at a phone; moved only about 0.17 m while the robot drove 1.6 m, so not an oncoming walker |\n| K14 | K14-b, 14.4\u201316.0 s: oncoming group on the left | 0 | Walks a straight line; sideways offset stays at about 1.3 m. The 14.8 s dip in the robot's forward-path distance is a ground arc in the scan, not a person |\n| K15 | K15-a, 42.0\u201344.0 s: two people by the right barrier | 0 | Standing or walking away from the robot, not oncoming; the crowd ahead stays out of passing range |\n| K16 | K16-a, 72.0\u201373.6 s: man in white, passes left | 0 | Straight approach; offset 2.2 \u2192 2.1 m |\n| K16 | K16-b, 75.6\u201377.3 s: woman in navy, passes left | 0 | Straight approach at about 0.8 m/s; offset steady at about 1.8 m. The 77.36 s dip to 0.59 m is a ground-strike artifact in the scan |\n| K16 | K16-c, 77.5\u201379.3 s: couple, passes close on the right | 0 | Offset \u22121.41 \u2192 \u22121.46 m while the robot's heading barely changes |\n| K17 | K17-a, 104.2\u2013105.5 s: man in orange cap on the left curb | 0 | Same body direction and walking line across the native frames; his drift in the image comes from the robot's 10\u00b0 right turn. The couple ahead is walking away |\n| K18 | K18-a, 117.3\u2013119.5 s: man in orange shirt, nearly head-on, passes close on the left | 0 | Closest call. The robot's speed (~2.0 m/s flat) and heading (5.7\u00b0 excursion) would pass, but his path is a steady ~6\u00b0 diagonal with only 0.2 m total sideways drift, within the tracking error |\n| K18 | K18-b, 121.5\u2013124.0 s: oncoming couple, passes left | 0 | The robot turns 20\u00b0 during the encounter (+0.8\u00b0 to \u221219.2\u00b0), over the 15\u00b0 limit |\n\nTwo verdicts are less certain than the rest:\n- **K17-a:** the lidar can't cleanly separate him from the crowd on the left sidewalk, so that verdict rests mainly on the camera frames.\n- **K18-a:** marked FALSE because there's no distinct course change. It's the one moment worth a second look if you want to probe the boundary.\n\nThis isn't a comparison question, so no pairs apply."
+}

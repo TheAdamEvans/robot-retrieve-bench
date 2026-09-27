@@ -36,7 +36,7 @@ npm run check
 `prepare.py` reuses existing rendered MP4 files; remove the particular clip under `assets/` if changing its span.
 It makes no model API calls. The benchmark data comes from `benchmark/results/v9/` (the blind label re-check from
 `benchmark/results/v8-correctness/`); the receipt replays v9's stored generated program on the Library-to-MLK
-recording in `bundles/dev`. The behavior-question table reads the exhaustive ground truth under `annotations/`.
+recording in `bundles/dev`. The behavior-question table reads the exhaustive ground truth under `labels/`.
 
 ## Files
 

@@ -1,0 +1,44 @@
+{
+ "job": "ep-l1x_dream_recover_person_present",
+ "campaign": "episodes-l1_compositions_v1-leads",
+ "labels": {
+  "train/judgments": 29,
+  "train/episodes": 3
+ },
+ "tool_calls": 47,
+ "leads": [
+  {
+   "recording": "Stadium_Sanjac_90",
+   "window": "Stadium_Sanjac_90:0084",
+   "context": [
+    68,
+    92
+   ],
+   "episode_id": "E1"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "window": "Library_Jester_75:0020",
+   "context": [
+    8,
+    28
+   ],
+   "episode_id": "E2"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "window": "GDC_Library_42:0302",
+   "context": [
+    288,
+    312
+   ],
+   "episode_id": "E3"
+  }
+ ],
+ "brief_sha256": "5da96ce2eaf7026d27ed72101c8e6895138ce33074aa0a8c52b2262990bc57ca",
+ "cost_usd": 2.9088050000000005,
+ "turns": 90,
+ "minutes": 9.4,
+ "is_error": false,
+ "report": "Two of the three leads fully match (E2 and E3, both grade 2); E1 is relevant but unresolved (grade 1). All labels went in with no rejects: 3 episodes and 29 window grades, confirmed with `label get`.\n\n| Ep | Span | Grade | 1 same person | 2 slowdown \u226530% | 3 exit before recovery | 4 visible beside at recovery |\n|---|---|---|---|---|---|---|\n| E1 Stadium_Sanjac_90 | 71.0\u201377.6 s | 1 | UNKNOWN | TRUE | UNKNOWN | UNKNOWN |\n| E2 Library_Jester_75 | 14.1\u201318.2 s | 2 | TRUE | TRUE | TRUE | TRUE |\n| E3 GDC_Library_42 | 296.1\u2013303.4 s | 2 | TRUE | TRUE | TRUE | TRUE |\n\n**E1:** speed drops from about 2.0 to 0.51 m/s (\u221275%). Recovery to 90% is at 77.43 s. The corridor exit is at 77.56 s and the last camera view of the person is at 77.24 s. The lead window itself (80\u201384 s) has no slowdown: speed holds at 1.97\u20132.02 m/s from 78 to 88 s, so I judged the 71\u201377.6 s dip instead.\n\n**E2:** a cyclist approaches head-on. Speed drops from 1.40 to 0.33 m/s (\u221276%). The cyclist leaves the corridor at 16.76 s, speed recovers at about 17.6 s, and the right camera shows the cyclist beside the robot until 18.11 s (capture time).\n\n**E3:** a pedestrian with a backpack passes on the right. Speed drops from 1.40 to 0.88 m/s (\u221237%). She leaves the corridor at 297.75 s and speed recovers at 301.1 s. The right-camera frames either side of recovery show her, and she stays visible until 303.33 s.\n\n**What weakens the two matches:**\n- **E2:** the person is a cyclist, not a pedestrian on foot. The clauses say \"person\", so it passes; if \"pedestrian\" is meant strictly, it becomes a near miss. I've said so in its grade note.\n- **E3:** the slowdown only starts about 1.2 s after she has already left the corridor. The clause order still holds, but the dip may not be a reaction to her. At recovery she is about 5 m to the side, walking away, not close by.\n\n**What the data couldn't establish (E1):**\n- **Identity:** the Jackal robot has only a front camera, and the scene is a dense crowd walking the same way as the robot. No single person can be followed through approach, exit and recovery.\n- **Order:** recovery comes about 0.1 s before the corridor clears. That's within one lidar scan and the speed filter's lag, so under the contract clause 3 is UNKNOWN. There is also a brief filtered spike to 1.90 m/s at 75.44 s while the corridor is still occupied.\n- **Visibility beside:** lidar shows something beside the robot at recovery, but lidar can't identify it, and it isn't visible on camera. I didn't infer from lidar alone.\n\nThe body cameras on the Spot robots run at about 4.5 Hz with about 0.4 s delay, so I cite capture times for visibility and receipt times for speed.\n\nI also wrote a small sampling script, `annotations/tmp/ep-l1x_dream_recover_person_present/samples.py`, but never ran it because it needed approval. It can be deleted."
+}

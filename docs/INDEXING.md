@@ -92,8 +92,9 @@ uv run alloy-index run --stages annotate.l1 --annotate
   ```
 
   The brief is `annotate/prompts/l1_attributes.md`, plus the job's segment list.
-- **Output.** Validated label shards, `annotations/labels/attributes/<job>.jsonl`. The label store applies
-  precedence (`annotations/labels/precedence.json`) when shards overlap.
+- **Output.** Validated label shards, `labels/train/attributes/<campaign>.<job>.jsonl`. Each job's assignment,
+  measured cost and report go to `labels/metadata/<campaign>/jobs/`. Campaign priority resolves overlaps (see
+  [`labels/README.md`](../labels/README.md)).
 - **Cost.** Each job's measured `total_cost_usd` is recorded in the artifact info.
 
 **Data wave 1, measured.** Nine recordings, 1,608 s, **397 segments in 17 jobs, $84.05 total** with Opus 5.5

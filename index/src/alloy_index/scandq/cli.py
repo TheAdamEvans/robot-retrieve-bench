@@ -2,14 +2,14 @@
 
 Every view is addressed by (rec, t seconds from recording start), a window_id (`Rec:EEEE`, a 4 s window ending at
 second EEEE) or a MessageId string (`Rec/topic#ordinal`). Every view prints JSON listing the refs it rendered and
-appends to annotations/audit.jsonl. Images are written under annotations/renders/<job>/ for the agent to open with
-Read. A ref counts as native evidence only when the view rendered it at full resolution (`native: true`).
+appends to labels/metadata/<campaign>/audit.jsonl. Images are written under labels/.work/renders/<job>/ for the agent to
+open with Read. A ref counts as native evidence only when the view rendered it at full resolution (`native: true`).
 
 Ref fields: t = when the recorder received the message (s from recording start); header_t = when the sensor
 stamped it; dt_ms = t minus the requested time. Spot body cameras arrive ~0.4-0.7 s after capture, so a body frame
 received at t shows the scene at header_t. `warnings` flags stale or gap-adjacent frames.
 
-Set SCANDQ_JOB=<job_id> so the audit log and label shards are attributed to the job.
+Set SCANDQ_CAMPAIGN=<campaign> and SCANDQ_JOB=<job_id> so the audit log and label shards are attributed to them.
 """
 from __future__ import annotations
 
@@ -37,7 +37,8 @@ from alloy_index.providers.common import smooth_speed
 from alloy_index.recordings import RECORDINGS, SCAND_ROOT, robot
 
 BUNDLE = Path(os.environ.get("SCANDQ_BUNDLE", SCAND_ROOT / "bundles" / "dev"))
-ANN = Path(os.environ.get("SCANDQ_ANNOTATIONS", SCAND_ROOT / "annotations"))
+LABELS = Path(os.environ.get("SCANDQ_LABELS", SCAND_ROOT / "labels"))
+CAMPAIGN = os.environ.get("SCANDQ_CAMPAIGN", "adhoc")
 JOB = os.environ.get("SCANDQ_JOB", "adhoc")
 FONT = ImageFont.load_default(size=18)
 SMALL = ImageFont.load_default(size=14)
@@ -61,9 +62,13 @@ def dec_(name: str) -> Decoder:
 
 
 def out_dir() -> Path:
-    d = ANN / "renders" / JOB
+    d = LABELS / ".work" / "renders" / JOB
     d.mkdir(parents=True, exist_ok=True)
     return d
+
+
+def audit_path() -> Path:
+    return LABELS / "metadata" / CAMPAIGN / "audit.jsonl"
 
 
 def ref(r: Recording, topic: str, i: int, t_req_ns: int | None, native: bool, warnings: list | None = None) -> dict:
@@ -79,9 +84,9 @@ def ref(r: Recording, topic: str, i: int, t_req_ns: int | None, native: bool, wa
 
 
 def emit(call: str, args: dict, result: dict) -> None:
-    ANN.mkdir(parents=True, exist_ok=True)
     refs = result.get("refs", [])
-    with open(ANN / "audit.jsonl", "a") as f:
+    audit_path().parent.mkdir(parents=True, exist_ok=True)
+    with open(audit_path(), "a") as f:
         f.write(json.dumps({"ts": time.time(), "job": JOB, "call": call, "args": args,
                             "refs": [{"mid": x["mid"], "native": x["native"]} for x in refs]}) + "\n")
     if not result.get("warnings"):

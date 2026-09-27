@@ -1,0 +1,15 @@
+{
+ "campaign": "episodes-l1_compositions_v1-leads",
+ "kinds": [
+  "episode",
+  "judgment"
+ ],
+ "priority": 0,
+ "brief": "l2_episodes.md",
+ "challenge": "l1_compositions_v1",
+ "purpose": "Episode judgments of the question authors' leads (at most 3 per intent). Dev intents go to train/, held-out test intents to eval/.",
+ "date": "2026-09-27",
+ "judge": "claude-opus-5-5",
+ "jobs": 8,
+ "cost_usd": 17.93
+}

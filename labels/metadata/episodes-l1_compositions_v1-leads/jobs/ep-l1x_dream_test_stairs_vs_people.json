@@ -1,0 +1,44 @@
+{
+ "job": "ep-l1x_dream_test_stairs_vs_people",
+ "campaign": "episodes-l1_compositions_v1-leads",
+ "labels": {
+  "eval/judgments": 45,
+  "eval/episodes": 3
+ },
+ "tool_calls": 28,
+ "leads": [
+  {
+   "recording": "Bass_Garage_134",
+   "window": "Bass_Garage_134:0100",
+   "context": [
+    68,
+    104
+   ],
+   "episode_id": "E1"
+  },
+  {
+   "recording": "Bass_Garage_134",
+   "window": "Bass_Garage_134:0084",
+   "context": [
+    68,
+    104
+   ],
+   "episode_id": "E2"
+  },
+  {
+   "recording": "Bass_Garage_134",
+   "window": "Bass_Garage_134:0036",
+   "context": [
+    20,
+    52
+   ],
+   "episode_id": "E3"
+  }
+ ],
+ "brief_sha256": "f017e11c31ec53672c5ba9e0f5a60fef6b0406ccf627c79c644779bfd227fb1a",
+ "cost_usd": 2.1672776,
+ "turns": 68,
+ "minutes": 8.6,
+ "is_error": false,
+ "report": "A qualifying crowd-vs-stairs pair exists among the three leads: E3 (crowd) with E2 (stairs), and E1 is an alternate stair partner. All three are submitted and stored: 3 episodes and 45 window grades, with no rejections after one fix. The first submission rejected refs that pointed into the partner episode's time span; I removed those, and the partner's numbers stay in the evidence text.\n\n**Per episode (Bass_Garage_134)**\n- **E3, 20.0\u201345.0 s, grade 2 (crowd pass).** All five clauses TRUE.\n  - Corridor range goes to 0.0 m twice: at 25.77 s and at 42.41 s.\n  - Both close returns are walking pedestrians clipping the corridor's front-left corner, not something dead ahead. The one at 25 s closed at only ~0.4 m/s while Spot walked at 1.4 m/s, so it was a person walking the same way; the one at 42 s matches legs in the left camera.\n  - Speed over [40,44] s stays at 1.25\u20131.37 m/s.\n  - The lead window (0036) itself has no return under 0.3 m (about 1.3 m), and the start is cut off at 20 s because the crowd was already there.\n- **E2, 80.0\u201385.2 s, grade 2 (stair climb, best partner).** All five clauses TRUE.\n  - The cameras show steps underfoot with handrails on both sides.\n  - Corridor range is under 0.3 m from about 80.6 to 82.85 s. The return is the left handrail: a straight 1.84 m lidar line on the corridor edge that approached at Spot's own speed, so it's static.\n  - Speed over [80,84] s drops from 1.44 to 0.69 m/s and stays near 0.7 m/s from about 82.4 to 83.6 s.\n- **E1, 96.0\u2013100.8 s, grade 2 (stair climb, alternate).** All five clauses TRUE.\n  - This is the last flight of the same climb, which runs from about 72 to 99 s. E2 is an earlier flight, with a clear landing between them.\n  - The return is again the handrail (0.0 m at 98.09 s). People stand close on both sides, but their lidar returns fall outside the corridor.\n  - Speed over [96,100] s bottoms at 0.654 m/s.\n  - The left turn and stop near people after 99.5 s are a separate encounter and are excluded.\n\n**What weakens the pair**\n- The same 0.0 m corridor reading means different things. In the crowd it's moving people, and Spot holds its speed. On the stairs it's a static handrail, and Spot slows to about half speed. Equal range is not equal risk, and raw range is not calibrated clearance.\n- Every return under 0.3 m sits at the corridor's side edge; the \u00b130\u00b0 front cone never reads below 0.52 m.\n- The stair 4 s windows include the ramp into the slowdown. The contrast rests on the minimum and the ~1 s low plateau, not on a flat mean.\n- E1 is a weaker contrast than E2 because people are next to the flight.\n\n**What the data couldn't establish**\n- The main front camera is missing from this recording; only the side-angled front-left and front-right body cameras exist. Because of that:\n  - I can't tell whether step edges directly ahead (not just the rails) produced returns, or when the first step was actually hit. The slowdown onset comes from odometry only.\n  - I can't tell whether people on E1's top landing were in Spot's path above the lidar plane, or what caused the 1.4\u20132.7 m returns after 98.9 s.\n  - I can't follow the 25 s pedestrian continuously across cameras.\n  - There is no front-camera person count, and I didn't substitute one from the body cameras.\n- Anchor times are read from the computed plots and summaries, so treat them as \u00b10.2 s. A custom script to dump the exact series was blocked by permissions.\n\nSensor coverage over 20\u2013104 s is complete, with no gaps.\n\nFiles are in `annotations/tmp/ep-l1x_dream_test_stairs_vs_people/`:\n- episodes.json\n- windows.json"
+}

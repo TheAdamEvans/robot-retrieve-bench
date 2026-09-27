@@ -1,0 +1,52 @@
+{
+ "job": "ex-l1x_dream_person_adjusts-j1",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/episodes": 17
+ },
+ "tool_calls": 93,
+ "chunks": [
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 112.0,
+   "end_s": 120.0,
+   "chunk_id": "K1"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 128.0,
+   "end_s": 156.0,
+   "chunk_id": "K2"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 160.0,
+   "end_s": 172.0,
+   "chunk_id": "K3"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 176.0,
+   "end_s": 206.0,
+   "chunk_id": "K4"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 204.0,
+   "end_s": 236.0,
+   "chunk_id": "K5"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 234.0,
+   "end_s": 266.0,
+   "chunk_id": "K6"
+  }
+ ],
+ "brief_sha256": "385c456f531388a5be6c6864f02cb24e2775eaad20884e2ce784cb85e0396f49",
+ "cost_usd": 3.0961810000000005,
+ "turns": 95,
+ "minutes": 9.9,
+ "is_error": false,
+ "report": "I found no pedestrian in any of the six chunks who visibly changes course, so every episode is a near miss (grade 0). I recorded 17 episodes and the store accepted all of them with no rejects. I submitted no window grades, since those are only for grade 1 and 2 episodes.\n\nThe robot's side of the question passes almost everywhere: in all but two episodes, speed varies by only 0.02\u20130.09 m/s and heading by 1\u201313\u00b0. What fails is clause 1, the pedestrian changing course. For the most tempting cases I corrected the lidar positions for the robot's own motion. Each person then kept a steady sideways offset from the robot's path, so the sideways drift in the image was perspective plus the robot's own turning.\n\n**Per chunk (all grade 0):**\n- **K1:**\n  - **K1-a (110.5\u2013113.0 s):** a woman comes toward the robot while it turns right by 21.8\u00b0, so clause 3 fails. The rest of K1 has only distant people.\n- **K2:**\n  - **K2-a (132.5\u2013135.7 s):** hooded walker. Her sideways offset stays at 1.73\u21921.70 m once the robot's 11.4\u00b0 turn ends at 133 s.\n  - **K2-b (138.5\u2013142.3 s):** a blue-shirt man (offset 1.53\u21921.69 m) and three others, all walking straight.\n  - **K2-c (145.5\u2013148.8 s):** black-shirt man at a constant offset of 1.24, 1.30 and 1.38 m while closing at about 2.7 m/s.\n- **K3:**\n  - **K3-a (158.5\u2013161.5 s):** a group walking diagonally with no change. Robot speed also varies by 0.34 m/s here, which fails clause 2.\n  - **K3-b (163.0\u2013165.5 s):** a skateboarder heading the same way as the robot, so not oncoming.\n  - **K3-c (169.0\u2013171.5 s):** a single oncoming walker with no visible change (robot heading varies by 13.2\u00b0).\n- **K4:**\n  - **K4-a (181.5\u2013184.8 s):** red-trousered walker, no change.\n  - **K4-b (188.5\u2013192.8 s):** two or three walkers, no change.\n  - **K4-c (199.0\u2013201.8 s):** woman in red at a steady offset of 3.89, 3.77 and 3.62 m.\n- **K5:**\n  - **K5-a (210.3\u2013212.3 s):** one walker, no change.\n  - **K5-b (217.5\u2013220.5 s):** two walkers, no change.\n  - **K5-c (224.0\u2013226.5 s):** skateboarder, the strongest look-alike. In the images they seem to swerve left. After correcting for the robot's 4\u00b0 left turn, their offset stays at about 3.1 m (\u00b10.2 m) while closing at about 2.6 m/s.\n  - **K5-d (228.5\u2013231.8 s):** a cyclist and two walkers, no change.\n- **K6:**\n  - **K6-a (234.0\u2013239.5 s):** someone crossing in front at a steady 1.0 m/s sideways, in a straight line. They aren't oncoming: the gap closes at roughly the robot's own speed.\n  - **K6-b (246.0\u2013250.5 s):** three walkers beside a truck, no change.\n  - **K6-c (256.0\u2013259.0 s):** one distant walker on the left, no change.\n\n**Grade 2 and grade 1 episodes:** none.\n\n**Caveats:**\n- **Visual-only calls:** I did the lidar correction only for K2-a/b/c, K4-c, K5-c and K6-a. The other nine clause-1 verdicts come from 4 Hz contact sheets plus one full-resolution frame each, with no lidar track behind them.\n- **Loose scan citations:** for K2-a, K2-b, K4-c and K5-c, the lidar reference I cite is the first scan of the speed/heading query window rather than the exact scan each position came from.\n\nThis is not a claim that no qualifying encounter exists elsewhere in the recordings. It covers only these six chunks."
+}

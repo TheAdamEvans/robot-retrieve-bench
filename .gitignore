@@ -13,15 +13,12 @@
 !/index/
 !/trainer/
 !/benchmark/
-!/annotations/
-!/annotations_recheck/
+!/labels/
 !/docs/
 !/presentation/
 
 # Never data, envs, or generated outputs
-/annotations/renders/
-/annotations/tmp/
-/annotations_recheck/renders/
+/labels/.work/
 *.pdf
 **/__pycache__/
 *.pyc

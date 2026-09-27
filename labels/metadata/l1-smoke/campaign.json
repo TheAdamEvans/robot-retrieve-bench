@@ -1,0 +1,14 @@
+{
+ "campaign": "l1-smoke",
+ "kinds": [
+  "attributes"
+ ],
+ "priority": -1,
+ "brief": "l1_attributes.md",
+ "purpose": "First L1 smoke run on Butler; superseded wherever l1-original labels the same segment.",
+ "date": "2026-09-27",
+ "judge": "claude-opus-5-5",
+ "jobs": 1,
+ "cost_usd": null,
+ "cost_note": "Run as interactive agent sessions before per-job cost was recorded; see git history for estimates."
+}

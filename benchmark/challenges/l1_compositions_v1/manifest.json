@@ -18,16 +18,16 @@
     "README.md": "8ad19a87b70a3c41382f7f9420d01ee3ccf505e09e01b62c77b11053be1b339b",
     "attention_dev.json": "4d17f083ef703d65bcea6d6f4bea66809fab83b6f601d5e11a32ff555782e478",
     "attention_test.json": "10543d349dd89db01bda17f59ccff55452638bf9eb54e5eee8966bdbc8855141",
-    "catalog_dev.md": "8a03db2a2daa42883ae0f8eb0cec40953c62bcd3b44a048b10c2e7ea3821f149",
-    "catalog_test.md": "0bf38f545cfa8f4abd4122bacdbf9c5e0987c28e66e58790fac878e65360fecb",
+    "catalog_dev.md": "c08ab2cfb23b0fa06a306d3d093eaa9e9ae636a04b20f57baad9da4df09eed38",
+    "catalog_test.md": "4a73a0767c40c9cba465aa52439448398c0e289b1849f56876e774293c5ffba5",
     "queries_dev.jsonl": "3dcad9f10cc26d5e26cfb8c2e761689d323a310521176870733e4a8faf594c0f",
     "queries_test.jsonl": "a6b4a113a1c00398c4d75c9711d5bf15fd8822660b45e4ef36dc56885bba3fdf",
-    "regression_notes.md": "6c3e8db4687ec348f302d0849fc287fe5e14a78753667eb4f41114971cbe39cd",
+    "regression_notes.md": "9964657775935b66fb3fb2b712d298e0ce525282fc74a29b79e0475067895fe7",
     "requests_dev.jsonl": "452119ee772cf75a08e41b513bbab3d3fb6adb9176b39d954c5d75296cd01db4",
     "requests_test.jsonl": "2a521c803da9754889f95a3132df200a7f6096fe1272faf6a5134c650b2081cb",
-    "sources_dev.jsonl": "4624f82fc558d6e7e991c7a6a1790b11b58a501c5f3ad2fe195382dc877e50bb",
-    "sources_test.jsonl": "296cd020bbe4be75c03c0310dc91a7c53c7a374104a587a9063fd8fe7bb28896",
-    "validate.py": "4eed5eaa4e4f6201c3dcdd2a43e83e4ce2c3023c3c2fedf6f3b76e1625e3b9da"
+    "sources_dev.jsonl": "9b5a2d7b2dcbcc545d46b0e96054c4cd2f53640a809e6bf91676c76e5b9de505",
+    "sources_test.jsonl": "73ef3031b10de25184acd7fd3e64041b99a90e17459eed65d5ecdd1393ce57a0",
+    "validate.py": "98d06910141d67730a6efa18d7e4cbf6fdd7e8e8b882dacc6ca4e2135110e7d8"
   },
   "protectedFiles": {
     "benchmark/queries/MANIFEST.json": "2ae69c47075356d10c3d741b980ae33dfd6652ffb3a7f20b815d448cafb0f636",

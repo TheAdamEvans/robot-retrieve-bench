@@ -1,0 +1,16 @@
+{
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "kinds": [
+  "episode",
+  "judgment"
+ ],
+ "priority": 2,
+ "brief": "l2_exhaustive.md",
+ "challenge": "l1_compositions_v1",
+ "exhaustive": true,
+ "purpose": "Complete ground truth for the dev behavior questions: every chunk of the numeric sweep (sweep/) judged. Outranks the lead-based episodes, which saw only three candidates per intent.",
+ "date": "2026-09-27",
+ "judge": "claude-opus-5-5",
+ "jobs": 12,
+ "cost_usd": 51.25
+}

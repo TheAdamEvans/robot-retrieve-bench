@@ -1,0 +1,13 @@
+{
+ "job": "l1-Thompson_Thompson_100-c3",
+ "campaign": "l1-wave1",
+ "labels": {
+  "train/attributes": 9
+ },
+ "tool_calls": 45,
+ "cost_usd": 1.7634466000000002,
+ "turns": 60,
+ "minutes": 5.9,
+ "is_error": false,
+ "report": "I labelled all 9 segments for job `l1-Thompson_Thompson_100-c3`. Both batches were accepted with no rejections, and `label get attributes --rec Thompson_Thompson_100` returns 9 records with this job id.\n\n**What's in the segments.** Spot walks across a grass tailgate lawn at dusk, through a dense, mostly standing crowd.\n- **Standing group:** true in all 9 segments, each checked on a native front frame.\n- **People in the corridor:**\n  - 0244, 0248, 0252, 0264, 0268 and 0276 are `ONE_TWO`.\n  - 0256 is `THREE_FIVE`: a woman bends toward the robot about 1.1 m away while a couple stands about 4.3 m ahead (native frame #7562 plus lidar #2517).\n  - 0260 and 0272 are `ZERO`: the corridor range stays at 5.0 m, confirmed on native frames.\n- **Turn:** true only for 0256 (32.1\u00b0 excursion). 0244 and 0252 reach about 20\u00b0, so they're false.\n- **Doorway, vehicle, bicycle, indoor:** false everywhere. A dark object in the background of 0268\u20130276 looked like a bicycle on the overview, but at native resolution it's an empty wheelchair.\n- **Nothing is `UNSURE` or `TRUTH_UNKNOWN`.** The least certain calls are several `ONE_TWO` counts where people stand right at the edge of the corridor (lidar bearing \u221224\u00b0 to \u221243\u00b0, about 0.8\u20131 m to the side), especially 0244. Counting edge people there would give `THREE_FIVE`, so it's worth a second look in review.\n\n**Tool friction:**\n- **Couples merge in lidar.** Two people standing together come back as one `lidar` cluster (e.g. 0256 at 4.28 m), so cluster counts undercount people. I had to count from the camera.\n- **No labeller-friendly output mode.** `lidar` dumps 20\u201330 clusters at a time. A `--corridor-only` flag, or a `ref` field at the top of the output, would save a lot of `grep` work.\n- **Refs are hard to reach.** `window` output is long, and the odom refs sit near the bottom, so I had to re-run it to fetch them. A short summary line with the heading and odom refs would fix that.\n- **Loops are blocked.** The shell permission layer rejects `for s in \u2026; do \u2026 $s` loops (\"simple_expansion\"), so each segment needs a separate command call. That multiplied the call count about 9\u00d7.\n- **`label get` output hides segment ids.** Matching my segment ids with `grep` found nothing, so I confirmed storage by counting `jobId` lines instead. A `--job` filter, or one line per record showing `segment_id`, would make verification easy."
+}

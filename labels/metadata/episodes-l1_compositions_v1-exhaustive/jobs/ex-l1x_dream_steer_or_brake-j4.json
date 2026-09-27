@@ -1,0 +1,29 @@
+{
+ "job": "ex-l1x_dream_steer_or_brake-j4",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/judgments": 15,
+  "train/episodes": 7
+ },
+ "tool_calls": 37,
+ "chunks": [
+  {
+   "recording": "Thompson_Thompson_100",
+   "start_s": 230.9,
+   "end_s": 255.2,
+   "chunk_id": "K18"
+  },
+  {
+   "recording": "Thompson_Thompson_100",
+   "start_s": 253.2,
+   "end_s": 277.6,
+   "chunk_id": "K19"
+  }
+ ],
+ "brief_sha256": "3c178e7eb69f8c9e511507ad252999533c219c696fbf90276a96611963df3104",
+ "cost_usd": 2.9006857999999998,
+ "turns": 81,
+ "minutes": 9.8,
+ "is_error": false,
+ "report": "Both chunks are fully judged: 7 episodes and 15 window grades submitted with no rejects, and all 7 episodes confirmed in the label store. There is no qualifying pair, because neither chunk has a usable steering case.\n\n**K18 (230.9\u2013255.2 s)**\n- **K18-a, 231.0\u2013233.5 s, grade 0:** slows among people who are standing still; no oncoming pedestrian.\n- **K18-b, 235.9\u2013238.5 s, grade 0:** slows past stationary groups; no oncoming pedestrian.\n- **K18-c, 241.5\u2013252.0 s, grade 0 (steering):** the robot veers left 45\u00b0 in total, but in two separate steps of about 20\u00b0 each, and speed drops about 45% in between.\n- **K18-d, 243.5\u2013247.6 s, grade 1 (slowing):** a woman walks straight toward the robot and passes on its left.\n  - Speed drops 42%, from about 0.72 to 0.42 m/s; heading moves only 3.1\u00b0.\n  - Closest supported separation is about 2.2 m at 247.56 s (lidar sensor range, tracked across four scans).\n\n**K19 (253.2\u2013277.6 s)**\n- **K19-a, 252.0\u2013258.5 s, grade 0 (steering):** turns right 39.7\u00b0 past two women and then a couple, all walking up to it. Speed drops about 47%, which fails the under-20% limit. This overlaps the earlier-pass episode E3.\n- **K19-b, 262.4\u2013266.0 s, grade 1 (slowing):** a man in an orange polo walks toward the robot and passes close on its left.\n  - Speed drops about 54%, from about 0.63 to 0.29 m/s; heading moves only 1.0\u00b0.\n  - Closest supported separation is about 2.6 m at 265.71 s.\n- **K19-c, 274.6\u2013277.7 s, grade 0:** the robot stops beside a man standing still on his phone, at the very end of the recording.\n\n**Grade 2:** none. **Grade 1:** K18-d and K19-b, both as the slowing member. For each, the baseline-match clause and the steering clause are UNKNOWN because no partner exists yet.\n\n**Why there's no pair:** this is a Spot robot, and its walking gait makes speed swing by about \u00b10.15 m/s. So every heading change of 30\u00b0 or more here comes with more than 20% speed loss. The only known steering case is E2 (Stadium_Sanjac_90, a Jackal robot at about 2.0 m/s). Its baseline is 1.3\u20131.4 m/s away from both slowing members, far beyond the 0.3 m/s tolerance.\n\nA steering partner would need a baseline of about 0.4\u20131.0 m/s. Even if one turns up in another chunk, the comparison is weakened by:\n- a dense crowd on grass at dusk;\n- the gait-driven speed swings;\n- people standing or crouching inside the robot's path in both slowing episodes;\n- in K19-b, the lowest speed comes early in the approach, and speed rises again as the man gets close."
+}

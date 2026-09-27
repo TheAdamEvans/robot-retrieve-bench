@@ -1,0 +1,8 @@
+{
+ "job": "l2-vehicle_interaction_gdc-extra",
+ "campaign": "l2-followups",
+ "labels": {
+  "eval/judgments": 9
+ },
+ "tool_calls": 11
+}

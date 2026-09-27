@@ -123,7 +123,7 @@ ATTR_TEXT = {
 PERSON_TEXT = {"ONE_TWO": "one or two people in front of the robot", "THREE_FIVE": "several people in the robot's path"}
 
 
-def build_pairs(bundle: Bundle, recs: list[str], ann: Path) -> tuple[list[str], dict[str, set[str]]]:
+def build_pairs(bundle: Bundle, recs: list[str], root: Path) -> tuple[list[str], dict[str, set[str]]]:
     """→ (texts, text → positive window ids) restricted to `recs` (the training recordings of a fold)."""
     pos: dict[str, set[str]] = {}
     ex = bundle.executor
@@ -142,7 +142,7 @@ def build_pairs(bundle: Bundle, recs: list[str], ann: Path) -> tuple[list[str], 
         if wins:
             for t in texts:
                 pos.setdefault(t, set()).update(wins)
-    for sid, lab in l1_labels(ann).items():
+    for sid, lab in l1_labels(root).items():  # labels/train/ only: judgments are never training data
         if lab["recordingId"] not in recs:
             continue
         if lab.get("caption"):
@@ -194,7 +194,7 @@ def roc(scores, y) -> float:
     return float(((pos[:, None] > neg[None, :]).mean() + 0.5 * (pos[:, None] == neg[None, :]).mean()))
 
 
-def run(bundle: Bundle, ann: Path, kind: str = "mlp", out_name: str = "fused_v1") -> dict:
+def run(bundle: Bundle, root: Path, kind: str = "mlp", out_name: str = "fused_v1") -> dict:
     wins = bundle.embedding_index("siglip2").ids
     imgs = image_vectors(bundle)
     sig_raw = {w: window_signals(bundle, w) for w in wins}
@@ -204,7 +204,7 @@ def run(bundle: Bundle, ann: Path, kind: str = "mlp", out_name: str = "fused_v1"
     out_vecs, report = {}, {"folds": {}, "held_out": sorted(held_back & set(bundle.recordings))}
     for held in recs:
         train_recs = [r for r in recs if r != held]
-        texts, pos = build_pairs(bundle, train_recs, ann)
+        texts, pos = build_pairs(bundle, train_recs, root)
         tw = [w for w in wins if window_span_s(w)[0] in train_recs]
         X = np.stack([sig_raw[w][0] for w in tw]); Mk = np.stack([sig_raw[w][1] for w in tw])
         mu, sd = X.mean(0), X.std(0) + 1e-6  # standardise with training-fold statistics only
@@ -226,7 +226,7 @@ def run(bundle: Bundle, ann: Path, kind: str = "mlp", out_name: str = "fused_v1"
                       torch.tensor(np.stack([prep(w) for w in hw])))
         for w, v in zip(hw, z.numpy()):
             out_vecs[w] = v
-        htexts, hpos = build_pairs(bundle, [held], ann)
+        htexts, hpos = build_pairs(bundle, [held], root)
         pseudo = [t for t in htexts if any(t in x[0] for x in PSEUDO) or t in {tt for x in PSEUDO for tt in x[0]}]
         ptv = enc.encode_texts(pseudo) if pseudo else np.zeros((0, SPEC["dim"]), np.float32)
         Ximg = np.stack([imgs[w] for w in hw]); Xf = z.numpy()
@@ -241,7 +241,7 @@ def run(bundle: Bundle, ann: Path, kind: str = "mlp", out_name: str = "fused_v1"
                                  "n_pseudo_texts": len(auc_e)}
         print(json.dumps({"held_out": held, **report["folds"][held]}), flush=True)
     # full-data model on every Train recording: the serving model for held-out and newly indexed recordings
-    texts, pos = build_pairs(bundle, recs, ann)
+    texts, pos = build_pairs(bundle, recs, root)
     tw = [w for w in wins if window_span_s(w)[0] in recs]
     X = np.stack([sig_raw[w][0] for w in tw])
     mu, sd = X.mean(0), X.std(0) + 1e-6
@@ -284,7 +284,7 @@ def main() -> None:
     ap.add_argument("--kind", choices=["mlp", "linear", "concat"], default="mlp")
     ap.add_argument("--name", default="fused_v1")
     a_ = ap.parse_args()
-    print(json.dumps(run(Bundle(a_.bundle), SCAND_ROOT / "annotations", a_.kind, a_.name), indent=1))
+    print(json.dumps(run(Bundle(a_.bundle), SCAND_ROOT / "labels", a_.kind, a_.name), indent=1))
 
 
 if __name__ == "__main__":

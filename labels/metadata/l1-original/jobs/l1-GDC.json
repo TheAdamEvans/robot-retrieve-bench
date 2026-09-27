@@ -1,0 +1,8 @@
+{
+ "job": "l1-GDC",
+ "campaign": "l1-original",
+ "labels": {
+  "train/attributes": 24
+ },
+ "tool_calls": 113
+}

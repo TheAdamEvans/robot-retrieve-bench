@@ -1,0 +1,44 @@
+{
+ "job": "ep-l1x_dream_person_adjusts",
+ "campaign": "episodes-l1_compositions_v1-leads",
+ "labels": {
+  "train/judgments": 23,
+  "train/episodes": 3
+ },
+ "tool_calls": 32,
+ "leads": [
+  {
+   "recording": "Sanjac_Rec_91",
+   "window": "Sanjac_Rec_91:0020",
+   "context": [
+    0,
+    44
+   ],
+   "episode_id": "E1"
+  },
+  {
+   "recording": "Library_Fountain_5",
+   "window": "Library_Fountain_5:0022",
+   "context": [
+    0,
+    44
+   ],
+   "episode_id": "E2"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "window": "GDC_Library_42:0300",
+   "context": [
+    280,
+    312
+   ],
+   "episode_id": "E3"
+  }
+ ],
+ "brief_sha256": "7f8c6815ca8d864e1c59e1415a8ebd1b6aac82e0f669b19133ad28889043dad2",
+ "cost_usd": 1.8148312000000002,
+ "turns": 58,
+ "minutes": 6.8,
+ "is_error": false,
+ "report": "None of the three leads qualifies; all are grade 0. The label store accepted all 3 episode records and all 23 window grades with no rejects, and `label get` shows them stored.\n\nClause order: (1) the person changes course, (2) speed range under 0.2 m/s, (3) heading excursion under 15\u00b0, (4) the adjustment comes before the pass.\n\n- **E1, Sanjac_Rec_91, 17.0\u201319.5 s, grade 0 (near miss).** Clauses: UNKNOWN / TRUE / FALSE / UNKNOWN.\n  - A woman pushing a stroller comes in from the front-left and passes on the robot's left at about 19.1 s (closest lidar return 0.90 m).\n  - Filtered speed stays between 1.985 and 2.002 m/s.\n  - The robot is weaving, and its heading swings 21.1\u00b0, which fails clause 3.\n  - Because the camera is rotating that much in a dense crowd, I can't separate a real course change by her from the robot's own turning.\n- **E2, Library_Fountain_5, 17.0\u201321.5 s, grade 0 (off-topic).** Clauses: FALSE / TRUE / FALSE / FALSE.\n  - The nearest person has their back to the robot (the 19.0 s frame shows their backpack), and the robot overtakes them on the right at about 20.5 s. Nobody is coming toward the robot.\n  - Speed stays between 1.91 and 1.97 m/s, but heading swings 27.5\u00b0 as the robot goes around the walker.\n- **E3, GDC_Library_42, 293.2\u2013298.3 s, grade 0 (near miss).** Clauses: FALSE / UNKNOWN / TRUE / FALSE.\n  - The robot's heading moved only 3.5\u00b0, so I could correct her lidar track for its forward motion.\n  - She stays about 8.0 m ahead of the robot's start point while moving from 5.2 m left to 1.0 m right at about 1.35 m/s. That is a straight crossing at right angles, not an oncoming person changing course; the 297.2 s frame shows her side-on.\n  - Speed is 1.38\u20131.42 m/s during the crossing. It then drops to 0.88 m/s at 299.5 s, just after she leaves the robot's path. Whether that drop counts depends on where the episode ends, so clause 2 is UNKNOWN.\n\n**What the data couldn't establish**\n- **E1:** a person's course relative to the ground needs the robot's own motion subtracted first. Tracking one person through lidar clusters in a crowd while the robot moves at 2 m/s and weaves wasn't reliable, so clause 1 stays UNKNOWN. That fits the known gap in the brief.\n- **E3:** I matched her lidar clusters across seven scans by how consistent the track was. The track is a clean line and matches the camera, but it is an inference, not a tracker's output.\n- **Intent:** I didn't try to judge social intent or whether the slowdown after E3's crossing was caused by her.\n\nThe labels are in `annotations/labels/episode/ep-l1x_dream_person_adjusts.jsonl` and `annotations/labels/judgment/ep-l1x_dream_person_adjusts.jsonl`."
+}

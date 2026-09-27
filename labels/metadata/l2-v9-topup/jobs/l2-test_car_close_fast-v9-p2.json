@@ -1,0 +1,14 @@
+{
+ "job": "l2-test_car_close_fast-v9-p2",
+ "campaign": "l2-v9-topup",
+ "labels": {
+  "eval/judgments": 39
+ },
+ "tool_calls": 29,
+ "brief_sha256": "789a56606b612ad8ef6013880e94e262ffa58669c7c2bbad4bafb54a4e6a5d25",
+ "cost_usd": 1.4572530000000001,
+ "turns": 42,
+ "minutes": 4.6,
+ "is_error": false,
+ "report": "All 39 windows are graded **0**: none of the three recordings has a vehicle close in front while the robot moves faster than 1.5 m/s. Every grade was accepted, but the final `label get judgment --intent test_car_close_fast` check crashed on a conflict in a different intent's labels. Instead I checked this job's label file directly: it has 39 rows, one per window.\n\n**Episodes found:** no qualifying episodes. What each recording shows:\n- **Sanjac_Rec_91** (0\u2013137 s, mostly around 2 m/s): a crowded game-day street.\n  - **0004\u20130006:** closest near-miss. A parked bus sits at the right edge about 6 m to the side, not in the robot's path (frame #135 at 4.5 s).\n  - **0131\u20130136:** a utility cart is straight ahead but about 20 m away and small in the image (frame #3989 at 133 s).\n  - **0093\u20130094:** the \"wagon\" at 93 s is a hand-pulled cart, not a vehicle, and the robot was slowed there anyway.\n  - Everything else is people and tents.\n- **Rec_Tent_129** (Spot): a crowded pedestrian street where the smoothed speed mostly stays below 1.5 m/s; the fastest window I checked peaked at 1.71 m/s (356\u2013360 s) and the 243\u2013248 span at 1.40 m/s.\n  - **0248:** only the edge of a van at the left and pickups parked far away.\n  - **0360:** a food truck parked about 8 m to the right, not in front (frame #10726).\n  - **0340:** buses far in the background.\n- **Sanjac** (38\u201372 s): pedestrians and scooters on a closed street, then the sidewalk. No vehicles.\n\n**Grade counts:** 0 \u2192 39. No 2s, 1s or \u22121s.\n\n**What the data can't establish:** \"Close\" and \"large in the image\" are judged by eye, since the numbers don't give distance to a specific object. None of the windows was borderline, though. The parked side vehicles clearly fail \"in front\", and the carts ahead clearly fail \"close\".\n\n**Other notes:**\n- **Ref window:** the first batch had 25 rejects because refs must fall within about \u00b120 s of the window. I resubmitted with each window's own odometry and camera refs, and all were accepted.\n- **Label conflict:** two label files for another intent (`ep-\u2026` and `ex-l1x_dream_recover_person_present-j1`) both label `GDC_Library_42:0297`. `label get` for any intent will keep failing until `labels/precedence.json` says which one wins. I didn't change it, since it's outside this job."
+}

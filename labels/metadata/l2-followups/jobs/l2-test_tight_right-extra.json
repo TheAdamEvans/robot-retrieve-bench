@@ -1,0 +1,8 @@
+{
+ "job": "l2-test_tight_right-extra",
+ "campaign": "l2-followups",
+ "labels": {
+  "eval/judgments": 28
+ },
+ "tool_calls": 56
+}

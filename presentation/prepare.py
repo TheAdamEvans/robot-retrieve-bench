@@ -32,7 +32,7 @@ NAMES = {"TAGS": "Tags", "EMBED": "Embeddings", "FUSED": "Fused", "PROGRAM_LUNA"
 def opus_judgments() -> int:
     """Window-level relevance judgments written by the Opus judges (not the derived zeros of complete ground truth)."""
     from alloy_index.annotate.store import load_labels
-    return len(load_labels(ROOT / "annotations", "judgment"))
+    return len(load_labels("judgment", ("train", "eval")))
 
 
 def save_image(rec, topic, t, name, rotation=0):
@@ -57,7 +57,7 @@ def generalization() -> dict:
     out = {}
     for name, rec_set in (("original 7", ORIGINAL), ("new 9", new), ("held-out 2", set(held_out()))):
         R.held_out = lambda s=rec_set: s  # the report's "@val" slice becomes this recording set
-        tab = R.build(RUN, ROOT / "annotations")["tables"]["compose_test@val"]
+        tab = R.build(RUN)["tables"]["compose_test@val"]
         out[name] = {r["config"]: {"ndcg10": r["ndcg10"]["mean"], "roc_pen": r["roc_pen"]["mean"]}
                      for r in tab if r["config"] in SLICE_CONFIGS}
     fig, ax = plt.subplots(figsize=(9.6, 4.2), facecolor="#f8f8f2")
@@ -84,7 +84,7 @@ def generalization() -> dict:
 def dream(rows: list[dict]) -> dict:
     """Exhaustive ground truth for the six dream questions, and how many ground-truth episodes each config finds."""
     from alloy_trainer.eval.report import episode_recall, ground_truth
-    gt = ground_truth(ROOT / "annotations")
+    gt = ground_truth()
     titles = {json.loads(l)["intentGroupId"]: json.loads(l)["title"]
               for l in (ROOT / "benchmark/challenges/l1_compositions_v1/queries_dev.jsonl").read_text().splitlines() if l}
     out = {"questions": [], "configs": [c for c in COLORS if c not in ("PROGRAM_ORACLE",)]}

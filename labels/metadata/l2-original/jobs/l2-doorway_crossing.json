@@ -1,0 +1,9 @@
+{
+ "job": "l2-doorway_crossing",
+ "campaign": "l2-original",
+ "labels": {
+  "eval/judgments": 47
+ },
+ "tool_calls": 130,
+ "brief_sha256": "b96e6ad182526d50db2220e62528322ce36beaad5c65705cb4c918f866f167ed"
+}

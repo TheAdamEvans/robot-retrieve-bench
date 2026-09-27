@@ -1,0 +1,10 @@
+{
+ "campaign": "adhoc",
+ "kinds": [],
+ "priority": 0,
+ "purpose": "Tool smoke tests, permission checks and ad hoc review sessions with the labeller tools; no labels.",
+ "date": "2026-09-27",
+ "judge": "claude-opus-5-5",
+ "jobs": 8,
+ "cost_usd": null
+}

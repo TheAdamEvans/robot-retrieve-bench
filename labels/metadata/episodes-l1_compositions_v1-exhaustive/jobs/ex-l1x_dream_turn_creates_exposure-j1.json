@@ -1,0 +1,46 @@
+{
+ "job": "ex-l1x_dream_turn_creates_exposure-j1",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/episodes": 13
+ },
+ "tool_calls": 56,
+ "chunks": [
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 0.0,
+   "end_s": 27.3,
+   "chunk_id": "K1"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 25.3,
+   "end_s": 54.5,
+   "chunk_id": "K2"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 52.5,
+   "end_s": 81.8,
+   "chunk_id": "K3"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 79.8,
+   "end_s": 109.0,
+   "chunk_id": "K4"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 107.0,
+   "end_s": 136.3,
+   "chunk_id": "K5"
+  }
+ ],
+ "brief_sha256": "8cd2bef33579e10c6f1b7accf4f2de38300bd7fb2bbbebb1667ffb21045b833a",
+ "cost_usd": 3.8025462000000005,
+ "turns": 117,
+ "minutes": 11.2,
+ "is_error": false,
+ "report": "I judged all five chunks of GDC_Library_42 and found no qualifying episode: all 13 candidate turns are near misses (grade 0). `label put episode` accepted all 13 with no rejects. Since there are no grade 1 or 2 episodes, I didn't submit any window grades.\n\n**Per chunk**\n- **K1**\n  - K1-a (3.0\u20139.5 s), +92\u00b0 turn: grade 0. No pedestrian at the side; the only person is seated at a desk and already in the front view. The corridor stays clear apart from the doors ahead.\n  - K1-b (23\u201326 s), \u221281\u00b0 turn: grade 0. The turn sweeps the only nearby pedestrian (front-left) out of view; the new corridor is empty.\n- **K2**\n  - K2-a (27.3\u201330 s), +68\u00b0 turn: grade 0. The corridor reads clear (5.0 m) after the turn.\n  - K2-b (29.5\u201335.2 s), +88\u00b0 turn: grade 0. A backpack man is visible at the side before the turn (clause 2 TRUE), but he walks across the path himself. At 32.1 s he is in the corridor at +3.4\u00b0 after only 8.9\u00b0 of yaw.\n  - K2-c (45\u201347.5 s), \u221265\u00b0 turn: grade 0. Stairwell landing; only the two people following behind the robot are present.\n  - K2-d (48.3\u201351 s), \u221298\u00b0 turn: grade 0. Stairwell landing; only the followers are present.\n- **K3**\n  - K3-a (66.5\u201374 s), \u2212180\u00b0 turn: grade 0. Stairwell landing; no pedestrian at the side.\n  - K3-b (79\u201383 s), \u2212146\u00b0 turn: grade 0. The red-shirt man is swept ahead, with a bearing shift roughly matching the yaw. But he wasn't side-visible before the turn: he seems to be one of the followers and first appears on the right camera mid-turn (81.5 s).\n- **K4**\n  - K4-a (87.5\u201390.4 s), +59\u00b0 turn: grade 0. The only side-visible person is seated at a table; the corridor is clear at the end of the turn.\n  - K4-b (90.3\u201393 s), \u221277\u00b0 turn: grade 0. The person ahead in the doorway is a new arrival from outside; the right camera showed no one there before the turn.\n  - K4-c (100.5\u2013105.2 s), +100\u00b0 turn: grade 0. The turn ends facing a wall with no one ahead.\n- **K5**\n  - K5-a (108\u2013112 s), \u221299\u00b0 turn: grade 0. The woman ahead is walking toward the robot and is first seen far away mid-turn. Before the turn a stone bench blocks the right camera and no one is visible.\n  - K5-b (123\u2013126.5 s), +77\u00b0 turn: grade 0. The corridor stays clear; the only pedestrian is far down the path.\n\n**Grade 2 or 1 episodes:** none.\n\n**Comparison:** this isn't a pair question, so there are no pairs. Clause 4 (slowdown timing) went unassessed in every episode because an earlier clause had already failed.\n\nSome verdicts rest on judgement calls:\n- **K2-b:** the pre-turn lidar bearing is approximate, because the man's returns merge with the railing.\n- **K3-b:** it's uncertain that the red-shirt man was a follower. Clause 2 is FALSE on side-camera absence alone. Clause 3 is UNKNOWN because both his walk and the turn bring him ahead.\n- **K4-b:** part of the outdoor right-camera view is overexposed.\n\nFor the harness: `scandq` only ran as `uv run scandq`. The bare command, the `.venv/bin` path and any `VAR=\u2026 scandq` prefix all hit a permission prompt, so I prefixed every call with `SCANDQ_JOB=\u2026 uv run`."
+}

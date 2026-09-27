@@ -1,0 +1,44 @@
+{
+ "job": "ep-l1x_dream_opportunity_to_go",
+ "campaign": "episodes-l1_compositions_v1-leads",
+ "labels": {
+  "train/judgments": 24,
+  "train/episodes": 3
+ },
+ "tool_calls": 35,
+ "leads": [
+  {
+   "recording": "GDC_Library_42",
+   "window": "GDC_Library_42:0304",
+   "context": [
+    288,
+    312
+   ],
+   "episode_id": "E1"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "window": "Library_Jester_75:0020",
+   "context": [
+    8,
+    28
+   ],
+   "episode_id": "E2"
+  },
+  {
+   "recording": "Stadium_Sanjac_90",
+   "window": "Stadium_Sanjac_90:0052",
+   "context": [
+    40,
+    60
+   ],
+   "episode_id": "E3"
+  }
+ ],
+ "brief_sha256": "0821552b89d5f489ba2fff58d08bf85d871966dfe8740f500b6f79c64d6f67c4",
+ "cost_usd": 2.0559203999999998,
+ "turns": 75,
+ "minutes": 7.0,
+ "is_error": false,
+ "report": "None of the three leads qualifies: all are near misses (grade 0) on clause 3. In each one there's a real crossing and the corridor stays clear for at least 2 s, but speed is back above half the baseline within about 0.25 s of clearance, not held below it for 2 s. The labels are stored: 3 episodes and 24 window judgments were accepted with no rejects, and `label get episode --intent l1x_dream_opportunity_to_go` returns all three.\n\n**Per episode** (clause order: 1 crossing, 2 clear \u22652 s, 3 speed <50%, 4 side-view search)\n- **E1, GDC_Library_42, 296.0\u2013301.5 s, grade 0.** TRUE / TRUE / **FALSE** / TRUE.\n  - A pedestrian crosses left to right. The nearest corridor return is 2.535 m at 297.68 s, and the corridor is clear from 297.88 s.\n  - The baseline is 1.40 m/s. Speed is 1.41 m/s when the corridor clears, and the dip afterwards bottoms at 0.879 m/s (63%) at 299.53 s.\n  - Speed never drops below 50%, so there is no delay to measure.\n- **E2, Library_Jester_75, 14.2\u201318.4 s, grade 0.** TRUE / TRUE / **FALSE** / TRUE.\n  - A pedestrian walks diagonally ahead, then a cyclist crosses. The nearest return is 1.419 m at 16.46 s, and the corridor is clear from 16.87 s.\n  - The baseline is 1.40 m/s. Speed is 0.48 m/s at 16.82 s and 0.706 m/s at 17.02 s, so the clearance-to-recovery delay is about 0.15\u20130.25 s.\n  - Other visible constraints: a parked utility cart on the left, and a left turn starting around 19.3 s.\n- **E3, Stadium_Sanjac_90, 47.0\u201350.5 s, grade 0.** TRUE / TRUE / **FALSE** / TRUE.\n  - A cyclist crosses in front with pedestrians just behind. The robot comes to a full stop (0.005 m/s at 48.67 s), and the corridor is clear from 49.42 s.\n  - The baseline is 1.99 m/s. Speed is 1.10 m/s by 49.52 s, so the delay is about 0.1 s. The wheels were already speeding up from about 49.0 s, before the corridor cleared.\n  - Other visible constraints: a pedestrian standing ahead-right just outside the corridor, and a leftward heading swing of about 29\u00b0 during recovery.\n\n**Comparison:** this isn't a pair question, and none of the three is a full match. Clause 3 fails by a wide margin in every case, not at the threshold, so the choice of filter doesn't change the verdict.\n\n**What the data couldn't establish**\n- **E1's dip is unexplained.** The dip to 0.879 m/s (raw 0.517 m/s at 298.9 s) happens after the corridor is already clear, and nothing visible accounts for it. Odom has two short gaps (0.135 s and 0.162 s) just before it.\n- **Two crossers are cyclists.** In E2 and E3 the closest crosser is a cyclist, not a pedestrian. I marked clause 1 TRUE because pedestrians also cross in the same encounter, and noted that in the evidence.\n- **E3's sides are lidar-only.** The Jackal has only a front camera, so for clause 4 the sides were checked with lidar alone.\n- **\"Clear\" is measured by lidar.** It relies on the nominal 1.5 m \u00d7 5 m corridor box. The pedestrian standing ahead-right in E3 is visually close to that box but outside it.\n- **Handler identity is a guess.** The person walking behind the Spot in E1 and E2 is probably the handler; that isn't established."
+}

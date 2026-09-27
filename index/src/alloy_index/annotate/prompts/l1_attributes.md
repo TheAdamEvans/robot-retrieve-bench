@@ -79,7 +79,7 @@ Example item:
 1. For each segment open `window`. Decide which attributes are clearly negative and which need checking.
 2. Confirm every positive or borderline attribute at native resolution (`frame`, `step`, `sync`, `lidar`).
    Counting people in the corridor: use a native front `frame` at the busiest moment, cross-check with `lidar`.
-3. Write items to `annotations/tmp/{JOB}/batch_N.json` and submit with `label put`. Batches of ~5 are fine.
+3. Write items to `labels/.work/{JOB}/batch_N.json` and submit with `label put`. Batches of ~5 are fine.
 4. Finish with `label get attributes --rec <Rec>` to confirm everything is stored.
 
 ## Report back (short)

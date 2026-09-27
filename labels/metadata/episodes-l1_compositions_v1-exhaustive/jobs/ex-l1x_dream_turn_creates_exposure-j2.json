@@ -1,0 +1,53 @@
+{
+ "job": "ex-l1x_dream_turn_creates_exposure-j2",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/judgments": 24,
+  "train/episodes": 9
+ },
+ "tool_calls": 46,
+ "chunks": [
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 6.8,
+   "end_s": 31.8,
+   "chunk_id": "K6"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 40.0,
+   "end_s": 66.0,
+   "chunk_id": "K7"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 74.3,
+   "end_s": 92.8,
+   "chunk_id": "K8"
+  },
+  {
+   "recording": "Parlin_Parlin_51",
+   "start_s": 0.0,
+   "end_s": 23.2,
+   "chunk_id": "K9"
+  },
+  {
+   "recording": "Parlin_Parlin_51",
+   "start_s": 21.2,
+   "end_s": 46.4,
+   "chunk_id": "K10"
+  },
+  {
+   "recording": "Parlin_Parlin_51",
+   "start_s": 44.4,
+   "end_s": 69.5,
+   "chunk_id": "K11"
+  }
+ ],
+ "brief_sha256": "c7b67199cacc4454ce0db15bb4ea0b29c143f338f80c83a2d4652fa6f65be084",
+ "cost_usd": 4.519807000000001,
+ "turns": 106,
+ "minutes": 12.4,
+ "is_error": false,
+ "report": "None of the 6 chunks has a full match (no grade 2). Two episodes are grade 1 and seven are near misses (grade 0). All 9 episodes and 24 window grades were accepted; the second submission had no rejects.\n\n**Per chunk:**\n- **K6** (Library_Jester_75 6.8\u201331.8): K6-a, 19.0\u201330.0 s, **grade 1**. Covered below.\n- **K7** (Library_Jester_75 40\u201366): K7-a, 51.8\u201355.5 s, grade 0. A right turn of about \u221258\u00b0 brings the blonde woman with the backpack ahead. But at 51.86 s lidar has her inside the corridor, 3.47 m away at \u22129.7\u00b0, walking left to right. She crossed the robot's path about 1 s before the turn, so clause 3 is FALSE. The earlier episode pass had left this one UNKNOWN (grade 1).\n- **K8** (Library_Jester_75 74.3\u201392.8): K8-a, 86.8\u201389.0 s, grade 0. The right turn is about \u221244\u00b0, right on the 45\u00b0 line, so clause 1 is UNKNOWN. The turn faces an empty hall and brings nobody into the corridor (clause 3 FALSE).\n- **K9** (Parlin_Parlin_51 0\u201323.2): K9-a, 0.5\u20132.5 s, grade 0. The \u221255\u00b0 turn faces people who are walking right to left across the robot's path. The front camera only starts at 1.85 s.\n- **K10** (Parlin_Parlin_51 21.2\u201346.4):\n  - K10-a, 19.3\u201325.5 s, **grade 1**. Covered below.\n  - K10-b, 30.5\u201335.0 s, grade 0. A \u221293\u00b0 landing turn with nobody ahead afterwards.\n  - K10-c, 36.4\u201342.0 s, grade 0. A +174\u00b0 spin in place. The woman who was visible at the side never enters the corridor: she passes 1.94 m away at +44.5\u00b0. The man it does bring ahead was behind the robot before the turn, not beside it.\n- **K11** (Parlin_Parlin_51 44.4\u201369.5):\n  - K11-a, 43.0\u201347.5 s, grade 0. A +100\u00b0 turn. The people who end up ahead are new arrivals coming up the stairs, not people seen at the side before.\n  - K11-b, 54.0\u201361.0 s, grade 0. A +165\u00b0 turn toward the exit, with nobody at the side before it.\n\n**Grade 1 episodes:**\n1. **K6-a** (Library_Jester_75, turn starts at 19.4 s):\n   - **Turn:** +46\u00b0 to the left.\n   - **Same person at the side before:** yes. Before the turn she is at the left edge of the front camera and in a front-facing body camera, at 5.5 m and +44\u00b0.\n   - **Reorientation, not crossing:** the turn moves her from +44\u00b0 to +7\u00b0, and she walks along the new heading rather than across it. But she stays about 5.7 m away, just outside the 5 m corridor, until about 25.8 s. That is why clause 3 is UNKNOWN.\n   - **Slowdown timing:** slowing starts at about 29.75 s, roughly 8 s after she comes onto the forward axis.\n2. **K10-a** (Parlin_Parlin_51, about \u2212170\u00b0 turn on a stair landing, starting at 19.8 s): this is the best candidate.\n   - **Same person at the side before:** yes. A bare-legged woman on the stairs is on the right body camera just before the turn (19.66 s) and again mid-turn (23.0\u201323.2 s). That pre-turn frame is a silhouette seen through the railing.\n   - **Reorientation, not crossing:** she enters the front view at the edge at 23.91 s and is centred at 24.51 s, while standing almost still on the stairs. Lidar can't separate her from the steps, so whether she is physically in the corridor rests on the camera alone. Clause 3 is UNKNOWN.\n   - **Slowdown timing:** slowing starts at about 24.25 s, measured against a baseline of about 0.54 m/s. That falls between her front-edge entry (23.91 s) and being centred (24.51 s), so slowing coincides with the change in geometry.\n\n**Before or after:** K6-a is a \"slowdown after the transition\" example and K10-a a \"slowdown during the transition\" example. Neither is a full match, so I made no claims about complete matches."
+}

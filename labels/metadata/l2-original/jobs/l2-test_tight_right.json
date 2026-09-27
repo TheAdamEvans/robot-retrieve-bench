@@ -1,0 +1,9 @@
+{
+ "job": "l2-test_tight_right",
+ "campaign": "l2-original",
+ "labels": {
+  "eval/judgments": 47
+ },
+ "tool_calls": 89,
+ "brief_sha256": "1b8f3ac43bd962ef02cd7aa9c55e89d1a74a0f806cb95194d057571c71f415fd"
+}

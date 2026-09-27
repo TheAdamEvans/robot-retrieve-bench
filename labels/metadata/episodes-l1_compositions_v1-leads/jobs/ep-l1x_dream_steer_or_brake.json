@@ -1,0 +1,44 @@
+{
+ "job": "ep-l1x_dream_steer_or_brake",
+ "campaign": "episodes-l1_compositions_v1-leads",
+ "labels": {
+  "train/judgments": 22,
+  "train/episodes": 3
+ },
+ "tool_calls": 34,
+ "leads": [
+  {
+   "recording": "Library_Jester_75",
+   "window": "Library_Jester_75:0016",
+   "context": [
+    4,
+    28
+   ],
+   "episode_id": "E1"
+  },
+  {
+   "recording": "Stadium_Sanjac_90",
+   "window": "Stadium_Sanjac_90:0056",
+   "context": [
+    48,
+    84
+   ],
+   "episode_id": "E2"
+  },
+  {
+   "recording": "Thompson_Thompson_100",
+   "window": "Thompson_Thompson_100:0256",
+   "context": [
+    240,
+    264
+   ],
+   "episode_id": "E3"
+  }
+ ],
+ "brief_sha256": "a91d7357bbd0245a3185ca88a895d799f47cad3d245162db21a8d8abacab65c1",
+ "cost_usd": 2.4548962000000007,
+ "turns": 60,
+ "minutes": 7.7,
+ "is_error": false,
+ "report": "None of the three leads forms a qualifying pair, so all three are graded 0 (near miss). All 3 episode records and 22 window grades (all 0) went in with no rejects, and `label get` shows them stored.\n\nThe first submit had two rejects: the validator only accepts refs from the episode's own recording. Where a clause is judged against a partner episode, the evidence text now names that partner and cites the episode's own odom refs.\n\n**Per episode** (clauses 1\u20135 in order):\n- **E1** (Library_Jester_75, 14.4\u201318.5 s, Spot), grade 0, role: slowing.\n  1. FALSE: the actor is a cyclist who rides toward the robot and then crosses in front. The only pedestrian in the path is walking away.\n  2. FALSE: baseline is 1.40 m/s, against E2's 2.0 m/s.\n  3. TRUE via partner E2.\n  4. TRUE: speed drops from 1.40 to 0.33 m/s (76% loss) with a 1.2\u00b0 heading change.\n  5. UNKNOWN: I couldn't tie any lidar cluster to the cyclist.\n- **E2** (Stadium_Sanjac_90, 53.0\u201357.5 s, Jackal), grade 0, role: steering.\n  1. TRUE: two pedestrians walk toward the robot and pass on its right.\n  2. FALSE: baseline is 2.0 m/s, 0.60 m/s above E1.\n  3. TRUE: heading swings from \u221218.7\u00b0 to +16.0\u00b0 (34.7\u00b0) while speed stays at 1.99\u20132.01 m/s (under 1% loss).\n  4. TRUE via partner E1.\n  5. TRUE: closest supported separation is about 1.8 m lidar range at 56.78 s, while the woman is still in camera view. The camera and lidar bearings for her are about 10\u00b0 apart, so the match is approximate.\n- **E3** (Thompson_Thompson_100, 253.0\u2013256.0 s, Spot), grade 0, no role.\n  1. TRUE: two women walk up to the robot on purpose to engage with it.\n  2. FALSE: baseline is about 0.6 m/s (range 0.36\u20130.77), which matches neither partner.\n  3. FALSE: the 23\u00b0 turn is under 30\u00b0.\n  4. FALSE: the same 23\u00b0 turn is over 15\u00b0.\n  5. TRUE: closest supported separation is about 1.1 m lidar range at 253.91 s, confirmed on the front-right body camera.\n\n**Why no pair qualifies:** E2 against E1 is the only pairing that meets both motion thresholds. It fails because E1's actor is a crossing cyclist, not an oncoming pedestrian, and because the baselines differ by 0.60 m/s (the limit is 0.3). Three other differences also weaken it:\n- **Robots:** E2 is a Jackal, E1 a Spot.\n- **Ground:** E2 is an asphalt festival street, E1 a brick plaza.\n- **Crowd:** E2 is dense (about 25 lidar clusters within 10 m), E1 sparse.\n\nE1's later 47\u00b0 turn at 19.5\u201321.5 s is a separate turn toward building stairs, not part of this encounter.\n\n**What the data couldn't establish:**\n- **Corridor-count band:** the counts are 1\u20132 lidar clusters in the corridor at a few sampled moments. I didn't compare bands, because the baseline mismatch already fails clause 2.\n- **E3 speed loss:** Spot's speed swings with its gait (about 0.35\u20130.77 m/s), so a sustained slowdown can't be separated from gait. Heading settles both of E3's motion clauses anyway.\n- **Anything closer:** the E2 cluster at 1.17 m is outside the camera's field of view. The E3 return at 0.88 m is only covered by body-camera frames about 0.4 s old. I didn't certify either.\n- I didn't use the corridor's near-zero minimum range readings (0.001\u20130.003 m) as pedestrian distances."
+}

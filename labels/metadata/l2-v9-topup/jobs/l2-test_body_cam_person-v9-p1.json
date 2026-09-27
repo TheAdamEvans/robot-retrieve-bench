@@ -1,0 +1,14 @@
+{
+ "job": "l2-test_body_cam_person-v9-p1",
+ "campaign": "l2-v9-topup",
+ "labels": {
+  "eval/judgments": 60
+ },
+ "tool_calls": 86,
+ "brief_sha256": "7c869e7ce23f3ce127d76bb9456e608f15106aca0679e130aebb0ba5c94efcf2",
+ "cost_usd": 4.4221132,
+ "turns": 121,
+ "minutes": 9.8,
+ "is_error": false,
+ "report": "All 60 windows are graded and stored; no submissions were rejected. The shard is `annotations/labels/judgment/l2-test_body_cam_person-v9-p1.jsonl`.\n\n**Episodes found**\n- **GDC_Library_42, stairwell, about 64\u201368 s (anchor 66.0 s).** The back body camera shows the operator on the stairs. The front camera shows only steps and railings. Refs: `image_raw#1927`, `back#295`.\n- **GDC_Library_42, plaza, about 100\u2013101 s (anchor 100.5 s).** The front camera shows an empty plaza. The back camera shows the operator plus two pedestrians by the doors. By 102 s a distant pedestrian comes into the front view. Refs: `image_raw#2960`, `back#450`.\n- **Bass_Garage_134, 82\u201388 s, partial.** The back, right and left cameras see people nearby, and the forward stereo pair (the frontleft and frontright body cameras) shows nobody clearly ahead. This recording has no front camera, so I couldn't confirm the front view was empty.\n\n**Grade counts:** 2 \u00d7 2 (GDC_Library_42:0068, :0104), 3 \u00d7 1 (Bass_Garage_134:0086\u20130088), 55 \u00d7 0, and no \u22121.\n\nWhy the rest got 0:\n- **GDC, Butler, JCL and the other GDC_Library_42 windows:** these are busy walkways, crowds and a dining hall, so the front camera sees people in every frame I checked. Two were near-misses that I checked at full resolution and zoomed: GDC_Library_42:0016 (people seated behind the glass doors) and :0116 (a pedestrian ahead at 114 s).\n- **Brackenridge:** it's a Jackal recording with no Spot body cameras.\n- **Bass_Garage_134, all other windows:** the forward stereo pair shows people directly ahead. I took that to mean the front view wasn't empty, and graded them 0.\n\n**What the data can't establish**\n- **Bass_Garage_134 has no front camera at all.** The part \"front camera sees nobody\" can never be observed there, which is why the best grade is 1. The 0s in that recording depend on my choice to treat the forward stereo pair as a stand-in for the front camera. If you'd rather those count as unestablishable, they would become 1s; this is worth flagging for `answered_partial`.\n- **\"Body cameras see a person\" is almost always true on Spot.** The back camera nearly always shows the operator walking behind, so in practice the intent reduces to \"the front camera sees nobody\".\n- **\"Nobody\" has no distance cutoff.** Distant pedestrians (15\u201340 m) at full resolution decided several windows. For example, GDC_Library_42 at 102 s still counts as \"nobody\" at 100.5 s only because the far pedestrian hadn't appeared yet."
+}

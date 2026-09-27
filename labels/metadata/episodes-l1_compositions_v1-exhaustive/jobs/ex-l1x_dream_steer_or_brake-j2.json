@@ -1,0 +1,41 @@
+{
+ "job": "ex-l1x_dream_steer_or_brake-j2",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/judgments": 7,
+  "train/episodes": 16
+ },
+ "tool_calls": 49,
+ "chunks": [
+  {
+   "recording": "Stadium_Sanjac_90",
+   "start_s": 66.5,
+   "end_s": 94.0,
+   "chunk_id": "K9"
+  },
+  {
+   "recording": "Thompson_Thompson_100",
+   "start_s": 2.3,
+   "end_s": 32.0,
+   "chunk_id": "K10"
+  },
+  {
+   "recording": "Thompson_Thompson_100",
+   "start_s": 30.0,
+   "end_s": 61.8,
+   "chunk_id": "K11"
+  },
+  {
+   "recording": "Thompson_Thompson_100",
+   "start_s": 59.8,
+   "end_s": 91.5,
+   "chunk_id": "K12"
+  }
+ ],
+ "brief_sha256": "9ecc5d4597e140621f46141405445bffd4766f62cc7dc0b44122e48fa1a0a3a9",
+ "cost_usd": 3.2824368000000015,
+ "turns": 100,
+ "minutes": 11.8,
+ "is_error": false,
+ "report": "No qualifying pair exists in K9\u2013K12. I found one relevant slowing episode (grade 1) and no steering candidate that passes. I submitted 16 episodes and 7 window grades with no rejects, and confirmed them with `label get`.\n\n**Per chunk** (grade 0 = near miss):\n- **K9, Stadium_Sanjac_90**\n  - **K9-a (66.5\u201370.5 s), 0:** turns while following a crowd. Everyone nearby is walking away, so there's no oncoming pedestrian.\n  - **K9-b (70.8\u201376.8 s), 0:** two slowdowns behind a crowd walking the same way. Neither holds heading: the turns are about 34\u00b0 and 22\u00b0, both over 15\u00b0.\n  - **K9-c (79.5\u201383.5 s), 0:** a man in blue walks toward the robot and passes on its left. There is a 31.8\u00b0 excursion at 2 m/s, but the turn follows an orange barrier cutting into the corridor from the right while he is still about 8 m out. The part of the turn related to him is only about 15\u00b0.\n  - **K9-d (87.5\u201391.5 s), 0:** a 64\u00b0 turn at an intersection with no one approaching.\n  - **K9-e (92.3\u201394 s), 0:** final stop on an empty road.\n- **K10, Thompson_Thompson_100**\n  - **K10-a (7.8\u20139.8 s), 0:** a man in an orange shirt walks toward the robot. The numbers pass (41\u00b0 turn, about 16% loss), but the turn follows the sidewalk corner toward the crosswalk and he passes close on the side it turned toward.\n  - **K10-b (10\u201315.5 s), 0:** a 64\u00b0 turn to line up with the crosswalk. Pedestrians are more than 10 m away.\n  - **K10-c (18.3\u201321.5 s), 0:** a 32\u00b0 left turn after crossing the street. The speed loss is about 20%, right at the limit, and the turn follows the curb. The two people there are mostly standing, so whether anyone was oncoming is unclear.\n  - **K10-d (21.5\u201326 s), 0:** a 76\u00b0 turn along a curving path, with golf carts ahead rather than pedestrians.\n- **K11, Thompson_Thompson_100**\n  - **K11-a (37\u201340.5 s), 0:** the couple it passes is standing still. The swerve is only 19.8\u00b0; it reaches 31.5\u00b0 only if a later, separate turn at a bend in the path is counted.\n  - **K11-b (40.6\u201343 s), 0:** the slowing numbers pass (about 42% loss, about 1\u00b0 excursion), but nobody is approaching and the corridor stays clear.\n  - **K11-c (49\u201352.5 s), 1:** the one relevant episode; details below.\n- **K12, Thompson_Thompson_100** (all 0, no oncoming pedestrian in any)\n  - **K12-a (65\u201369.3 s):** slowdown while following a pair walking ahead.\n  - **K12-b (69.3\u201374.6 s):** swerve to overtake that same pair.\n  - **K12-c (73.5\u201378.5 s):** turn at a bend in the path while a group joins walking the same direction.\n  - **K12-d (78.5\u201391.5 s):** repeated speed dips while trailing people walking away.\n\n**Grade 2:** none.\n\n**Grade 1:** K11-c, Thompson_Thompson_100 49.0\u201352.5 s, as the slowing member. Its windows `Thompson_Thompson_100:0050`\u2013`0056` are graded 1.\n- **Oncoming pedestrian (TRUE):** a man in a light-blue shirt walks toward the robot on the grass just right of the path and passes on its right at about 51.0 s.\n- **Slowing case (TRUE):** speed falls from a 1.43 m/s baseline to 0.176 m/s at 50.97 s, about an 88% loss, while heading stays within 3.2\u00b0.\n- **Pair matching (UNKNOWN):** the corridor-count band is 1, from a person walking the same way about 3.7 m ahead. There is no steering partner to compare with.\n- **Separation (UNKNOWN):** the lidar return near him sits next to a tree trunk, so it can't be confirmed as him.\n- **Weak comparison:** it's a dense tailgate crowd, a woman crosses in front at 49.5\u201350.5 s, and the person ahead is also slowing the robot.\n\n**Pairs:** none. No steering episode here meets both 30\u00b0 or more of excursion and under 20% speed loss without the turn being set by the walkway, barrier or path bend. The only other grade-1 episodes from other jobs (K18-d and K19-b, also Thompson) are slowing members as well. Their baselines are about 0.6\u20130.7 m/s, well over 0.3 m/s below K11-c's 1.43 m/s.\n\nTo get exact values I wrote a small helper at `annotations/tmp/ex-l1x_dream_steer_or_brake-j2/series.py`, but it needed approval to run, so I never ran it. All numbers come from narrow `scandq signals` windows. You can delete the script."
+}

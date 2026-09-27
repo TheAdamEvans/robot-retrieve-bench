@@ -1,0 +1,13 @@
+{
+ "campaign": "l2-v9-topup",
+ "kinds": [
+  "judgment"
+ ],
+ "priority": -1,
+ "brief": "l2_judgments.md",
+ "purpose": "Every window eval v9 surfaced without a judgment; fills gaps and never overrides an earlier grade.",
+ "date": "2026-09-27",
+ "judge": "claude-opus-5-5",
+ "jobs": 21,
+ "cost_usd": 53.06
+}

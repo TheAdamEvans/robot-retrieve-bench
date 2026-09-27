@@ -258,7 +258,7 @@ Before stronger claims, we need more independent evidence: the corpus is still s
 
 <details><summary>Artifact provenance, reproducibility, and full results</summary>
 
-This document is generated from `benchmark/results/v9/`. Media comes from the local SCAND recordings; the receipt replays v9’s stored generated program on the Library-to-MLK recording. The behavior-question ground truth is in `annotations/exhaustive/` and `annotations/labels/episode/`. Frozen artifacts have SHA-256 manifests.
+This document is generated from `benchmark/results/v9/`. Media comes from the local SCAND recordings; the receipt replays v9’s stored generated program on the Library-to-MLK recording. The behavior-question ground truth is in `labels/train/episodes/`, with its sweep and job records under `labels/metadata/`. Frozen artifacts have SHA-256 manifests.
 
 The HTML contains its diagrams, plots, photographs, three short clips, and benchmark data. Nothing needs a running server or a network connection to present it. The Markdown source and build scripts are included alongside it for editing and reproduction.
 

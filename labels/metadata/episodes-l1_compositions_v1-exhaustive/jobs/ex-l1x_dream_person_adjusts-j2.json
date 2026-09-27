@@ -1,0 +1,59 @@
+{
+ "job": "ex-l1x_dream_person_adjusts-j2",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/judgments": 13,
+  "train/episodes": 13
+ },
+ "tool_calls": 65,
+ "chunks": [
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 264.0,
+   "end_s": 296.0,
+   "chunk_id": "K7"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 304.0,
+   "end_s": 326.0,
+   "chunk_id": "K8"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 324.0,
+   "end_s": 348.0,
+   "chunk_id": "K9"
+  },
+  {
+   "recording": "Library_Fountain_5",
+   "start_s": 4.0,
+   "end_s": 16.0,
+   "chunk_id": "K10"
+  },
+  {
+   "recording": "Library_Fountain_5",
+   "start_s": 24.0,
+   "end_s": 36.0,
+   "chunk_id": "K11"
+  },
+  {
+   "recording": "Library_Fountain_5",
+   "start_s": 44.0,
+   "end_s": 72.0,
+   "chunk_id": "K12"
+  },
+  {
+   "recording": "Library_Fountain_5",
+   "start_s": 80.0,
+   "end_s": 100.0,
+   "chunk_id": "K13"
+  }
+ ],
+ "brief_sha256": "a55e9ea8f970aa9531195bc18a134edf27257d171f8ab9a9c7032e93e7e835e8",
+ "cost_usd": 4.4938192,
+ "turns": 120,
+ "minutes": 13.5,
+ "is_error": false,
+ "report": "All 7 chunks are covered, but nothing reached grade 2. The two real candidates both land at grade 1 because the robot's heading excursion is right at the 15\u00b0 limit, and whether it passes depends on when you say the encounter starts. I recorded 13 episodes (2 at grade 1, 11 near misses) and 13 window grades, all at grade 1. Both submissions were accepted with no rejects, and `label get` shows all 13 episodes stored.\n\n**Per chunk**\n- **K7** (GDC_Library_42 264\u2013296 s)\n  - K7-a, 266\u2013270 s: grade 0. An oncoming woman and a cyclist pass on the left in straight lines.\n  - K7-b, 290.5\u2013294 s: grade 0. An oncoming pair walks straight down the left side.\n- **K8** (304\u2013326 s)\n  - K8-a, 320.5\u2013325.8 s: **grade 1**. Described below.\n- **K9** (324\u2013348 s)\n  - K9-a, 324.2\u2013331.2 s: **grade 1**. Described below.\n  - K9-b, 333\u2013348 s: grade 0. Closest stretch only; there's no oncoming person, just someone walking ahead.\n- **K10** (Library_Fountain_5 4\u201316 s)\n  - K10-a, 3.5\u20135.5 s: grade 0. A man on the phone walks straight and passes on the right.\n  - K10-b, 11.0\u201313.4 s: grade 0. A masked woman walks straight; her sideways movement in the image comes from the robot turning 14\u00b0.\n- **K11** (24\u201336 s)\n  - K11-a, 27.5\u201332.8 s: grade 0. A man in a green mask walks straight along the bike racks. The backpack woman is walking the same way as the robot, not toward it.\n- **K12** (44\u201372 s): all grade 0, with people walking straight along the wall.\n  - K12-a, 52.5\u201355 s: man in a teal striped shirt.\n  - K12-b, 57.2\u201360.3 s: masked pair.\n  - K12-c, 64.5\u201368 s: man in a brown jacket.\n- **K13** (80\u2013100 s): both grade 0.\n  - K13-a, 80.5\u201383 s: a man walks straight along the wall.\n  - K13-b, 82.5\u201386.3 s: a group of 4\u20135 walks straight; their image drift matches the robot's 11.8\u00b0 turn.\n\n**Grade 1 episodes (no grade 2)**\n- **K8-a** (GDC_Library_42): A woman in a denim jacket walks toward the robot facing the camera from 320.6 to 323.6 s. At 324.0 s she's side-on, heading toward a drain grate on the robot's left. She passes on the left at about 325.6 s.\n  - Clauses 1, 2 and 4 are TRUE. Speed range is 0.039 m/s.\n  - Clause 3 (heading) is UNKNOWN. The excursion is 15.55\u00b0 measured from when she's first visible (320.5 s), but 14.5\u00b0 from 322.4 s.\n- **K9-a** (GDC_Library_42): A woman in black walks toward the robot facing the camera, just right of the drain grate, from 325.6 to 327.4 s. She turns side-on by 328.4 s, crosses the grate by 329.4 s, and passes on the left at about 331 s. The grate is fixed in the world, so her crossing it isn't an effect of the camera moving.\n  - Clauses 1, 2 and 4 are TRUE. Speed range is 0.045 m/s.\n  - Clause 3 is UNKNOWN. The robot is turning right in steps from 322 to 332 s. The excursion is 10.6\u00b0 from 325.5 s and 14.5\u00b0 from 324.2 s, and goes over 15\u00b0 if the encounter starts before about 323.9 s.\n\nIn both cases I left the heading clause UNKNOWN rather than pick a start time that would make it pass.\n\nThis isn't a comparison question, so there are no pairs to report."
+}

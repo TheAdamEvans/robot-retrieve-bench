@@ -1,0 +1,9 @@
+{
+ "job": "l2-test_turn_then_brake",
+ "campaign": "l2-original",
+ "labels": {
+  "eval/judgments": 79
+ },
+ "tool_calls": 108,
+ "brief_sha256": "35388ea024877a8cd6dccc4d8fde37ed8224c714d1887e8df8415c97364b9dc0"
+}

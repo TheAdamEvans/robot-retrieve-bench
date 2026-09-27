@@ -47,7 +47,7 @@ numbers from `signals` and cite its refs; you judge who is where, identity acros
 
 ## What to submit
 
-**Episodes** (`label put episode --json @annotations/tmp/{JOB}/episodes.json`, a JSON list), one per candidate moment:
+**Episodes** (`label put episode --json @labels/.work/{JOB}/episodes.json`, a JSON list), one per candidate moment:
 
 ```json
 {"intent_group_id": "{INTENT_ID}", "chunk_id": "K1", "episode_id": "K1-a", "recording_id": "...",
@@ -64,7 +64,7 @@ numbers from `signals` and cite its refs; you judge who is where, identity acros
 - `grade`: **2** only if every clause is TRUE; **1** relevant but incomplete (UNKNOWNs, no FALSE); **0** near miss.
 - `window_ids`: the 4 s windows (`Rec:EEEE` covers `[EEEE-4 s, EEEE s]`) overlapping the episode.
 
-**Window grades**, only for windows of grade 1 and 2 episodes (`label put judgment --json @annotations/tmp/{JOB}/windows.json`):
+**Window grades**, only for windows of grade 1 and 2 episodes (`label put judgment --json @labels/.work/{JOB}/windows.json`):
 each `{"intent_group_id": "{INTENT_ID}", "window_id": ..., "grade": ..., "rationale": ..., "refs": [...]}`, where
 2 = contains or is within 1 s of an anchor of a grade-2 episode, and 1 = inside a relevant episode.
 

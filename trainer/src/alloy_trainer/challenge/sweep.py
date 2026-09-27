@@ -26,12 +26,21 @@ import numpy as np
 from alloy_server.catalog import embodiment as E
 from alloy_server.timeline.store import Recording
 from alloy_index import embodiment as emb
-from alloy_index.annotate.store import load_labels
+from alloy_index.annotate.store import LABELS, load_labels
 from alloy_index.decode import Decoder, odom_arrays
 from alloy_index.providers.common import smooth_speed
 from alloy_index.recordings import SCAND_ROOT, bundle_root, robot
 
 VERSION = "sweep@1"
+
+
+def exhaustive_campaign(set_name: str) -> str:
+    return f"episodes-{set_name}-exhaustive"
+
+
+def sweep_path(set_name: str, intent: str) -> Path:
+    """The sweep defines the exhaustive campaign's candidates, so it lives in that campaign's metadata."""
+    return LABELS / "metadata" / exhaustive_campaign(set_name) / "sweep" / f"{intent}.json"
 DT = 0.1                                   # resampling grid (s)
 ONSET_STEP = 0.25
 WINDOWS = np.arange(1.0, 10.01, 0.5)       # maneuver lengths searched (s)
@@ -158,7 +167,7 @@ def little_progress(sg: Signals, window: float, disp_max: float, moving_min: flo
 def holds_motion_with_people(sg: Signals, rec_id: str, range_max: float, exc_max: float) -> list[dict]:
     """4 s label segments where the robot holds its motion and a person is present by L1 labels OR the detector."""
     import pyarrow.parquet as pq
-    labels = load_labels(SCAND_ROOT / "annotations", "attributes")
+    labels = load_labels("attributes", ("train",))
     det_p = bundle_root() / "features" / "detections" / f"{rec_id}.parquet"
     det = pq.read_table(det_p).to_pydict() if det_p.exists() else None
     rec = Recording(bundle_root(), rec_id)
@@ -242,7 +251,7 @@ SPECS = {
 def sweep_recall(intent: str, cands: dict[str, list[dict]]) -> list[dict]:
     """Every judged episode, and whether a candidate overlaps it; grade >= 1 must be covered."""
     out = []
-    for r in load_labels(SCAND_ROOT / "annotations", "episode").values():
+    for r in load_labels("episode", ("train", "eval")).values():
         if r["intentGroupId"] != intent:
             continue
         spans = [c for c in cands.get(r["recordingId"], []) if c["start_s"] < r["endS"] and c["end_s"] > r["startS"]]
@@ -256,8 +265,7 @@ def run(set_name: str, split: str, scope_all: bool = False) -> dict:
     qs = [json.loads(l) for l in (set_dir / f"queries_{split}.jsonl").read_text().splitlines() if l.strip()]
     bundle = bundle_root()
     cache: dict[str, Signals] = {}
-    out_dir = SCAND_ROOT / "annotations" / "exhaustive" / set_name
-    out_dir.mkdir(parents=True, exist_ok=True)
+
     code = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()[:12]
     summary = {}
     for q in qs:
@@ -281,7 +289,8 @@ def run(set_name: str, split: str, scope_all: bool = False) -> dict:
         missed = [c for c in check if c["grade"] >= 1 and not c["covered"]]
         doc = {"version": VERSION, "code_sha": code, "intent": intent, "split": split, "scope": scope,
                "members": members, "sweep_recall_check": check, "sweep_recall_ok": not missed}
-        (out_dir / f"{intent}.json").write_text(json.dumps(doc, indent=1))
+        sweep_path(set_name, intent).parent.mkdir(parents=True, exist_ok=True)
+        sweep_path(set_name, intent).write_text(json.dumps(doc, indent=1))
         summary[intent] = {m: (v["n"], v["seconds"]) for m, v in members.items()}
         summary[intent]["check"] = f"{sum(c['covered'] for c in check)}/{len(check)} judged episodes covered" + \
                                    ("" if not missed else f"; MISSED relevant: {missed}")

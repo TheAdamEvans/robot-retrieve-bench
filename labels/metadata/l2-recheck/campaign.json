@@ -1,0 +1,14 @@
+{
+ "campaign": "l2-recheck",
+ "kinds": [
+  "judgment"
+ ],
+ "priority": 0,
+ "brief": "l2_judgments.md",
+ "purpose": "Blind re-judgment of 80 windows by a fresh labeller instance; used only for agreement statistics.",
+ "date": "2026-09-27",
+ "judge": "claude-opus-5-5",
+ "jobs": 1,
+ "cost_usd": null,
+ "cost_note": "Run as interactive agent sessions before per-job cost was recorded; see git history for estimates."
+}

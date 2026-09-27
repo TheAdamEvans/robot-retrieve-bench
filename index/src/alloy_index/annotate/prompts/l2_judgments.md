@@ -41,7 +41,7 @@ say: people, vehicles, doorways, whether something is in the robot's path, and w
 3. **Required evidence.** A grade of 1 or 2 needs at least one native ref. A grade of 0 needs at least one opened ref
    (a `window` or `signals` ref is fine). Each rationale is one sentence naming the episode, e.g. `"slowdown
    1.4→0.5 m/s at 113.9 s; no crowd in the corridor"`.
-4. **Submit.** Submit in batches with `label put judgment --json @annotations/tmp/{JOB}/batch_N.json`, each item
+4. **Submit.** Submit in batches with `label put judgment --json @labels/.work/{JOB}/batch_N.json`, each item
    `{"intent_group_id": "{INTENT_ID}", "window_id": ..., "grade": ..., "rationale": ..., "refs": [...]}`. Fix
    and resubmit any rejects, then finish with `label get judgment --intent {INTENT_ID}`.
 

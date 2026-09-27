@@ -1,0 +1,9 @@
+{
+ "job": "l2-test_car_close_fast",
+ "campaign": "l2-original",
+ "labels": {
+  "eval/judgments": 76
+ },
+ "tool_calls": 127,
+ "brief_sha256": "3328ef9fc77f703c783db1a2e7447e925c3bd9281f898adfb630ee6d5b2b9403"
+}

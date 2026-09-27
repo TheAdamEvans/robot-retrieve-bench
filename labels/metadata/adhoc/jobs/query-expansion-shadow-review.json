@@ -1,0 +1,6 @@
+{
+ "job": "query-expansion-shadow-review",
+ "campaign": "adhoc",
+ "labels": {},
+ "tool_calls": 2
+}

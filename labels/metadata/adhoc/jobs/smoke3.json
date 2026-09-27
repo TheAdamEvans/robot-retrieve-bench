@@ -1,0 +1,6 @@
+{
+ "job": "smoke3",
+ "campaign": "adhoc",
+ "labels": {},
+ "tool_calls": 2
+}

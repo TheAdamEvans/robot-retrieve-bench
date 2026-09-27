@@ -1,0 +1,9 @@
+{
+ "job": "l2-crowd_hesitation",
+ "campaign": "l2-original",
+ "labels": {
+  "eval/judgments": 58
+ },
+ "tool_calls": 55,
+ "brief_sha256": "5ce77e8ff2bb41db6048ea77b06b365dbdb1290b11a1cf14996ed8a27b6c8426"
+}

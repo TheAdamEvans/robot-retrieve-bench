@@ -1,0 +1,14 @@
+{
+ "job": "l2-last_safe_evidence-v9-p1",
+ "campaign": "l2-v9-topup",
+ "labels": {
+  "eval/judgments": 60
+ },
+ "tool_calls": 17,
+ "brief_sha256": "62f736a91341a738524fa4e891654956bc8bad0706b2293c710541bca33f62e5",
+ "cost_usd": 1.4227547999999999,
+ "turns": 38,
+ "minutes": 5.3,
+ "is_error": false,
+ "report": "All 60 windows for `l2-last_safe_evidence-v9-p1` are graded and stored. 12 were accepted in the first batch; 48 were rejected because their refs were more than about 20 s from the window. I swapped in nearby refs and resubmitted, and all 48 were accepted. The intent's store holds 192 judgments in total; the other 132 come from other jobs.\n\n**Episodes found**\n- **Bass_Garage_134, start of recording (the only candidate).** The robot is at rest at 0.017 s: the first odom message shows near-zero motion, and the navigation velocity command is zero, so it's being driven by joystick. By 0.197 s it is rotating on the spot (odom#3, 0.36 rad/s). It starts moving forward at about 0.65 s and reaches about 1.3 m/s by 4.7 s. At 0.65 s the latest data before the move all exist:\n  - front-left/front-right image #2: received 0.62 s, captured 0.15 s\n  - left/right image #2: captured 0.015 s\n  - back image #2: captured 0.08 s\n  - lidar #6: 0.652 s\n  - pose, localization and /tf at 16\u201350 Hz\n\n  But the stop itself is a single odom sample at the very start of the recording, and the first front image only arrives at 0.174 s. Nothing from the front cameras was received before the robot started turning.\n- **Rest of Bass_Garage_134:** always moving. Speed never falls below 0.77 m/s between 20 and 70 s. The dips at about 74, 83 and 91 s bottom out around 0.7 m/s, so they're slowdowns, not stops. At the end the robot stops (0.01 m/s at 104.8 s) and never moves off again before the recording ends at 106 s.\n- **Brackenridge:0019:** cruising at 1\u20132 m/s, with no stop.\n\n**Grade counts:** 2 \u2192 0, 1 \u2192 2 (Bass_Garage_134:0004 and 0005), 0 \u2192 58, \u22121 \u2192 0.\n\n**What the data can't establish**\n- **Recording edges.** The only move-off from a stop happens right as the recording begins. So how long the robot was stopped, and any front image from before the move, aren't in the recording. That's why the two windows got 1, not 2.\n- **Which data \"could have informed the action.\"** The recording has ages and timestamps, but not which messages the operator or controller actually used. The joystick is driving and the velocity command stays zero, so what the robot \"used\" can only be approximated by the latest message received before the move.\n- **Camera age.** Spot's cameras arrive about 0.43 s after capture. Any answer needs both the capture time and the receive time to give an honest age.\n\nThe batch files are in `annotations/tmp/l2-last_safe_evidence-v9-p1/`."
+}

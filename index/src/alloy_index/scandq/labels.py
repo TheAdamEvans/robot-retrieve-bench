@@ -19,7 +19,7 @@ from alloy_server.catalog.windows import WINDOW_S, parse_window_id, window_span_
 from alloy_server.gen.alloy.v1 import common_pb2, eval_pb2
 from alloy_server.timeline.store import parse_mid
 from alloy_index.scandq import cli
-from alloy_index.annotate.store import key_of, load_labels
+from alloy_index.annotate.store import USES, key_of, load_labels, shard_path, use_for
 
 JUDGE = os.environ.get("SCANDQ_JUDGE", "claude-opus-5-5")
 TRUTH_FIELDS = ["stationary_group", "doorway_traversal", "vehicle_present", "vehicle_interaction", "bicycle",
@@ -36,16 +36,16 @@ def add_parser(sp) -> None:
     p.add_argument("--intent")
 
 
-def shard(kind: str) -> Path:
-    d = cli.ANN / "labels" / kind
-    d.mkdir(parents=True, exist_ok=True)
-    return d / f"{cli.JOB}.jsonl"
+def shard(kind: str, use: str) -> Path:
+    p = shard_path(use, kind, cli.CAMPAIGN, cli.JOB, cli.LABELS)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    return p
 
 
 def opened_refs() -> dict[str, bool]:
     """mid → opened natively at least once, for this job."""
     seen: dict[str, bool] = {}
-    p = cli.ANN / "audit.jsonl"
+    p = cli.audit_path()
     if not p.exists():
         return seen
     for line in p.read_text().splitlines():
@@ -207,7 +207,7 @@ def validate_episode(d: dict) -> tuple[dict, list[str]]:
 
 def cmd_label(a) -> None:
     if a.op == "get":
-        latest = load_labels(cli.ANN, a.kind)
+        latest = load_labels(a.kind, USES, cli.LABELS)
         for v in latest.values():  # show refs as MessageId strings, as submitted
             v["refs"] = [f'{x["recordingId"]}{x["topic"]}#{x.get("topicOrdinal", 0)}' for x in v.get("refs", [])]
         rows = [v for v in latest.values()
@@ -232,15 +232,17 @@ def cmd_label(a) -> None:
             rejected.append({"id": ident, "errors": errors})
             continue
         accepted.append(msg if isinstance(msg, dict) else json_format.MessageToDict(msg))
-    if accepted:
-        path = shard(a.kind)
+    shards = set()
+    for r in accepted:  # each record goes to the folder of its use: train / eval / agreement
+        r["campaign"] = cli.CAMPAIGN
+        path = shard(a.kind, use_for(a.kind, r, cli.CAMPAIGN, cli.LABELS))
         existing = {}
         if path.exists():
             for line in path.read_text().splitlines():
-                r = json.loads(line)
-                existing[key_of(a.kind, r)] = r
-        for r in accepted:
-            existing[key_of(a.kind, r)] = r
-        path.write_text("".join(json.dumps(r) + "\n" for r in existing.values()))
+                old = json.loads(line)
+                existing[key_of(a.kind, old)] = old
+        existing[key_of(a.kind, r)] = r
+        path.write_text("".join(json.dumps(x) + "\n" for x in existing.values()))
+        shards.add(str(path))
     cli.emit("label_put", {"kind": a.kind, "n": len(items)},
-             {"accepted": len(accepted), "rejected": rejected, "shard": str(shard(a.kind))})
+             {"accepted": len(accepted), "rejected": rejected, "shards": sorted(shards)})

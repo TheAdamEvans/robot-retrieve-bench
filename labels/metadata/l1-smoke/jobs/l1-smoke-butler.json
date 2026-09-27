@@ -1,0 +1,8 @@
+{
+ "job": "l1-smoke-butler",
+ "campaign": "l1-smoke",
+ "labels": {
+  "train/attributes": 10
+ },
+ "tool_calls": 37
+}

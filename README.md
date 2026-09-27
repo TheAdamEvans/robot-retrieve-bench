@@ -26,6 +26,8 @@ Start with [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Then read [`docs/INDE
 - **`trainer/` (`alloy-trainer`).** The benchmark harness, L2 judging, Stage C (FUSED) learning and `alloy-evals`.
 - **`server/src/alloy_server/embodiments/*.textproto`.** Robot facts as reviewed data, one profile per robot model.
 - **`benchmark/queries/`.** The frozen query sets and the oracle `QueryProgram`s, with a sha256 manifest.
+- **`labels/`.** Every label, in `train/`, `eval/` and `agreement/` by what it may be used for, with provenance per
+  labelling campaign in `labels/metadata/`. See [`labels/README.md`](labels/README.md).
 - **`benchmark/OPEN_QUESTIONS.md`.** Data questions that change what the system may claim.
 
 ## Search configs (all through `alloy_server.pipeline.run`)

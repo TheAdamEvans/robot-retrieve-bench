@@ -9,7 +9,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from alloy_trainer.eval import metrics as M
-from alloy_index.annotate.store import load_labels
+from alloy_index.annotate.store import LABELS, campaign, load_labels
 from alloy_trainer.eval.run import CONFIGS, EVAL_SETS, generation_costs
 from alloy_index.recordings import held_out
 from alloy_index.recordings import SCAND_ROOT
@@ -20,28 +20,32 @@ ACCEPTABLE = {  # status outcomes that answer the intent honestly (the puzzle al
 }
 
 
-def load_judgments(ann: Path) -> dict[str, dict[str, int]]:
+def load_judgments(root: Path = LABELS, uses: tuple[str, ...] = ("train", "eval")) -> dict[str, dict[str, int]]:
+    """Window grades per intent. Agreement re-judgments are excluded unless asked for."""
     qrels: dict[str, dict[str, int]] = defaultdict(dict)
-    for r in load_labels(ann, "judgment").values():
+    for r in load_labels("judgment", uses, root).values():
         qrels[r["intentGroupId"]][r["windowId"]] = int(r.get("grade", 0))
     return qrels
 
 
-def ground_truth(ann: Path) -> dict[str, dict]:
-    """Complete ground truth from exhaustive judging: {intent: {"episodes": [...], "complete": bool}}.
+def ground_truth(root: Path = LABELS) -> dict[str, dict]:
+    """Complete ground truth from exhaustive campaigns: {intent: {"episodes": [...], "complete": bool}}.
 
-    Complete means every sweep chunk of the intent has at least one episode record; only then is recall reported."""
+    Complete means every sweep chunk assigned to the intent's jobs (labels/metadata/<campaign>/jobs/) has at least
+    one episode record; only then is recall reported."""
     gt: dict[str, dict] = {}
-    rows = [r for r in load_labels(ann, "episode").values() if r.get("jobId", "").startswith("ex-")]
+    rows = [r for r in load_labels("episode", ("train", "eval"), root).values()
+            if campaign(r.get("campaign", ""), root).get("exhaustive")]
     for intent in {r["intentGroupId"] for r in rows}:
         mine = [r for r in rows if r["intentGroupId"] == intent]
         want = set()
-        for p in (ann / "tmp").glob(f"ex-{intent}-j*/chunks.json"):
-            want |= {c["chunk_id"] for c in json.loads(p.read_text())}
+        for p in {r["campaign"] for r in mine}:
+            for j in (root / "metadata" / p / "jobs").glob(f"ex-{intent}-j*.json"):
+                want |= {c["chunk_id"] for c in json.loads(j.read_text()).get("chunks", [])}
         got = {r.get("chunkId") for r in mine}
         gt[intent] = {"episodes": [r for r in mine if r.get("grade", 0) >= 1], "complete": bool(want) and want <= got,
                       "missing_chunks": sorted(want - got)}
-    for p in (ann / "exhaustive").glob("*/*.json"):  # nothing passes the numeric screen: complete, with no episodes
+    for p in (root / "metadata").glob("*/sweep/*.json"):  # nothing passes the numeric screen: complete, with no episodes
         sw = json.loads(p.read_text())
         if sw.get("sweep_recall_ok") and all(m["n"] == 0 for m in sw["members"].values()):
             gt[sw["intent"]] = {"episodes": [], "complete": True, "missing_chunks": [], "proof": "numeric screen"}
@@ -96,13 +100,13 @@ def clause_set(prog: dict | None) -> set[tuple]:
     return out
 
 
-def build(run_dir: Path, ann: Path) -> dict:
+def build(run_dir: Path, root: Path = LABELS, bundle_dir: Path = SCAND_ROOT / "bundles" / "dev") -> dict:
     runs = [json.loads(x) for x in (run_dir / "runs.jsonl").read_text().splitlines()]
     sa_path = run_dir / "score_all.jsonl"
     score_all = [json.loads(x) for x in sa_path.read_text().splitlines()] if sa_path.exists() else []
-    qrels = load_judgments(ann)
-    gt = ground_truth(ann)
-    complete_qrels(qrels, gt, ann.parent / "bundles" / "dev")
+    qrels = load_judgments(root)
+    gt = ground_truth(root)
+    complete_qrels(qrels, gt, bundle_dir)
     group_of = {r["query_id"]: r["intent_group_id"] for r in runs}
     by = defaultdict(dict)
     for r in runs:
@@ -359,7 +363,7 @@ def main() -> None:
     ap.add_argument("--run", required=True)
     a_ = ap.parse_args()
     run_dir = SCAND_ROOT / "results" / "eval" / a_.run
-    rep = build(run_dir, SCAND_ROOT / "annotations")
+    rep = build(run_dir)
     (run_dir / "report.json").write_text(json.dumps(rep, indent=1, default=str))
     (run_dir / "report.html").write_text(html_page(rep))
     print(run_dir / "report.html")

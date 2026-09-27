@@ -1,4 +1,5 @@
-"""Build judgment pools from an eval run and render one L2 brief per intent group (disjoint jobs)."""
+"""Build judgment pools from an eval run and render L2 briefs (disjoint jobs); --execute runs them as one campaign:
+l2-<run> for a full pool, l2-<run>-topup (priority -1: fills gaps, never overrides) with --skip-judged."""
 from __future__ import annotations
 
 import argparse
@@ -7,6 +8,7 @@ from pathlib import Path
 
 from alloy_server.bundle import Bundle
 from alloy_trainer.eval import pooling, querysets
+from alloy_index.annotate.store import LABELS, ensure_campaign, load_labels, work_dir, write_job
 from alloy_index.recordings import SCAND_ROOT
 
 import alloy_index.annotate
@@ -23,17 +25,15 @@ def main() -> None:
     ap.add_argument("--parallel", type=int, default=6)
     a_ = ap.parse_args()
     run_dir = SCAND_ROOT / "results" / "eval" / a_.run
-    ann = SCAND_ROOT / "annotations"
     bundle = Bundle(SCAND_ROOT / "bundles" / "dev")
-    pools = pooling.build(run_dir / "runs.jsonl", ann, bundle.windows)
+    pools = pooling.build(run_dir / "runs.jsonl", LABELS, bundle.windows)
     pooling.write(pools, run_dir / "pools.json")
     judged = set()
-    jd = ann / "labels" / "judgment"
-    if a_.skip_judged and jd.exists():
-        for p in jd.glob("*.jsonl"):
-            judged |= {(r["intentGroupId"], r["windowId"]) for r in map(json.loads, p.read_text().splitlines())}
+    if a_.skip_judged:
+        judged = {(r["intentGroupId"], r["windowId"]) for r in load_labels("judgment", ("train", "eval")).values()}
+    slug = f"l2-{a_.run}-topup" if a_.skip_judged else f"l2-{a_.run}"
     tpl = BRIEF.read_text()
-    jobs: list[tuple[str, str]] = []
+    jobs: list[tuple[str, str, dict]] = []
     a_.run_tag = a_.run
     challenge = {q.intent_group_id for name in querysets.challenge_sets() for q in querysets.load_challenge(name)}
     for intent, pool in pools.items():
@@ -58,22 +58,31 @@ def main() -> None:
             listing = "\n".join(f"- {rec}: " + ", ".join(ws) for rec, ws in sorted(part.items()))
             brief = (tpl.replace("{JOB}", job).replace("{INTENT_ID}", intent).replace("{INTENT}", pool["intent"])
                      .replace("{SCOPE}", ", ".join(pool["scope"])).replace("{N}", str(n)).replace("{WINDOWS}", listing))
-            out = ann / "tmp" / job
-            out.mkdir(parents=True, exist_ok=True)
-            (out / "brief.md").write_text(brief)
-            jobs.append((job, brief))
+            (work_dir(job) / "brief.md").write_text(brief)
+            jobs.append((job, brief, {"intent": intent, "windows": part}))
             print(json.dumps({"job": job, "windows": n, "recordings": len(part)}))
     if a_.execute:
         from concurrent.futures import ThreadPoolExecutor
         from alloy_index.annotate.headless import run_claude
         tools = lambda job: ["Bash(uv run scandq:*)", f"Bash(SCANDQ_JOB={job} uv run scandq:*)",
-                             "Bash(mkdir -p annotations/tmp/*)", "Bash(ls:*)", "Read", "Write"]
+                             "Bash(mkdir -p labels/.work/*)", "Bash(ls:*)", "Read", "Write"]
+        ensure_campaign(slug, kinds=["judgment"], brief=BRIEF.name, judge="claude-opus-5-5", eval_run=a_.run,
+                        priority=-1 if a_.skip_judged else 0,
+                        purpose=(f"Every window eval {a_.run} surfaced without a judgment; fills gaps, never overrides."
+                                 if a_.skip_judged else f"Pooled graded relevance judgments for eval {a_.run}."))
+        for job, _, assignment in jobs:
+            write_job(slug, job, assignment)
         with ThreadPoolExecutor(a_.parallel) as pool_:
-            results = list(pool_.map(lambda j: run_claude(j[1], j[0], SCAND_ROOT, tools(j[0])), jobs))
+            results = list(pool_.map(lambda j: run_claude(j[1], j[0], SCAND_ROOT, tools(j[0]), campaign=slug), jobs))
         for r in results:
             print(json.dumps({k: r[k] for k in ("job", "exit", "cost_usd", "turns", "minutes")}))
         print(f"total ${sum(r['cost_usd'] for r in results):.2f} over {len(results)} jobs")
-        (ann / "tmp" / f"l2-{a_.run_tag}-topup.json").write_text(json.dumps(results, indent=1))
+        costs = [r["cost_usd"] for r in results]
+        ensure_campaign(slug)  # refresh, then record the campaign total
+        p = LABELS / "metadata" / slug / "campaign.json"
+        doc = json.loads(p.read_text())
+        doc.update(jobs=len(results), cost_usd=round(sum(costs), 2))
+        p.write_text(json.dumps(doc, indent=1) + "\n")
 
 
 if __name__ == "__main__":

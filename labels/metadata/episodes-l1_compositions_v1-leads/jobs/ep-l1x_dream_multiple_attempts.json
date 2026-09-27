@@ -1,0 +1,44 @@
+{
+ "job": "ep-l1x_dream_multiple_attempts",
+ "campaign": "episodes-l1_compositions_v1-leads",
+ "labels": {
+  "train/judgments": 34,
+  "train/episodes": 3
+ },
+ "tool_calls": 33,
+ "leads": [
+  {
+   "recording": "Stadium_Sanjac_90",
+   "window": "Stadium_Sanjac_90:0068",
+   "context": [
+    56,
+    84
+   ],
+   "episode_id": "E1"
+  },
+  {
+   "recording": "Thompson_Thompson_100",
+   "window": "Thompson_Thompson_100:0242",
+   "context": [
+    216,
+    264
+   ],
+   "episode_id": "E2"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "window": "Library_Jester_75:0056",
+   "context": [
+    44,
+    68
+   ],
+   "episode_id": "E3"
+  }
+ ],
+ "brief_sha256": "662ebc9c0fb727f9dd541f9484c6b0ca48362ea8a64f1123f27bcc712cb30928",
+ "cost_usd": 1.9761222,
+ "turns": 72,
+ "minutes": 7.1,
+ "is_error": false,
+ "report": "None of the three leads matches. All three are near misses (grade 0), and the clause that sinks every one is net displacement: each robot kept moving forward, covering 6\u20139.5 m in 8 s instead of staying under 2 m. All 3 episode records and 34 window grades were accepted with no rejects, and `label get` shows all three episodes stored.\n\n| Ep | Span | Grade | Crowded | 2 reversals \u226515\u00b0 | 2 dips \u22650.2 m/s | Net <2 m | Opening tracked |\n|---|---|---|---|---|---|---|---|\n| E1 `Stadium_Sanjac_90` | 64.0\u201372.1 s | 0 | TRUE | TRUE | TRUE | **FALSE** | UNKNOWN |\n| E2 `Thompson_Thompson_100` | 236\u2013244 s | 0 | TRUE | **FALSE** | TRUE | **FALSE** | UNKNOWN |\n| E3 `Library_Jester_75` | 50\u201358 s | 0 | TRUE | **FALSE** | **FALSE** | **FALSE** | UNKNOWN |\n\n- **E1** is the closest miss: a game-day street crowd with real left\u2013right steering (heading +60\u00b0 at 65.15 s, \u221245\u00b0 at 68.96 s, about +25\u00b0 at 72.08 s) and two big speed dips (to 0.32 m/s at 65.49 s and 0.51 m/s at 71.53 s). But the raw pose moves 9.2 m net over 64\u201372 s, and at least 9.5 m over 66\u201374 s.\n- **E2** is a crowded tailgate lawn. Around the lead there is a single left turn of +20.8\u00b0, not two reversals. It has two dips of about 0.34 m/s and moves 5.96 m net. Earlier in the context (221\u2013229 s) there is a right\u2013left\u2013right pattern, but that stretch also moves 6.0 m net, so no part of the context passes.\n- **E3** is a busy library concourse. It only turns right (to \u221287\u00b0 by 57.98 s), has one dip (to 0.15 m/s at 54.05 s) and moves 7.53 m net. Even its slowest stretch moves 5.73 m.\n\nRecording coverage was clean for every span: odom ran at about 50 Hz on the Jackal and about 16\u201317 Hz on Spot with no gaps that matter, and lidar at about 10 Hz.\n\n**This isn't a comparison question**, so there's no pair to find.\n\n**What the data couldn't establish:**\n- **Clause 5 (opening tracked over time)** is UNKNOWN for all three, because I didn't follow a gap frame-by-frame at native resolution. E1's quarter-res contact sheet does suggest the crowd kept changing: clear road at 65 s, a walker directly ahead at 66\u201368 s, clear at 69 s, then a sandwich board and walkers at 70\u201372 s. That view is only a proposal, not native evidence.\n- **\"Crowded\"** is a visual judgement: about 6 people close ahead for E1, about 8 for E2 and 5\u20139 for E3, where the same person may be counted on more than one camera. E3 is the weakest; it's a busy hallway rather than a dense crowd.\n- **Net displacement** comes from odom poses read one message at a time at the episode endpoints. My sliding 8-second scan script needed approval I didn't have, so I bounded the other windows by reading poses at a few more points instead. The unused `annotations/tmp/ep-l1x_dream_multiple_attempts/scan.py` is still there if you want to delete it.\n\nGiven how these robots move, meeting the <2 m clause over 8 seconds would need a near-stop or a back-and-forth path, and none of these leads has one."
+}

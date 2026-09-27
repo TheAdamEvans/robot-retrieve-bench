@@ -1,0 +1,53 @@
+{
+ "job": "ex-l1x_dream_recover_person_present-j2",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/judgments": 54,
+  "train/episodes": 16
+ },
+ "tool_calls": 113,
+ "chunks": [
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 20.3,
+   "end_s": 38.7,
+   "chunk_id": "K9"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 36.7,
+   "end_s": 57.0,
+   "chunk_id": "K10"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 77.8,
+   "end_s": 91.6,
+   "chunk_id": "K11"
+  },
+  {
+   "recording": "Stadium_Sanjac_90",
+   "start_s": 0.2,
+   "end_s": 20.2,
+   "chunk_id": "K12"
+  },
+  {
+   "recording": "Stadium_Sanjac_90",
+   "start_s": 26.0,
+   "end_s": 51.6,
+   "chunk_id": "K13"
+  },
+  {
+   "recording": "Stadium_Sanjac_90",
+   "start_s": 49.6,
+   "end_s": 77.2,
+   "chunk_id": "K14"
+  }
+ ],
+ "brief_sha256": "96e91a534320afedc2e23feee5e5e4f8e73b1dcda44ea1f8ebf3f37b5ce172a2",
+ "cost_usd": 6.833711999999998,
+ "turns": 160,
+ "minutes": 19.7,
+ "is_error": false,
+ "report": "I recorded 16 episodes and 54 window grades for all six chunks. The final submission had no rejects: one window was first rejected because its ref wasn't native resolution, and I fixed it and resubmitted. The episodes show up in `label get`. Only one episode is a full match (grade 2), K10-b. Cost about $6.7 of the $15 budget.\n\n**Per chunk**\n- **K9** (Library_Jester_75, 29.3\u201333.6 s): **grade 0.** Spot slows while climbing stairs. The backpack pedestrian stays ahead in the corridor, and the pink-bag woman stays by the right railing and never enters it.\n- **K10**\n  - K10-a (40.8\u201350.9 s): **grade 1.** A man in grey T-shirt and jeans holds a door and Spot passes him on the left; he leaves the corridor at 48.6 s and recovery is at 50.65 s. At recovery he appears only in the dark back camera, behind Spot rather than beside it, and I can't tell him apart from the operator. He may also be part of the recording crew, not an independent pedestrian.\n  - K10-b (51.8\u201355.9 s): **grade 2**, details below.\n- **K11** (86.9\u201389.9 s): **grade 0.** Spot slows while turning at a wall; no pedestrian is in the corridor, and only the operator is beside it at recovery.\n- **K12** (Stadium_Sanjac_90, a Jackal with only a front camera): **all grade 0.**\n  - Dip at ~4.5 s: the corridor is empty throughout.\n  - Dip at ~6.6 s: the corridor returns are bollards, not people.\n  - Dip at ~17.7 s: the corridor return is waste bins.\n- **K13**\n  - K13-a (~36.4 s): **grade 0.** The slowdown is around a street sign; at recovery the only nearby pedestrian is about 3 m ahead, not beside.\n  - K13-b (39.9\u201342.9 s): **grade 1.** A man in jeans and cowboy boots stops the Jackal, clears the corridor at 42.26 s, and recovery follows at 42.8 s. With no side camera I can't confirm he's beside it at recovery. He may be the operator.\n  - K13-c (47.3\u201350.2 s): **grade 1.** A cyclist and a woman in a grey T-shirt cross; she is at the front-right at recovery (49.75 s). Her own time in the corridor is hidden behind the bike.\n- **K14** (dense crowd)\n  - K14-a (60.5\u201362.2 s): **grade 1.** An oncoming couple leaves the corridor at 61.07 s. The man's boot leaves the camera view 0.08 s before recovery at 62.12 s, which is within the filter lag, so visibility at recovery is unknown.\n  - K14-b (62.7\u201364.3 s): **grade 0.** A woman in patterned leggings walking ahead is still in the corridor at recovery.\n  - K14-c (64.7\u201368.7 s): **grade 1.** Jackal follows and then passes the same leggings walker. Whether she leaves before recovery depends on the baseline, because the baseline window overlaps the previous dip.\n  - K14-d, K14-e, K14-f (71\u201377.6 s): **grade 1 each.** Crowd dips where identity, corridor exit and side visibility can't be resolved. They cover the same stretch as the earlier label E1 (71\u201377.6 s); I split it into one episode per speed minimum instead of treating it as one.\n\n**The grade-2 episode: K10-b** (Library_Jester_75, 51.8\u201355.9 s)\n- The same woman (orange jacket, dark backpack, light jeans) crosses close in front and leaves the corridor at **52.67 s**.\n- Spot slows by at least 88%, to 0.147 m/s at 54.05 s, during a right turn past a pillar.\n- **Recovery** to 90% of baseline is at about **55.3\u201355.55 s**. Right then she is beside Spot on its front-right, visible in the frontleft camera at 55.32 s and the right camera at 55.39 and 55.65 s.\n- Her **last supported visibility** is the right-camera frame at **55.85 s**, as she walks into a side door.\n- Caveats: she had already left the corridor before the slowdown started, so this shows the order of events, not that she caused the slowdown. Also, the baseline window overlaps the recovery from K10-a. The ordering holds under either baseline.\n\n**Grade 1 episodes:** K10-a, K13-b, K13-c, K14-a, K14-c, K14-d, K14-e, K14-f.\n\n**Comparison:** not applicable, since this isn't a comparison question.\n\nFiles are in `annotations/tmp/ex-l1x_dream_recover_person_present-j2/`:\n- `episodes.json`\n- `windows.json`"
+}

@@ -1,0 +1,65 @@
+{
+ "job": "ex-l1x_dream_steer_or_brake-j1",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/judgments": 18,
+  "train/episodes": 21
+ },
+ "tool_calls": 60,
+ "chunks": [
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 6.0,
+   "end_s": 26.3,
+   "chunk_id": "K1"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 24.3,
+   "end_s": 46.5,
+   "chunk_id": "K2"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 44.5,
+   "end_s": 66.8,
+   "chunk_id": "K3"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 77.8,
+   "end_s": 87.8,
+   "chunk_id": "K4"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 88.0,
+   "end_s": 90.8,
+   "chunk_id": "K5"
+  },
+  {
+   "recording": "Stadium_Sanjac_90",
+   "start_s": 2.0,
+   "end_s": 25.9,
+   "chunk_id": "K6"
+  },
+  {
+   "recording": "Stadium_Sanjac_90",
+   "start_s": 23.9,
+   "end_s": 49.8,
+   "chunk_id": "K7"
+  },
+  {
+   "recording": "Stadium_Sanjac_90",
+   "start_s": 50.2,
+   "end_s": 65.8,
+   "chunk_id": "K8"
+  }
+ ],
+ "brief_sha256": "e009da2d32ad860f47888da7c07dbce0d82d981531faff6714dcc9e403bdfb1e",
+ "cost_usd": 4.3906948,
+ "turns": 130,
+ "minutes": 13.1,
+ "is_error": false,
+ "report": "All 21 episodes and 18 window grades are stored, with no rejects after one fix: two episodes had cited refs from their partner's time range. Three episodes are grade 1 and none is grade 2, so **there is no fully qualifying pair**. The best candidate pair has one unresolved clause.\n\n**Why only Stadium pairs are possible:** Library_Jester_75 is the Spot robot at about 1.4 m/s and Stadium_Sanjac_90 is the Jackal at about 2.0 m/s. The baseline gap is about 0.6 m/s, far over the 0.3 m/s limit, so the two recordings can't pair.\n\n**Per chunk**\n- **K1:** K1-a, 14.3\u201317.5 s slowdown (about 75% loss). The oncoming actor is a cyclist, not a pedestrian. Grade 0. K1-b, 19.3\u201320.6 s turn of +35\u00b0 toward the stairs; the corridor is clear. Grade 0.\n- **K2:** K2-a, 29.3\u201333.5 s slowdown (49% loss, about 6\u00b0 heading excursion). An oncoming woman is present, but the robot is climbing stairs and there is no Spot steering partner. Grade 0. K2-b, 41\u201346.5 s doorway entry where everyone nearby walks the same way. Grade 0.\n- **K3:** K3-a, 52.8\u201354 s: a \u221258\u00b0 turn with 90% loss, so it fails both cases. Grade 0. K3-b, 56.3\u201358.3 s: a \u221242\u00b0 turn that lines up with a hallway behind people walking away. Grade 0.\n- **K4:** K4-a, 83\u201386.8 s: oncoming pedestrians pass while the robot neither slows nor turns. Grade 0.\n- **K5:** K5-a, 86.9\u201388.6 s: a \u221245\u00b0 turn into a side hall with 91% loss. Grade 0.\n- **K6:**\n  - K6-a, 3.4\u20134.7 s: a +41\u00b0 swerve with about 70% loss. Grade 0.\n  - **K6-b, 5.4\u20137.3 s: slowing member, grade 1.**\n  - K6-c, 13.8\u201315 s: a +32\u00b0 turn around recycling bins. Grade 0.\n  - K6-d, 17\u201318.4 s: 60% loss but 16.7\u00b0 excursion. Grade 0.\n- **K7:**\n  - K7-a, 24\u201326.7 s: a +39\u00b0 route turn. Grade 0.\n  - K7-b, 35.6\u201337.6 s: excursion about 22\u00b0. Grade 0.\n  - K7-c, 39.6\u201342.2 s: a stop with a \u221226\u00b0 turn. Grade 0.\n  - K7-d, 42.2\u201345 s: a +68\u00b0 turn starting from a stop, so its baseline is about 0 m/s. Grade 0.\n  - K7-e, 47.5\u201349.3 s: a stop for a crossing cyclist. Grade 0.\n- **K8:**\n  - **K8-a, 54.3\u201357.0 s: steering member, grade 1.**\n  - **K8-b, 60.2\u201362.2 s: slowing member, grade 1.**\n  - K8-c, 62.4\u201363.6 s: excursion about 17.5\u00b0. Grade 0.\n  - K8-d, 63.7\u201365.2 s: a +60\u00b0 turn with 72% loss. Grade 0.\n\n**Grade 1 episodes (no grade 2)**\n- **K8-a (steering):** A woman walks toward the robot and passes on its right.\n  - Heading swings from \u221220.3\u00b0 to +14.2\u00b0, a 34.5\u00b0 excursion, while speed holds at 2.0 m/s (about 0% loss) on an open road.\n  - She is tracked on lidar from 4.86 m down to 1.84 m at 56.78 s, which is the closest supported separation.\n- **K6-b (slowing):** A man carrying a bottle walks toward the robot and passes on its left.\n  - Speed loss is 61\u201367%, and heading moves 6.7\u00b0 over the slowdown.\n  - Closest supported separation is 1.54 m at 6.96 s. I did not count the 0.93 m corridor reading at 7.06 s as his distance, because the lidar return couldn't be tied to him.\n- **K8-b (slowing):** The robot slows by 70% into an oncoming crowd.\n\n**Candidate pairs, each with one unknown**\n1. **K8-a + K8-b.** Both baselines are 2.0 m/s and both have one or two people in the corridor. The unknown is K8-b's heading excursion: 13\u201314.5\u00b0 measured from the speed drop, but about 20\u00b0 if the left turn starting 0.5 s earlier counts, which straddles the 15\u00b0 limit. The comparison is also weakened because K8-b's crowd is much denser.\n2. **K8-a + K6-b.** K6-b meets the slowing thresholds. The unknown is the baseline match: an earlier slowdown falls inside K6-b's two-second baseline window, so its baseline is 1.66\u20131.95 m/s. That puts the gap at 0.05\u20130.34 m/s, which straddles 0.3. The comparison is also weakened by terrain: K6-b squeezes through a bollard and hydrant gap on a sidewalk right after a swerve, while K8-a is on an open road.\n\nI didn't relax any threshold to make either pair qualify."
+}

@@ -1,0 +1,6 @@
+{
+ "job": "l1-permcheck",
+ "campaign": "adhoc",
+ "labels": {},
+ "tool_calls": 2
+}

@@ -1,0 +1,14 @@
+{
+ "job": "l2-test_body_cam_person-v9-p2",
+ "campaign": "l2-v9-topup",
+ "labels": {
+  "eval/judgments": 52
+ },
+ "tool_calls": 28,
+ "brief_sha256": "4a1a2d8b666774ee253efc19e70eeee4a0e95400802b90c5d2bceecc130421c4",
+ "cost_usd": 1.6667494,
+ "turns": 57,
+ "minutes": 5.5,
+ "is_error": false,
+ "report": "All 52 windows are graded 0. None of them contains a qualifying episode. One final step failed: `label get judgment --intent test_body_cam_person` crashed, so I checked my shard file directly instead. It holds all 52 unique windows.\n\n**Episodes found:** none.\n- **Jackal recordings (26 windows):** Library_Fountain_5 (14), Sanjac (1), Sanjac_Rec_91 (5) and Stadium_Sanjac_90 (6) are Jackal recordings. The Jackal has only one front camera and no body cameras, so this intent can't hold there. Each window cites a `signals` odom ref.\n- **Rec_Tent_129 (21 windows):** a dense tailgate crowd. I checked the front camera at 1 Hz across every window span (0\u201313, 59\u201372, 126\u2013131, 170\u2013175, 299\u2013306, 335\u2013340 s). People fill the front view throughout, so \"front sees nobody\" is false everywhere.\n- **Library_MLK (2 windows), the closest near-miss:**\n  - **0053:** the back camera shows a person trailing close behind at 50.5 s (`back#228`, native), and the front corridor looks empty at strip resolution. But full-resolution crops of the front frame at 51.0 s and 52.5 s (`image_raw#1476`, `#1521`) clearly show people standing at the far Jester West doors. The front camera does see people, so 0.\n  - **0060:** a person crosses close in front of the robot at 58 s, so 0.\n- **Thompson_Thompson_100 (0139, 0188, 0260):** people are walking directly ahead in the front camera in all three windows.\n\n**Grade counts:** 0 \u00d7 52. No 1s, 2s or \u22121s. The first batch had one reject (Stadium_Sanjac_90:0042): its ref was too far from the window, so I replaced it with a nearby one and resubmitted.\n\n**Issues and what the data can't settle:**\n- **`label get` crash:** it fails on a conflict between two other jobs' shards, `ep-l1x_dream_recover_person_present.jsonl` and `ex-l1x_dream_recover_person_present-j1.jsonl`, both claiming GDC_Library_42:0297. It needs a priority entry in `labels/precedence.json`. I didn't touch it because those aren't my shards.\n- **How far away still counts as \"sees\":** the intent doesn't say whether distant people should count, like the ones at about 20 m or more in Library_MLK:0053. I graded strictly (any visible person means the front camera sees someone). A looser reading, such as \"no person nearby or in the robot's path\", would move Library_MLK:0053 to 1 or 2. That's worth a note for the `answered_partial` analysis.\n- **Frame timing:** body-camera frames are captured about 0.4 s before they arrive, so the two cameras are only roughly in sync. Nothing here was close enough to the line for that to matter."
+}

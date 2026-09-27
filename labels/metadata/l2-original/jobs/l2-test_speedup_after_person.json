@@ -1,0 +1,9 @@
+{
+ "job": "l2-test_speedup_after_person",
+ "campaign": "l2-original",
+ "labels": {
+  "eval/judgments": 69
+ },
+ "tool_calls": 128,
+ "brief_sha256": "8ef4ddc869022c8f0d1b433c379df338057789326ae95770ae687155c890a376"
+}

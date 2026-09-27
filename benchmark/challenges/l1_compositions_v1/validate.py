@@ -32,8 +32,10 @@ def main() -> None:
         require(sha(ROOT / name) == digest, f"Protected query file changed: {name}")
 
     # Load source rows once. Audit is append-only; validate referenced lines rather
-    # than rejecting legitimate later tool calls elsewhere in the project.
-    audit = read_rows(ROOT / "annotations/audit.jsonl")
+    # than rejecting legitimate later tool calls elsewhere in the project. Audit rows live per labelling campaign
+    # (labels/metadata/<campaign>/audit.jsonl); a cited line is the row's `seq`, its line in the original combined log.
+    audit = {row["seq"]: row for p in sorted((ROOT / "labels/metadata").glob("*/audit.jsonl"))
+             for row in read_rows(p) if "seq" in row}
     label_cache: dict[str, list[dict]] = {}
     seen_ids: set[str] = set()
     seen_intents: set[str] = set()
@@ -106,8 +108,8 @@ def main() -> None:
                 require(sha(ROOT / s["path"]) == s["sha256"], f"Inspected render changed: {qid}")
             require(bool(source["auditLines"]), f"No audit provenance: {qid}")
             for line in source["auditLines"]:
-                require(1 <= line <= len(audit), f"Audit line missing: {qid}")
-                args = audit[line - 1].get("args", {})
+                require(line in audit, f"Audit line missing: {qid}")
+                args = audit[line].get("args", {})
                 rec = args.get("rec") or args.get("window_id", "").split(":")[0]
                 require(rec in scope, f"Audit evidence outside scope: {qid}")
         # No held-out scene text can enter any development-facing data artifact.

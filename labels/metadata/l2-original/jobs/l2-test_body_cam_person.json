@@ -1,0 +1,9 @@
+{
+ "job": "l2-test_body_cam_person",
+ "campaign": "l2-original",
+ "labels": {
+  "eval/judgments": 89
+ },
+ "tool_calls": 161,
+ "brief_sha256": "55e9c12b1c6882eede37ff983be1ef59eeb912a2090459ef007bcb4dce421ab1"
+}

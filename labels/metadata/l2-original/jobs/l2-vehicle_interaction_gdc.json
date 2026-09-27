@@ -1,0 +1,9 @@
+{
+ "job": "l2-vehicle_interaction_gdc",
+ "campaign": "l2-original",
+ "labels": {
+  "eval/judgments": 47
+ },
+ "tool_calls": 69,
+ "brief_sha256": "0cdafa827a871c5f83081422dfad9bb42fbb9807fdf90e3c157bf5fff5421c0e"
+}

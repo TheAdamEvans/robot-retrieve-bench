@@ -1,0 +1,9 @@
+{
+ "job": "l2-last_safe_evidence",
+ "campaign": "l2-original",
+ "labels": {
+  "eval/judgments": 93
+ },
+ "tool_calls": 54,
+ "brief_sha256": "bddd0a70fa4fa5be79c7b161c2703b81bf1f8250a726a0349db98bf0e6e12e0e"
+}

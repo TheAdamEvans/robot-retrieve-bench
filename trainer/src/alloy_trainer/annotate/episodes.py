@@ -21,10 +21,12 @@ import numpy as np
 
 import alloy_index.annotate
 from alloy_index.annotate.headless import run_claude
+from alloy_index.annotate.store import ensure_campaign, work_dir, write_job
+from alloy_trainer.challenge.sweep import exhaustive_campaign, sweep_path
 from alloy_index.recordings import SCAND_ROOT
 
 BRIEF = Path(alloy_index.annotate.__file__).parent / "prompts" / "l2_episodes.md"
-TOOLS = ["Bash(uv run scandq:*)", "Bash(SCANDQ_JOB={job} uv run scandq:*)", "Bash(mkdir -p annotations/tmp/*)",
+TOOLS = ["Bash(uv run scandq:*)", "Bash(SCANDQ_JOB={job} uv run scandq:*)", "Bash(mkdir -p labels/.work/*)",
          "Bash(ls:*)", "Read", "Write"]
 
 
@@ -122,7 +124,7 @@ def render_exhaustive(q: dict, sweep: dict, job: str, cs: list[dict], set_dir: P
 
 
 def exhaustive_jobs(q: dict, set_name: str, set_dir: Path) -> list[tuple[str, str, list[dict]]]:
-    sweep = json.loads((SCAND_ROOT / "annotations" / "exhaustive" / set_name / f"{q['intentGroupId']}.json").read_text())
+    sweep = json.loads(sweep_path(set_name, q["intentGroupId"]).read_text())
     assert sweep["sweep_recall_ok"], "the sweep is not a superset of judged-relevant episodes"
     cs, jobs, cur, dur = chunks(sweep), [], [], 0.0
     for c in cs:
@@ -154,40 +156,40 @@ def main() -> None:
     qs = [json.loads(l) for l in (set_dir / f"queries_{a.split}.jsonl").read_text().splitlines() if l.strip()]
     if a.intents:
         qs = [q for q in qs if q["intentGroupId"] in a.intents.split(",")]
-    jobs = []
+    slug = exhaustive_campaign(a.set) if a.exhaustive else f"episodes-{a.set}-leads"
+    jobs = []  # (job, brief, assignment recorded in labels/metadata/<campaign>/jobs/<job>.json)
     for q in qs:
         if a.exhaustive:
-            sw = SCAND_ROOT / "annotations" / "exhaustive" / a.set / f"{q['intentGroupId']}.json"
-            if not sw.exists():
+            if not sweep_path(a.set, q["intentGroupId"]).exists():
                 print(json.dumps({"intent": q["intentGroupId"], "skipped": "no sweep"}))
                 continue
             for job, text, part in exhaustive_jobs(q, a.set, set_dir):
-                d = SCAND_ROOT / "annotations" / "tmp" / job
-                d.mkdir(parents=True, exist_ok=True)
-                (d / "brief.md").write_text(text)
-                (d / "chunks.json").write_text(json.dumps(part, indent=1))
-                jobs.append((job, text))
+                (work_dir(job) / "brief.md").write_text(text)
+                jobs.append((job, text, {"intent": q["intentGroupId"], "split": a.split, "chunks": part}))
                 print(json.dumps({"job": job, "chunks": len(part), "seconds": round(sum(c["end_s"] - c["start_s"] for c in part))}))
             continue
         job = f"ep-{q['intentGroupId']}"
         text, ls = render(q, job, set_dir)
-        d = SCAND_ROOT / "annotations" / "tmp" / job
-        d.mkdir(parents=True, exist_ok=True)
-        (d / "brief.md").write_text(text)
-        (d / "leads.json").write_text(json.dumps(ls, indent=1))  # for the record; never shown to the judge
-        jobs.append((job, text))
+        (work_dir(job) / "brief.md").write_text(text)
+        jobs.append((job, text, {"intent": q["intentGroupId"], "split": a.split, "leads": ls}))  # never shown to the judge
         print(json.dumps({"job": job, "leads": [(l["episode_id"], l["window"]) for l in ls]}))
     if not a.run:
         return
+    ensure_campaign(slug, kinds=["episode", "judgment"], challenge=a.set, judge="claude-opus-5-5",
+                    brief=(EXHAUSTIVE if a.exhaustive else BRIEF).name, priority=2 if a.exhaustive else 0,
+                    **({"exhaustive": True} if a.exhaustive else {}),
+                    purpose=("Complete ground truth: every chunk of the numeric sweep (sweep/) judged." if a.exhaustive
+                             else "Episode judgments of the question authors' leads; dev intents to train/, test to eval/."))
+    for job, _, assignment in jobs:
+        write_job(slug, job, assignment)
     tools = lambda job: [t.replace("{job}", job) for t in TOOLS]
     with ThreadPoolExecutor(a.parallel) as pool:
-        results = list(pool.map(lambda j: run_claude(j[1], j[0], SCAND_ROOT, tools(j[0]), budget_usd=a.budget_usd), jobs))
+        results = list(pool.map(lambda j: run_claude(j[1], j[0], SCAND_ROOT, tools(j[0]), budget_usd=a.budget_usd,
+                                                     campaign=slug), jobs))
     total = sum(r["cost_usd"] for r in results)
     for r in results:
         print(json.dumps({k: r[k] for k in ("job", "exit", "cost_usd", "turns", "minutes")}))
-    print(f"total ${total:.2f} over {len(results)} jobs")
-    tag = "exhaustive" if a.exhaustive else "episodes"
-    (SCAND_ROOT / "annotations" / "tmp" / f"{tag}-{a.set}-{a.split}.json").write_text(json.dumps(results, indent=1))
+    print(f"total ${total:.2f} over {len(results)} jobs (campaign {slug})")
 
 
 if __name__ == "__main__":

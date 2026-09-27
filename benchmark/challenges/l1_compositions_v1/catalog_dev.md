@@ -37,7 +37,7 @@ Expand anchors to the whole encounter, including the baseline and recovery. Dedu
 
 **Provenance:** exact label lines, sensor refs, report/session IDs and audit lines are in the corresponding `sources_dev.jsonl` record.
 
-**Previously inspected views:** [window_Thompson_Thompson_100_0256.jpg](../../../annotations/renders/l1-Thompson_Thompson_100-c3/window_Thompson_Thompson_100_0256.jpg)
+**Previously inspected views:** [window_Thompson_Thompson_100_0256.jpg](../../../labels/.work/renders/l1-Thompson_Thompson_100-c3/window_Thompson_Thompson_100_0256.jpg)
 
 <a id="l1x_dream_opportunity_to_go"></a>
 ## 2. Where does it stay slow after the route clears?
@@ -72,7 +72,7 @@ Expand anchors to the whole encounter, including the baseline and recovery. Dedu
 
 **Provenance:** exact label lines, sensor refs, report/session IDs and audit lines are in the corresponding `sources_dev.jsonl` record.
 
-**Previously inspected views:** [window_Stadium_Sanjac_90_0048.jpg](../../../annotations/renders/l1-Stadium_Sanjac_90-c1/window_Stadium_Sanjac_90_0048.jpg)
+**Previously inspected views:** [window_Stadium_Sanjac_90_0048.jpg](../../../labels/.work/renders/l1-Stadium_Sanjac_90-c1/window_Stadium_Sanjac_90_0048.jpg)
 
 <a id="l1x_dream_recover_person_present"></a>
 ## 3. Can it recover while the person is still nearby?
@@ -140,7 +140,7 @@ Expand anchors to the whole encounter, including the baseline and recovery. Dedu
 
 **Provenance:** exact label lines, sensor refs, report/session IDs and audit lines are in the corresponding `sources_dev.jsonl` record.
 
-**Previously inspected views:** [window_GDC_Library_42_0032.jpg](../../../annotations/renders/l1-GDC_Library_42-c1/window_GDC_Library_42_0032.jpg), [window_Parlin_Parlin_51_0040.jpg](../../../annotations/renders/l1-Parlin_Parlin_51-c1/window_Parlin_Parlin_51_0040.jpg)
+**Previously inspected views:** [window_GDC_Library_42_0032.jpg](../../../labels/.work/renders/l1-GDC_Library_42-c1/window_GDC_Library_42_0032.jpg), [window_Parlin_Parlin_51_0040.jpg](../../../labels/.work/renders/l1-Parlin_Parlin_51-c1/window_Parlin_Parlin_51_0040.jpg)
 
 <a id="l1x_dream_multiple_attempts"></a>
 ## 5. Where do repeated corrections produce little progress?
@@ -176,7 +176,7 @@ Expand anchors to the whole encounter, including the baseline and recovery. Dedu
 
 **Provenance:** exact label lines, sensor refs, report/session IDs and audit lines are in the corresponding `sources_dev.jsonl` record.
 
-**Previously inspected views:** [window_Thompson_Thompson_100_0256.jpg](../../../annotations/renders/l1-Thompson_Thompson_100-c3/window_Thompson_Thompson_100_0256.jpg)
+**Previously inspected views:** [window_Thompson_Thompson_100_0256.jpg](../../../labels/.work/renders/l1-Thompson_Thompson_100-c3/window_Thompson_Thompson_100_0256.jpg)
 
 <a id="l1x_dream_person_adjusts"></a>
 ## 6. Do people change course while it holds its motion?

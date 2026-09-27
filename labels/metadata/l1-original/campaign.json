@@ -1,0 +1,14 @@
+{
+ "campaign": "l1-original",
+ "kinds": [
+  "attributes"
+ ],
+ "priority": 0,
+ "brief": "l1_attributes.md",
+ "purpose": "L1 per-segment attributes and captions for the original seven recordings.",
+ "date": "2026-09-27",
+ "judge": "claude-opus-5-5",
+ "jobs": 7,
+ "cost_usd": null,
+ "cost_note": "Run as interactive agent sessions before per-job cost was recorded; see git history for estimates."
+}

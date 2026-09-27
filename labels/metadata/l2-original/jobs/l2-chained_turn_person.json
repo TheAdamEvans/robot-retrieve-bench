@@ -1,0 +1,9 @@
+{
+ "job": "l2-chained_turn_person",
+ "campaign": "l2-original",
+ "labels": {
+  "eval/judgments": 122
+ },
+ "tool_calls": 174,
+ "brief_sha256": "bfa85e87d0587f8e25edf3b385172c4893a4414b9f5ab2181a9f686e95575ba1"
+}

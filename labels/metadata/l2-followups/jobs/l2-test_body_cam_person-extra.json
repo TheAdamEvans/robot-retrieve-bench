@@ -1,0 +1,8 @@
+{
+ "job": "l2-test_body_cam_person-extra",
+ "campaign": "l2-followups",
+ "labels": {
+  "eval/judgments": 32
+ },
+ "tool_calls": 61
+}

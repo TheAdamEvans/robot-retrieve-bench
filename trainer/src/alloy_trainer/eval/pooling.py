@@ -15,15 +15,16 @@ from pathlib import Path
 
 from alloy_server.catalog.windows import parse_window_id, window_span_s, windows
 from alloy_trainer.eval import querysets
-from alloy_index.annotate.store import load_labels
+from alloy_index.annotate.store import LABELS, load_labels
 
 POOL_DEPTH = 20
 RANDOM_PER_INTENT = 10
 MAX_ATTRIBUTE = 25  # cap attribute-derived additions (seeded sample) so broad rules don't swamp the pool
 
 
-def l1_labels(ann: Path) -> dict[str, dict]:
-    return load_labels(ann, "attributes")
+def l1_labels(root: Path = LABELS) -> dict[str, dict]:
+    """L1 attributes: training data (labels/train/), read here only as a recall aid for the pool."""
+    return load_labels("attributes", ("train",), root)
 
 
 def attribute_candidates(intent: str, labels: dict[str, dict]) -> list[str]:
@@ -45,9 +46,9 @@ def attribute_candidates(intent: str, labels: dict[str, dict]) -> list[str]:
     return sorted(sid for sid, r in labels.items() if rule and rule(r))
 
 
-def build(runs: Path, ann: Path, bundle_windows: dict[str, list[str]], seed: int = 7) -> dict[str, dict]:
+def build(runs: Path, root: Path, bundle_windows: dict[str, list[str]], seed: int = 7) -> dict[str, dict]:
     rows = [json.loads(x) for x in runs.read_text().splitlines()]
-    labels = l1_labels(ann)
+    labels = l1_labels(root)
     queries = {q.query_id: q for q in querysets.load()}
     by_intent: dict[str, dict] = defaultdict(lambda: {"windows": set(), "sources": defaultdict(set)})
     for r in rows:

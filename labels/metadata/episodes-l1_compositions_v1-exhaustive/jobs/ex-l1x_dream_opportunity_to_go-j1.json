@@ -1,0 +1,58 @@
+{
+ "job": "ex-l1x_dream_opportunity_to_go-j1",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/episodes": 9
+ },
+ "tool_calls": 27,
+ "chunks": [
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 0.3,
+   "end_s": 22.5,
+   "chunk_id": "K1"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 20.5,
+   "end_s": 44.8,
+   "chunk_id": "K2"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 87.5,
+   "end_s": 98.3,
+   "chunk_id": "K3"
+  },
+  {
+   "recording": "GDC_Library_42",
+   "start_s": 100.0,
+   "end_s": 110.3,
+   "chunk_id": "K4"
+  },
+  {
+   "recording": "Library_Jester_75",
+   "start_s": 39.8,
+   "end_s": 57.0,
+   "chunk_id": "K5"
+  },
+  {
+   "recording": "Stadium_Sanjac_90",
+   "start_s": 34.5,
+   "end_s": 44.5,
+   "chunk_id": "K6"
+  },
+  {
+   "recording": "Stadium_Sanjac_90",
+   "start_s": 59.2,
+   "end_s": 69.0,
+   "chunk_id": "K7"
+  }
+ ],
+ "brief_sha256": "15f2538a651cfa7c15f652dfcaf52a5d04d241531c8d4336ca3b743a97d30439",
+ "cost_usd": 2.2345866000000005,
+ "turns": 73,
+ "minutes": 6.7,
+ "is_error": false,
+ "report": "I found no qualifying episode in any of the 7 chunks. Every chunk has at least one candidate, and all 9 are near misses (grade 0). All 9 were accepted by `label put episode`; `label get` shows exactly 9 records for this job, so the rejected first attempt left no duplicates.\n\n**Per chunk:**\n- **K1** (GDC_Library_42): **K1-a**, 14.5\u201322.3 s, grade 0. The robot waits at a closed door. The person opening it crosses in front at 19.7\u201320.3 s and is out of view by 20.9 s. Speed passes half of the recent peak by about 21.1 s and reaches 1.0 m/s at 21.8 s, so it recovers within about 0.2 s (clause 3 FALSE).\n- **K2**:\n  - **K2-a**, 29.8\u201334.5 s, grade 0. A pedestrian crosses at 32.1 s, but then the robot turns into the stairwell. Railings and stairs fill the corridor from 33.5 s, so the route is never clear (clause 2 FALSE).\n  - **K2-b**, 34.5\u201342.9 s, grade 0. Slowdowns while going down an empty staircase, with no pedestrian involved (clause 1 FALSE).\n- **K3**: **K3-a**, 92.6\u201397.5 s, grade 0. Speed is 34\u201348% of baseline while the robot passes through a doorway beside the person holding the door. The lidar corridor reads 0.0\u20130.3 m until 97 s (clause 2 FALSE). Clause 1 is UNKNOWN because the person walks ahead and steps aside rather than crossing.\n- **K4**: **K4-a**, 105.8\u2013109.5 s, grade 0. The robot stops at a wall before a turn of about 80\u00b0. At 107.2 s all cameras show no pedestrian except the handler behind the robot (clause 1 FALSE).\n- **K5** (Library_Jester_75):\n  - **K5-a**, 41\u201348.8 s, grade 0. Passing through a door with the door holder within about 0.5 m and the lidar corridor at 0.0 m. Once it clears at 48.7 s, speed passes half the baseline within about 0.5 s (clause 2 FALSE).\n  - **K5-b**, 52.5\u201355.5 s, grade 0. Pedestrians cross, then others walk ahead in the robot's path. Speed stays below half the baseline for only about 1.5 s (clause 2 FALSE).\n- **K6** (Stadium_Sanjac_90): **K6-a**, 38\u201343 s, grade 0. Stop at a crosswalk; the corridor clears at 42.25 s (clause 2 TRUE). Speed passes half of the 2.0 m/s cruise by about 42.6 s, a delay of about 0.35 s (clause 3 FALSE). This is the cleanest example of the robot recovering immediately.\n- **K7**: **K7-a**, 60.8\u201368.4 s, grade 0. Speed drops to about 25% of cruise in a dense crowd, but a group is crossing 3\u20134.5 m ahead and a pedestrian is walking ahead. The corridor never reads fully clear (5.0 m) between 63.6 and 68.6 s (clause 2 FALSE).\n\n**Grade 2 and grade 1 episodes:** none, so I submitted no window grades.\n\n**Comparison question:** not applicable; this is a single-episode question. In this pool, the robot either recovered within about 0.2\u20130.5 s of the route clearing (K1, K5-a, K5-b, K6), or the low speed only lasted while a visible constraint remained: a door holder, door frame, stairs, or people ahead (K2-a, K3, K7). I did not relax any threshold."
+}

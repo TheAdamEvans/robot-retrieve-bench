@@ -1,0 +1,9 @@
+{
+ "job": "l2-recheck",
+ "campaign": "l2-recheck",
+ "labels": {
+  "agreement/judgments": 80
+ },
+ "tool_calls": 149,
+ "brief_sha256": "aec6f270e5bd0637a9072109f08a58aeceae1c7b3e1a03f69eb5153ef975a4eb"
+}

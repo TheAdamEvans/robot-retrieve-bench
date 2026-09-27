@@ -37,7 +37,7 @@ Expand anchors to the whole encounter, including the baseline and recovery. Dedu
 
 **Provenance:** exact label lines, sensor refs, report/session IDs and audit lines are in the corresponding `sources_test.jsonl` record.
 
-**Previously inspected views:** [window_Rec_Tent_129_0364.jpg](../../../annotations/renders/l1-Rec_Tent_129-c4/window_Rec_Tent_129_0364.jpg)
+**Previously inspected views:** [window_Rec_Tent_129_0364.jpg](../../../labels/.work/renders/l1-Rec_Tent_129-c4/window_Rec_Tent_129_0364.jpg)
 
 <a id="l1x_dream_test_stairs_vs_people"></a>
 ## 8. Does it respond differently to a crowd and a staircase?
@@ -74,4 +74,4 @@ Expand anchors to the whole encounter, including the baseline and recovery. Dedu
 
 **Provenance:** exact label lines, sensor refs, report/session IDs and audit lines are in the corresponding `sources_test.jsonl` record.
 
-**Previously inspected views:** [window_Bass_Garage_134_0084.jpg](../../../annotations/renders/l1-Bass_Garage_134-c1/window_Bass_Garage_134_0084.jpg)
+**Previously inspected views:** [window_Bass_Garage_134_0084.jpg](../../../labels/.work/renders/l1-Bass_Garage_134-c1/window_Bass_Garage_134_0084.jpg)

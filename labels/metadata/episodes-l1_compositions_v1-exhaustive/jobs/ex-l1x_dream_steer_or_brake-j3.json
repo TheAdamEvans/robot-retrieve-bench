@@ -1,0 +1,47 @@
+{
+ "job": "ex-l1x_dream_steer_or_brake-j3",
+ "campaign": "episodes-l1_compositions_v1-exhaustive",
+ "labels": {
+  "train/judgments": 19,
+  "train/episodes": 20
+ },
+ "tool_calls": 92,
+ "chunks": [
+  {
+   "recording": "Thompson_Thompson_100",
+   "start_s": 89.5,
+   "end_s": 121.2,
+   "chunk_id": "K13"
+  },
+  {
+   "recording": "Thompson_Thompson_100",
+   "start_s": 119.2,
+   "end_s": 150.9,
+   "chunk_id": "K14"
+  },
+  {
+   "recording": "Thompson_Thompson_100",
+   "start_s": 148.9,
+   "end_s": 180.6,
+   "chunk_id": "K15"
+  },
+  {
+   "recording": "Thompson_Thompson_100",
+   "start_s": 178.6,
+   "end_s": 210.3,
+   "chunk_id": "K16"
+  },
+  {
+   "recording": "Thompson_Thompson_100",
+   "start_s": 210.6,
+   "end_s": 232.9,
+   "chunk_id": "K17"
+  }
+ ],
+ "brief_sha256": "b6e30b956719b2a6736e6309cc3e6a5bde8269ee3d92b8b0dd9c0733221ae1f5",
+ "cost_usd": 7.9879718,
+ "turns": 213,
+ "minutes": 21.7,
+ "is_error": false,
+ "report": "All five chunks are covered, and I found one qualifying pair: **K14-a (steering) + K16-b (slowing)**, with caveats below. I submitted 20 episodes and 19 window grades, and all were accepted on resubmission. The first attempt rejected 3 episodes because refs must fall within about \u00b120 s of the episode, so pair-level clauses now name the partner's refs in the evidence text instead of the refs list. Cost so far is about $7.9 of the $15 budget.\n\n**Per chunk** (all Thompson_Thompson_100)\n- **K13:** K13-a (91.6\u201393 s, sharp slowdown) and K13-b (106\u2013108.4 s): both grade 0. Everyone ahead is walking the same way; nobody is oncoming.\n- **K14:**\n  - **K14-a (120.4\u2013122.4 s): grade 1, steering.** A woman in a tie-dye shirt walks toward the robot and passes on its left. The robot turns 35.1\u00b0 left with about 7% speed loss.\n  - K14-b (125\u2013127 s): grade 0. A man walks toward it, but the turn during the encounter is only 26\u201328\u00b0.\n  - K14-c, K14-d and K14-e (136, 141.5 and 144 s): grade 0, same-direction walkers or people standing still.\n- **K15:**\n  - **K15-a (151.8\u2013155.7 s): grade 1, slowing.** Two women walk toward the robot and pass on its right. Speed drops 42\u201346% with 9.9\u00b0 of heading change.\n  - K15-b (162 s): grade 0, a 35\u00b0 overtake of same-direction walkers.\n  - K15-c (169\u2013172.8 s): grade 0. A woman in a striped shirt walks toward it, but no onset works: either the speed loss is about 27% (over the 20% limit) or the turn is only 29.4\u00b0.\n  - K15-d (172.5\u2013175.5 s): grade 0, oncoming walkers but only 24\u201327% speed loss.\n- **K16:**\n  - K16-a (181\u2013183.6 s): grade 0, a slowdown where mats meet pavement, with no oncoming pedestrian.\n  - **K16-b (192\u2013193.8 s): grade 2, slowing.** A man drinking from a can walks toward the robot and passes on its right. Speed drops about 50% with a 2.2\u00b0 heading change. Lidar tracks him down to about 2.3 m.\n  - K16-c (196.4\u2013200.6 s): grade 0. It is a valid steering encounter (42\u00b0 turn, no speed loss), but its baseline of about 0.70 m/s has no slowing partner within 0.3 m/s.\n  - K16-d (201\u2013203.6 s): grade 0, a 27\u00b0 turn.\n- **K17:** K17-a through K17-e (210, 218, 226, 230 and 232 s): all grade 0. The first is a brake-and-turn together (74% speed loss during a 57\u00b0 turn); the rest are slowdowns among spectators who are standing still.\n\n**Grade 2:** K16-b. **Grade 1:** K14-a and K15-a.\n\n**Qualifying pair: K14-a + K16-b**\n- **Baselines:** about 0.96 vs 1.12 m/s, a 0.16 m/s gap.\n- **Corridor:** both have the same couple (blue and grey hoodies) directly ahead, plus 1\u20133 other people in the corridor.\n- **Clause results:** every clause holds except K14-a's separation, which is UNKNOWN. The tie-dye woman merges into a crowd cluster in the lidar.\n- **Why the comparison is weaker than it looks:**\n  - K14-a's turn is toward the woman's side, and only 29.7\u00b0 of it happens before she passes; the rest follows the couple into an open plaza.\n  - K16-b's slowdown starts about 0.5 s before the man becomes visible, while the robot is 0.7 m behind the couple, so following them may explain it.\n  - The ground differs: paved walkway in K14-a, grass in K16-b.\n\n**Unresolved pair: K14-a + K15-a.** The baseline gap is 0.25\u20130.34 m/s depending on onset choice, which straddles the 0.3 m/s limit. I marked it UNKNOWN rather than moving the onset to make it pass."
+}
