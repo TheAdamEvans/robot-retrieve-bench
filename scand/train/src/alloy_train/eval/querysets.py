@@ -336,8 +336,44 @@ def normalise_utt(u: str) -> str:
     return re.sub(r"\s+", " ", u.strip().lower())
 
 
+CHALLENGES = OUT.parent / "challenges"
+
+
+def challenge_sets() -> dict[str, tuple[Path, str]]:
+    """{query_set: (challenge dir, split)}, e.g. l1_compositions_dev -> (challenges/l1_compositions_v1, dev)."""
+    out = {}
+    for d in sorted(p for p in CHALLENGES.glob("*") if p.is_dir()):
+        for split in ("dev", "test"):
+            f = d / f"requests_{split}.jsonl"
+            if f.exists():
+                for line in f.read_text().splitlines():
+                    if line.strip():
+                        out[json.loads(line)["querySet"]] = (d, split)
+    return out
+
+
+def load_challenge(query_set: str) -> list[eval_pb2.EvalQuery]:
+    """Challenge requests pass only utterance and scope to retrieval; the judge-facing `intent` adds the clauses.
+    They have no oracle program and no expected status."""
+    d, split = challenge_sets()[query_set]
+    spec = {q["queryId"]: q for q in map(json.loads, (d / f"queries_{split}.jsonl").read_text().splitlines()) if q}
+    out = []
+    for line in (d / f"requests_{split}.jsonl").read_text().splitlines():
+        if not line.strip():
+            continue
+        r = json.loads(line)
+        clauses = "; ".join(spec[r["queryId"]]["requiredClauses"])
+        out.append(eval_pb2.EvalQuery(query_id=r["queryId"], intent_group_id=r["intentGroupId"], query_set=query_set,
+                                      utterance=r["utterance"], intent=f"{r['utterance']} Required: {clauses}.",
+                                      scope=json_format.ParseDict(r["scope"], eval_pb2.EvalQuery().scope)))
+    return out
+
+
 def load(sets: list[str] | None = None) -> list[eval_pb2.EvalQuery]:
     out = []
+    for name in (sets or []):
+        if name in challenge_sets():
+            out += load_challenge(name)
     for p in sorted(OUT.glob("*.json")):
         if p.name == "MANIFEST.json" or (sets and p.stem not in sets):
             continue

@@ -11,6 +11,7 @@ from pathlib import Path
 from alloy_train.eval import metrics as M
 from alloy_index.annotate.store import load_labels
 from alloy_train.eval.run import CONFIGS, EVAL_SETS, generation_costs
+from alloy_index.recordings import held_out
 from alloy_index.recordings import SCAND_ROOT
 
 ACCEPTABLE = {  # status outcomes that answer the intent honestly (the puzzle allows either for P12)
@@ -60,16 +61,21 @@ def build(run_dir: Path, ann: Path) -> dict:
     # program generation as paid by the first (uncached) LUNA config for each query: every LUNA config would pay it
     gen_first = {qid: {"ms": c["wall_ms"], "tokens": c["tokens"]} for qid, c in generation_costs(runs).items()}
     tables = {}
-    for qset in EVAL_SETS:
+    held = held_out()
+    slices = [(q, None) for q in EVAL_SETS] + [(q, sl) for q in ("compose_test",) for sl in ("val", "train")]
+    for qset, sl in slices:
+        keep = (lambda w: True) if sl is None else (lambda w, v=(sl == "val"): (w.split(":")[0] in held) == v)
         rows = []
         for cfg in CONFIGS:
-            rs = by.get((qset, cfg), {})
+            rs = {qid: {**r, "windows": [w for w in r["windows"] if keep(w)],
+                        "generated": [w for w in r["generated"] if keep(w)]}
+                  for qid, r in by.get((qset, cfg), {}).items()}
             if not rs:
                 continue
             per = defaultdict(dict)
             for qid, r in rs.items():
                 qr = qrels.get(r["intent_group_id"], {})
-                judged = {w: g for w, g in qr.items() if g >= 0}
+                judged = {w: g for w, g in qr.items() if g >= 0 and keep(w)}
                 npos = sum(g >= M.POS for g in judged.values())
                 nneg = sum(g < 1 for g in judged.values())
                 auc_eligible = npos > 0 and nneg > 0
@@ -105,7 +111,7 @@ def build(run_dir: Path, ann: Path) -> dict:
                 ok = ACCEPTABLE.get(r["intent_group_id"], {r["expected_status"]})
                 if judged and npos == 0 and not any(g == 1 for g in judged.values()):
                     ok = {"NONE_FOUND_EXHAUSTIVE", "INSUFFICIENT_EVIDENCE"}  # judgments say nothing qualifies
-                if r["status"] != "ANSWERED_UNVERIFIED":  # unverified configs make no status claim to score
+                if r["status"] != "ANSWERED_UNVERIFIED" and r["expected_status"] != "ANSWER_STATUS_UNSPECIFIED":
                     per["status_ok"][qid] = float(r["status"] in ok)
                 c = r["cost"]
                 cold_model = float(c.get("encoderForwardMs", 0)) > 2000  # one-off model load: reported, not in p50/p95
@@ -138,7 +144,7 @@ def build(run_dir: Path, ann: Path) -> dict:
                 row[f"{name}_p50"] = statistics.median(walls) if walls else None
                 row[f"{name}_p95"] = walls[min(len(walls) - 1, int(0.95 * len(walls)))] if walls else None
             rows.append(row)
-        tables[qset] = rows
+        tables[qset if sl is None else f"{qset}@{sl}"] = rows
     return {"tables": tables, "generation_cost_sources": sorted({r["generation_cost_source"] for r in runs
                                                                  if r.get("generation_cost_source")}),
             "n_judged": {k: sum(g >= 0 for g in v.values()) for k, v in qrels.items()},

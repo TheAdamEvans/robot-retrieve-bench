@@ -38,7 +38,7 @@ CONFIGS = {
     "FUSED_CONCAT": ("FUSED_CONCAT", None),
     "FUSED_V_LUNA": ("FUSED_V", "luna"),
 }
-EVAL_SETS = ["demo5", "demo5_para", "compose_test"]
+EVAL_SETS = ["demo5", "demo5_para", "compose_test", "l1_compositions_dev"]
 
 
 def interval_windows(bundle: Bundle, cd) -> list[str]:
@@ -123,6 +123,8 @@ def run_all(bundle: Bundle, out_dir: Path, configs: list[str], sets: list[str], 
                 if (q.query_id, name) in done:
                     continue
                 spec_id, source = CONFIGS[name]
+                if source == "oracle" and not q.HasField("oracle_program"):
+                    continue  # challenge questions have no hand-written program
                 t0 = time.perf_counter()
                 resp = pipeline_run(bundle, bundle.specs[spec_id], request_for(q, spec_id, source, k),
                                     generator=gen if source == "luna" else None)
@@ -175,6 +177,8 @@ def score_all(bundle: Bundle, out_dir: Path, judged: dict[str, list[str]], confi
                 continue
             for name in configs:
                 spec_id, source = CONFIGS[name]
+                if source == "oracle" and not q.HasField("oracle_program"):
+                    continue
                 resp = pipeline_run(bundle, bundle.specs[spec_id],
                                     request_for(q, spec_id, source, len(wins), mode=pp.SCORE_ALL, window_ids=wins),
                                     generator=gen if source == "luna" else None)
