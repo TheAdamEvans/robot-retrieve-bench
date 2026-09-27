@@ -16,8 +16,10 @@ system is allowed to claim.
 - **Conclusion.** Jackal odometry does report standstill. Brackenridge never stops after it starts, so its 1st
   percentile speed (0.27 m/s) is real. The three L1 captions are wrong about stopping, probably because the front
   camera looks nearly static at 0.5 m/s.
-- **Follow-up.** Correct those captions in a new, higher-priority L1 correction campaign rather than editing
-  `l1-original`. They are FUSED training captions. The IMU eval suite (`providers/imu`) pins this case.
+- **Corrected.** The `l1-corrections-2026-09-27` campaign (priority 1; `l1-original` is left untouched) re-labelled
+  the three segments from the data. The judge confirmed from odometry that the robot never stops (its floor is
+  0.5 m/s, with brief dips to about 0.37). The new captions describe moving at 0.5–2 m/s. The IMU eval suite
+  (`providers/imu`) pins the case.
 
 ## Topics recorded without a message definition (Jackal)
 - **Observation.** SCAND's Jackal bags record three topics with an empty message definition: `/imu/data_raw`,

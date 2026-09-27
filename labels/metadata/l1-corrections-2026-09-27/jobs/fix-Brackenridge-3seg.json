@@ -1,0 +1,31 @@
+{
+ "job": "fix-Brackenridge-3seg",
+ "campaign": "l1-corrections-2026-09-27",
+ "segments": [
+  "Brackenridge:0084",
+  "Brackenridge:0088",
+  "Brackenridge:0100"
+ ],
+ "reason": "The earlier captions say the robot stops, waits or pauses in these segments. Odometry reads a steady 0.50 m/s through them; the teleop joystick shows the forward stick held at full scale with the turbo button released (odometry reads 0.50 m/s whenever turbo is released and about 2.0 m/s when it is held); IMU vibration there is 0.17-0.33 m/s2, about ten times what a genuine standstill reads on this robot.",
+ "previous": {
+  "Brackenridge:0084": {
+   "campaign": "l1-original",
+   "caption": "Jackal turns right onto a herringbone-brick plaza past barricades and stops while a dark SUV drives across the plaza toward it; a cyclist rides in the distance."
+  },
+  "Brackenridge:0088": {
+   "campaign": "l1-original",
+   "caption": "Jackal waits on the plaza as a dark SUV drives past close on its right, then turns right and moves off toward barricades."
+  },
+  "Brackenridge:0100": {
+   "campaign": "l1-original",
+   "caption": "Jackal turns right past a sign stand onto a wide brick promenade and pauses while a family walks across the promenade at a distance."
+  }
+ },
+ "model": "claude-opus-5-5",
+ "exit": 0,
+ "cost_usd": 1.0454287999999998,
+ "turns": 42,
+ "minutes": 2.5,
+ "is_error": false,
+ "report": "I re-labelled and submitted all 3 segments (accepted 3, rejected 0), but I couldn't confirm them with the read-back. `label get attributes --rec Brackenridge` crashes: my new labels and the original L1 labels are two sets for the same segments, and neither is set to take priority. The error:\n\n> `ValueError: Conflicting attributes label Brackenridge:0084 in l1-corrections-2026-09-27.fix-Brackenridge-3seg.jsonl and l1-original.l1-Brackenridge.jsonl; give one campaign a higher priority in its campaign.json`\n\nI left it alone because the fix is in `labels/metadata/l1-corrections-2026-09-27/campaign.json`, which is outside what this job may touch. Once someone gives the corrections campaign a higher priority there, the read-back should work.\n\n**The dispute:** the note is right. The robot never stops in any of these segments. The slowest it goes is the 0.5 m/s floor (brief dips to about 0.37 m/s), and it speeds up to about 1.8\u20132.0 m/s during each one. The front camera view keeps moving throughout, so \"stops / waits / pauses\" was wrong everywhere. I didn't check the joystick or IMU figures from the note, since I only had speed, yaw rate and front range.\n\n| Segment | People in path | Vehicle present | Vehicle near path | Bicycle/scooter | Turn \u2265 30\u00b0 | What happens |\n|---|---|---|---|---|---|---|\n| 0084 | none | TRUE | **UNKNOWN** | TRUE (parked kick e-scooter) | FALSE (28.6\u00b0) | Passes the e-scooter and barricades, speeds to ~1.8 m/s, then keeps moving at 0.5 m/s as an SUV drives toward it |\n| 0088 | none | TRUE | TRUE (SUV ~3.7 m to the right at 85.5 s) | FALSE | FALSE (22\u00b0) | Keeps moving at 0.5 m/s as the SUV passes, speeds to ~2 m/s, slows to 0.5 m/s |\n| 0100 | none | FALSE | FALSE | FALSE | TRUE (32.9\u00b0) | Turns right past a sign frame onto a promenade; a family of four walks about 10 m ahead, to the right |\n\nIn all three segments there is no standing group, no doorway, and the robot is outdoors.\n\n**Left uncertain:** only 0084's vehicle-near-path. The SUV is moving toward the robot at 84 s, the last moment of the segment, and I estimate it is about 7\u201310 m away from the camera. In lidar I couldn't separate it from a long curb or hedge line at about 9 m. It's right on the ~10 m line, so I didn't guess.\n\n**Tool friction:**\n- **Read-back crash:** `label get` stops with an error when two sets of labels overlap. It should still show the stored labels, or say which campaign wins, instead of blocking the check the method asks for.\n- **Lidar clusters:** there's no way to ask \"what is at bearing X, range Y?\". The clusters merge a car with nearby curbs into one long cluster (0084 at 84 s: 11.4 m long at 9.35 m). A way to split clusters by size, or to mark a bearing band, would have settled the 0084 call.\n- **Distance to things in the camera:** only the corridor has range marks (10 m and 20 m lines). An estimate of how far away a visible object is would help with the ~10 m and ~20 m cut-offs.\n- **Jackal views:** the Jackal has no body cameras, so a scooter half out of the frame on the right (0084, 80 s) could only be checked by stepping back in time. `sync` doesn't add anything here.\n- **Readability:** the 0.5 m/s floor on the speed plot is easy to misread as \"stopped\". A labelled line marking the slow-mode speed would help."
+}

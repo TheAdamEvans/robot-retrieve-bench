@@ -69,9 +69,11 @@ def shard_path(use: str, kind: str, slug: str, job: str, root: Path = LABELS) ->
     return Path(root) / use / KIND_DIR[kind] / f"{slug}.{job}.jsonl"
 
 
-def load_labels(kind: str, uses: tuple[str, ...] = ("train", "eval"), root: Path = LABELS) -> dict[str, dict]:
+def load_labels(kind: str, uses: tuple[str, ...] = ("train", "eval"), root: Path = LABELS,
+                conflicts: list | None = None) -> dict[str, dict]:
     """Latest record per key across the given use folders. Higher campaign priority wins; within one shard the later
-    record wins; two shards at equal priority that disagree raise. A key may live in only one use folder."""
+    record wins; two shards at equal priority that disagree raise, unless `conflicts` is a list: then they are
+    appended there (for inspection tools) and the later shard by name is shown. A key may live in only one use folder."""
     root = Path(root)
     shards = []
     for use in uses:
@@ -89,6 +91,10 @@ def load_labels(kind: str, uses: tuple[str, ...] = ("train", "eval"), root: Path
                 if p_use != use:
                     raise ValueError(f"{kind} label {key} is in both {p_use}/ and {use}/; a label has one use")
                 if prio == p_prio and name != p_name and row != latest[key]:
+                    if conflicts is not None:
+                        conflicts.append({"key": key, "shards": [p_name, name], "priority": prio})
+                        latest[key], origins[key] = row, (prio, name, use)
+                        continue
                     raise ValueError(f"Conflicting {kind} label {key} in {p_name} and {name}; "
                                      "give one campaign a higher priority in its campaign.json")
             latest[key], origins[key] = row, (prio, name, use)
@@ -100,9 +106,10 @@ def ensure_campaign(slug: str, root: Path = LABELS, **fields) -> Path:
     d = Path(root) / "metadata" / slug
     (d / "jobs").mkdir(parents=True, exist_ok=True)
     p = d / "campaign.json"
-    doc = json.loads(p.read_text()) if p.exists() else {"campaign": slug, "priority": 0}
+    doc = json.loads(p.read_text()) if p.exists() else {"campaign": slug}
     for k, v in fields.items():
         doc.setdefault(k, v)
+    doc.setdefault("priority", 0)
     p.write_text(json.dumps(doc, indent=1) + "\n")
     _campaign.cache_clear()
     return d

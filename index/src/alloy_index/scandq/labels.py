@@ -207,13 +207,19 @@ def validate_episode(d: dict) -> tuple[dict, list[str]]:
 
 def cmd_label(a) -> None:
     if a.op == "get":
-        latest = load_labels(a.kind, USES, cli.LABELS)
+        conflicts: list = []
+        latest = load_labels(a.kind, USES, cli.LABELS, conflicts=conflicts)
         for v in latest.values():  # show refs as MessageId strings, as submitted
             v["refs"] = [f'{x["recordingId"]}{x["topic"]}#{x.get("topicOrdinal", 0)}' for x in v.get("refs", [])]
         rows = [v for v in latest.values()
                 if (not a.rec or v.get("recordingId", v.get("windowId", "")).startswith(a.rec))
                 and (not a.intent or v.get("intentGroupId") == a.intent)]
-        print(json.dumps({"kind": a.kind, "count": len(rows), "labels": rows}, indent=1))
+        out = {"kind": a.kind, "count": len(rows), "labels": rows}
+        if conflicts:
+            out["unresolved_conflicts"] = conflicts[:20]
+            out["note"] = ("equal-priority campaigns disagree on these keys; training and evaluation refuse to load them "
+                           "until one campaign.json gets a higher priority")
+        print(json.dumps(out, indent=1))
         return
     if not a.json:
         raise SystemExit("put needs --json '{...}' or --json @file.json")

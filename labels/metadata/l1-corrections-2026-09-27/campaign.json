@@ -1,0 +1,15 @@
+{
+ "campaign": "l1-corrections-2026-09-27",
+ "priority": 1,
+ "kinds": [
+  "attributes"
+ ],
+ "brief": "l1_attributes.md",
+ "judge": "claude-opus-5-5",
+ "date": "2026-09-27",
+ "supersedes": [
+  "l1-original"
+ ],
+ "reason": "The earlier captions say the robot stops, waits or pauses in these segments. Odometry reads a steady 0.50 m/s through them; the teleop joystick shows the forward stick held at full scale with the turbo button released (odometry reads 0.50 m/s whenever turbo is released and about 2.0 m/s when it is held); IMU vibration there is 0.17-0.33 m/s2, about ten times what a genuine standstill reads on this robot.",
+ "purpose": "Correction of L1 labels disputed by a sensor cross-check; outranks the original labels."
+}

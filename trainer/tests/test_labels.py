@@ -61,3 +61,19 @@ def test_new_records_are_routed_by_use(tmp_path):
     assert use_for("judgment", {"intentGroupId": "l1x_dream_steer_or_brake"}, "ep-x", tmp_path) == "train"
     assert use_for("judgment", {"intentGroupId": "l1x_dream_test_stairs_vs_people"}, "ep-x", tmp_path) == "eval"
     assert use_for("judgment", {"intentGroupId": "crowd_hesitation"}, "recheck", tmp_path) == "agreement"
+
+
+def test_ensure_campaign_keeps_the_requested_priority(tmp_path):
+    from alloy_index.annotate.store import campaign, ensure_campaign
+    ensure_campaign("fix", tmp_path, priority=1, purpose="p")
+    assert campaign("fix", tmp_path)["priority"] == 1
+    ensure_campaign("plain", tmp_path)
+    assert campaign("plain", tmp_path)["priority"] == 0
+
+
+def test_inspection_reports_equal_priority_conflicts_instead_of_crashing(tmp_path):
+    write_shard(tmp_path, "eval", "base", 1)
+    write_shard(tmp_path, "eval", "other", 2)
+    found = []
+    assert load_labels("judgment", ("eval",), tmp_path, conflicts=found)["intent|recording:0004"]["grade"] == 2
+    assert found and found[0]["shards"] == ["base.job.jsonl", "other.job.jsonl"]
