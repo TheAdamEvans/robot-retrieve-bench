@@ -32,60 +32,15 @@ def _price() -> tuple[float, float, float] | None:
     return tuple(float(x) for x in v.split(",")) if v else None
 
 
-GRAMMAR = """You translate a question about archived robot recordings into a QueryProgram (JSON, strict schema).
+PROMPTS = Path(__file__).parent / "prompts"
+PROMPT = os.environ.get("ALLOY_PROGRAM_PROMPT", "v1")  # versioned grammar/rules text: prompts/<version>.md
 
-A program is a set of named EVENTS over registry FEATURES, linked by temporal RELATIONS into a tree rooted at the
-PRIMARY event, plus a selection, return anchors, an evaluation context and optionally a causal receipt.
 
-EVENT kinds (each needs the listed params; leave others null):
-- THRESHOLD: intervals where `feature comparator threshold` holds, optionally for >= minDuration.
-- CHANGE: the feature drops (direction DOWN) / rises (UP) by `change` within `within`; direction null = either way
-  (use for turns on heading_deg). START = just before the change, EXTREMUM_POINT = min/max reached, END = same.
-  `change` may be absolute (unit of the feature) or relative (PERCENT or RATIO).
-- ONSET: feature below `fromBelow` for >= minDuration, then above `threshold` sustained for `sustain`
-  (e.g. accelerating from a stop).
-- EXTREMUM: local minimum (direction DOWN) or maximum (UP) of the feature.
-- RETURN_TO: first time the feature returns to `fraction` x its value at the `reference` anchor (recovery).
-- TRACK_APPEAR: a new track (e.g. a person) first seen in a track feature.
-- TRACK_DISAPPEAR: last observation of the track bound by `reference` (a TRACK_APPEAR event), in a track feature.
-Anchor points: START, END, EXTREMUM_POINT.
+def grammar(version: str = PROMPT) -> str:
+    return (PROMPTS / f"{version}.md").read_text()
 
-RELATIONS bind a child event relative to a parent anchor: AFTER (child in [parent+minGap, parent+maxGap]),
-BEFORE (child in [parent-maxGap, parent-minGap]), WITHIN (|child-parent| <= maxGap), DURING (child anchor inside
-the parent event's interval). Every non-primary event is the child of exactly one relation; no cycles. RETURN_TO and
-TRACK_DISAPPEAR must reference an ANCESTOR event in that tree.
 
-SELECTION: ALL (default); FIRST for first/earliest; ARGMIN / ARGMAX with byFeature + byEvent for
-narrowest/smallest/closest or strongest/largest/biggest.
-RECEIPT (only when the question asks what evidence was available before a moment): cutoff anchor, sensor names,
-maxAge, boundary STRICT_BEFORE ("before", "immediately before") or INCLUSIVE ("at or before").
-CONTEXT: contextBefore/contextAfter (durations) around the primary anchor; cover everything the question needs
-(e.g. a recovery up to 20 s later).
-
-RULES
-1. Encode every requirement of the question as an event or relation. `doc` is shown to the user: COPY the exact words
-   of the question it encodes (plus a default, if rule 7 applied). Never explain, and never mention features,
-   registries, indexes, detectors or this system in `doc` or `unexpressible`.
-2. Never approximate a requirement with an unrelated feature. If a requirement that decides WHICH MOMENTS QUALIFY
-   cannot be expressed with these features and event kinds, add a short phrase to `unexpressible`. Do NOT put caveats
-   there: limits on precision, on which values get reported, on approach/clear times you can approximate with
-   START/END, or on sensors a robot lacks belong nowhere. Each `unexpressible` entry is the question's own words and
-   makes every answer partial. Never substitute a loosely related feature for a visual requirement (appearance, body
-   parts, clothing, close-ups, objects without a detector). If NOTHING in the question is expressible, return
-   `events: []`, `primaryEvent: ""` and the question's words in `unexpressible`: search will rank by similarity and
-   say the results are unverified.
-   Features marked NOT INDEXED may still be used: the system reports them as unknown rather than guessing.
-3. Set abstainIfInsufficient when the question says to abstain / return insufficient evidence when unsure.
-4. Scope: set recordingIds only when the question names a specific run; otherwise leave it empty (all recordings).
-5. Always give units. Counts are DIMENSIONLESS. Use the feature's own unit family (e.g. CM is fine for a length).
-6. Mark every event and relation required unless the question makes it optional.
-7. Vague magnitudes are not unexpressible. When the question names a concept without a number, use these defaults and
-   say so in `doc` (e.g. "turn (default: >=30 deg within 3 s)"): turn = heading_deg CHANGE >= 30 DEG within 3 S;
-   brake / slow down = speed_mps CHANGE DOWN >= 30 PERCENT within 3 S; speed up = speed_mps CHANGE UP >= 30 PERCENT
-   within 3 S; stop = speed_mps <= 0.05 MPS for >= 1 S; fast = speed_frac_max > 0.75 RATIO (robot-relative);
-   slow / slowly = speed_frac_max < 0.35 RATIO; close / near = within 2 M;
-   crowd = >= 3 people; "then" / "after" = AFTER with maxGap 5 S unless stated.
-"""
+GRAMMAR = grammar()
 
 
 def _registry_block() -> str:
@@ -127,11 +82,11 @@ def normalise(utt: str) -> str:
 
 class OpenAIProgramGenerator:
     def __init__(self, bundle, fewshots: list[tuple[str, dict]], cache_dir: Path | None = None,
-                 model: str = MODEL, reasoning: str = REASONING, cache_only: bool = False):
+                 model: str = MODEL, reasoning: str = REASONING, cache_only: bool = False, prompt: str = PROMPT):
         self.cache_only = cache_only
         self.client = None if cache_only else OpenAI(timeout=float(os.environ.get("ALLOY_PROGRAM_TIMEOUT_S", "20")), max_retries=0)
-        self.model, self.reasoning = model, reasoning
-        self.system = "\n\n".join([GRAMMAR, _registry_block(), _embodiment_block(), _recordings_block(bundle),
+        self.model, self.reasoning, self.prompt_version = model, reasoning, prompt
+        self.system = "\n\n".join([grammar(prompt), _registry_block(), _embodiment_block(), _recordings_block(bundle),
                                    _fewshot_block(fewshots)])
         self.schema = schema(sorted(bundle.recordings), sorted(E.profiles()))
         self.prompt_hash = hashlib.sha256((self.system + json.dumps(self.schema, sort_keys=True)).encode()).hexdigest()[:12]
@@ -183,6 +138,15 @@ class OpenAIProgramGenerator:
         except json.JSONDecodeError:
             return None, text
 
+    @staticmethod
+    def _usage(since: dict | None) -> dict:
+        """Tokens spent in the current cost scope since `since`; stored with the cached program so replays and
+        module evals can report what the original generation cost."""
+        s = cost.current()
+        now = {k: getattr(s, k, 0) if s is not None else 0
+               for k in ("prompt_tokens", "cached_prompt_tokens", "completion_tokens", "reasoning_tokens")}
+        return now if since is None else {k: now[k] - since[k] for k in now}
+
     def __call__(self, utterance: str, bundle) -> tuple[q.QueryProgram | None, a.ProgramDiagnostics]:
         diag = a.ProgramDiagnostics(state=a.GENERATED, model=f"{self.model}:{self.reasoning}")
         key = self._key(utterance)
@@ -200,6 +164,7 @@ class OpenAIProgramGenerator:
             raise RuntimeError(f"No cached program for {utterance!r}; refusing a new API call during replay")
         messages = [{"role": "system", "content": self.system}, {"role": "user", "content": utterance}]
         errors: list[str] = []
+        start = self._usage(None)
         for attempt in (1, 2):
             diag.attempts = attempt
             try:
@@ -221,7 +186,7 @@ class OpenAIProgramGenerator:
                     errors = [f"PARSE: {ex}"]
                 if not errors:
                     self._cache_put(key, {"program": raw, "utterance": utterance, "attempts": attempt,
-                                          "repaired_from": list(diag.errors)})
+                                          "repaired_from": list(diag.errors), "usage": self._usage(start)})
                     return prog, diag
             diag.errors.extend(f"attempt{attempt}: {e}" for e in errors)  # kept on success too: repair reasons
             messages += [{"role": "assistant", "content": text},

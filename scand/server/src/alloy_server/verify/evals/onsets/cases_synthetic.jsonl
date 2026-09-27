@@ -1,0 +1,2 @@
+{"id": "spot_gait_oscillation_dips_below_threshold", "input": {"duration_s": 6, "start_s": 3.0, "mean_mps": 0.8, "osc_mps": 0.75, "gait_hz": 3.3}, "expect": {"onset_s": 3.0, "n_onsets": 1}, "source": "L1 labeller finding"}
+{"id": "smooth_start_no_oscillation", "input": {"duration_s": 6, "start_s": 2.0, "mean_mps": 0.6, "osc_mps": 0.0, "gait_hz": 1.0}, "expect": {"onset_s": 2.0, "n_onsets": 1}}

@@ -1,0 +1,4 @@
+{"id": "butler_crowd_frame", "input": {"recording": "Butler", "t_ns": 1636845492041313163}, "expect": {"persons": 19, "frame_size": true}, "source": "stored detections@2 max-persons frame"}
+{"id": "butler_parked_cars", "input": {"recording": "Butler", "t_ns": 1636845442440947595}, "expect": {"vehicles": 7}}
+{"id": "sanjac_crowd_frame", "input": {"recording": "Sanjac", "t_ns": 1636835929621089525}, "expect": {"persons": 19}}
+{"id": "gdc_vehicles", "input": {"recording": "GDC", "t_ns": 1637010444794647657}, "expect": {"vehicles": 4}}

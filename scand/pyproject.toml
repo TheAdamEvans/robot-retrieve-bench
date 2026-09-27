@@ -21,3 +21,8 @@ dev = ["pytest>=8"]
 
 [tool.pytest.ini_options]
 testpaths = ["server/tests", "index/tests", "train/tests"]
+markers = [
+    "moduleeval: a module's self-contained eval suite (evals/*/confeval.py)",
+    "requires_bundle: needs the built dev bundle",
+    "requires_llm: calls a paid model API (runs only with ALLOY_EVALS_LLM=1)",
+]

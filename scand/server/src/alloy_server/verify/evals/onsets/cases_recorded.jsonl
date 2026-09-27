@@ -1,0 +1,1 @@
+{"id": "jcl_stop_go_at_24_15", "input": {"recording": "JCL"}, "expect": {"onset_s": 24.15, "n_onsets": 1}, "source": "L1 labeller: JCL stop→go onset at 24.15 s"}

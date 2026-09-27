@@ -1,0 +1,8 @@
+{"id": "spot_follower_behind_is_not_side_room", "input": {"robot": "spot", "op": "body_side_room", "xy": [[-1.2, -0.3]]}, "expect": {"left_m": 5.0, "right_m": 5.0}, "source": "L1 labeller finding (Butler follower)"}
+{"id": "spot_wall_right_measured_from_body_side", "input": {"robot": "spot", "op": "body_side_room", "xy": [[0.0, -0.85]]}, "expect": {"left_m": 5.0, "right_m": 0.60}}
+{"id": "spot_follower_plus_wall_left", "input": {"robot": "spot", "op": "body_side_room", "xy": [[-1.2, -0.3], [0.2, 0.95]]}, "expect": {"left_m": 0.70, "right_m": 5.0}}
+{"id": "jackal_narrow_body", "input": {"robot": "jackal", "op": "body_side_room", "xy": [[0.1, 0.515], [0.1, -0.415]]}, "expect": {"left_m": 0.30, "right_m": 0.20}}
+{"id": "spot_front_margin_from_front_edge", "input": {"robot": "spot", "op": "front_margin", "xy": [[2.55, 0.1]]}, "expect": {"front_m": 2.0}}
+{"id": "spot_front_margin_ignores_off_body_line", "input": {"robot": "spot", "op": "front_margin", "xy": [[1.0, 0.6]]}, "expect": {"front_m": 10.0}}
+{"id": "fast_means_the_same_on_both_robots_spot", "input": {"robot": "spot", "op": "normalize_speed", "speed_mps": 1.2}, "expect": {"speed_frac": 0.75}}
+{"id": "fast_means_the_same_on_both_robots_jackal", "input": {"robot": "jackal", "op": "normalize_speed", "speed_mps": 1.5}, "expect": {"speed_frac": 0.75}}

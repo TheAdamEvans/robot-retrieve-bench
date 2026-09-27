@@ -1,0 +1,6 @@
+{"id": "overlapping_windows_fold_into_one", "input": {"windows": [["A", 10, 14], ["A", 11, 15], ["A", 12, 16], ["B", 3, 7]]}, "expect": {"groups": [[0, 1, 2], [3]], "spans": [[10.0, 16.0], [3.0, 7.0]], "all_members_accounted": true}}
+{"id": "within_gap_joins_beyond_gap_does_not", "input": {"windows": [["A", 10, 14], ["A", 15, 19], ["A", 20.5, 24.5]], "params": {"gap_s": 1.0}}, "expect": {"groups": [[0, 1], [2]], "spans": [[10.0, 19.0], [20.5, 24.5]]}}
+{"id": "different_recordings_never_merge", "input": {"windows": [["A", 10, 14], ["B", 10, 14]]}, "expect": {"groups": [[0], [1]]}}
+{"id": "max_span_caps_growth", "input": {"windows": [["A", 0, 4], ["A", 3, 7], ["A", 6, 10], ["A", 9, 13]], "params": {"max_span_s": 10}}, "expect": {"groups": [[0, 1, 2], [3]], "spans": [[0.0, 10.0], [9.0, 13.0]]}}
+{"id": "weak_results_absorbed_without_widening", "input": {"windows": [["A", 10, 14], ["B", 0, 4], ["A", 13, 17]], "params": {"grow_k": 2}}, "expect": {"groups": [[0, 2], [1]], "spans": [[10.0, 14.0], [0.0, 4.0]]}, "note": "rank 2 is past grow_k: it overlaps A's result so it is deduplicated, but the shown span stays 10-14 s"}
+{"id": "merged_result_takes_best_members_rank", "input": {"windows": [["B", 0, 4], ["A", 10, 14], ["A", 12, 16]]}, "expect": {"groups": [[0], [1, 2]]}}

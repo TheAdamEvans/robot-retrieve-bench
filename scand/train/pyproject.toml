@@ -8,6 +8,9 @@ dependencies = [
     "alloy-index",
 ]
 
+[project.scripts]
+alloy-evals = "alloy_train.evals_cli:main"
+
 [tool.uv.sources]
 alloy-server = { workspace = true }
 alloy-index = { workspace = true }

@@ -50,6 +50,20 @@ def load():
     return _model
 
 
+def frame(rec, topic: str, i: int) -> Image.Image:
+    return Image.open(io.BytesIO(compressed_image(rec.read(topic, i).data)[1])).convert("RGB")
+
+
+def detect(imgs: list[Image.Image]) -> list[tuple[list[str], np.ndarray, np.ndarray]]:
+    """(label names, scores, xyxy boxes) per image, above THRESH."""
+    proc, model = load()
+    with torch.no_grad():
+        out = model(**proc(images=imgs, return_tensors="pt"))
+    res = proc.post_process_object_detection(out, threshold=THRESH, target_sizes=[(im.height, im.width) for im in imgs])
+    lab = model.config.id2label
+    return [([lab[int(l)] for l in rr["labels"]], rr["scores"].numpy(), rr["boxes"].numpy()) for rr in res]
+
+
 def in_corridor(foot_uv: np.ndarray, hfov: float, h: float, pitch: float, hw: float, length: float) -> np.ndarray:
     fx = (W / 2) / np.tan(np.radians(hfov / 2))
     below = np.arctan((foot_uv[:, 1] - H / 2) / fx) + np.radians(pitch)
@@ -121,13 +135,11 @@ def build(bundle: Path, rec, ctx=None) -> dict:
     from alloy_server.catalog.embodiment import EmbodimentContext
     ctx = ctx or EmbodimentContext.for_recording(bundle, rec.id)
     rb = ctx.robot
-    proc, model = load()
     topic = ctx.topic("front_camera")
     tl = rec.topics[topic]
     ticks = np.arange(rec.start_ns, rec.end_ns, int(1e9 / HZ))
     stale = ctx.stale_leading(topic)  # buffer-flushed frames from another moment: never detected on
     idx = sorted({tl.nearest(int(t)) for t in ticks} - set(range(stale)))
-    lab = model.config.id2label
     rows = {k: [] for k in ("t_ns", "persons_visible_front", "persons_in_corridor", "persons_in_corridor_lo",
                             "persons_in_corridor_hi", "vehicles_visible_front", "vehicle_box_frac",
                             "bicycles_visible_front")}
@@ -135,15 +147,10 @@ def build(bundle: Path, rec, ctx=None) -> dict:
     person_frames = []
     for k in range(0, len(idx), 8):
         batch = idx[k:k + 8]
-        imgs = [Image.open(io.BytesIO(compressed_image(rec.read(topic, i).data)[1])).convert("RGB") for i in batch]
-        with torch.no_grad():
-            out = model(**proc(images=imgs, return_tensors="pt"))
-        res = proc.post_process_object_detection(out, threshold=THRESH, target_sizes=[(im.height, im.width) for im in imgs])
-        for i, rr in zip(batch, res):
+        imgs = [frame(rec, topic, i) for i in batch]
+        for i, (names, scores, bx) in zip(batch, detect(imgs)):
             t = int(tl.log_ns[i])
-            names = [lab[int(l)] for l in rr["labels"]]
-            bx = rr["boxes"].numpy()
-            for nme, s, b in zip(names, rr["scores"].numpy(), bx):
+            for nme, s, b in zip(names, scores, bx):
                 if nme == "person" or nme in VEHICLES or nme == "bicycle":
                     for key, v in zip(("t_ns", "topic_ordinal", "label", "score", "x0", "y0", "x1", "y1"),
                                       (t, int(tl.ordinal[i]), nme, float(s), *map(float, b))):
