@@ -206,8 +206,11 @@ def main() -> None:
     bundle = Bundle(a_.bundle)
     out = SCAND_ROOT / "results" / "eval" / a_.run
     if a_.score_all:
-        from alloy_train.eval.report import load_judgments
-        judged = {k: sorted(w for w, g in v.items() if g >= 0) for k, v in load_judgments(SCAND_ROOT / "annotations").items()}
+        from alloy_train.eval.report import complete_qrels, ground_truth, load_judgments
+        ann = SCAND_ROOT / "annotations"
+        qrels = load_judgments(ann)
+        complete_qrels(qrels, ground_truth(ann), a_.bundle)  # exhaustive ground truth: in-scope negatives are real
+        judged = {k: sorted(w for w, g in v.items() if g >= 0) for k, v in qrels.items()}
         print(score_all(bundle, out, judged, a_.configs.split(","), a_.sets.split(","), a_.reuse_programs_from))
         return
     run_all(bundle, out, a_.configs.split(","), a_.sets.split(","), reuse_programs_from=a_.reuse_programs_from)

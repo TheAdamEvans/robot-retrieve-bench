@@ -48,6 +48,26 @@ def ground_truth(ann: Path) -> dict[str, dict]:
     return gt
 
 
+def complete_qrels(qrels: dict[str, dict[str, int]], gt: dict[str, dict], bundle_dir: Path) -> None:
+    """For an intent with complete ground truth, every in-scope window that overlaps no relevant episode is a real 0
+    (not unjudged). Windows inside relevant episodes keep the judge's own window grades."""
+    from alloy_server.catalog.windows import windows
+    from alloy_train.eval import querysets
+    scopes = {q.intent_group_id: list(q.scope.recording_ids)
+              for name in querysets.challenge_sets() for q in querysets.load_challenge(name)}
+    for intent, g in gt.items():
+        if not g["complete"] or intent not in scopes:
+            continue
+        qr = qrels.setdefault(intent, {})
+        for rec in scopes[intent]:
+            info = json.loads((bundle_dir / "mcap" / f"{rec}.json").read_text())
+            for w in windows(rec, (info["log_end_ns"] - info["log_start_ns"]) / 1e9):
+                end = int(w.split(":")[1])
+                inside = any(e["recordingId"] == rec and end - 4 < e["endS"] and end > e["startS"] for e in g["episodes"])
+                if w not in qr and not inside:
+                    qr[w] = 0
+
+
 def episode_recall(ranked: list[str], episodes: list[dict], k: int) -> float | None:
     """Fraction of ground-truth episodes overlapped by at least one of the top-k windows (Rec:EEEE = [E-4, E] s)."""
     if not episodes:
@@ -82,6 +102,7 @@ def build(run_dir: Path, ann: Path) -> dict:
     score_all = [json.loads(x) for x in sa_path.read_text().splitlines()] if sa_path.exists() else []
     qrels = load_judgments(ann)
     gt = ground_truth(ann)
+    complete_qrels(qrels, gt, ann.parent / "bundles" / "dev")
     group_of = {r["query_id"]: r["intent_group_id"] for r in runs}
     by = defaultdict(dict)
     for r in runs:
