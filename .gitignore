@@ -1,20 +1,28 @@
-# Allow-list: everything is ignored unless opted in below. Public-safe by default.
+# Allow-list: everything at the top level is ignored unless opted in below. Public-safe by default.
 /*
 !/.gitignore
+!/.python-version
 !/README.md
-!/SCAND_PUZZLE_QUERY_SUITE.md
 !/SCAND_index.csv
 !/SCAND_data_headers.csv
-!/scand/
+!/pyproject.toml
+!/uv.lock
+!/tools_codegen.sh
+!/build_dashboard.py
+!/server/
+!/index/
+!/train/
+!/benchmark/
+!/annotations/
+!/annotations_recheck/
+!/docs/
+!/presentation/
 
-# Inside scand/: never data, envs, or generated outputs
-scand/.venv/
-scand/raw/
-scand/derived/
-scand/results/
-scand/bundles/
-scand/annotations/renders/
-scand/*.pdf
+# Never data, envs, or generated outputs
+/annotations/renders/
+/annotations/tmp/
+/annotations_recheck/renders/
+*.pdf
 **/__pycache__/
 *.pyc
 .DS_Store
@@ -24,6 +32,3 @@ scand/*.pdf
 *.safetensors
 *.parquet
 .env
-scand/annotations/tmp/
-scand/annotations_recheck/renders/
-scand/cache/

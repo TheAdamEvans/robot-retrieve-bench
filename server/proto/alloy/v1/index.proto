@@ -1,0 +1,55 @@
+syntax = "proto3";
+package alloy.v1;
+
+// Indexing: Source -> Stages -> Sink. The sink's manifest is the only record of what exists (no separate state store).
+
+message SourceSpec {
+  string impl = 1;                    // LocalBagSource
+  string raw_dir = 2;                 // relative to the repository root
+  string index_csv = 3;               // recording metadata (SCAND_index.csv), relative to the repository root
+  map<string, string> aliases = 4;    // bag stem -> recording id (keeps historical short ids stable)
+  string id_template = 5;             // e.g. "{route}_{fr}", fields parsed from the SCAND bag stem
+  repeated string held_out = 6;       // recording ids never used for training, tuning or dev sets
+}
+
+enum StageScope { STAGE_SCOPE_UNSPECIFIED = 0; PER_RECORDING = 1; CORPUS = 2; }
+
+message IndexStage {
+  string name = 1;                    // e.g. providers.motion
+  string impl = 2;                    // registry name of the stage implementation
+  map<string, string> params = 3;     // hashed into the artifact key
+  bool enabled = 4;
+  bool requires_flag = 5;             // only runs when explicitly requested (e.g. --annotate: it spends money)
+}
+
+message SinkSpec {
+  string impl = 1;                    // LocalBundleSink
+  string path = 2;                    // relative to the repository root
+}
+
+message IndexSpec {
+  string index_id = 1;
+  SourceSpec source = 2;
+  repeated IndexStage stages = 3;     // in dependency order
+  SinkSpec sink = 4;
+}
+
+message ArtifactRecord {
+  string key = 1;                     // sha256(stage@version | params | input keys | recording)
+  string stage = 2;
+  string version = 3;                 // the implementation's VERSION (code), not free text in config
+  string recording_id = 4;            // empty for CORPUS stages
+  string params_sha256 = 5;
+  repeated string input_keys = 6;
+  repeated string paths = 7;          // outputs, relative to the sink root (or the repository root for annotations)
+  string content_key = 8;             // layout-independent identity downstream stages depend on (e.g. payload hashes)
+  double wall_s = 9;
+  string created_at = 10;
+  map<string, string> info = 11;
+}
+
+message SinkManifest {
+  string index_id = 1;
+  string spec_sha256 = 2;
+  map<string, ArtifactRecord> artifacts = 3;   // by key
+}
