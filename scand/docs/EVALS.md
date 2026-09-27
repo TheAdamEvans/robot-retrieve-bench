@@ -121,3 +121,49 @@ The dev failures that recur at both settings are the ones v2 targets. Test failu
 
 v3 is the default. It costs about 1.5k more tokens per generation (more repair turns: 1.24 attempts on test,
 against 1.05). A failed generation was replayed as 0 tokens until 27 Sep; the table's token means are lower bounds.
+
+**Confirmed on the benchmark (eval v9 corpus, same judgments; `results/eval/v9-prompt-v1` against `benchmark/results/v9`).**
+
+| Set | v1 → v3 (PROGRAM / HYBRID / FUSED_V with gpt-6-luna) |
+|---|---|
+| compose_test | no change: 5 of 6 programs have identical clauses |
+| demo5_para | status accuracy 0.73 → 0.93; nDCG@10 +0.05 / −0.11 / +0.04; fewer `unexpressible` entries |
+| l1_compositions_dev (never tuned on) | ROC-AUC 0.46–0.50 → **0.87–0.90**; `unexpressible` entries 22 → 15; tokens 9.5k → 8.2k; p50 16 s → 12 s |
+
+The rule "what the question asks you to return is output, not a requirement" transferred to questions the
+hill-climb never saw. HYBRID's lower demo5_para nDCG is the one regression to watch.
+
+## Exhaustive ground truth (challenge sets)
+
+Pooled judgments cannot support recall claims: a window nobody judged is unknown, not irrelevant. For the
+`benchmark/challenges/` question sets, ground truth is instead built to be **complete** over each question's scope:
+
+1. **Numeric sweep** (`uv run python -m alloy_train.challenge.sweep --set l1_compositions_v1 --split dev`). Every
+   span that could pass the question's numeric clauses:
+   - thresholds are loosened by a stated tolerance;
+   - maneuver windows are searched on a grid of 1–10 s, with onsets every 0.25 s;
+   - signals are computed as `scandq signals` computes them, plus raw odometry pose.
+
+   The sweep must contain every episode already judged relevant (the sweep-recall check), or it fails.
+2. **Exhaustive judging** (`uv run python -m alloy_train.annotate.episodes --set … --split dev --exhaustive --run`).
+   The candidates are split into chunks of at most 30 s. Opus judges every episode in every chunk, and each chunk
+   needs at least one record, so coverage can be checked by machine.
+3. **Scoring.** Once every chunk of an intent is covered, the intent is *complete*:
+   - an in-scope window outside every relevant episode is a real 0, so ROC-AUC and nDCG have no pooling bias;
+   - the report adds episode recall@10 and @50 (a ground-truth episode counts as found when a top-k window overlaps it);
+   - an intent with no numeric candidates is complete with zero episodes.
+
+**l1_compositions_v1 dev** cost $51.25 over 12 jobs. The ground truth:
+- multiple_attempts: none in scope (numeric proof);
+- opportunity_to_go: none in scope (every candidate judged);
+- steer_or_brake: one qualifying pair;
+- recover_person_present: 3 full matches and 10 partial;
+- turn_creates_exposure and person_adjusts: 2 partial each. person_adjusts recall is relative to the people seen
+  by L1 labels or the detector.
+
+Where the lead-based pass and the exhaustive pass overlap, they agree on relevant versus not for 16 of 18
+episodes. Exhaustive shards take precedence (`annotations/labels/precedence.json`).
+
+**What the ground truth exposed.** On the two questions whose true answer is "none", every config still returns
+results, marked unverified or partial. None says `none_found_exhaustive` or `insufficient_evidence`. Pooled
+evaluation could not see this failure.

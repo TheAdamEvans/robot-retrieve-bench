@@ -92,6 +92,24 @@ right-side room, close car while fast). Adding them would leak the held-out test
 - **Hubness:** the busiest window appears in the top 5 twenty times for FUSED, against fifteen for EMBED.
 - **v8-correctness, compose_test R@50:** FUSED 0.29, PROGRAM_LUNA 0.55, PROGRAM_ORACLE 0.83.
 
+### Results, eval v9 (16 recordings; LORO over the 14 Train recordings; Val embedded by the full-data model)
+
+| Config | demo5_para ROC / nDCG@10 | compose_test ROC / nDCG@10 | compose_test, original 7 recordings | compose_test, 9 new recordings | compose_test, Val (2 held out) |
+|---|---|---|---|---|---|
+| EMBED | 0.46 / 0.25 | 0.47 / 0.22 | 0.39 / 0.02 | 0.40 / 0.25 | 0.25 / 0.24 |
+| **FUSED** | **0.73 / 0.47** | 0.59 / 0.46 | 0.64 / 0.59 | 0.57 / 0.45 | **0.75 / 0.54** |
+| FUSED_V_LUNA | 0.58 / 0.32 | 0.61 / 0.47 | 0.77 / 0.65 | 0.60 / 0.46 | 0.61 / 0.37 |
+| PROGRAM_LUNA | 0.55 / 0.24 | 0.59 / 0.38 | 0.69 / 0.52 | 0.68 / 0.38 | 0.58 / 0.39 |
+| PROGRAM_ORACLE | 0.56 / 0.35 | 0.66 / 0.45 | 0.78 / 0.74 | 0.65 / 0.38 | 0.58 / 0.39 |
+
+- **On the original 7 recordings, v9 reproduces v7.** PROGRAM_ORACLE scores 0.78 / 0.74, against 0.77 / 0.74.
+  FUSED improves from 0.54 / 0.45 to 0.64 / 0.59 with twice the training data.
+- **The 9 new recordings are harder for everything,** including hand-written programs. That is a transfer gap in the
+  structured signals.
+- **FUSED holds up best on the two held-out Val recordings.**
+- **Out-of-fold pseudo-label AUC:** EMBED 0.51, FUSED 0.70. **Hubness** (the busiest window's top-5 count): 15,
+  down from 20.
+
 ## Known weaknesses (the improvement surface)
 
 1. **Mean pooling throws away temporal order.** "Turn *then* brake" and "brake then turn" look the same, and the
@@ -104,8 +122,8 @@ right-side room, close car while fast). Adding them would leak the held-out test
 4. **Hubness.** A few windows win many unrelated queries.
 5. **A shared model family.** Captions (L1) and judgments (L2) both come from the same Opus labeller, so FUSED
    could learn the judge's phrasing. LORO guards against leaking recordings, not against this.
-6. **Small data.** 7 recordings, 2 of them Jackal. Nine more are being indexed now (W2 data wave). The SCAND Val
-   recordings `Rec_Tent_129` and `Bass_Garage_134` are **held out**.
+6. **Small data.** 16 recordings (5 Jackal) since eval v9. The SCAND Val recordings `Rec_Tent_129` and
+   `Bass_Garage_134` are **held out**: never trained on, and embedded by the full-data model.
 
 ## Ranked ideas
 
