@@ -27,15 +27,21 @@ FRONT_HZ = 10.0
 BATCH = 16
 
 
-def select(r: Recording) -> list[tuple[str, int]]:
+def _sample(r: Recording, topic: str, hz: float | None) -> list[tuple[str, int]]:
+    tl = r.topics.get(topic)
+    if tl is None or not len(tl):
+        return []  # sensor absent in this log (intake records it)
+    if hz is None:  # native rate
+        return [(topic, i) for i in range(len(tl))]
+    ticks = np.arange(r.start_ns, r.end_ns, int(1e9 / hz))
+    return [(topic, i) for i in sorted({tl.nearest(int(t)) for t in ticks})]
+
+
+def select(r: Recording, front_hz: float | None = FRONT_HZ, body_hz: float | None = None) -> list[tuple[str, int]]:
     rb = robot(r.id)
-    front = emb.front_camera_topic(rb)
-    tl = r.topics[front]
-    ticks = np.arange(r.start_ns, r.end_ns, int(1e9 / FRONT_HZ))
-    idx = sorted({tl.nearest(int(t)) for t in ticks})
-    out = [(front, i) for i in idx]
+    out = _sample(r, emb.front_camera_topic(rb), front_hz)
     for topic in emb.body_camera_topics(rb):
-        out += [(topic, i) for i in range(len(r.topics[topic]))]
+        out += _sample(r, topic, body_hz)
     return out
 
 
@@ -45,12 +51,13 @@ def decode(r: Recording, item: tuple[str, int]) -> Image.Image:
     return Image.open(io.BytesIO(data)).convert("RGB")
 
 
-def run(bundle: Path, rec: str, enc: SiglipEncoder) -> dict:
+def run(bundle: Path, rec: str, enc: SiglipEncoder, front_hz: float | None = FRONT_HZ,
+        body_hz: float | None = None, overwrite: bool = False) -> dict:
     out = bundle / "features" / "siglip2_frames" / f"{rec}.parquet"
-    if out.exists():
+    if out.exists() and not overwrite:
         return {"recording": rec, "skipped": True}
     r = Recording(bundle, rec)
-    items = select(r)
+    items = select(r, front_hz, body_hz)
     vecs = np.zeros((len(items), SPEC["dim"]), dtype=np.float16)
     t0 = time.perf_counter()
     with ThreadPoolExecutor(4) as pool:
@@ -65,7 +72,8 @@ def run(bundle: Path, rec: str, enc: SiglipEncoder) -> dict:
         "topic_ordinal": pa.array([int(tl[t].ordinal[i]) for t, i in items], pa.uint32()),
         "log_time_ns": pa.array([int(tl[t].log_ns[i]) for t, i in items], pa.int64()),
         "vec": pa.FixedSizeListArray.from_arrays(pa.array(vecs.ravel(), pa.float16()), SPEC["dim"]),
-    }).replace_schema_metadata({"space_id": SPACE_ID, "spec": json.dumps(SPEC), "front_hz": str(FRONT_HZ)})
+    }).replace_schema_metadata({"space_id": SPACE_ID, "spec": json.dumps(SPEC), "front_hz": str(front_hz),
+                                "body_hz": str(body_hz or "native")})
     out.parent.mkdir(parents=True, exist_ok=True)
     pq.write_table(table, out)
     return {"recording": rec, "frames": len(items), "seconds": round(dt, 1), "img_per_s": round(len(items) / dt, 1)}

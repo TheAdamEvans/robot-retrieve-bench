@@ -113,6 +113,7 @@ def measure(bundle: Path, rec_id: str, prof: e.EmbodimentProfile, src: Path) -> 
             period = float(np.median(np.diff(tl.log_ns)) / 1e9)
             big = np.where(gaps > 5 * period)[0]
             if len(big) and big[0] < 5 and (tl.log_ns[big[0] + 1] - r.start_ns) / 1e9 < 2.0:
+                rep.stale_leading_frames[t] = int(big[0] + 1)
                 rep.anomalies.append(f"{t}: first {big[0] + 1} frame(s) precede a {gaps[big[0]]:.2f} s gap at the "
                                      f"start (likely a stale buffer flush; ordinals 0..{big[0]})")
     for s in prof.sensors:

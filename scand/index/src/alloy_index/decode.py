@@ -12,23 +12,34 @@ from alloy_server.timeline.store import Recording
 
 
 @functools.lru_cache(maxsize=None)
-def typestore_for(mcap_path: str):
+def typestore_for(*mcap_paths: str):
+    ts = get_typestore(Stores.EMPTY)
+    types, topic_type = {}, {}
+    for mcap_path in mcap_paths:
+        tt, ty = _schemas(mcap_path)
+        types.update(ty)
+        topic_type.update(tt)
+    ts.register(types)
+    return ts, topic_type
+
+
+def _schemas(mcap_path: str):
+    """Types from the MCAP's own schemas only: the bag is the source of truth."""
     with open(mcap_path, "rb") as f:
         summary = make_reader(f).get_summary()
-    ts = get_typestore(Stores.EMPTY)  # only the MCAP's own schemas: the bag is the source of truth
     types, topic_type = {}, {}
     for ch in summary.channels.values():
         schema = summary.schemas[ch.schema_id]
         topic_type[ch.topic] = schema.name
         types.update(get_types_from_msg(schema.data.decode(), schema.name))
-    ts.register(types)
-    return ts, topic_type
+    return topic_type, types
 
 
 class Decoder:
     def __init__(self, bundle: Path, rec: Recording):
         self.rec = rec
-        self.ts, self.types = typestore_for(str(bundle / "mcap" / f"{rec.id}.mcap"))
+        files = sorted({tl.file for tl in rec.topics.values()})
+        self.ts, self.types = typestore_for(*(str(bundle / f) for f in files))
 
     def msg(self, topic: str, i: int):
         return self.ts.deserialize_ros1(self.rec.read(topic, i).data, self.types[topic])

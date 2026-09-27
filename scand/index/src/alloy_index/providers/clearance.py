@@ -10,12 +10,10 @@ from pathlib import Path
 
 import numpy as np
 
-from alloy_index import embodiment as emb
 from alloy_index.decode import Decoder
 from alloy_index.providers.common import write
-from alloy_index.recordings import robot
 
-VERSION = "clearance@3"
+VERSION = "clearance@4"
 GAP_DOORWAY_M = 1.6
 DOOR_MIN_S, DOOR_MAX_S = 0.3, 5.0
 
@@ -37,16 +35,15 @@ def flag_runs(t_ns: np.ndarray, mask: np.ndarray, min_s: float, max_s: float) ->
     return out
 
 
-def build(bundle: Path, rec) -> dict:
-    rb = robot(rec.id)
+def build(bundle: Path, rec, ctx=None) -> dict:
+    from alloy_server.catalog.embodiment import EmbodimentContext
+    ctx = ctx or EmbodimentContext.for_recording(bundle, rec.id)
     dec = Decoder(bundle, rec)
-    prof = emb.prof(rb)
-    topic = next(s for s in prof.sensors if s.name == prof.clearance_sensor).topics[0]
+    prof = ctx.profile
+    topic = ctx.clearance.topics[0]
     tl = rec.topics[topic]
-    half_len = prof.footprint.length_m / 2
-    half_w = prof.footprint.width_m / 2
     n = len(tl)
-    front, anyr, left, right = (np.full(n, np.nan) for _ in range(4))
+    front, anyr, left, right, margin = (np.full(n, np.nan) for _ in range(5))
     for i in range(n):
         xy, a, _, _ = dec.obstacle_xy(prof, i, by_time=False)
         if not len(xy):
@@ -56,19 +53,14 @@ def build(bundle: Path, rec) -> dict:
         sel = np.abs(a) < np.radians(30)
         if sel.any():
             front[i] = r[sel].min()
-        # strictly alongside the body (a follower directly behind is not "on the right"), measured from the body
-        # side (the L2 labeller found both problems in clearance@2)
-        beside = (np.abs(xy[:, 0]) <= half_len) & (np.abs(xy[:, 1]) >= half_w) & (np.abs(xy[:, 1]) < 5.0)
-        lp = xy[beside & (xy[:, 1] > 0), 1] - half_w
-        rp = -xy[beside & (xy[:, 1] < 0), 1] - half_w
-        left[i] = lp.min() if len(lp) else 5.0
-        right[i] = rp.min() if len(rp) else 5.0
+        left[i], right[i] = ctx.body_side_room(xy)  # alongside the body, from each side (labeller findings)
+        margin[i] = ctx.front_margin(xy)
     t = tl.log_ns.copy()
-    gap = left + right + 2 * half_w  # full width of the gap the body passes through
+    gap = left + right + prof.footprint.width_m  # full width of the gap the body passes through
     door = flag_runs(t, gap < GAP_DOORWAY_M, DOOR_MIN_S, DOOR_MAX_S)
     cols = {"t_ns": t, "available_at_ns": t, "min_clearance_front_m": front, "min_clearance_any_m": anyr,
             "lateral_clearance_left_m": left, "lateral_clearance_right_m": right, "gap_width_m": gap,
-            "doorway_active": door.astype(float)}
+            "doorway_active": door.astype(float), "clearance_margin_front_m": margin}
     hz = n / ((t[-1] - t[0]) / 1e9)
     # doorway_active looks up to 5 s ahead to decide a run's length → not causal; everything else is per-scan.
     write(bundle, "clearance", rec.id, cols, {"version": VERSION, "hz": round(hz, 2), "exhaustive": True,

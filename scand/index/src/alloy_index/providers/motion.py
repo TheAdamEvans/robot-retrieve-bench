@@ -9,21 +9,19 @@ from pathlib import Path
 
 import numpy as np
 
-from alloy_index import embodiment as emb
 from alloy_index.decode import Decoder, odom_arrays
 from alloy_server.catalog import embodiment as E
 from alloy_index.providers.common import smooth_speed, trailing, write
-from alloy_index.recordings import robot
 
-VERSION = "motion@2"
+VERSION = "motion@3"
 
 
-def build(bundle: Path, rec) -> dict:
-    rb = robot(rec.id)
-    prof = E.profile(rb)
-    raw = odom_arrays(Decoder(bundle, rec), emb.odom_topic(rb), prof)
+def build(bundle: Path, rec, ctx: E.EmbodimentContext | None = None) -> dict:
+    ctx = ctx or E.EmbodimentContext.for_recording(bundle, rec.id)
+    otopic = ctx.topic("odom")
+    raw = odom_arrays(Decoder(bundle, rec), otopic, ctx.profile)
     t = raw["t_ns"]
-    speed, smoother = smooth_speed(t, raw["speed_mps"], prof, E.load_intake(bundle, rec.id))
+    speed, smoother = smooth_speed(t, raw["speed_mps"], ctx.profile, ctx.intake)
     yaw = trailing(t, raw["yaw_rate_dps"], 0.5, np.mean)
     dt = np.diff(t, prepend=t[0]) / 1e9
     heading = np.cumsum(raw["yaw_rate_dps"] * dt)
@@ -32,9 +30,10 @@ def build(bundle: Path, rec) -> dict:
     span = np.maximum((t - t[lag]) / 1e9, 1e-3)
     accel = np.where(t - t[lag] > 0, (speed - speed[lag]) / span, 0.0)
     cols = {"t_ns": t, "available_at_ns": t, "speed_mps": speed, "speed_raw_mps": raw["speed_mps"],
+            "speed_frac_max": ctx.normalize_speed(speed),
             "yaw_rate_dps": yaw, "heading_deg": heading, "accel_mps2": accel}
     hz = len(t) / ((t[-1] - t[0]) / 1e9)
     write(bundle, "motion", rec.id, cols, {"version": VERSION, "hz": round(hz, 2), "exhaustive": True,
-                                           "source_topics": [emb.odom_topic(rb)], "causal": True,
+                                           "source_topics": [otopic], "causal": True,
                                            "speed_smoother": smoother})
     return {"provider": VERSION, "rows": len(t), "hz": round(hz, 1), "smoother": smoother}

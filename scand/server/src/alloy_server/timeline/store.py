@@ -29,6 +29,7 @@ class TopicTimeline:
     chunk_len: np.ndarray
     offset_in_chunk: np.ndarray
     msg_len: np.ndarray
+    file: str = ""            # MCAP file (relative to the bundle) holding this topic; a topic never spans files
 
     def __len__(self) -> int:
         return len(self.log_ns)
@@ -63,6 +64,9 @@ class Recording:
         cols = {c: t.column(c).to_numpy(zero_copy_only=False) for c in
                 ("topic_ordinal", "log_time_ns", "chunk_offset", "chunk_len", "offset_in_chunk", "msg_len")}
         header = t.column("header_stamp_ns").fill_null(NO_HEADER).to_numpy()
+        default_file = f"mcap/{rec}.mcap"  # timelines written before the `file` column: the interleaved layout
+        files = (t.column("file").to_numpy(zero_copy_only=False).astype(str) if "file" in t.column_names
+                 else np.full(t.num_rows, default_file))
         sha = np.frombuffer(b"".join(t.column("payload_sha128").to_pylist()), dtype=np.uint8).reshape(-1, 16)
         self.topics: dict[str, TopicTimeline] = {}
         for name in np.unique(topic):
@@ -72,9 +76,11 @@ class Recording:
                 name, cols["log_time_ns"][m][order].astype(np.int64), header[m][order].astype(np.int64),
                 cols["topic_ordinal"][m][order], sha[m][order], cols["chunk_offset"][m][order].astype(np.int64),
                 cols["chunk_len"][m][order].astype(np.int64), cols["offset_in_chunk"][m][order].astype(np.int64),
-                cols["msg_len"][m][order].astype(np.int64),
+                cols["msg_len"][m][order].astype(np.int64), str(files[m][0]),
             )
-        self._mcap = McapChunkReader(str(bundle / "mcap" / f"{rec}.mcap"))
+        self.bundle = bundle
+        self.layout = self.info.get("layout", "interleaved")
+        self._readers: dict[str, McapChunkReader] = {}
 
     def t_rel(self, t_ns: int) -> float:
         return (t_ns - self.start_ns) / 1e9
@@ -87,9 +93,14 @@ class Recording:
         return common_pb2.MessageId(recording_id=self.id, topic=topic, topic_ordinal=int(tl.ordinal[i]),
                                     payload_sha256_128=tl.sha128[i].tobytes())
 
+    def reader(self, rel: str) -> McapChunkReader:
+        if rel not in self._readers:
+            self._readers[rel] = McapChunkReader(str(self.bundle / rel))
+        return self._readers[rel]
+
     def read(self, topic: str, i: int) -> RawMessage:
         tl = self.topics[topic]
-        return self._mcap.message(int(tl.chunk_offset[i]), int(tl.chunk_len[i]), int(tl.offset_in_chunk[i]))
+        return self.reader(tl.file).message(int(tl.chunk_offset[i]), int(tl.chunk_len[i]), int(tl.offset_in_chunk[i]))
 
     def index_of(self, topic: str, ordinal: int) -> int:
         tl = self.topics[topic]

@@ -40,6 +40,10 @@ class Feature:
 FEATURES: list[Feature] = [
     Feature("speed_mps", "motion", "MPS", "continuous",
             "Robot planar speed from odometry, causal trailing 1 s median (Spot's raw speed oscillates with gait)."),
+    Feature("speed_frac_max", "motion", "RATIO", "continuous",
+            "Speed as a fraction of this robot's datasheet maximum (Spot 1.6 m/s, Jackal 2.0 m/s): use for "
+            "robot-relative words like 'fast' or 'slowly' so they mean the same thing on every robot.",
+            spatial_basis="NOMINAL"),
     Feature("yaw_rate_dps", "motion", "DEG_PER_S", "continuous",
             "Signed yaw rate from odometry, trailing 0.5 s mean; positive = turning left."),
     Feature("heading_deg", "motion", "DEG", "continuous",
@@ -51,6 +55,9 @@ FEATURES: list[Feature] = [
             "Minimum lidar range within +/-30 deg of forward, from the sensor origin (not the footprint edge)."),
     Feature("min_clearance_any_m", "clearance", "M", "continuous",
             "Minimum lidar range in any direction beyond 0.5 m of the sensor."),
+    Feature("clearance_margin_front_m", "clearance", "M", "continuous",
+            "Free distance ahead of the robot's front edge, within its body width (up to 10 m).",
+            spatial_basis="NOMINAL"),
     Feature("lateral_clearance_left_m", "clearance", "M", "continuous",
             "Room on the left: distance from the robot's left side to the nearest obstacle alongside the body.",
             spatial_basis="NOMINAL"),

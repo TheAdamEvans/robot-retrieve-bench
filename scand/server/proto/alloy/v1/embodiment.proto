@@ -103,4 +103,5 @@ message IntakeReport {
   string intake_version = 13;
   optional double speed_floor_mps = 14;      // 1st percentile of raw odometry speed: stops below it are unresolvable
   repeated string absent_sensors = 15;       // profiled sensors with no recorded topic in this log
+  map<string, uint32> stale_leading_frames = 16;  // topic -> leading messages flushed from a buffer before a gap
 }

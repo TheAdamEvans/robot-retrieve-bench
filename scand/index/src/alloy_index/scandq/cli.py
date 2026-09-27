@@ -95,8 +95,14 @@ def emit(call: str, args: dict, result: dict) -> None:
 
 
 def pick(r: Recording, topic: str, t_ns: int, mode: str) -> int | None:
-    tl = r.topics[topic]
-    return tl.last_before(t_ns, inclusive=True) if mode == "last_before" else tl.nearest(t_ns)
+    tl = r.topics.get(topic)
+    if tl is None:
+        return None  # sensor absent in this log
+    i = tl.last_before(t_ns, inclusive=True) if mode == "last_before" else tl.nearest(t_ns)
+    stale = E.EmbodimentContext.for_recording(BUNDLE, r.id).stale_leading(topic)
+    if i is not None and i < stale:  # buffer-flushed frames show another moment: never show them
+        i = stale if stale < len(tl) and mode != "last_before" else None
+    return i
 
 
 def rotation_for(r: Recording, topic: str) -> int:

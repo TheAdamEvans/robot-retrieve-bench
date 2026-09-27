@@ -19,11 +19,9 @@ import torch
 from PIL import Image
 
 from alloy_server.io.ros1 import compressed_image
-from alloy_index import embodiment as emb
 from alloy_index.providers.common import write
-from alloy_index.recordings import robot
 
-VERSION = "detections@1"
+VERSION = "detections@2"  # @2: embodiment context, stale leading frames skipped
 MODEL = "PekingU/rtdetr_v2_r18vd"
 REVISION = "5650961749fa93567c0d46fc7f43ea4f9e914107"
 HZ = 10.0
@@ -33,13 +31,8 @@ VEHICLES = {"car", "truck", "bus", "motorcycle"}
 
 def camera_bands(rb: str) -> dict:
     """(nominal, lo, hi) for HFOV, lens height and pitch, from the embodiment profile (ESTIMATED_BAND)."""
-    cm = emb.camera_model(rb)
-    band = lambda b: (b.nominal, b.lo, b.hi)
-    return {"hfov": band(cm.hfov_deg), "h": band(cm.height_m), "pitch": band(cm.pitch_down_deg)}
-
-W, H = 1280, 720
-
-_model = None
+    from alloy_server.catalog.embodiment import EmbodimentContext, profile
+    return EmbodimentContext(profile(rb)).camera_band()
 
 
 def load():
@@ -64,7 +57,9 @@ def in_corridor(foot_uv: np.ndarray, hfov: float, h: float, pitch: float, hw: fl
 def corridor_counts(foot_uv: np.ndarray, rb: str) -> tuple[int, int, int]:
     if not len(foot_uv):
         return 0, 0, 0
-    b, c = camera_bands(rb), emb.corridor(rb)
+    from alloy_server.catalog.embodiment import EmbodimentContext, profile
+    ctx = EmbodimentContext(profile(rb))
+    b, c = ctx.camera_band(), ctx.corridor
     nominal = int(in_corridor(foot_uv, b["hfov"][0], b["h"][0], b["pitch"][0], c.half_width_m, c.length_m).sum())
     masks = [in_corridor(foot_uv, f, hh, p, c.half_width_m, c.length_m)
              for f, hh, p in itertools.product(b["hfov"], b["h"], b["pitch"])]
@@ -117,13 +112,16 @@ def track(frames: list[tuple[int, np.ndarray]], max_miss: int = 3, min_iou: floa
     return [(i, tr["first"], tr["last"], tr["n"], tr["confirmed"]) for i, tr in done]
 
 
-def build(bundle: Path, rec) -> dict:
-    rb = robot(rec.id)
+def build(bundle: Path, rec, ctx=None) -> dict:
+    from alloy_server.catalog.embodiment import EmbodimentContext
+    ctx = ctx or EmbodimentContext.for_recording(bundle, rec.id)
+    rb = ctx.robot
     proc, model = load()
-    topic = emb.front_camera_topic(rb)
+    topic = ctx.topic("front_camera")
     tl = rec.topics[topic]
     ticks = np.arange(rec.start_ns, rec.end_ns, int(1e9 / HZ))
-    idx = sorted({tl.nearest(int(t)) for t in ticks})
+    stale = ctx.stale_leading(topic)  # buffer-flushed frames from another moment: never detected on
+    idx = sorted({tl.nearest(int(t)) for t in ticks} - set(range(stale)))
     lab = model.config.id2label
     rows = {k: [] for k in ("t_ns", "persons_visible_front", "persons_in_corridor", "persons_in_corridor_lo",
                             "persons_in_corridor_hi", "vehicles_visible_front", "vehicle_box_frac",

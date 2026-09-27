@@ -27,58 +27,18 @@ import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
 import torch
-import torch.nn as nn
 from google.protobuf import json_format
 
 from alloy_server.bundle import Bundle
 from alloy_server.catalog.windows import window_span_s
 from alloy_server.gen.alloy.v1 import query_pb2 as q
 from alloy_server.models.siglip import SPACE_ID, SPEC, SiglipEncoder
+from alloy_index.models.fused import (N_SIGNALS, SIGNALS, Head, encode, image_vectors, save,
+                                      standardise, window_signals)
+from alloy_index.recordings import SCAND_ROOT, held_out
 from alloy_train.eval.pooling import l1_labels
-from alloy_index.recordings import SCAND_ROOT
 
 NS = 1_000_000_000
-SIGNALS = [  # (feature, reducer) over the window
-    ("speed_mps", "mean"), ("speed_mps", "min"), ("speed_mps", "max"), ("speed_mps", "delta"), ("speed_mps", "drop"),
-    ("yaw_rate_dps", "absmax"), ("heading_deg", "delta"), ("accel_mps2", "min"), ("accel_mps2", "max"),
-    ("min_clearance_front_m", "min"), ("min_clearance_any_m", "min"), ("lateral_clearance_left_m", "min"),
-    ("lateral_clearance_right_m", "min"), ("gap_width_m", "min"), ("doorway_active", "max"),
-    ("persons_visible_front", "mean"), ("persons_visible_front", "max"), ("persons_in_corridor", "max"),
-    ("vehicles_visible_front", "max"), ("vehicle_box_frac", "max"), ("bicycles_visible_front", "max"),
-]
-
-
-# ---------------- features ----------------
-
-def window_signals(bundle: Bundle, wid: str) -> tuple[np.ndarray, np.ndarray]:
-    rec_id, t0, t1 = window_span_s(wid)
-    rec = bundle.recordings[rec_id]
-    lo, hi = rec.t_abs(t0), rec.t_abs(t1)
-    vals, mask = [], []
-    for name, red in SIGNALS:
-        s = bundle.features.series(name, rec_id)
-        if s is None:
-            vals.append(0.0); mask.append(0.0)
-            continue
-        m = (s.t_ns >= lo) & (s.t_ns <= hi)
-        y = s.value[m]
-        y = y[np.isfinite(y)]
-        if not len(y):
-            vals.append(0.0); mask.append(0.0)
-            continue
-        v = {"mean": y.mean(), "min": y.min(), "max": y.max(), "delta": y[-1] - y[0], "absmax": np.abs(y).max(),
-             "drop": (np.maximum.accumulate(y) - y).max()}[red]
-        vals.append(float(v)); mask.append(1.0)
-    tr = bundle.features.tracks("person_tracks_front", rec_id)
-    new = float(((tr.first_ns >= lo) & (tr.first_ns <= hi)).sum()) if tr is not None else 0.0
-    vals.append(new); mask.append(float(tr is not None))
-    vals.append(float(bundle.robots[rec_id] == "spot")); mask.append(1.0)
-    return np.array(vals, np.float32), np.array(mask, np.float32)
-
-
-def image_vectors(bundle: Bundle) -> dict[str, np.ndarray]:
-    idx = bundle.embedding_index("siglip2")
-    return {w: idx.vector(w) for w in idx.ids}
 
 
 # ---------------- pseudo-label programs (grammar samples) ----------------
@@ -209,28 +169,7 @@ class SimpleCand:
         return type("S", (), {"start_ns": self.t})()
 
 
-# ---------------- model ----------------
-
-class Head(nn.Module):
-    def __init__(self, d_sig: int, kind: str, dim: int = SPEC["dim"]):
-        super().__init__()
-        self.kind = kind
-        if kind == "linear":
-            self.net = nn.Linear(dim + d_sig, dim)
-            last = self.net
-        else:
-            self.net = nn.Sequential(nn.Dropout(0.2), nn.Linear(dim + d_sig, 512), nn.GELU(), nn.Dropout(0.2),
-                                     nn.Linear(512, dim))
-            last = self.net[-1]
-        nn.init.zeros_(last.weight)  # start exactly at the image vector (= EMBED) and learn a correction
-        nn.init.zeros_(last.bias)
-        self.t = nn.Parameter(torch.tensor(np.log(10.0), dtype=torch.float32))
-        self.b = nn.Parameter(torch.tensor(-10.0))
-
-    def forward(self, img, sig):
-        x = self.net(torch.cat([img, sig], -1)) + img  # residual: start from the image vector
-        return x / x.norm(dim=-1, keepdim=True)
-
+# ---------------- model (definition lives in alloy_index.models.fused) ----------------
 
 def train_fold(img, sig, text_vecs, labels, kind, epochs=150, lr=5e-4, seed=0):
     torch.manual_seed(seed)
@@ -260,24 +199,24 @@ def run(bundle: Bundle, ann: Path, kind: str = "mlp", out_name: str = "fused_v1"
     imgs = image_vectors(bundle)
     sig_raw = {w: window_signals(bundle, w) for w in wins}
     enc = SiglipEncoder()
-    recs = sorted(bundle.recordings)
-    out_vecs, report = {}, {"folds": {}}
+    held_back = held_out()
+    recs = sorted(r for r in bundle.recordings if r not in held_back)  # SCAND Val recordings never train anything
+    out_vecs, report = {}, {"folds": {}, "held_out": sorted(held_back & set(bundle.recordings))}
     for held in recs:
         train_recs = [r for r in recs if r != held]
         texts, pos = build_pairs(bundle, train_recs, ann)
         tw = [w for w in wins if window_span_s(w)[0] in train_recs]
         X = np.stack([sig_raw[w][0] for w in tw]); Mk = np.stack([sig_raw[w][1] for w in tw])
         mu, sd = X.mean(0), X.std(0) + 1e-6  # standardise with training-fold statistics only
-        prep = lambda w: np.concatenate([(sig_raw[w][0] - mu) / sd * sig_raw[w][1], sig_raw[w][1]]).astype(np.float32)
+        prep = lambda w: standardise(sig_raw[w], mu, sd)
         tv = np.concatenate([enc.encode_texts(texts[k:k + 64]) for k in range(0, len(texts), 64)]).astype(np.float32)
         labels = np.array([[w in pos[t] for t in texts] for w in tw], np.float32)
         img_tr = np.stack([imgs[w] for w in tw]).astype(np.float32)
         sig_tr = np.stack([prep(w) for w in tw])
         if kind == "concat":  # C1a negative control: no learning, query side gets zeros
             hw = [w for w in wins if window_span_s(w)[0] == held]
-            for w in hw:
-                v = np.concatenate([imgs[w], prep(w)])
-                out_vecs[w] = v[: SPEC["dim"]] / np.linalg.norm(v)  # a text query [q; 0] only sees the image part
+            for w, v in zip(hw, encode("concat", None, np.stack([imgs[w] for w in hw]), np.stack([prep(w) for w in hw]))):
+                out_vecs[w] = v
             report["folds"][held] = {"texts": len(texts)}
             continue
         model, loss = train_fold(img_tr, sig_tr, tv, labels, kind)
@@ -301,6 +240,24 @@ def run(bundle: Bundle, ann: Path, kind: str = "mlp", out_name: str = "fused_v1"
                                  "oof_pseudo_auc_fused": round(float(np.mean(auc_f)), 3) if auc_f else None,
                                  "n_pseudo_texts": len(auc_e)}
         print(json.dumps({"held_out": held, **report["folds"][held]}), flush=True)
+    # full-data model on every Train recording: the serving model for held-out and newly indexed recordings
+    texts, pos = build_pairs(bundle, recs, ann)
+    tw = [w for w in wins if window_span_s(w)[0] in recs]
+    X = np.stack([sig_raw[w][0] for w in tw])
+    mu, sd = X.mean(0), X.std(0) + 1e-6
+    head = None
+    if kind != "concat":
+        tv = np.concatenate([enc.encode_texts(texts[k:k + 64]) for k in range(0, len(texts), 64)]).astype(np.float32)
+        labels = np.array([[w in pos[t] for t in texts] for w in tw], np.float32)
+        head, _ = train_fold(np.stack([imgs[w] for w in tw]).astype(np.float32),
+                             np.stack([standardise(sig_raw[w], mu, sd) for w in tw]), tv, labels, kind)
+    save(bundle.root / "models" / out_name, kind, head, mu, sd,
+         {"trained_on": recs, "recipe": f"{out_name}: {kind} head, full Train data"})
+    rest = [w for w in wins if w not in out_vecs]  # held-out recordings: full model, never a fold that saw them
+    if rest:
+        for w, v in zip(rest, encode(kind, head, np.stack([imgs[w] for w in rest]).astype(np.float32),
+                                     np.stack([standardise(sig_raw[w], mu, sd) for w in rest]))):
+            out_vecs[w] = v
     arr = np.stack([out_vecs[w] for w in wins]).astype(np.float16)
     # hubness: how concentrated are top-5 results over a fixed probe set (lower = healthier)
     probes = enc.encode_texts([t for x in PSEUDO for t in x[0]])
@@ -309,13 +266,14 @@ def run(bundle: Bundle, ann: Path, kind: str = "mlp", out_name: str = "fused_v1"
         counts = np.bincount(top, minlength=len(wins))
         report[f"hubness_top5_max_{name}"] = int(counts.max())
         report[f"hubness_top5_distinct_{name}"] = int((counts > 0).sum())
+    source = ["loro_out_of_fold" if window_span_s(w)[0] in recs else "full_model" for w in wins]
     table = pa.table({"window_id": wins, "recording_id": [window_span_s(w)[0] for w in wins],
-                      "n_frames": [0] * len(wins),
+                      "n_frames": [0] * len(wins), "source": source,
                       "vec": pa.FixedSizeListArray.from_arrays(pa.array(arr.ravel(), pa.float16()), arr.shape[1])}
                      ).replace_schema_metadata({"space_id": SPACE_ID, "spec": json.dumps(SPEC),
                                                 "recipe": f"{out_name}: {kind} head, LORO out-of-fold vectors"})
     pq.write_table(table, bundle.root / "index" / f"{out_name}_windows.parquet")
-    report.update({"kind": kind, "windows": len(wins), "signals": len(SIGNALS) + 2})
+    report.update({"kind": kind, "windows": len(wins), "signals": N_SIGNALS})
     (bundle.root / "index" / f"{out_name}.json").write_text(json.dumps(report, indent=1))
     return report
 

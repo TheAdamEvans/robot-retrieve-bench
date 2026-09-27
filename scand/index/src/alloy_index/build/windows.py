@@ -1,5 +1,8 @@
 """Window vectors from per-frame SigLIP2 embeddings: a window's vector is the L2-normalised mean of its front-camera
-frames' (L2-normalised) vectors over [end-4 s, end]."""
+frames' (L2-normalised) vectors over [end-4 s, end].
+
+A log whose front camera was not recorded falls back to the front-facing stereo body cameras (Spot frontleft +
+frontright), flagged per row (`source`) so evaluations can report it separately."""
 from __future__ import annotations
 
 import json
@@ -16,9 +19,12 @@ from alloy_index import embodiment as emb
 from alloy_index.recordings import RECORDINGS, robot
 
 
-def build(bundle: Path) -> dict:
-    ids, recs, vecs, counts = [], [], [], []
-    for rec in RECORDINGS:
+FALLBACK_TOPICS = ("/spot/camera/frontleft/image/compressed", "/spot/camera/frontright/image/compressed")
+
+
+def build(bundle: Path, recordings: list[str] | None = None) -> dict:
+    ids, recs, vecs, counts, sources = [], [], [], [], []
+    for rec in recordings or list(RECORDINGS):
         p = bundle / "features" / "siglip2_frames" / f"{rec}.parquet"
         t = pq.read_table(p)
         assert t.schema.metadata[b"space_id"].decode() == SPACE_ID
@@ -26,21 +32,33 @@ def build(bundle: Path) -> dict:
         ts = t.column("log_time_ns").to_numpy()
         v = np.asarray(t.column("vec").combine_chunks().values.to_numpy(zero_copy_only=False),
                        dtype=np.float32).reshape(len(ts), -1)
+        from alloy_server.catalog.embodiment import load_intake
+        intake = load_intake(bundle, rec)
+        ords = t.column("topic_ordinal").to_numpy()
+        stale = np.zeros(len(ts), bool)
+        for tp, n in (intake.stale_leading_frames.items() if intake else []):
+            stale |= (topic == tp) & (ords < n)  # buffer-flushed frames from another moment
+        topic = np.where(stale, "", topic)
         front = topic == emb.front_camera_topic(robot(rec))
+        source = "front_camera"
+        if not front.any():
+            front = np.isin(topic, FALLBACK_TOPICS)
+            source = "body_cameras"
         ts, v = ts[front], v[front]
         r = Recording(bundle, rec)
         for wid in windows(rec, (r.end_ns - r.start_ns) / 1e9):
             _, t0, t1 = window_span_s(wid)
             m = (ts >= r.t_abs(t0)) & (ts <= r.t_abs(t1))
             mean = v[m].mean(0) if m.any() else np.zeros(v.shape[1], np.float32)
-            ids.append(wid); recs.append(rec); counts.append(int(m.sum()))
+            ids.append(wid); recs.append(rec); counts.append(int(m.sum())); sources.append(source)
             vecs.append(mean / max(np.linalg.norm(mean), 1e-9))
     arr = np.stack(vecs).astype(np.float16)
-    table = pa.table({"window_id": ids, "recording_id": recs, "n_frames": counts,
+    table = pa.table({"window_id": ids, "recording_id": recs, "n_frames": counts, "source": sources,
                       "vec": pa.FixedSizeListArray.from_arrays(pa.array(arr.ravel(), pa.float16()), arr.shape[1])}
                      ).replace_schema_metadata({"space_id": SPACE_ID, "spec": json.dumps(SPEC),
                                                 "pooling": "mean of front frames, 4 s window"})
     out = bundle / "index" / "siglip2_windows.parquet"
     out.parent.mkdir(parents=True, exist_ok=True)
     pq.write_table(table, out)
-    return {"windows": len(ids), "min_frames": min(counts), "bytes": out.stat().st_size}
+    return {"windows": len(ids), "min_frames": min(counts), "bytes": out.stat().st_size,
+            "fallback_recordings": sorted({r for r, s_ in zip(recs, sources) if s_ != "front_camera"})}

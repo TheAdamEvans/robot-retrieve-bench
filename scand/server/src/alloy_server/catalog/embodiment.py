@@ -72,3 +72,86 @@ def speed_window_s(prof: e.EmbodimentProfile, intake: e.IntakeReport | None) -> 
     if sm.method == e.GAIT_SYNC_MEAN and intake is not None and intake.HasField("gait"):
         return "mean", sm.gait_cycles * intake.gait.period_s
     return ("mean" if sm.method == e.GAIT_SYNC_MEAN else "median"), sm.window_s
+
+
+class EmbodimentContext:
+    """Every robot-relative question a provider, view or verifier needs answered, from profile + intake.
+
+    Providers receive one of these instead of reading profiles; it is the single place measurements are normalised
+    to the embodiment (body-side room, speed as a fraction of the robot's maximum, gait-synchronous smoothing, ...).
+    """
+
+    def __init__(self, prof: e.EmbodimentProfile, intake: e.IntakeReport | None = None):
+        self.profile, self.intake = prof, intake
+
+    @classmethod
+    def for_recording(cls, bundle: Path, rec_id: str) -> "EmbodimentContext":
+        intake = load_intake(bundle, rec_id)
+        if intake is None:
+            raise RuntimeError(f"{rec_id}: no intake report")
+        return cls(profile(intake.embodiment_id), intake)
+
+    @property
+    def robot(self) -> str:
+        return self.profile.embodiment_id
+
+    # ---- sensors ----
+    def available(self, name: str) -> bool:
+        return sensor(self.profile, name) is not None and not (self.intake and name in self.intake.absent_sensors)
+
+    def topics(self, name: str) -> list[str]:
+        s = sensor(self.profile, name)
+        return list(s.topics) if s is not None and self.available(name) else []
+
+    def topic(self, name: str) -> str | None:
+        t = self.topics(name)
+        return t[0] if t else None
+
+    @property
+    def clearance(self) -> e.SensorSpec:
+        return sensor(self.profile, self.profile.clearance_sensor)
+
+    def stale_leading(self, topic: str) -> int:
+        return int(self.intake.stale_leading_frames.get(topic, 0)) if self.intake else 0
+
+    # ---- geometry (NOMINAL footprint, ESTIMATED corridor/camera) ----
+    @property
+    def footprint(self) -> e.Footprint:
+        return self.profile.footprint
+
+    @property
+    def corridor(self) -> e.Corridor:
+        return self.profile.corridor
+
+    def camera_band(self, name: str = "front_camera") -> dict:
+        cm = sensor(self.profile, name).camera
+        band = lambda b: (b.nominal, b.lo, b.hi)
+        return {"hfov": band(cm.hfov_deg), "h": band(cm.height_m), "pitch": band(cm.pitch_down_deg)}
+
+    def body_side_room(self, xy) -> tuple[float, float]:
+        """(left, right) room from each body side to the nearest return strictly alongside the body (a follower
+        directly behind is not 'on the right'). 5.0 m when nothing is within 5 m."""
+        import numpy as np
+        hl, hw = self.footprint.length_m / 2, self.footprint.width_m / 2
+        beside = (np.abs(xy[:, 0]) <= hl) & (np.abs(xy[:, 1]) >= hw) & (np.abs(xy[:, 1]) < 5.0)
+        lp = xy[beside & (xy[:, 1] > 0), 1] - hw
+        rp = -xy[beside & (xy[:, 1] < 0), 1] - hw
+        return (float(lp.min()) if len(lp) else 5.0), (float(rp.min()) if len(rp) else 5.0)
+
+    def front_margin(self, xy, horizon_m: float = 10.0) -> float:
+        """Free distance ahead of the front edge within the body's width."""
+        import numpy as np
+        hl, hw = self.footprint.length_m / 2, self.footprint.width_m / 2
+        ahead = (xy[:, 0] > hl) & (np.abs(xy[:, 1]) <= hw) & (xy[:, 0] < hl + horizon_m)
+        return float(xy[ahead, 0].min() - hl) if ahead.any() else horizon_m
+
+    # ---- motion ----
+    def speed_smoother(self) -> tuple[str, float]:
+        return speed_window_s(self.profile, self.intake)
+
+    def normalize_speed(self, v):
+        return v / self.profile.max_speed_mps.nominal
+
+    @property
+    def gait_period_s(self) -> float | None:
+        return self.intake.gait.period_s if self.intake and self.intake.HasField("gait") else None
