@@ -9,7 +9,7 @@ max_speed_mps { nominal: 1.6 lo: 1.6 hi: 1.6 basis: DATASHEET_NOMINAL }
 corridor { half_width_m: 0.75 length_m: 5.0 basis: ESTIMATED_BAND }
 clearance_sensor: "lidar"
 speed_smoothing { method: GAIT_SYNC_MEAN gait_cycles: 3 window_s: 0.9 }
-signature_topics: ["/image_raw/compressed", "/velodyne_points", "/odom", "/spot/camera/back/image/compressed"]
+identity_topics: ["/velodyne_points", "/odom", "/spot/camera/back/image/compressed"]
 absent: ["IMU", "front-camera intrinsics (no camera_info)", "cmd_vel (all zeros: teleoperated)"]
 
 sensors {

@@ -116,8 +116,13 @@ def measure(bundle: Path, rec_id: str, prof: e.EmbodimentProfile, src: Path) -> 
                 rep.anomalies.append(f"{t}: first {big[0] + 1} frame(s) precede a {gaps[big[0]]:.2f} s gap at the "
                                      f"start (likely a stale buffer flush; ordinals 0..{big[0]})")
     for s in prof.sensors:
+        present = [t for t in s.topics if t in r.topics]
+        if not present:  # a missing profiled sensor degrades the log; it does not reject it
+            rep.absent_sensors.append(s.name)
+            rep.anomalies.append(f"sensor {s.name} absent from this log: its features resolve to UNKNOWN "
+                                 f"(SENSOR_ABSENT_IN_LOG), never FALSE")
         for t in s.topics:
-            if t not in r.topics:
+            if present and t not in r.topics:
                 rep.anomalies.append(f"{t}: in profile ({s.name}) but absent from this log")
     odom = E.sensor(prof, "odom")
     raw = odom_arrays(Decoder(bundle, r), odom.topics[0], prof)

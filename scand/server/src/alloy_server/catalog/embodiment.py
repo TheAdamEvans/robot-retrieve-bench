@@ -30,7 +30,8 @@ def profile(embodiment_id: str) -> e.EmbodimentProfile:
 
 def match(topics: set[str]) -> tuple[str | None, dict[str, list[str]]]:
     """→ (matching embodiment_id or None, {embodiment_id: missing signature topics})."""
-    missing = {pid: [t for t in p.signature_topics if t not in topics] for pid, p in profiles().items()}
+    missing = {pid: [t for t in (p.identity_topics or p.signature_topics) if t not in topics]
+               for pid, p in profiles().items()}
     hits = [pid for pid, m in missing.items() if not m]
     return (hits[0] if len(hits) == 1 else None), missing
 

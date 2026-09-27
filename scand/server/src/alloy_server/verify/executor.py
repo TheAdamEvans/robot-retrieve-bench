@@ -234,7 +234,8 @@ def extremum_instances(s: Series, ev: q.EventSpec) -> list[Instance]:
 
 class Executor:
     def __init__(self, store: FeatureStore, recordings: dict[str, "object"], robots: dict[str, str],
-                 speed_floor: dict[str, float] | None = None):
+                 speed_floor: dict[str, float] | None = None, absent_sensors: dict[str, set[str]] | None = None):
+        self.absent_sensors = absent_sensors or {}  # intake: profiled sensors not recorded in each log
         self.speed_floor = speed_floor or {}   # intake-measured: below this the log's odometry cannot resolve speed
         self.store = store
         self.recordings = recordings    # id → Recording
@@ -250,6 +251,12 @@ class Executor:
             return EventEval([], c.NOT_APPLICABLE, rec.start_ns, rec.end_ns)
         if not f.indexed:
             return EventEval([], c.NOT_INDEXED, rec.start_ns, rec.end_ns, exhaustive=False)
+        sensor = f.source_sensor
+        if sensor == "clearance":
+            from ..catalog.embodiment import profile
+            sensor = profile(self.robots[rec_id]).clearance_sensor
+        if sensor and sensor in self.absent_sensors.get(rec_id, set()):
+            return EventEval([], c.SENSOR_ABSENT_IN_LOG, rec.start_ns, rec.end_ns, exhaustive=False)
         if ev.kind in (q.TRACK_APPEAR, q.TRACK_DISAPPEAR):
             tr = self.store.tracks(ev.feature, rec_id)
             if tr is None:

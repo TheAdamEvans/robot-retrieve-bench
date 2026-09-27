@@ -64,9 +64,10 @@ message EmbodimentProfile {
   Corridor corridor = 7;
   string clearance_sensor = 8; // sensor name whose returns feed clearance (lidar = 3D, lidar_2d = planar)
   SpeedSmoothing speed_smoothing = 9;
-  repeated string signature_topics = 10;  // a log matches this profile iff it has all of these
+  repeated string signature_topics = 10;  // deprecated: use identity_topics (kept for reading old profiles)
   repeated string absent = 11;            // things users will ask about that this robot does not have
   string profile_version = 12;
+  repeated string identity_topics = 13;   // minimal topics that recognise this robot; other sensors may be absent per log
 }
 
 // Measured per log by intake; consumed by providers, receipts and the labeller tools.
@@ -101,4 +102,5 @@ message IntakeReport {
   double duration_s = 12;
   string intake_version = 13;
   optional double speed_floor_mps = 14;      // 1st percentile of raw odometry speed: stops below it are unresolvable
+  repeated string absent_sensors = 15;       // profiled sensors with no recorded topic in this log
 }

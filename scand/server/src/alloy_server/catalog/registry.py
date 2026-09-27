@@ -5,7 +5,7 @@ resolve to UNKNOWN(NOT_INDEXED), which is how the system gives an honest partial
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 # unit dimension per Unit enum name
 DIMENSION = {
@@ -30,6 +30,7 @@ class Feature:
     column: str = ""             # column in the provider table (default: name)
     uncertain: bool = False      # provider also writes <column>_lo / <column>_hi
     supports_absence: bool = True  # False for learned detectors: their silence is not evidence of absence
+    source_sensor: str = ""        # profile sensor it is computed from; "clearance" = the profile's clearance_sensor
 
     @property
     def dimension(self) -> str:
@@ -83,11 +84,17 @@ FEATURES: list[Feature] = [
             "Person tracks fused across every camera (front + body). NOT INDEXED: body cameras are not run through "
             "the detector.", indexed=False),
     Feature("persons_visible_body_cameras", "detections", "DIMENSIONLESS", "count",
-            "People visible in Spot's five body cameras. NOT INDEXED.", robots=("spot",), indexed=False),
+            "People visible in Spot's five body cameras. NOT INDEXED.", robots=("spot",), indexed=False,
+            source_sensor="body_cameras"),
     Feature("imu_vibration_rms", "imu", "MPS2", "continuous",
             "High-frequency IMU vibration (terrain roughness). Jackal only. NOT INDEXED.", robots=("jackal",),
             indexed=False),
 ]
+
+# Which sensor each provider reads: if a log did not record it, the feature is UNKNOWN(SENSOR_ABSENT_IN_LOG).
+_PROVIDER_SENSOR = {"motion": "odom", "clearance": "clearance", "detections": "front_camera", "imu": "imu"}
+FEATURES = [f if f.source_sensor or not f.indexed else replace(f, source_sensor=_PROVIDER_SENSOR.get(f.provider, ""))
+            for f in FEATURES]
 
 REGISTRY: dict[str, Feature] = {f.name: f for f in FEATURES}
 

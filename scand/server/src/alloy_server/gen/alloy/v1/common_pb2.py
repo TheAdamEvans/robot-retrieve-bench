@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x15\x61lloy/v1/common.proto\x12\x08\x61lloy.v1\"c\n\tMessageId\x12\x14\n\x0crecording_id\x18\x01 \x01(\t\x12\r\n\x05topic\x18\x02 \x01(\t\x12\x15\n\rtopic_ordinal\x18\x03 \x01(\x04\x12\x1a\n\x12payload_sha256_128\x18\x04 \x01(\x0c\"N\n\x08Interval\x12\x15\n\x08start_ns\x18\x01 \x01(\x03H\x00\x88\x01\x01\x12\x13\n\x06\x65nd_ns\x18\x02 \x01(\x03H\x01\x88\x01\x01\x42\x0b\n\t_start_nsB\t\n\x07_end_ns*R\n\x05Truth\x12\x15\n\x11TRUTH_UNSPECIFIED\x10\x00\x12\x11\n\rTRUTH_UNKNOWN\x10\x01\x12\x0e\n\nTRUTH_TRUE\x10\x02\x12\x0f\n\x0bTRUTH_FALSE\x10\x03*\xa3\x02\n\rUnknownReason\x12\x1e\n\x1aUNKNOWN_REASON_UNSPECIFIED\x10\x00\x12\x0f\n\x0bNOT_INDEXED\x10\x01\x12\x12\n\x0eNOT_APPLICABLE\x10\x02\x12\x14\n\x10OUTSIDE_COVERAGE\x10\x03\x12\t\n\x05STALE\x10\x04\x12\x16\n\x12\x46UTURE_MEASUREMENT\x10\x05\x12\x12\n\x0eHEADER_MISSING\x10\x06\x12\x19\n\x15\x43\x41LIBRATION_UNCERTAIN\x10\x07\x12\x0e\n\nNO_BINDING\x10\x08\x12\x11\n\rUNEXPRESSIBLE\x10\t\x12\x16\n\x12\x43LOCK_INCOMPATIBLE\x10\n\x12\x12\n\x0eNOT_IN_CONTEXT\x10\x0b\x12\x16\n\x12\x42\x45LOW_SENSOR_FLOOR\x10\x0c*F\n\x08\x42oundary\x12\x18\n\x14\x42OUNDARY_UNSPECIFIED\x10\x00\x12\x11\n\rSTRICT_BEFORE\x10\x01\x12\r\n\tINCLUSIVE\x10\x02*l\n\x0cSpatialBasis\x12\x1d\n\x19SPATIAL_BASIS_UNSPECIFIED\x10\x00\x12\x10\n\x0cSPATIAL_NONE\x10\x01\x12\x0f\n\x0bRECORDED_TF\x10\x02\x12\x0b\n\x07NOMINAL\x10\x03\x12\r\n\tESTIMATED\x10\x04\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x15\x61lloy/v1/common.proto\x12\x08\x61lloy.v1\"c\n\tMessageId\x12\x14\n\x0crecording_id\x18\x01 \x01(\t\x12\r\n\x05topic\x18\x02 \x01(\t\x12\x15\n\rtopic_ordinal\x18\x03 \x01(\x04\x12\x1a\n\x12payload_sha256_128\x18\x04 \x01(\x0c\"N\n\x08Interval\x12\x15\n\x08start_ns\x18\x01 \x01(\x03H\x00\x88\x01\x01\x12\x13\n\x06\x65nd_ns\x18\x02 \x01(\x03H\x01\x88\x01\x01\x42\x0b\n\t_start_nsB\t\n\x07_end_ns*R\n\x05Truth\x12\x15\n\x11TRUTH_UNSPECIFIED\x10\x00\x12\x11\n\rTRUTH_UNKNOWN\x10\x01\x12\x0e\n\nTRUTH_TRUE\x10\x02\x12\x0f\n\x0bTRUTH_FALSE\x10\x03*\xbd\x02\n\rUnknownReason\x12\x1e\n\x1aUNKNOWN_REASON_UNSPECIFIED\x10\x00\x12\x0f\n\x0bNOT_INDEXED\x10\x01\x12\x12\n\x0eNOT_APPLICABLE\x10\x02\x12\x14\n\x10OUTSIDE_COVERAGE\x10\x03\x12\t\n\x05STALE\x10\x04\x12\x16\n\x12\x46UTURE_MEASUREMENT\x10\x05\x12\x12\n\x0eHEADER_MISSING\x10\x06\x12\x19\n\x15\x43\x41LIBRATION_UNCERTAIN\x10\x07\x12\x0e\n\nNO_BINDING\x10\x08\x12\x11\n\rUNEXPRESSIBLE\x10\t\x12\x16\n\x12\x43LOCK_INCOMPATIBLE\x10\n\x12\x12\n\x0eNOT_IN_CONTEXT\x10\x0b\x12\x16\n\x12\x42\x45LOW_SENSOR_FLOOR\x10\x0c\x12\x18\n\x14SENSOR_ABSENT_IN_LOG\x10\r*F\n\x08\x42oundary\x12\x18\n\x14\x42OUNDARY_UNSPECIFIED\x10\x00\x12\x11\n\rSTRICT_BEFORE\x10\x01\x12\r\n\tINCLUSIVE\x10\x02*l\n\x0cSpatialBasis\x12\x1d\n\x19SPATIAL_BASIS_UNSPECIFIED\x10\x00\x12\x10\n\x0cSPATIAL_NONE\x10\x01\x12\x0f\n\x0bRECORDED_TF\x10\x02\x12\x0b\n\x07NOMINAL\x10\x03\x12\r\n\tESTIMATED\x10\x04\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,11 +34,11 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_TRUTH']._serialized_start=216
   _globals['_TRUTH']._serialized_end=298
   _globals['_UNKNOWNREASON']._serialized_start=301
-  _globals['_UNKNOWNREASON']._serialized_end=592
-  _globals['_BOUNDARY']._serialized_start=594
-  _globals['_BOUNDARY']._serialized_end=664
-  _globals['_SPATIALBASIS']._serialized_start=666
-  _globals['_SPATIALBASIS']._serialized_end=774
+  _globals['_UNKNOWNREASON']._serialized_end=618
+  _globals['_BOUNDARY']._serialized_start=620
+  _globals['_BOUNDARY']._serialized_end=690
+  _globals['_SPATIALBASIS']._serialized_start=692
+  _globals['_SPATIALBASIS']._serialized_end=800
   _globals['_MESSAGEID']._serialized_start=35
   _globals['_MESSAGEID']._serialized_end=134
   _globals['_INTERVAL']._serialized_start=136

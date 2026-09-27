@@ -9,7 +9,7 @@ max_speed_mps { nominal: 2.0 lo: 2.0 hi: 2.0 basis: DATASHEET_NOMINAL }
 corridor { half_width_m: 0.6 length_m: 5.0 basis: ESTIMATED_BAND }
 clearance_sensor: "lidar_2d"
 speed_smoothing { method: TRAILING_MEDIAN window_s: 0.5 }
-signature_topics: ["/camera/rgb/image_raw/compressed", "/velodyne_2dscan", "/jackal_velocity_controller/odom"]
+identity_topics: ["/velodyne_2dscan", "/jackal_velocity_controller/odom"]
 absent: ["body cameras", "/tf", "3D point cloud (raw Velodyne packets only)"]
 
 sensors {

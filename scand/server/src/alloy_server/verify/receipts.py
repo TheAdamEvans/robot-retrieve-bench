@@ -20,8 +20,8 @@ def causal_last(rec, topic: str, cutoff_ns: int, max_age_ns: int, boundary: int,
                 skew_tol_ns: int = SKEW_TOL_NS) -> a.ReceiptItem:
     item = a.ReceiptItem(topic=topic)
     tl = rec.topics.get(topic)
-    if tl is None or not len(tl):
-        item.ok, item.reason = c.TRUTH_UNKNOWN, c.NOT_APPLICABLE
+    if tl is None or not len(tl):  # the profile lists this topic but the log never recorded it
+        item.ok, item.reason = c.TRUTH_UNKNOWN, c.SENSOR_ABSENT_IN_LOG
         return item
     n = int(np.searchsorted(tl.log_ns, cutoff_ns, side="left" if boundary == c.STRICT_BEFORE else "right"))
     if n == 0:

@@ -1,0 +1,35 @@
+# proto-file: alloy/v1/index.proto
+# proto-message: IndexSpec
+# Drop bags into raw/, then: uv run alloy-index plan && uv run alloy-index run
+index_id: "scand-dev"
+
+source {
+  impl: "LocalBagSource"
+  raw_dir: "raw"
+  index_csv: "../SCAND_index.csv"
+  id_template: "{route}_{fr}"   # from the bag stem: A_Spot_Bass_Garage_Fri_Nov_26_134 -> Bass_Garage_134
+  aliases { key: "A_Jackal_Brackenridge_Greg_Sat_Nov_13_94" value: "Brackenridge" }
+  aliases { key: "A_Spot_Butler_LBJ_Sat_Nov_13_104" value: "Butler" }
+  aliases { key: "A_Spot_JCL_JCL_Wed_Nov_10_65" value: "JCL" }
+  aliases { key: "A_Spot_Library_MLK_Thu_Nov_18_122" value: "Library_MLK" }
+  aliases { key: "B_Jackal_Sanjac_Stadium_Sat_Nov_13_89" value: "Sanjac" }
+  aliases { key: "B_Spot_GDC_AHG_Mon_Nov_15_116" value: "GDC" }
+  aliases { key: "B_Spot_RLM_RLM_Wed_Nov_10_45" value: "RLM" }
+  held_out: ["Rec_Tent_129", "Bass_Garage_134"]   # SCAND Val split: never used for training, tuning or dev sets
+}
+
+stages { name: "ingest"               impl: "Ingest"            enabled: true  params { key: "layout" value: "by_sensor" } }
+stages { name: "providers.motion"     impl: "MotionProvider"    enabled: true }
+stages { name: "providers.clearance"  impl: "ClearanceProvider" enabled: true }
+stages { name: "providers.detections" impl: "DetectionsProvider" enabled: true params { key: "hz" value: "10" } }
+stages { name: "frames.siglip2"       impl: "SiglipFrames"      enabled: true params { key: "front_hz" value: "10" } params { key: "body_hz" value: "native" } }
+stages { name: "annotate.l1"          impl: "L1Labeller"        enabled: true  requires_flag: true
+         params { key: "executor" value: "claude_cli" } params { key: "model" value: "claude-opus-5-5" }
+         params { key: "max_segments_per_job" value: "30" } params { key: "parallel" value: "8" } }
+stages { name: "windows.siglip2"      impl: "SiglipWindows"     enabled: true }
+stages { name: "tags"                 impl: "Tags"              enabled: true }
+stages { name: "apply.fused"          impl: "ApplyFused"        enabled: true params { key: "names" value: "fused_v1,fused_linear,fused_concat" } }
+stages { name: "pipelines"            impl: "PipelineSpecs"     enabled: true }
+stages { name: "prompts"              impl: "PromptAssets"      enabled: true }
+
+sink { impl: "LocalBundleSink" path: "bundles/dev" }
