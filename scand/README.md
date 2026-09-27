@@ -6,6 +6,9 @@ Two of them (`Rec_Tent_129`, `Bass_Garage_134`) are SCAND's Val split and are he
 
 Every search config runs through one pipeline runner, and one evaluation harness scores quality, speed and cost for all of them.
 
+**Presentation:** [When search needs evidence](presentation/fleet-search.html) is a self-contained offline HTML
+walkthrough with diagrams, benchmark controls and source clips. [Markdown and build instructions](presentation/README.md).
+
 ```
 bag ─► intake (recognise robot, convert to MCAP, measure) ─► providers ─► window index ─► bundle ─► server
                                                                                           ▲

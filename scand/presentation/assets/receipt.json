@@ -1,0 +1,119 @@
+{
+  "causalCutoffNs": "1637263200472140675",
+  "boundary": "STRICT_BEFORE",
+  "maxAgeNs": "118000000000",
+  "discoveryMode": "RETROSPECTIVE",
+  "items": [
+    {
+      "sensor": "front_camera",
+      "topic": "/image_raw/compressed",
+      "message": {
+        "recordingId": "Library_MLK",
+        "topic": "/image_raw/compressed",
+        "topicOrdinal": "721",
+        "payloadSha256128": "jgDqJ1xC2orJMF2zDoaaFg=="
+      },
+      "ageNs": "34697321",
+      "ok": "TRUTH_TRUE"
+    },
+    {
+      "sensor": "body_cameras",
+      "topic": "/spot/camera/frontleft/image/compressed",
+      "message": {
+        "recordingId": "Library_MLK",
+        "topic": "/spot/camera/frontleft/image/compressed",
+        "topicOrdinal": "114",
+        "payloadSha256128": "5o5ChVGo4xHH5MtMr81DMw=="
+      },
+      "ageNs": "492546937",
+      "ok": "TRUTH_TRUE"
+    },
+    {
+      "sensor": "body_cameras",
+      "topic": "/spot/camera/frontright/image/compressed",
+      "message": {
+        "recordingId": "Library_MLK",
+        "topic": "/spot/camera/frontright/image/compressed",
+        "topicOrdinal": "114",
+        "payloadSha256128": "CrgYs3tdXZB5rveZLLeT2w=="
+      },
+      "ageNs": "492475437",
+      "ok": "TRUTH_TRUE"
+    },
+    {
+      "sensor": "body_cameras",
+      "topic": "/spot/camera/left/image/compressed",
+      "message": {
+        "recordingId": "Library_MLK",
+        "topic": "/spot/camera/left/image/compressed",
+        "topicOrdinal": "113",
+        "payloadSha256128": "pVWMyAkSc3FgNocp99hOIg=="
+      },
+      "ageNs": "625816453",
+      "ok": "TRUTH_TRUE"
+    },
+    {
+      "sensor": "body_cameras",
+      "topic": "/spot/camera/right/image/compressed",
+      "message": {
+        "recordingId": "Library_MLK",
+        "topic": "/spot/camera/right/image/compressed",
+        "topicOrdinal": "113",
+        "payloadSha256128": "k9QaXbcvZIt9LWzSIHWYwg=="
+      },
+      "ageNs": "625707453",
+      "ok": "TRUTH_TRUE"
+    },
+    {
+      "sensor": "body_cameras",
+      "topic": "/spot/camera/back/image/compressed",
+      "message": {
+        "recordingId": "Library_MLK",
+        "topic": "/spot/camera/back/image/compressed",
+        "topicOrdinal": "115",
+        "payloadSha256128": "eViemMrQqx461J3t0rmfWw=="
+      },
+      "ageNs": "558896061",
+      "ok": "TRUTH_TRUE"
+    },
+    {
+      "sensor": "lidar",
+      "topic": "/velodyne_points",
+      "message": {
+        "recordingId": "Library_MLK",
+        "topic": "/velodyne_points",
+        "topicOrdinal": "256",
+        "payloadSha256128": "vV43+DHnu36tNU0+gynCHQ=="
+      },
+      "ageNs": "47447567",
+      "ok": "TRUTH_TRUE"
+    },
+    {
+      "sensor": "odom",
+      "topic": "/odom",
+      "message": {
+        "recordingId": "Library_MLK",
+        "topic": "/odom",
+        "topicOrdinal": "423",
+        "payloadSha256128": "EsUCRbqftG4bRoKIzpx6yg=="
+      },
+      "ageNs": "68904865",
+      "ok": "TRUTH_TRUE"
+    },
+    {
+      "sensor": "tf",
+      "topic": "/tf",
+      "message": {
+        "recordingId": "Library_MLK",
+        "topic": "/tf",
+        "topicOrdinal": "1693",
+        "payloadSha256128": "+rq1Wv862+T4p3u5psvdIQ=="
+      },
+      "ageNs": "-4505342",
+      "ok": "TRUTH_UNKNOWN",
+      "reason": "FUTURE_MEASUREMENT"
+    }
+  ],
+  "recording": "Library_MLK",
+  "event_s": 25.868698301
+}
