@@ -9,7 +9,7 @@ def key_of(kind: str, row: dict) -> str:
     if kind == "attributes":
         return row["segmentId"]
     if kind == "episode":
-        return f'{row["intentGroupId"]}|{row["episodeId"]}'
+        return f'{row["intentGroupId"]}|{row.get("jobId", "")}|{row["episodeId"]}'
     return f'{row["intentGroupId"]}|{row["windowId"]}'
 
 

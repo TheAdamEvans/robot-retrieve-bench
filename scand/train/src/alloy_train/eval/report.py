@@ -27,6 +27,37 @@ def load_judgments(ann: Path) -> dict[str, dict[str, int]]:
     return qrels
 
 
+def ground_truth(ann: Path) -> dict[str, dict]:
+    """Complete ground truth from exhaustive judging: {intent: {"episodes": [...], "complete": bool}}.
+
+    Complete means every sweep chunk of the intent has at least one episode record; only then is recall reported."""
+    gt: dict[str, dict] = {}
+    rows = [r for r in load_labels(ann, "episode").values() if r.get("jobId", "").startswith("ex-")]
+    for intent in {r["intentGroupId"] for r in rows}:
+        mine = [r for r in rows if r["intentGroupId"] == intent]
+        want = set()
+        for p in (ann / "tmp").glob(f"ex-{intent}-j*/chunks.json"):
+            want |= {c["chunk_id"] for c in json.loads(p.read_text())}
+        got = {r.get("chunkId") for r in mine}
+        gt[intent] = {"episodes": [r for r in mine if r.get("grade", 0) >= 1], "complete": bool(want) and want <= got,
+                      "missing_chunks": sorted(want - got)}
+    for p in (ann / "exhaustive").glob("*/*.json"):  # nothing passes the numeric screen: complete, with no episodes
+        sw = json.loads(p.read_text())
+        if sw.get("sweep_recall_ok") and all(m["n"] == 0 for m in sw["members"].values()):
+            gt[sw["intent"]] = {"episodes": [], "complete": True, "missing_chunks": [], "proof": "numeric screen"}
+    return gt
+
+
+def episode_recall(ranked: list[str], episodes: list[dict], k: int) -> float | None:
+    """Fraction of ground-truth episodes overlapped by at least one of the top-k windows (Rec:EEEE = [E-4, E] s)."""
+    if not episodes:
+        return None
+    top = [(w.split(":")[0], int(w.split(":")[1])) for w in ranked[:k]]
+    hit = sum(any(r == e["recordingId"] and end - 4 < e["endS"] and end > e["startS"] for r, end in top)
+              for e in episodes)
+    return hit / len(episodes)
+
+
 def clause_set(prog: dict | None) -> set[tuple]:
     """Canonical clause tuples for program comparison (units already canonical after validation)."""
     if not prog:
@@ -50,6 +81,7 @@ def build(run_dir: Path, ann: Path) -> dict:
     sa_path = run_dir / "score_all.jsonl"
     score_all = [json.loads(x) for x in sa_path.read_text().splitlines()] if sa_path.exists() else []
     qrels = load_judgments(ann)
+    gt = ground_truth(ann)
     group_of = {r["query_id"]: r["intent_group_id"] for r in runs}
     by = defaultdict(dict)
     for r in runs:
@@ -88,6 +120,13 @@ def build(run_dir: Path, ann: Path) -> dict:
                     per["gen_recall"][qid] = len(pos & set(r["generated"])) / len(pos)
                     gj = [w for w in r["generated"] if w in judged]
                     per["gen_precision"][qid] = (sum(judged[w] >= M.POS for w in gj) / len(gj)) if gj else None
+                g = gt.get(r["intent_group_id"])
+                if g and g["complete"]:
+                    full = [e for e in g["episodes"] if e.get("grade", 0) == 2 and keep(f"{e['recordingId']}:0")]
+                    part = [e for e in g["episodes"] if keep(f"{e['recordingId']}:0")]
+                    for k_ in (10, 50):
+                        per[f"ep_recall{k_}"][qid] = episode_recall(r["windows"], full, k_)
+                        per[f"ep_recall{k_}_g1"][qid] = episode_recall(r["windows"], part, k_)
                 if judged:
                     per["judged10"][qid] = M.judged_at(r["windows"], judged, 10)
                     per["judged50"][qid] = M.judged_at(r["windows"], judged, 50)
@@ -147,6 +186,9 @@ def build(run_dir: Path, ann: Path) -> dict:
         tables[qset if sl is None else f"{qset}@{sl}"] = rows
     return {"tables": tables, "generation_cost_sources": sorted({r["generation_cost_source"] for r in runs
                                                                  if r.get("generation_cost_source")}),
+            "ground_truth": {k: {"complete": v["complete"], "missing_chunks": v["missing_chunks"],
+                                 "grade2": sum(e.get("grade", 0) == 2 for e in v["episodes"]),
+                                 "grade1": sum(e.get("grade", 0) == 1 for e in v["episodes"])} for k, v in gt.items()},
             "n_judged": {k: sum(g >= 0 for g in v.values()) for k, v in qrels.items()},
             "n_positive": {k: sum(g >= M.POS for g in v.values()) for k, v in qrels.items()}}
 

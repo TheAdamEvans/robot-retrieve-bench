@@ -200,7 +200,7 @@ def validate_episode(d: dict) -> tuple[dict, list[str]]:
            "recordingId": rec, "startS": t0, "endS": t1, "grade": grade, "clauses": clauses,
            "anchors": d.get("anchors", []), "comparisonRole": d.get("comparison_role", ""),
            "gradeNote": d.get("grade_note", ""), "coverage": d.get("coverage", ""),
-           "windowIds": d.get("window_ids", []), "judge": JUDGE, "jobId": cli.JOB,
+           "windowIds": d.get("window_ids", []), "chunkId": d.get("chunk_id", ""), "judge": JUDGE, "jobId": cli.JOB,
            "refs": [json_format.MessageToDict(r) for r in refs]}
     return out, errors
 
