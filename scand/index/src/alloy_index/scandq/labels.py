@@ -28,9 +28,9 @@ CONTEXT_SLACK_S = 20.0  # judgments may cite evidence from the intent's context 
 
 
 def add_parser(sp) -> None:
-    p = sp.add_parser("label", help="put/get validated labels (attributes | judgment)")
+    p = sp.add_parser("label", help="put/get validated labels (attributes | judgment | episode)")
     p.add_argument("op", choices=["put", "get"])
-    p.add_argument("kind", choices=["attributes", "judgment"])
+    p.add_argument("kind", choices=["attributes", "judgment", "episode"])
     p.add_argument("--json", help="put: a JSON object, or @path to a file holding one object or a JSON list")
     p.add_argument("--rec")
     p.add_argument("--intent")
@@ -136,6 +136,75 @@ def validate_judgment(d: dict) -> tuple[eval_pb2.Judgment, list[str]]:
     return msg, errors
 
 
+VERDICTS = ("TRUE", "FALSE", "UNKNOWN")
+
+
+def challenge_query(intent: str) -> dict | None:
+    """The episode-judging spec for a challenge intent (benchmark/challenges/*/queries_*.jsonl)."""
+    for f in sorted((cli.SCAND_ROOT / "benchmark" / "challenges").glob("*/queries_*.jsonl")):
+        for line in f.read_text().splitlines():
+            q = json.loads(line) if line.strip() else {}
+            if q.get("intentGroupId") == intent:
+                return q
+    return None
+
+
+def validate_episode(d: dict) -> tuple[dict, list[str]]:
+    """One intent judged against one episode: a verdict per required clause, anchors, a grade and refs."""
+    errors: list[str] = []
+    q = challenge_query(d.get("intent_group_id", ""))
+    if q is None:
+        return d, [f"unknown challenge intent {d.get('intent_group_id')!r}"]
+    rec = d.get("recording_id", "")
+    if rec not in q["scope"]["recordingIds"]:
+        errors.append(f"recording {rec!r} is outside the intent's scope {q['scope']['recordingIds']}")
+    try:
+        t0, t1 = float(d["start_s"]), float(d["end_s"])
+    except (KeyError, TypeError, ValueError):
+        return d, errors + ["start_s and end_s (recording-relative seconds) are required"]
+    if not 0 <= t0 < t1:
+        errors.append("need 0 <= start_s < end_s")
+    if not str(d.get("episode_id", "")).strip():
+        errors.append("episode_id missing")
+    clauses = d.get("clauses", [])
+    want = q["requiredClauses"]
+    if len(clauses) != len(want):
+        errors.append(f"give exactly {len(want)} clause verdicts, in order: {want}")
+    mids = []
+    for i, c in enumerate(clauses):
+        if c.get("verdict") not in VERDICTS:
+            errors.append(f"clauses[{i}].verdict must be one of {VERDICTS}")
+        if not str(c.get("evidence", "")).strip():
+            errors.append(f"clauses[{i}].evidence is empty")
+        mids += c.get("refs", [])
+        c["clause"] = want[i] if i < len(want) else c.get("clause", "")
+    grade = d.get("grade")
+    verdicts = [c.get("verdict") for c in clauses]
+    if grade not in (0, 1, 2):
+        errors.append("grade must be 2 (complete match), 1 (relevant, incomplete) or 0 (contradicted / off-topic)")
+    elif grade == 2 and any(v != "TRUE" for v in verdicts):
+        errors.append("grade 2 needs every clause TRUE")
+    elif grade == 1 and "FALSE" in verdicts and not d.get("grade_note"):
+        errors.append("grade 1 with a FALSE clause is a near miss (grade 0) unless grade_note explains why")
+    for a_ in d.get("anchors", []):
+        if not (t0 - CONTEXT_SLACK_S <= float(a_.get("t_s", -1e9)) <= t1 + CONTEXT_SLACK_S) or not a_.get("name"):
+            errors.append(f"anchor {a_} needs a name and a t_s near the episode")
+    refs, native = resolve_refs(mids + d.pop("refs", []), (rec, t0, t1), CONTEXT_SLACK_S, errors)
+    if not refs:
+        errors.append("no refs cited")
+    if "TRUE" in verdicts and not native:
+        errors.append("a TRUE clause needs >= 1 ref opened at native resolution")
+    for c in clauses:
+        c["refs"] = [str(x) for x in c.get("refs", [])]
+    out = {"intentGroupId": q["intentGroupId"], "querySet": q["querySet"], "episodeId": d["episode_id"],
+           "recordingId": rec, "startS": t0, "endS": t1, "grade": grade, "clauses": clauses,
+           "anchors": d.get("anchors", []), "comparisonRole": d.get("comparison_role", ""),
+           "gradeNote": d.get("grade_note", ""), "coverage": d.get("coverage", ""),
+           "windowIds": d.get("window_ids", []), "judge": JUDGE, "jobId": cli.JOB,
+           "refs": [json_format.MessageToDict(r) for r in refs]}
+    return out, errors
+
+
 def cmd_label(a) -> None:
     if a.op == "get":
         latest = load_labels(cli.ANN, a.kind)
@@ -152,17 +221,17 @@ def cmd_label(a) -> None:
     items = json.loads(raw)
     items = items if isinstance(items, list) else [items]
     accepted, rejected = [], []
-    validate = validate_attributes if a.kind == "attributes" else validate_judgment
+    validate = {"attributes": validate_attributes, "judgment": validate_judgment, "episode": validate_episode}[a.kind]
     for item in items:
         try:
-            msg, errors = validate(dict(item))
+            msg, errors = validate(json.loads(json.dumps(item)))
         except json_format.ParseError as e:
             msg, errors = None, [f"shape: {e}"]
-        ident = item.get("segment_id") or item.get("window_id")
+        ident = item.get("segment_id") or item.get("window_id") or item.get("episode_id")
         if errors:
             rejected.append({"id": ident, "errors": errors})
             continue
-        accepted.append(json_format.MessageToDict(msg))
+        accepted.append(msg if isinstance(msg, dict) else json_format.MessageToDict(msg))
     if accepted:
         path = shard(a.kind)
         existing = {}

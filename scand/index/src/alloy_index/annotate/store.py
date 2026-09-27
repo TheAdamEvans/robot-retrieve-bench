@@ -6,7 +6,11 @@ from pathlib import Path
 
 
 def key_of(kind: str, row: dict) -> str:
-    return row["segmentId"] if kind == "attributes" else f'{row["intentGroupId"]}|{row["windowId"]}'
+    if kind == "attributes":
+        return row["segmentId"]
+    if kind == "episode":
+        return f'{row["intentGroupId"]}|{row["episodeId"]}'
+    return f'{row["intentGroupId"]}|{row["windowId"]}'
 
 
 def load_labels(ann: Path, kind: str) -> dict[str, dict]:
