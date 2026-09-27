@@ -49,6 +49,8 @@ def generator():
 def _search(body: dict, mode: int) -> dict:
     req = json_format.ParseDict(body, a.SearchRequest(), ignore_unknown_fields=False)
     req.mode = mode
+    if mode == pp.SEARCH and "presentation" not in body:
+        req.presentation = True  # the live UI shows merged spans; eval requests never set this
     spec = bundle.specs.get(req.pipeline_id)
     if spec is None:
         raise HTTPException(404, f"unknown pipeline {req.pipeline_id!r}; see /v1/pipelines")

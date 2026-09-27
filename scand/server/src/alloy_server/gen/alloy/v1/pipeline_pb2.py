@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from alloy_server.gen.alloy.v1 import common_pb2 as alloy_dot_v1_dot_common__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17\x61lloy/v1/pipeline.proto\x12\x08\x61lloy.v1\x1a\x15\x61lloy/v1/common.proto\"^\n\nStageScore\x12\x10\n\x08stage_id\x18\x01 \x01(\t\x12\x0c\n\x04impl\x18\x02 \x01(\t\x12\r\n\x05value\x18\x03 \x01(\x01\x12!\n\x04kind\x18\x04 \x01(\x0e\x32\x13.alloy.v1.ScoreKind\".\n\nStageTouch\x12\x10\n\x08stage_id\x18\x01 \x01(\t\x12\x0e\n\x06\x61\x63tion\x18\x02 \x01(\t\"\xb5\x01\n\x0c\x43lauseResult\x12\x11\n\tclause_id\x18\x01 \x01(\t\x12\x0b\n\x03\x64oc\x18\x02 \x01(\t\x12\x10\n\x08required\x18\x03 \x01(\x08\x12\x1e\n\x05truth\x18\x04 \x01(\x0e\x32\x0f.alloy.v1.Truth\x12\'\n\x06reason\x18\x05 \x01(\x0e\x32\x17.alloy.v1.UnknownReason\x12\x12\n\x05value\x18\x06 \x01(\x01H\x00\x88\x01\x01\x12\x0c\n\x04unit\x18\x07 \x01(\tB\x08\n\x06_value\"e\n\x0bNamedAnchor\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04t_ns\x18\x02 \x01(\x03\x12\x12\n\x05lo_ns\x18\x03 \x01(\x03H\x00\x88\x01\x01\x12\x12\n\x05hi_ns\x18\x04 \x01(\x03H\x01\x88\x01\x01\x42\x08\n\x06_lo_nsB\x08\n\x06_hi_ns\"\xcf\x04\n\tCandidate\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\t\x12%\n\x04kind\x18\x02 \x01(\x0e\x32\x17.alloy.v1.CandidateKind\x12\x14\n\x0crecording_id\x18\x03 \x01(\t\x12 \n\x04seed\x18\x04 \x01(\x0b\x32\x12.alloy.v1.Interval\x12)\n\x08resolved\x18\x05 \x01(\x0b\x32\x12.alloy.v1.IntervalH\x00\x88\x01\x01\x12%\n\x07lineage\x18\x06 \x03(\x0b\x32\x14.alloy.v1.StageTouch\x12/\n\x06scores\x18\x07 \x03(\x0b\x32\x1f.alloy.v1.Candidate.ScoresEntry\x12\'\n\x07\x63lauses\x18\x08 \x03(\x0b\x32\x16.alloy.v1.ClauseResult\x12%\n\x08\x65vidence\x18\t \x03(\x0b\x32\x13.alloy.v1.MessageId\x12&\n\x07\x61nchors\x18\n \x03(\x0b\x32\x15.alloy.v1.NamedAnchor\x12,\n\x0c\x63ompleteness\x18\x0b \x01(\x0e\x32\x16.alloy.v1.Completeness\x12-\n\rspatial_basis\x18\x0c \x01(\x0e\x32\x16.alloy.v1.SpatialBasis\x12\x10\n\x08\x66iltered\x18\r \x01(\x08\x12\x11\n\twindow_id\x18\x0e \x01(\t\x1a\x43\n\x0bScoresEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12#\n\x05value\x18\x02 \x01(\x0b\x32\x14.alloy.v1.StageScore:\x02\x38\x01\x42\x0b\n\t_resolved\"n\n\x0c\x46ilterRecord\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\t\x12\x10\n\x08stage_id\x18\x02 \x01(\t\x12&\n\x06reason\x18\x03 \x01(\x0e\x32\x16.alloy.v1.FilterReason\x12\x0e\n\x06\x64\x65tail\x18\x04 \x01(\t\"\x84\x03\n\nCostReport\x12\x12\n\nbytes_read\x18\x01 \x01(\x04\x12>\n\x0e\x62ytes_by_layer\x18\x02 \x03(\x0b\x32&.alloy.v1.CostReport.BytesByLayerEntry\x12\x1f\n\x17\x62ytes_served_from_cache\x18\x03 \x01(\x04\x12\x11\n\traw_ratio\x18\x04 \x01(\x01\x12\x11\n\tllm_calls\x18\x05 \x01(\r\x12\x15\n\rprompt_tokens\x18\x06 \x01(\r\x12\x1c\n\x14\x63\x61\x63hed_prompt_tokens\x18\x07 \x01(\r\x12\x18\n\x10reasoning_tokens\x18\x08 \x01(\r\x12\x19\n\x11\x63ompletion_tokens\x18\t \x01(\r\x12\x0f\n\x07usd_est\x18\n \x01(\x01\x12\x1a\n\x12\x65ncoder_forward_ms\x18\x0b \x01(\x01\x12\x0f\n\x07wall_ms\x18\x0c \x01(\x01\x1a\x33\n\x11\x42ytesByLayerEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x04:\x02\x38\x01\"\xd1\x03\n\x0bStageReport\x12\x10\n\x08stage_id\x18\x01 \x01(\t\x12\x0c\n\x04impl\x18\x02 \x01(\t\x12$\n\x04role\x18\x03 \x01(\x0e\x32\x16.alloy.v1.PipelineRole\x12\x15\n\rcandidates_in\x18\x04 \x01(\r\x12\x16\n\x0e\x63\x61ndidates_out\x18\x05 \x01(\r\x12G\n\x12\x66iltered_by_reason\x18\x06 \x03(\x0b\x32+.alloy.v1.StageReport.FilteredByReasonEntry\x12\x11\n\ttruncated\x18\x07 \x01(\r\x12\"\n\x04\x63ost\x18\x08 \x01(\x0b\x32\x14.alloy.v1.CostReport\x12\x19\n\x0ctriggered_by\x18\t \x01(\tH\x00\x88\x01\x01\x12\'\n\x08\x63hildren\x18\n \x03(\x0b\x32\x15.alloy.v1.StageReport\x12\'\n\x07outcome\x18\x0b \x01(\x0e\x32\x16.alloy.v1.StageOutcome\x12\x16\n\x0eoutcome_detail\x18\x0c \x01(\t\x1a\x37\n\x15\x46ilteredByReasonEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\r:\x02\x38\x01\x42\x0f\n\r_triggered_by\"\x8b\x01\n\tStageSpec\x12\x10\n\x08stage_id\x18\x01 \x01(\t\x12\x0c\n\x04impl\x18\x02 \x01(\t\x12/\n\x06params\x18\x03 \x03(\x0b\x32\x1f.alloy.v1.StageSpec.ParamsEntry\x1a-\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xda\x01\n\x0cPipelineSpec\x12\x13\n\x0bpipeline_id\x18\x01 \x01(\t\x12$\n\x04role\x18\x02 \x01(\x0e\x32\x16.alloy.v1.PipelineRole\x12\'\n\ngenerators\x18\x03 \x03(\x0b\x32\x13.alloy.v1.StageSpec\x12$\n\x07rankers\x18\x04 \x03(\x0b\x32\x13.alloy.v1.StageSpec\x12\x0f\n\x07\x66inal_k\x18\x05 \x01(\r\x12\x14\n\x0cspec_version\x18\x06 \x01(\t\x12\x0c\n\x04stub\x18\x07 \x01(\x08\x12\x0b\n\x03\x64oc\x18\x08 \x01(\t*I\n\rCandidateKind\x12\x1e\n\x1a\x43\x41NDIDATE_KIND_UNSPECIFIED\x10\x00\x12\n\n\x06WINDOW\x10\x01\x12\x0c\n\x08INTERVAL\x10\x02*m\n\x0c\x43ompleteness\x12\x1c\n\x18\x43OMPLETENESS_UNSPECIFIED\x10\x00\x12\x0e\n\nEXHAUSTIVE\x10\x01\x12\x15\n\x11\x43\x41NDIDATE_LIMITED\x10\x02\x12\x18\n\x14\x43OMPLETENESS_UNKNOWN\x10\x03*e\n\tScoreKind\x12\x1a\n\x16SCORE_KIND_UNSPECIFIED\x10\x00\x12\x08\n\x04\x42M25\x10\x01\x12\n\n\x06\x43OSINE\x10\x02\x12\x11\n\rTRUTH_ORDINAL\x10\x03\x12\t\n\x05\x46USED\x10\x04\x12\x08\n\x04RANK\x10\x05*W\n\x0c\x46ilterReason\x12\x1d\n\x19\x46ILTER_REASON_UNSPECIFIED\x10\x00\x12\x19\n\x15REQUIRED_CLAUSE_FALSE\x10\x01\x12\r\n\tTRUNCATED\x10\x02*c\n\x0cStageOutcome\x12\x1d\n\x19STAGE_OUTCOME_UNSPECIFIED\x10\x00\x12\x07\n\x03RAN\x10\x01\x12\x0b\n\x07SKIPPED\x10\x02\x12\x0f\n\x0bUNAVAILABLE\x10\x03\x12\r\n\tABSTAINED\x10\x04*V\n\x0cPipelineRole\x12\x1d\n\x19PIPELINE_ROLE_UNSPECIFIED\x10\x00\x12\r\n\tTOP_LEVEL\x10\x01\x12\x0c\n\x08GENERATE\x10\x02\x12\n\n\x06RERANK\x10\x03*J\n\rExecutionMode\x12\x1e\n\x1a\x45XECUTION_MODE_UNSPECIFIED\x10\x00\x12\n\n\x06SEARCH\x10\x01\x12\r\n\tSCORE_ALL\x10\x02\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17\x61lloy/v1/pipeline.proto\x12\x08\x61lloy.v1\x1a\x15\x61lloy/v1/common.proto\"^\n\nStageScore\x12\x10\n\x08stage_id\x18\x01 \x01(\t\x12\x0c\n\x04impl\x18\x02 \x01(\t\x12\r\n\x05value\x18\x03 \x01(\x01\x12!\n\x04kind\x18\x04 \x01(\x0e\x32\x13.alloy.v1.ScoreKind\".\n\nStageTouch\x12\x10\n\x08stage_id\x18\x01 \x01(\t\x12\x0e\n\x06\x61\x63tion\x18\x02 \x01(\t\"\xb5\x01\n\x0c\x43lauseResult\x12\x11\n\tclause_id\x18\x01 \x01(\t\x12\x0b\n\x03\x64oc\x18\x02 \x01(\t\x12\x10\n\x08required\x18\x03 \x01(\x08\x12\x1e\n\x05truth\x18\x04 \x01(\x0e\x32\x0f.alloy.v1.Truth\x12\'\n\x06reason\x18\x05 \x01(\x0e\x32\x17.alloy.v1.UnknownReason\x12\x12\n\x05value\x18\x06 \x01(\x01H\x00\x88\x01\x01\x12\x0c\n\x04unit\x18\x07 \x01(\tB\x08\n\x06_value\"e\n\x0bNamedAnchor\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04t_ns\x18\x02 \x01(\x03\x12\x12\n\x05lo_ns\x18\x03 \x01(\x03H\x00\x88\x01\x01\x12\x12\n\x05hi_ns\x18\x04 \x01(\x03H\x01\x88\x01\x01\x42\x08\n\x06_lo_nsB\x08\n\x06_hi_ns\"\xe3\x04\n\tCandidate\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\t\x12%\n\x04kind\x18\x02 \x01(\x0e\x32\x17.alloy.v1.CandidateKind\x12\x14\n\x0crecording_id\x18\x03 \x01(\t\x12 \n\x04seed\x18\x04 \x01(\x0b\x32\x12.alloy.v1.Interval\x12)\n\x08resolved\x18\x05 \x01(\x0b\x32\x12.alloy.v1.IntervalH\x00\x88\x01\x01\x12%\n\x07lineage\x18\x06 \x03(\x0b\x32\x14.alloy.v1.StageTouch\x12/\n\x06scores\x18\x07 \x03(\x0b\x32\x1f.alloy.v1.Candidate.ScoresEntry\x12\'\n\x07\x63lauses\x18\x08 \x03(\x0b\x32\x16.alloy.v1.ClauseResult\x12%\n\x08\x65vidence\x18\t \x03(\x0b\x32\x13.alloy.v1.MessageId\x12&\n\x07\x61nchors\x18\n \x03(\x0b\x32\x15.alloy.v1.NamedAnchor\x12,\n\x0c\x63ompleteness\x18\x0b \x01(\x0e\x32\x16.alloy.v1.Completeness\x12-\n\rspatial_basis\x18\x0c \x01(\x0e\x32\x16.alloy.v1.SpatialBasis\x12\x10\n\x08\x66iltered\x18\r \x01(\x08\x12\x11\n\twindow_id\x18\x0e \x01(\t\x12\x12\n\nmember_ids\x18\x0f \x03(\t\x1a\x43\n\x0bScoresEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12#\n\x05value\x18\x02 \x01(\x0b\x32\x14.alloy.v1.StageScore:\x02\x38\x01\x42\x0b\n\t_resolved\"n\n\x0c\x46ilterRecord\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\t\x12\x10\n\x08stage_id\x18\x02 \x01(\t\x12&\n\x06reason\x18\x03 \x01(\x0e\x32\x16.alloy.v1.FilterReason\x12\x0e\n\x06\x64\x65tail\x18\x04 \x01(\t\"\x84\x03\n\nCostReport\x12\x12\n\nbytes_read\x18\x01 \x01(\x04\x12>\n\x0e\x62ytes_by_layer\x18\x02 \x03(\x0b\x32&.alloy.v1.CostReport.BytesByLayerEntry\x12\x1f\n\x17\x62ytes_served_from_cache\x18\x03 \x01(\x04\x12\x11\n\traw_ratio\x18\x04 \x01(\x01\x12\x11\n\tllm_calls\x18\x05 \x01(\r\x12\x15\n\rprompt_tokens\x18\x06 \x01(\r\x12\x1c\n\x14\x63\x61\x63hed_prompt_tokens\x18\x07 \x01(\r\x12\x18\n\x10reasoning_tokens\x18\x08 \x01(\r\x12\x19\n\x11\x63ompletion_tokens\x18\t \x01(\r\x12\x0f\n\x07usd_est\x18\n \x01(\x01\x12\x1a\n\x12\x65ncoder_forward_ms\x18\x0b \x01(\x01\x12\x0f\n\x07wall_ms\x18\x0c \x01(\x01\x1a\x33\n\x11\x42ytesByLayerEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x04:\x02\x38\x01\"\xd1\x03\n\x0bStageReport\x12\x10\n\x08stage_id\x18\x01 \x01(\t\x12\x0c\n\x04impl\x18\x02 \x01(\t\x12$\n\x04role\x18\x03 \x01(\x0e\x32\x16.alloy.v1.PipelineRole\x12\x15\n\rcandidates_in\x18\x04 \x01(\r\x12\x16\n\x0e\x63\x61ndidates_out\x18\x05 \x01(\r\x12G\n\x12\x66iltered_by_reason\x18\x06 \x03(\x0b\x32+.alloy.v1.StageReport.FilteredByReasonEntry\x12\x11\n\ttruncated\x18\x07 \x01(\r\x12\"\n\x04\x63ost\x18\x08 \x01(\x0b\x32\x14.alloy.v1.CostReport\x12\x19\n\x0ctriggered_by\x18\t \x01(\tH\x00\x88\x01\x01\x12\'\n\x08\x63hildren\x18\n \x03(\x0b\x32\x15.alloy.v1.StageReport\x12\'\n\x07outcome\x18\x0b \x01(\x0e\x32\x16.alloy.v1.StageOutcome\x12\x16\n\x0eoutcome_detail\x18\x0c \x01(\t\x1a\x37\n\x15\x46ilteredByReasonEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\r:\x02\x38\x01\x42\x0f\n\r_triggered_by\"\x8b\x01\n\tStageSpec\x12\x10\n\x08stage_id\x18\x01 \x01(\t\x12\x0c\n\x04impl\x18\x02 \x01(\t\x12/\n\x06params\x18\x03 \x03(\x0b\x32\x1f.alloy.v1.StageSpec.ParamsEntry\x1a-\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xda\x01\n\x0cPipelineSpec\x12\x13\n\x0bpipeline_id\x18\x01 \x01(\t\x12$\n\x04role\x18\x02 \x01(\x0e\x32\x16.alloy.v1.PipelineRole\x12\'\n\ngenerators\x18\x03 \x03(\x0b\x32\x13.alloy.v1.StageSpec\x12$\n\x07rankers\x18\x04 \x03(\x0b\x32\x13.alloy.v1.StageSpec\x12\x0f\n\x07\x66inal_k\x18\x05 \x01(\r\x12\x14\n\x0cspec_version\x18\x06 \x01(\t\x12\x0c\n\x04stub\x18\x07 \x01(\x08\x12\x0b\n\x03\x64oc\x18\x08 \x01(\t*U\n\rCandidateKind\x12\x1e\n\x1a\x43\x41NDIDATE_KIND_UNSPECIFIED\x10\x00\x12\n\n\x06WINDOW\x10\x01\x12\x0c\n\x08INTERVAL\x10\x02\x12\n\n\x06MERGED\x10\x03*m\n\x0c\x43ompleteness\x12\x1c\n\x18\x43OMPLETENESS_UNSPECIFIED\x10\x00\x12\x0e\n\nEXHAUSTIVE\x10\x01\x12\x15\n\x11\x43\x41NDIDATE_LIMITED\x10\x02\x12\x18\n\x14\x43OMPLETENESS_UNKNOWN\x10\x03*e\n\tScoreKind\x12\x1a\n\x16SCORE_KIND_UNSPECIFIED\x10\x00\x12\x08\n\x04\x42M25\x10\x01\x12\n\n\x06\x43OSINE\x10\x02\x12\x11\n\rTRUTH_ORDINAL\x10\x03\x12\t\n\x05\x46USED\x10\x04\x12\x08\n\x04RANK\x10\x05*h\n\x0c\x46ilterReason\x12\x1d\n\x19\x46ILTER_REASON_UNSPECIFIED\x10\x00\x12\x19\n\x15REQUIRED_CLAUSE_FALSE\x10\x01\x12\r\n\tTRUNCATED\x10\x02\x12\x0f\n\x0bMERGED_INTO\x10\x03*c\n\x0cStageOutcome\x12\x1d\n\x19STAGE_OUTCOME_UNSPECIFIED\x10\x00\x12\x07\n\x03RAN\x10\x01\x12\x0b\n\x07SKIPPED\x10\x02\x12\x0f\n\x0bUNAVAILABLE\x10\x03\x12\r\n\tABSTAINED\x10\x04*V\n\x0cPipelineRole\x12\x1d\n\x19PIPELINE_ROLE_UNSPECIFIED\x10\x00\x12\r\n\tTOP_LEVEL\x10\x01\x12\x0c\n\x08GENERATE\x10\x02\x12\n\n\x06RERANK\x10\x03*J\n\rExecutionMode\x12\x1e\n\x1a\x45XECUTION_MODE_UNSPECIFIED\x10\x00\x12\n\n\x06SEARCH\x10\x01\x12\r\n\tSCORE_ALL\x10\x02\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -40,20 +40,20 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_STAGEREPORT_FILTEREDBYREASONENTRY']._serialized_options = b'8\001'
   _globals['_STAGESPEC_PARAMSENTRY']._loaded_options = None
   _globals['_STAGESPEC_PARAMSENTRY']._serialized_options = b'8\001'
-  _globals['_CANDIDATEKIND']._serialized_start=2419
-  _globals['_CANDIDATEKIND']._serialized_end=2492
-  _globals['_COMPLETENESS']._serialized_start=2494
-  _globals['_COMPLETENESS']._serialized_end=2603
-  _globals['_SCOREKIND']._serialized_start=2605
-  _globals['_SCOREKIND']._serialized_end=2706
-  _globals['_FILTERREASON']._serialized_start=2708
-  _globals['_FILTERREASON']._serialized_end=2795
-  _globals['_STAGEOUTCOME']._serialized_start=2797
-  _globals['_STAGEOUTCOME']._serialized_end=2896
-  _globals['_PIPELINEROLE']._serialized_start=2898
-  _globals['_PIPELINEROLE']._serialized_end=2984
-  _globals['_EXECUTIONMODE']._serialized_start=2986
-  _globals['_EXECUTIONMODE']._serialized_end=3060
+  _globals['_CANDIDATEKIND']._serialized_start=2439
+  _globals['_CANDIDATEKIND']._serialized_end=2524
+  _globals['_COMPLETENESS']._serialized_start=2526
+  _globals['_COMPLETENESS']._serialized_end=2635
+  _globals['_SCOREKIND']._serialized_start=2637
+  _globals['_SCOREKIND']._serialized_end=2738
+  _globals['_FILTERREASON']._serialized_start=2740
+  _globals['_FILTERREASON']._serialized_end=2844
+  _globals['_STAGEOUTCOME']._serialized_start=2846
+  _globals['_STAGEOUTCOME']._serialized_end=2945
+  _globals['_PIPELINEROLE']._serialized_start=2947
+  _globals['_PIPELINEROLE']._serialized_end=3033
+  _globals['_EXECUTIONMODE']._serialized_start=3035
+  _globals['_EXECUTIONMODE']._serialized_end=3109
   _globals['_STAGESCORE']._serialized_start=60
   _globals['_STAGESCORE']._serialized_end=154
   _globals['_STAGETOUCH']._serialized_start=156
@@ -63,23 +63,23 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_NAMEDANCHOR']._serialized_start=388
   _globals['_NAMEDANCHOR']._serialized_end=489
   _globals['_CANDIDATE']._serialized_start=492
-  _globals['_CANDIDATE']._serialized_end=1083
-  _globals['_CANDIDATE_SCORESENTRY']._serialized_start=1003
-  _globals['_CANDIDATE_SCORESENTRY']._serialized_end=1070
-  _globals['_FILTERRECORD']._serialized_start=1085
-  _globals['_FILTERRECORD']._serialized_end=1195
-  _globals['_COSTREPORT']._serialized_start=1198
-  _globals['_COSTREPORT']._serialized_end=1586
-  _globals['_COSTREPORT_BYTESBYLAYERENTRY']._serialized_start=1535
-  _globals['_COSTREPORT_BYTESBYLAYERENTRY']._serialized_end=1586
-  _globals['_STAGEREPORT']._serialized_start=1589
-  _globals['_STAGEREPORT']._serialized_end=2054
-  _globals['_STAGEREPORT_FILTEREDBYREASONENTRY']._serialized_start=1982
-  _globals['_STAGEREPORT_FILTEREDBYREASONENTRY']._serialized_end=2037
-  _globals['_STAGESPEC']._serialized_start=2057
-  _globals['_STAGESPEC']._serialized_end=2196
-  _globals['_STAGESPEC_PARAMSENTRY']._serialized_start=2151
-  _globals['_STAGESPEC_PARAMSENTRY']._serialized_end=2196
-  _globals['_PIPELINESPEC']._serialized_start=2199
-  _globals['_PIPELINESPEC']._serialized_end=2417
+  _globals['_CANDIDATE']._serialized_end=1103
+  _globals['_CANDIDATE_SCORESENTRY']._serialized_start=1023
+  _globals['_CANDIDATE_SCORESENTRY']._serialized_end=1090
+  _globals['_FILTERRECORD']._serialized_start=1105
+  _globals['_FILTERRECORD']._serialized_end=1215
+  _globals['_COSTREPORT']._serialized_start=1218
+  _globals['_COSTREPORT']._serialized_end=1606
+  _globals['_COSTREPORT_BYTESBYLAYERENTRY']._serialized_start=1555
+  _globals['_COSTREPORT_BYTESBYLAYERENTRY']._serialized_end=1606
+  _globals['_STAGEREPORT']._serialized_start=1609
+  _globals['_STAGEREPORT']._serialized_end=2074
+  _globals['_STAGEREPORT_FILTEREDBYREASONENTRY']._serialized_start=2002
+  _globals['_STAGEREPORT_FILTEREDBYREASONENTRY']._serialized_end=2057
+  _globals['_STAGESPEC']._serialized_start=2077
+  _globals['_STAGESPEC']._serialized_end=2216
+  _globals['_STAGESPEC_PARAMSENTRY']._serialized_start=2171
+  _globals['_STAGESPEC_PARAMSENTRY']._serialized_end=2216
+  _globals['_PIPELINESPEC']._serialized_start=2219
+  _globals['_PIPELINESPEC']._serialized_end=2437
 # @@protoc_insertion_point(module_scope)

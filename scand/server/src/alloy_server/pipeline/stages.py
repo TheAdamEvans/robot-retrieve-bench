@@ -231,6 +231,71 @@ class PredicateRanker(Stage):
         return StageResult(ctx.sort(kept, [(self.stage_id, True)]), filtered, verified=True)
 
 
+class MergeAdjacent(Stage):
+    """Display only: fold same-recording results whose spans overlap or sit within gap_s into one MERGED result
+    (span = union, rank = best member), so ten overlapping 4 s windows of one 13 s event read as one result. Only the
+    top grow_k results may widen a span; lower-ranked overlapping results are absorbed without widening it.
+    Runs only for presentation requests; the benchmark scores the unmerged list."""
+    impl = "MergeAdjacent"
+    filters = True
+    display_only = True
+
+    def run(self, ctx: QueryContext, cands: list[pp.Candidate]) -> StageResult:
+        gap = int(float(self.params.get("gap_s", 1.0)) * NS)
+        max_span = int(float(self.params.get("max_span_s", 20.0)) * NS)
+        span = lambda cd: ((cd.resolved.start_ns, cd.resolved.end_ns) if cd.HasField("resolved") and cd.resolved.end_ns
+                           else (cd.seed.start_ns, cd.seed.end_ns))
+        grow_k = int(self.params.get("grow_k", 3 * ctx.k))
+        groups: list[list[pp.Candidate]] = []
+        bounds: list[tuple[int, int]] = []
+        for i, cd in enumerate(cands):  # rank order: each result joins the best-ranked compatible group
+            s, e = span(cd)
+            for j, g in enumerate(groups):
+                gs, ge = bounds[j]
+                if g[0].recording_id != cd.recording_id or s > ge + gap or e < gs - gap:
+                    continue
+                if i >= grow_k:  # weak results are absorbed as duplicates but never widen what is shown
+                    if s < ge and e > gs:
+                        g.append(cd)
+                        break
+                    continue
+                if max(ge, e) - min(gs, s) <= max_span:
+                    g.append(cd)
+                    bounds[j] = (min(gs, s), max(ge, e))
+                    break
+            else:
+                groups.append([cd])
+                bounds.append((s, e))
+        out, filtered = [], []
+        for rank, g in enumerate(groups):
+            if len(g) == 1:
+                self.score(g[0], float(-rank), pp.RANK)
+                out.append(g[0])
+                continue
+            best = g[0]
+            m = pp.Candidate()
+            m.CopyFrom(best)
+            m.kind = pp.MERGED
+            m.window_id = ""
+            ids = [x.candidate_id for x in g]
+            m.candidate_id = hashlib.sha256("|".join(sorted(ids)).encode()).hexdigest()[:16]
+            m.member_ids.extend(ids)
+            m.seed.start_ns, m.seed.end_ns = bounds[rank]
+            m.resolved.start_ns, m.resolved.end_ns = m.seed.start_ns, m.seed.end_ns
+            seen = {(e.topic, e.topic_ordinal) for e in m.evidence}
+            for x in g[1:]:
+                for e in x.evidence:
+                    if (e.topic, e.topic_ordinal) not in seen:
+                        m.evidence.append(e)
+                        seen.add((e.topic, e.topic_ordinal))
+            m.lineage.add(stage_id=self.stage_id, action=f"merged:{len(g)}")
+            self.score(m, float(-rank), pp.RANK)
+            out.append(m)
+            filtered += [pp.FilterRecord(candidate_id=x.candidate_id, stage_id=self.stage_id, reason=pp.MERGED_INTO,
+                                         detail=m.candidate_id) for x in g]
+        return StageResult(out, filtered)
+
+
 class Truncate(Stage):
     impl = "Truncate"
     truncates = True
@@ -240,4 +305,4 @@ class Truncate(Stage):
 
 
 REGISTRY = {cls.impl: cls for cls in (TagCandidates, EmbeddingCandidates, ProgramCandidates, FixedCandidates,
-                                      BM25Ranker, SimilarityRanker, PredicateRanker, Truncate)}
+                                      BM25Ranker, SimilarityRanker, PredicateRanker, MergeAdjacent, Truncate)}

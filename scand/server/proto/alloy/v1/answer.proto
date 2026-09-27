@@ -50,6 +50,7 @@ message SearchRequest {
   uint32 k = 6;                        // 0 => pipeline default (or 10); SCORE_ALL is never truncated
   ExecutionMode mode = 7;
   repeated string window_ids = 8;      // SCORE_ALL only
+  bool presentation = 9;               // apply display-only stages (e.g. MergeAdjacent); the benchmark never sets it
 }
 
 message ResultItem {

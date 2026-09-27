@@ -88,7 +88,10 @@ function card(pid, resp){
   (resp.results||[]).forEach((it,i) => {
     const cd = it.candidate; const a0 = (cd.anchors||[])[0];
     const t = a0 ? a0.tNs : (cd.seed||{}).endNs;
-    const when = cd.windowId || (a0 ? `${cd.recordingId} ${a0.name} @ ${rel(cd.recordingId, a0.tNs)}` : cd.recordingId);
+    const merged = cd.kind === "MERGED";
+    const spanS = ((+cd.seed.endNs - +cd.seed.startNs) / 1e9).toFixed(0);
+    const when = merged ? `${cd.recordingId} ${rel(cd.recordingId, +cd.seed.startNs)}–${rel(cd.recordingId, +cd.seed.endNs)} <span class=badge>${(cd.memberIds||[]).length} windows merged · ${spanS} s</span>`
+               : cd.windowId || (a0 ? `${cd.recordingId} ${a0.name} @ ${rel(cd.recordingId, a0.tNs)}` : cd.recordingId);
     const chips = (cd.clauses||[]).map(cl => { const tv = {TRUTH_TRUE:"T",TRUTH_FALSE:"F",TRUTH_UNKNOWN:"U"}[cl.truth];
       return `<span class="chip ${tv}" title="${cl.doc||""}">${tv} ${cl.clauseId}${tv==="U"&&cl.reason?" · "+cl.reason.toLowerCase():""}</span>`; }).join("");
     const est = cd.spatialBasis === "ESTIMATED" ? ` <span class=est>ESTIMATED</span>` : "";
@@ -96,7 +99,7 @@ function card(pid, resp){
     if (it.receipt) rc = `<details><summary>causal receipt (${(it.receipt.items||[]).length} items, ${it.receipt.boundary})</summary><table class=rc>${it.receipt.items.map(x=>`<tr><td>${x.sensor}</td><td>${(x.topic||"").split("/").slice(-3).join("/")}</td><td>${x.ageNs!==undefined?(x.ageNs/1e6).toFixed(0)+" ms":"–"}</td><td class="${x.ok==="TRUTH_TRUE"?"T":"U"}">${x.ok==="TRUTH_TRUE"?"ok":(x.reason||"").toLowerCase()}</td></tr>`).join("")}</table></details>`;
     const S = 1e9, a = a0 ? +a0.tNs : null;
     let t0, t1;
-    if (cd.windowId) { t0 = +cd.seed.startNs; t1 = +cd.seed.endNs; }
+    if (cd.windowId || cd.kind === "MERGED") { t0 = +cd.seed.startNs; t1 = +cd.seed.endNs; }
     else { const r0 = +((cd.resolved||cd.seed).startNs), r1 = +((cd.resolved||cd.seed).endNs);
            if (r1 - r0 >= 2*S && r1 - r0 <= 8*S) { t0 = r0 - S; t1 = r1 + S; } else { t0 = a - 2*S; t1 = a + 2*S; } }
     const clip = `/v1/clip?rec=${cd.recordingId}&t0_ns=${t0}&t1_ns=${t1}` + (a ? `&anchor_ns=${a}` : "");

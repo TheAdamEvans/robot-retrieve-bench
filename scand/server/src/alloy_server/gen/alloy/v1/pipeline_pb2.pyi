@@ -13,6 +13,7 @@ class CandidateKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     CANDIDATE_KIND_UNSPECIFIED: _ClassVar[CandidateKind]
     WINDOW: _ClassVar[CandidateKind]
     INTERVAL: _ClassVar[CandidateKind]
+    MERGED: _ClassVar[CandidateKind]
 
 class Completeness(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -35,6 +36,7 @@ class FilterReason(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     FILTER_REASON_UNSPECIFIED: _ClassVar[FilterReason]
     REQUIRED_CLAUSE_FALSE: _ClassVar[FilterReason]
     TRUNCATED: _ClassVar[FilterReason]
+    MERGED_INTO: _ClassVar[FilterReason]
 
 class StageOutcome(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -59,6 +61,7 @@ class ExecutionMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
 CANDIDATE_KIND_UNSPECIFIED: CandidateKind
 WINDOW: CandidateKind
 INTERVAL: CandidateKind
+MERGED: CandidateKind
 COMPLETENESS_UNSPECIFIED: Completeness
 EXHAUSTIVE: Completeness
 CANDIDATE_LIMITED: Completeness
@@ -72,6 +75,7 @@ RANK: ScoreKind
 FILTER_REASON_UNSPECIFIED: FilterReason
 REQUIRED_CLAUSE_FALSE: FilterReason
 TRUNCATED: FilterReason
+MERGED_INTO: FilterReason
 STAGE_OUTCOME_UNSPECIFIED: StageOutcome
 RAN: StageOutcome
 SKIPPED: StageOutcome
@@ -136,7 +140,7 @@ class NamedAnchor(_message.Message):
     def __init__(self, name: _Optional[str] = ..., t_ns: _Optional[int] = ..., lo_ns: _Optional[int] = ..., hi_ns: _Optional[int] = ...) -> None: ...
 
 class Candidate(_message.Message):
-    __slots__ = ("candidate_id", "kind", "recording_id", "seed", "resolved", "lineage", "scores", "clauses", "evidence", "anchors", "completeness", "spatial_basis", "filtered", "window_id")
+    __slots__ = ("candidate_id", "kind", "recording_id", "seed", "resolved", "lineage", "scores", "clauses", "evidence", "anchors", "completeness", "spatial_basis", "filtered", "window_id", "member_ids")
     class ScoresEntry(_message.Message):
         __slots__ = ("key", "value")
         KEY_FIELD_NUMBER: _ClassVar[int]
@@ -158,6 +162,7 @@ class Candidate(_message.Message):
     SPATIAL_BASIS_FIELD_NUMBER: _ClassVar[int]
     FILTERED_FIELD_NUMBER: _ClassVar[int]
     WINDOW_ID_FIELD_NUMBER: _ClassVar[int]
+    MEMBER_IDS_FIELD_NUMBER: _ClassVar[int]
     candidate_id: str
     kind: CandidateKind
     recording_id: str
@@ -172,7 +177,8 @@ class Candidate(_message.Message):
     spatial_basis: _common_pb2.SpatialBasis
     filtered: bool
     window_id: str
-    def __init__(self, candidate_id: _Optional[str] = ..., kind: _Optional[_Union[CandidateKind, str]] = ..., recording_id: _Optional[str] = ..., seed: _Optional[_Union[_common_pb2.Interval, _Mapping]] = ..., resolved: _Optional[_Union[_common_pb2.Interval, _Mapping]] = ..., lineage: _Optional[_Iterable[_Union[StageTouch, _Mapping]]] = ..., scores: _Optional[_Mapping[str, StageScore]] = ..., clauses: _Optional[_Iterable[_Union[ClauseResult, _Mapping]]] = ..., evidence: _Optional[_Iterable[_Union[_common_pb2.MessageId, _Mapping]]] = ..., anchors: _Optional[_Iterable[_Union[NamedAnchor, _Mapping]]] = ..., completeness: _Optional[_Union[Completeness, str]] = ..., spatial_basis: _Optional[_Union[_common_pb2.SpatialBasis, str]] = ..., filtered: _Optional[bool] = ..., window_id: _Optional[str] = ...) -> None: ...
+    member_ids: _containers.RepeatedScalarFieldContainer[str]
+    def __init__(self, candidate_id: _Optional[str] = ..., kind: _Optional[_Union[CandidateKind, str]] = ..., recording_id: _Optional[str] = ..., seed: _Optional[_Union[_common_pb2.Interval, _Mapping]] = ..., resolved: _Optional[_Union[_common_pb2.Interval, _Mapping]] = ..., lineage: _Optional[_Iterable[_Union[StageTouch, _Mapping]]] = ..., scores: _Optional[_Mapping[str, StageScore]] = ..., clauses: _Optional[_Iterable[_Union[ClauseResult, _Mapping]]] = ..., evidence: _Optional[_Iterable[_Union[_common_pb2.MessageId, _Mapping]]] = ..., anchors: _Optional[_Iterable[_Union[NamedAnchor, _Mapping]]] = ..., completeness: _Optional[_Union[Completeness, str]] = ..., spatial_basis: _Optional[_Union[_common_pb2.SpatialBasis, str]] = ..., filtered: _Optional[bool] = ..., window_id: _Optional[str] = ..., member_ids: _Optional[_Iterable[str]] = ...) -> None: ...
 
 class FilterRecord(_message.Message):
     __slots__ = ("candidate_id", "stage_id", "reason", "detail")

@@ -316,3 +316,25 @@ def test_cache_only_generation_fails_on_miss_without_an_api_client(bundle, tmp_p
     assert gen.client is None
     with pytest.raises(RuntimeError, match="refusing a new API call"):
         gen("a query with no cached program", bundle)
+
+
+@needs_bundle
+def test_merge_is_display_only_and_accounts_for_every_member(bundle):
+    from alloy_server.pipeline.runner import run
+    spec = bundle.specs["TAGS"]
+    assert any(st.impl == "MergeAdjacent" for st in spec.rankers)
+    bare = pp.PipelineSpec()
+    bare.CopyFrom(spec)
+    del bare.rankers[:]
+    bare.rankers.extend(st for st in spec.rankers if st.impl != "MergeAdjacent")
+    ids = lambda r: [x.candidate.candidate_id for x in r.results]
+    req = a.SearchRequest(utterance="doorway", pipeline_id="TAGS", k=10)
+    assert ids(run(bundle, spec, req)) == ids(run(bundle, bare, req))  # eval requests: identical to no merge stage
+    req.presentation = True
+    shown = run(bundle, spec, req)
+    merged = [x.candidate for x in shown.results if x.candidate.kind == pp.MERGED]
+    assert merged and len(shown.results) == 10
+    into = {f.candidate_id: f.detail for f in shown.filtered if f.reason == pp.MERGED_INTO}
+    for m in merged:
+        assert all(into[i] == m.candidate_id for i in m.member_ids)
+        assert (m.seed.end_ns - m.seed.start_ns) <= 20 * 10**9

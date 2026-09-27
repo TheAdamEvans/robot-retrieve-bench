@@ -83,7 +83,7 @@ class EvidenceReceipt(_message.Message):
     def __init__(self, causal_cutoff_ns: _Optional[int] = ..., boundary: _Optional[_Union[_common_pb2.Boundary, str]] = ..., max_age_ns: _Optional[int] = ..., discovery_mode: _Optional[str] = ..., items: _Optional[_Iterable[_Union[ReceiptItem, _Mapping]]] = ...) -> None: ...
 
 class SearchRequest(_message.Message):
-    __slots__ = ("utterance", "program", "pipeline_id", "scope", "availability_config_id", "k", "mode", "window_ids")
+    __slots__ = ("utterance", "program", "pipeline_id", "scope", "availability_config_id", "k", "mode", "window_ids", "presentation")
     UTTERANCE_FIELD_NUMBER: _ClassVar[int]
     PROGRAM_FIELD_NUMBER: _ClassVar[int]
     PIPELINE_ID_FIELD_NUMBER: _ClassVar[int]
@@ -92,6 +92,7 @@ class SearchRequest(_message.Message):
     K_FIELD_NUMBER: _ClassVar[int]
     MODE_FIELD_NUMBER: _ClassVar[int]
     WINDOW_IDS_FIELD_NUMBER: _ClassVar[int]
+    PRESENTATION_FIELD_NUMBER: _ClassVar[int]
     utterance: str
     program: _query_pb2.QueryProgram
     pipeline_id: str
@@ -100,7 +101,8 @@ class SearchRequest(_message.Message):
     k: int
     mode: _pipeline_pb2.ExecutionMode
     window_ids: _containers.RepeatedScalarFieldContainer[str]
-    def __init__(self, utterance: _Optional[str] = ..., program: _Optional[_Union[_query_pb2.QueryProgram, _Mapping]] = ..., pipeline_id: _Optional[str] = ..., scope: _Optional[_Union[_query_pb2.Scope, _Mapping]] = ..., availability_config_id: _Optional[str] = ..., k: _Optional[int] = ..., mode: _Optional[_Union[_pipeline_pb2.ExecutionMode, str]] = ..., window_ids: _Optional[_Iterable[str]] = ...) -> None: ...
+    presentation: bool
+    def __init__(self, utterance: _Optional[str] = ..., program: _Optional[_Union[_query_pb2.QueryProgram, _Mapping]] = ..., pipeline_id: _Optional[str] = ..., scope: _Optional[_Union[_query_pb2.Scope, _Mapping]] = ..., availability_config_id: _Optional[str] = ..., k: _Optional[int] = ..., mode: _Optional[_Union[_pipeline_pb2.ExecutionMode, str]] = ..., window_ids: _Optional[_Iterable[str]] = ..., presentation: _Optional[bool] = ...) -> None: ...
 
 class ResultItem(_message.Message):
     __slots__ = ("candidate", "receipt", "unsupported")

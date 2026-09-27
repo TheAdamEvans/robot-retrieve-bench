@@ -3,10 +3,10 @@ package alloy.v1;
 
 import "alloy/v1/common.proto";
 
-enum CandidateKind { CANDIDATE_KIND_UNSPECIFIED = 0; WINDOW = 1; INTERVAL = 2; }
+enum CandidateKind { CANDIDATE_KIND_UNSPECIFIED = 0; WINDOW = 1; INTERVAL = 2; MERGED = 3; }
 enum Completeness { COMPLETENESS_UNSPECIFIED = 0; EXHAUSTIVE = 1; CANDIDATE_LIMITED = 2; COMPLETENESS_UNKNOWN = 3; }
 enum ScoreKind { SCORE_KIND_UNSPECIFIED = 0; BM25 = 1; COSINE = 2; TRUTH_ORDINAL = 3; FUSED = 4; RANK = 5; }
-enum FilterReason { FILTER_REASON_UNSPECIFIED = 0; REQUIRED_CLAUSE_FALSE = 1; TRUNCATED = 2; }
+enum FilterReason { FILTER_REASON_UNSPECIFIED = 0; REQUIRED_CLAUSE_FALSE = 1; TRUNCATED = 2; MERGED_INTO = 3; }
 enum StageOutcome { STAGE_OUTCOME_UNSPECIFIED = 0; RAN = 1; SKIPPED = 2; UNAVAILABLE = 3; ABSTAINED = 4; }
 enum PipelineRole { PIPELINE_ROLE_UNSPECIFIED = 0; TOP_LEVEL = 1; GENERATE = 2; RERANK = 3; }
 enum ExecutionMode { EXECUTION_MODE_UNSPECIFIED = 0; SEARCH = 1; SCORE_ALL = 2; }
@@ -41,6 +41,7 @@ message Candidate {
   SpatialBasis spatial_basis = 12;
   bool filtered = 13;                  // SCORE_ALL only: kept, flagged, ordered last
   string window_id = 14;               // WINDOW candidates
+  repeated string member_ids = 15;     // MERGED candidates: the candidates they stand for (presentation only)
 }
 
 message FilterRecord { string candidate_id = 1; string stage_id = 2; FilterReason reason = 3; string detail = 4; }

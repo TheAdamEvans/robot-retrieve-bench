@@ -108,6 +108,8 @@ def run(bundle, spec: pp.PipelineSpec, req: a.SearchRequest, generator: Callable
             st = build(spec_r)
             if score_all and st.truncates:
                 continue
+            if getattr(st, "display_only", False) and (score_all or not req.presentation):
+                continue  # presentation-only stages never touch what the benchmark scores
             n_in = len(cands)
             before = _snapshot(cands)
             t0 = time.perf_counter()
