@@ -106,9 +106,13 @@ def measure(bundle: Path, rec_id: str, prof: e.EmbodimentProfile, src: Path) -> 
         for t in s.topics:
             if t not in r.topics:
                 rep.anomalies.append(f"{t}: in profile ({s.name}) but absent from this log")
+    odom = E.sensor(prof, "odom")
+    raw = odom_arrays(Decoder(bundle, r), odom.topics[0], prof)
+    rep.speed_floor_mps = float(np.percentile(raw["speed_mps"], 1))
+    if rep.speed_floor_mps > 0.2:
+        rep.anomalies.append(f"slowest odometry speed (1st percentile) is {rep.speed_floor_mps:.2f} m/s: either the robot "
+                             f"never stopped or odometry cannot report standstill; review before trusting stop clauses")
     if prof.speed_smoothing.method == e.GAIT_SYNC_MEAN:
-        odom = E.sensor(prof, "odom")
-        raw = odom_arrays(Decoder(bundle, r), odom.topics[0], prof)
         g = estimate_gait(raw["t_ns"], raw["speed_mps"])
         if g is None:
             rep.anomalies.append("no sustained walking found: gait period not measured (smoother falls back)")
@@ -141,7 +145,7 @@ def main() -> None:
     for rec in a.recs:
         rep = intake(a.bundle, rec, bag_path(rec), a.skip_convert)
         gait = f"gait {rep.gait.frequency_hz:.2f} Hz (T={rep.gait.period_s:.3f}s)" if rep.HasField("gait") else "no gait"
-        print(json.dumps({"recording": rec, "embodiment": rep.embodiment_id, "topics": len(rep.topics),
+        print(json.dumps({"recording": rec, "embodiment": rep.embodiment_id, "speed_floor": round(rep.speed_floor_mps, 3), "topics": len(rep.topics),
                           "unprofiled": list(rep.unprofiled_topics), "gait": gait, "anomalies": list(rep.anomalies)}))
 
 

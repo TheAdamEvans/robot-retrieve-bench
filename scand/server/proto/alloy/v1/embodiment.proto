@@ -100,4 +100,5 @@ message IntakeReport {
   repeated string anomalies = 11;            // deviations from the profile worth a human look
   double duration_s = 12;
   string intake_version = 13;
+  optional double speed_floor_mps = 14;      // 1st percentile of raw odometry speed: stops below it are unresolvable
 }

@@ -1,0 +1,407 @@
+[
+ {
+  "expectedStatus": "ANSWERED",
+  "intent": "The robot speeds up (by at least 0.3 m/s within 2 s) shortly after a new person appears in front of it.",
+  "intentGroupId": "test_speedup_after_person",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "doc": "a new person appears ahead",
+     "feature": "person_tracks_front",
+     "kind": "TRACK_APPEAR",
+     "name": "person",
+     "required": true
+    },
+    {
+     "change": {
+      "unit": "MPS",
+      "value": 0.3
+     },
+     "direction": "UP",
+     "doc": "speeds up by >=0.3 m/s within 2 s",
+     "feature": "speed_mps",
+     "kind": "CHANGE",
+     "name": "faster",
+     "required": true,
+     "within": {
+      "unit": "S",
+      "value": 2.0
+     }
+    }
+   ],
+   "primaryEvent": "person",
+   "relations": [
+    {
+     "child": {
+      "event": "faster",
+      "point": "START"
+     },
+     "kind": "AFTER",
+     "maxGap": {
+      "unit": "S",
+      "value": 3.0
+     },
+     "parent": {
+      "event": "person",
+      "point": "START"
+     },
+     "required": true
+    }
+   ],
+   "returnAnchors": [
+    {
+     "event": "faster",
+     "point": "START"
+    }
+   ],
+   "scope": {},
+   "selection": {
+    "quantifier": "ALL"
+   }
+  },
+  "queryId": "test_speedup_after_person:canonical",
+  "querySet": "compose_test",
+  "scope": {},
+  "utterance": "When does the robot accelerate by 0.3 m/s or more within a couple of seconds of a new person showing up in front of it?"
+ },
+ {
+  "expectedStatus": "ANSWERED",
+  "intent": "The robot squeezes past something with less than 40 cm of room on its right side.",
+  "intentGroupId": "test_tight_right",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "comparator": "LT",
+     "doc": "less than 40 cm of room on the right",
+     "feature": "lateral_clearance_right_m",
+     "kind": "THRESHOLD",
+     "name": "tight",
+     "required": true,
+     "threshold": {
+      "unit": "CM",
+      "value": 40.0
+     }
+    }
+   ],
+   "primaryEvent": "tight",
+   "returnAnchors": [
+    {
+     "event": "tight",
+     "point": "START"
+    }
+   ],
+   "scope": {},
+   "selection": {
+    "byEvent": "tight",
+    "byFeature": "lateral_clearance_right_m",
+    "quantifier": "ARGMIN"
+   }
+  },
+  "queryId": "test_tight_right:canonical",
+  "querySet": "compose_test",
+  "scope": {},
+  "utterance": "Where does the robot squeeze past an obstacle with less than 40 cm to spare on its right?"
+ },
+ {
+  "expectedStatus": "ANSWERED",
+  "intent": "Ordered: the robot turns (>=45 degrees within 3 s) and then brakes (>=30% speed drop) within 5 s after the turn starts.",
+  "intentGroupId": "test_turn_then_brake",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "change": {
+      "unit": "DEG",
+      "value": 45.0
+     },
+     "doc": "turn of >=45 deg within 3 s",
+     "feature": "heading_deg",
+     "kind": "CHANGE",
+     "name": "turn",
+     "required": true,
+     "within": {
+      "unit": "S",
+      "value": 3.0
+     }
+    },
+    {
+     "change": {
+      "unit": "RATIO",
+      "value": 0.3
+     },
+     "direction": "DOWN",
+     "doc": "speed drops by >=30%",
+     "feature": "speed_mps",
+     "kind": "CHANGE",
+     "name": "brake",
+     "required": true,
+     "within": {
+      "unit": "S",
+      "value": 3.0
+     }
+    }
+   ],
+   "primaryEvent": "turn",
+   "relations": [
+    {
+     "child": {
+      "event": "brake",
+      "point": "START"
+     },
+     "kind": "AFTER",
+     "maxGap": {
+      "unit": "S",
+      "value": 5.0
+     },
+     "minGap": {
+      "unit": "S"
+     },
+     "parent": {
+      "event": "turn",
+      "point": "START"
+     },
+     "required": true
+    }
+   ],
+   "returnAnchors": [
+    {
+     "event": "turn",
+     "point": "START"
+    },
+    {
+     "event": "brake",
+     "point": "START"
+    }
+   ],
+   "scope": {},
+   "selection": {
+    "quantifier": "ALL"
+   }
+  },
+  "queryId": "test_turn_then_brake:canonical",
+  "querySet": "compose_test",
+  "scope": {},
+  "utterance": "Find where the robot turns and then brakes: a turn of at least 45 degrees followed within five seconds by a drop of 30% or more in speed."
+ },
+ {
+  "expectedStatus": "ANSWERED",
+  "intent": "A vehicle close in front (large in the image) while the robot moves faster than 1.5 m/s.",
+  "intentGroupId": "test_car_close_fast",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "comparator": "GTE",
+     "doc": "a vehicle close ahead (>=5% of the image)",
+     "feature": "vehicle_box_frac",
+     "kind": "THRESHOLD",
+     "name": "car",
+     "required": true,
+     "threshold": {
+      "unit": "RATIO",
+      "value": 0.05
+     }
+    },
+    {
+     "comparator": "GT",
+     "doc": "faster than 1.5 m/s",
+     "feature": "speed_mps",
+     "kind": "THRESHOLD",
+     "name": "fast",
+     "required": true,
+     "threshold": {
+      "unit": "MPS",
+      "value": 1.5
+     }
+    }
+   ],
+   "primaryEvent": "car",
+   "relations": [
+    {
+     "child": {
+      "event": "fast",
+      "point": "START"
+     },
+     "kind": "WITHIN",
+     "maxGap": {
+      "unit": "S",
+      "value": 1.0
+     },
+     "parent": {
+      "event": "car",
+      "point": "START"
+     },
+     "required": true
+    }
+   ],
+   "returnAnchors": [
+    {
+     "event": "car",
+     "point": "START"
+    }
+   ],
+   "scope": {},
+   "selection": {
+    "quantifier": "ALL"
+   }
+  },
+  "queryId": "test_car_close_fast:canonical",
+  "querySet": "compose_test",
+  "scope": {},
+  "utterance": "Show a car close in front of the robot while it's going faster than 1.5 metres per second."
+ },
+ {
+  "expectAbstain": true,
+  "expectedStatus": "INSUFFICIENT_EVIDENCE",
+  "intent": "When the robot's battery level drops below 20% (not recorded: the system should abstain).",
+  "intentGroupId": "test_battery_abstain",
+  "oracleProgram": {
+   "abstainIfInsufficient": true,
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "comparator": "GT",
+     "doc": "placeholder: any time the robot moves",
+     "feature": "speed_mps",
+     "kind": "THRESHOLD",
+     "name": "moving",
+     "required": true,
+     "threshold": {
+      "unit": "MPS",
+      "value": 0.05
+     }
+    }
+   ],
+   "primaryEvent": "moving",
+   "scope": {},
+   "selection": {
+    "quantifier": "ALL"
+   },
+   "unexpressible": [
+    "battery level below 20% (battery state is not recorded)"
+   ]
+  },
+  "queryId": "test_battery_abstain:canonical",
+  "querySet": "compose_test",
+  "scope": {},
+  "utterance": "When did the robot's battery drop below 20 percent?"
+ },
+ {
+  "expectedStatus": "ANSWERED_PARTIAL",
+  "intent": "Spot's body cameras see a person while the front camera sees nobody.",
+  "intentGroupId": "test_body_cam_person",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "comparator": "EQ",
+     "doc": "the front camera sees nobody",
+     "feature": "persons_visible_front",
+     "kind": "THRESHOLD",
+     "minDuration": {
+      "unit": "S",
+      "value": 1.0
+     },
+     "name": "empty_front",
+     "required": true,
+     "threshold": {
+      "unit": "DIMENSIONLESS"
+     }
+    },
+    {
+     "comparator": "GTE",
+     "doc": "a body camera sees a person",
+     "feature": "persons_visible_body_cameras",
+     "kind": "THRESHOLD",
+     "name": "body",
+     "required": true,
+     "threshold": {
+      "unit": "DIMENSIONLESS",
+      "value": 1.0
+     }
+    }
+   ],
+   "primaryEvent": "empty_front",
+   "relations": [
+    {
+     "child": {
+      "event": "body",
+      "point": "START"
+     },
+     "kind": "DURING",
+     "parent": {
+      "event": "empty_front",
+      "point": "START"
+     },
+     "required": true
+    }
+   ],
+   "returnAnchors": [
+    {
+     "event": "empty_front",
+     "point": "START"
+    }
+   ],
+   "scope": {
+    "recordingIds": [
+     "Butler",
+     "JCL",
+     "Library_MLK",
+     "GDC",
+     "RLM"
+    ]
+   },
+   "selection": {
+    "quantifier": "ALL"
+   }
+  },
+  "queryId": "test_body_cam_person:canonical",
+  "querySet": "compose_test",
+  "scope": {},
+  "utterance": "Find moments where Spot's side or rear cameras see a person but its front camera sees nobody."
+ }
+]

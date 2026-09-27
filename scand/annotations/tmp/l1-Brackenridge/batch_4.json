@@ -1,0 +1,95 @@
+[
+  {
+    "segment_id": "Brackenridge:0064",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal follows a path past a small kiosk as a person overtakes on its left, with two pedestrians walking ahead and parked bicycles to the right.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#1859",
+      "Brackenridge/camera/rgb/image_raw/compressed#1883",
+      "Brackenridge/camera/rgb/image_raw/compressed#1934",
+      "Brackenridge/velodyne_2dscan#621",
+      "Brackenridge/jackal_velocity_controller/odom#2899",
+      "Brackenridge/jackal_velocity_controller/odom#3299"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0068",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal turns onto a walkway beside a trailer, following two pedestrians several meters ahead past rows of parked bicycles.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#1979",
+      "Brackenridge/velodyne_2dscan#653",
+      "Brackenridge/jackal_velocity_controller/odom#3099",
+      "Brackenridge/jackal_velocity_controller/odom#3499"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0072",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal drives close along the wall of a COVID-testing trailer over metal grates, following two pedestrians several meters ahead with parked bicycles to its right.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#2099",
+      "Brackenridge/velodyne_2dscan#693",
+      "Brackenridge/jackal_velocity_controller/odom#3300",
+      "Brackenridge/jackal_velocity_controller/odom#3698"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0076",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal drives along a brick walkway beside the testing trailer behind two pedestrians, with parked bicycles on its right.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#2219",
+      "Brackenridge/velodyne_2dscan#732",
+      "Brackenridge/jackal_velocity_controller/odom#3500",
+      "Brackenridge/jackal_velocity_controller/odom#3897"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0080",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_TRUE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal drives past a parked bicycle and e-scooter toward a lamp post at the edge of a plaza and slows, with two pedestrians on its left and parked cars across the plaza.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#2339",
+      "Brackenridge/camera/rgb/image_raw/compressed#2399",
+      "Brackenridge/velodyne_2dscan#772",
+      "Brackenridge/jackal_velocity_controller/odom#3699",
+      "Brackenridge/jackal_velocity_controller/odom#4098"
+    ]
+  }
+]

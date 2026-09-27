@@ -105,6 +105,8 @@ class Bundle:
                     self.features.series(f.name, r)
                     if f.kind == "track":
                         self.features.tracks(f.name, r)
+            # intake measures speed_floor_mps, but it is not applied: "never slowed" and "cannot report slow" look alike
+            # (see OPEN_QUESTIONS.md); a floor is applied only once a human confirms it for a log.
             self.executor = Executor(self.features, self.recordings, self.robots)
             tags = root / "index" / "tags.json"
             self.tags = TagIndex(json.loads(tags.read_text()) if tags.exists() else {})

@@ -1,0 +1,561 @@
+[
+ {
+  "expectedStatus": "ANSWERED_PARTIAL",
+  "intent": "In the Butler run: the first time at least six people occupy the robot's forward travel corridor and the robot loses at least 0.7 m/s within 3 s; anchors: just before deceleration, minimum speed, recovery to 90% of the pre-event speed.",
+  "intentGroupId": "crowd_hesitation",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 20.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "comparator": "GTE",
+     "doc": "at least six people in the forward corridor",
+     "feature": "persons_in_corridor",
+     "kind": "THRESHOLD",
+     "name": "crowd",
+     "required": true,
+     "threshold": {
+      "unit": "DIMENSIONLESS",
+      "value": 6.0
+     }
+    },
+    {
+     "change": {
+      "unit": "MPS",
+      "value": 0.7
+     },
+     "direction": "DOWN",
+     "doc": "loses at least 0.7 m/s within 3 s",
+     "feature": "speed_mps",
+     "kind": "CHANGE",
+     "name": "slow",
+     "required": true,
+     "within": {
+      "unit": "S",
+      "value": 3.0
+     }
+    },
+    {
+     "doc": "recovers to 90% of pre-event speed",
+     "feature": "speed_mps",
+     "fraction": 0.9,
+     "kind": "RETURN_TO",
+     "name": "recover",
+     "reference": {
+      "event": "slow",
+      "point": "START"
+     },
+     "required": true
+    }
+   ],
+   "primaryEvent": "crowd",
+   "relations": [
+    {
+     "child": {
+      "event": "slow",
+      "point": "START"
+     },
+     "doc": "the slowdown coincides with the crowd",
+     "kind": "WITHIN",
+     "maxGap": {
+      "unit": "S",
+      "value": 3.0
+     },
+     "parent": {
+      "event": "crowd",
+      "point": "START"
+     },
+     "required": true
+    },
+    {
+     "child": {
+      "event": "recover",
+      "point": "START"
+     },
+     "kind": "AFTER",
+     "maxGap": {
+      "unit": "S",
+      "value": 20.0
+     },
+     "parent": {
+      "event": "slow",
+      "point": "EXTREMUM_POINT"
+     },
+     "required": true
+    }
+   ],
+   "returnAnchors": [
+    {
+     "event": "slow",
+     "point": "START"
+    },
+    {
+     "event": "slow",
+     "point": "EXTREMUM_POINT"
+    },
+    {
+     "event": "recover",
+     "point": "START"
+    }
+   ],
+   "scope": {
+    "recordingIds": [
+     "Butler"
+    ]
+   },
+   "selection": {
+    "quantifier": "FIRST"
+   }
+  },
+  "queryId": "crowd_hesitation:canonical",
+  "querySet": "demo5",
+  "scope": {
+   "recordingIds": [
+    "Butler"
+   ]
+  },
+  "utterance": "In the Butler-to-LBJ run, find the first interval in which at least six people occupy the forward travel corridor and Spot loses at least 0.7 m/s within three seconds. Return the frame just before deceleration, the minimum-speed time, and the first recovery to 90% of pre-event speed."
+ },
+ {
+  "expectedStatus": "ANSWERED",
+  "intent": "In the Library_MLK run: the narrowest doorway the robot actually passes through (not beside); approach, threshold crossing and full-body-clear times, minimum left/right clearance.",
+  "intentGroupId": "doorway_crossing",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "comparator": "EQ",
+     "doc": "passes through a doorway-like gap",
+     "feature": "doorway_active",
+     "kind": "THRESHOLD",
+     "minDuration": {
+      "unit": "S",
+      "value": 0.3
+     },
+     "name": "door",
+     "required": true,
+     "threshold": {
+      "unit": "DIMENSIONLESS",
+      "value": 1.0
+     }
+    }
+   ],
+   "primaryEvent": "door",
+   "returnAnchors": [
+    {
+     "event": "door",
+     "point": "START"
+    },
+    {
+     "event": "door",
+     "point": "EXTREMUM_POINT"
+    },
+    {
+     "event": "door",
+     "point": "END"
+    }
+   ],
+   "scope": {
+    "recordingIds": [
+     "Library_MLK"
+    ]
+   },
+   "selection": {
+    "byEvent": "door",
+    "byFeature": "gap_width_m",
+    "quantifier": "ARGMIN"
+   }
+  },
+  "queryId": "doorway_crossing:canonical",
+  "querySet": "demo5",
+  "scope": {
+   "recordingIds": [
+    "Library_MLK"
+   ]
+  },
+  "utterance": "In the Library-to-MLK run, find the narrowest doorway actually traversed. Return approach, threshold crossing, and full-body-clear times, plus minimum left and right clearance in the doorway frame."
+ },
+ {
+  "expectedStatus": "INSUFFICIENT_EVIDENCE",
+  "intent": "In the GDC run: the strongest localized vehicle interaction (a vehicle near the robot with a motion response by the robot), or insufficient evidence. The recording-level tag is not evidence.",
+  "intentGroupId": "vehicle_interaction_gdc",
+  "oracleProgram": {
+   "abstainIfInsufficient": true,
+   "contextAfter": {
+    "unit": "S",
+    "value": 6.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "comparator": "GTE",
+     "doc": "a vehicle is visible ahead",
+     "feature": "vehicles_visible_front",
+     "kind": "THRESHOLD",
+     "minDuration": {
+      "unit": "S",
+      "value": 0.5
+     },
+     "name": "veh",
+     "required": true,
+     "threshold": {
+      "unit": "DIMENSIONLESS",
+      "value": 1.0
+     }
+    },
+    {
+     "change": {
+      "unit": "PERCENT",
+      "value": 20.0
+     },
+     "direction": "DOWN",
+     "doc": "the robot slows in response",
+     "feature": "speed_mps",
+     "kind": "CHANGE",
+     "name": "resp",
+     "required": true,
+     "within": {
+      "unit": "S",
+      "value": 3.0
+     }
+    }
+   ],
+   "primaryEvent": "veh",
+   "relations": [
+    {
+     "child": {
+      "event": "resp",
+      "point": "START"
+     },
+     "doc": "the slowdown coincides with the vehicle",
+     "kind": "WITHIN",
+     "maxGap": {
+      "unit": "S",
+      "value": 4.0
+     },
+     "parent": {
+      "event": "veh",
+      "point": "START"
+     },
+     "required": true
+    }
+   ],
+   "returnAnchors": [
+    {
+     "event": "resp",
+     "point": "START"
+    }
+   ],
+   "scope": {
+    "recordingIds": [
+     "GDC"
+    ]
+   },
+   "selection": {
+    "byEvent": "veh",
+    "byFeature": "vehicle_box_frac",
+    "quantifier": "ARGMAX"
+   }
+  },
+  "queryId": "vehicle_interaction_gdc:canonical",
+  "querySet": "demo5",
+  "scope": {
+   "recordingIds": [
+    "GDC"
+   ]
+  },
+  "utterance": "In the GDC-to-AHG run, either localize the strongest vehicle interaction with supporting frames and motion response or return insufficient evidence. A recording-level Vehicle Interaction tag is not sufficient evidence."
+ },
+ {
+  "expectedStatus": "ANSWERED",
+  "intent": "Immediately before the robot accelerates from a stop: the latest available front image, side/rear images, lidar scan, pose and transform that could have informed the action, with each age.",
+  "intentGroupId": "last_safe_evidence",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "doc": "the robot accelerates from a stop",
+     "feature": "speed_mps",
+     "fromBelow": {
+      "unit": "MPS",
+      "value": 0.05
+     },
+     "kind": "ONSET",
+     "minDuration": {
+      "unit": "S",
+      "value": 1.0
+     },
+     "name": "go",
+     "required": true,
+     "sustain": {
+      "unit": "S",
+      "value": 0.5
+     },
+     "threshold": {
+      "unit": "MPS",
+      "value": 0.1
+     }
+    }
+   ],
+   "primaryEvent": "go",
+   "receipt": {
+    "boundary": "STRICT_BEFORE",
+    "cutoff": {
+     "event": "go",
+     "point": "START"
+    },
+    "maxAge": {
+     "unit": "MS",
+     "value": 500.0
+    },
+    "sensors": [
+     "front_camera",
+     "body_cameras",
+     "lidar",
+     "odom",
+     "tf"
+    ]
+   },
+   "returnAnchors": [
+    {
+     "event": "go",
+     "point": "START"
+    }
+   ],
+   "scope": {},
+   "selection": {
+    "quantifier": "ALL"
+   }
+  },
+  "queryId": "last_safe_evidence:canonical",
+  "querySet": "demo5",
+  "scope": {},
+  "utterance": "Immediately before the robot accelerates from a stop, return the latest available front image, side/rear images, lidar scan, pose, and transform that could have informed the action. Report each message's age."
+ },
+ {
+  "expectedStatus": "ANSWERED_PARTIAL",
+  "intent": "Earliest event across recordings: a person becomes visible only after a turn; the robot then slows >=30%; lidar clearance reaches a local minimum within 2 s of the speed minimum; the robot returns to 90% of pre-event speed before the person disappears from every camera view.",
+  "intentGroupId": "chained_turn_person",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 20.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 6.0
+   },
+   "events": [
+    {
+     "change": {
+      "unit": "DEG",
+      "value": 45.0
+     },
+     "doc": "the robot turns",
+     "feature": "heading_deg",
+     "kind": "CHANGE",
+     "name": "turn",
+     "required": true,
+     "within": {
+      "unit": "S",
+      "value": 3.0
+     }
+    },
+    {
+     "doc": "a person becomes visible after the turn",
+     "feature": "person_tracks_front",
+     "kind": "TRACK_APPEAR",
+     "name": "person",
+     "required": true
+    },
+    {
+     "change": {
+      "unit": "PERCENT",
+      "value": 30.0
+     },
+     "direction": "DOWN",
+     "doc": "the robot slows by at least 30%",
+     "feature": "speed_mps",
+     "kind": "CHANGE",
+     "name": "slow",
+     "required": true,
+     "within": {
+      "unit": "S",
+      "value": 4.0
+     }
+    },
+    {
+     "direction": "DOWN",
+     "doc": "lidar clearance reaches a local minimum",
+     "feature": "min_clearance_front_m",
+     "kind": "EXTREMUM",
+     "name": "clear",
+     "required": true
+    },
+    {
+     "doc": "back to 90% of pre-event speed",
+     "feature": "speed_mps",
+     "fraction": 0.9,
+     "kind": "RETURN_TO",
+     "name": "recover",
+     "reference": {
+      "event": "slow",
+      "point": "START"
+     },
+     "required": true
+    },
+    {
+     "doc": "the person disappears from every camera view",
+     "feature": "person_tracks_all_cameras",
+     "kind": "TRACK_DISAPPEAR",
+     "name": "gone",
+     "reference": {
+      "event": "person",
+      "point": "START"
+     },
+     "required": true
+    }
+   ],
+   "primaryEvent": "turn",
+   "relations": [
+    {
+     "child": {
+      "event": "person",
+      "point": "START"
+     },
+     "kind": "AFTER",
+     "maxGap": {
+      "unit": "S",
+      "value": 5.0
+     },
+     "minGap": {
+      "unit": "S"
+     },
+     "parent": {
+      "event": "turn",
+      "point": "START"
+     },
+     "required": true
+    },
+    {
+     "child": {
+      "event": "slow",
+      "point": "START"
+     },
+     "kind": "AFTER",
+     "maxGap": {
+      "unit": "S",
+      "value": 5.0
+     },
+     "parent": {
+      "event": "person",
+      "point": "START"
+     },
+     "required": true
+    },
+    {
+     "child": {
+      "event": "clear",
+      "point": "EXTREMUM_POINT"
+     },
+     "kind": "WITHIN",
+     "maxGap": {
+      "unit": "S",
+      "value": 2.0
+     },
+     "parent": {
+      "event": "slow",
+      "point": "EXTREMUM_POINT"
+     },
+     "required": true
+    },
+    {
+     "child": {
+      "event": "recover",
+      "point": "START"
+     },
+     "kind": "AFTER",
+     "maxGap": {
+      "unit": "S",
+      "value": 15.0
+     },
+     "parent": {
+      "event": "slow",
+      "point": "EXTREMUM_POINT"
+     },
+     "required": true
+    },
+    {
+     "child": {
+      "event": "gone",
+      "point": "START"
+     },
+     "doc": "recovery happens before the person is gone",
+     "kind": "AFTER",
+     "maxGap": {
+      "unit": "S",
+      "value": 30.0
+     },
+     "parent": {
+      "event": "recover",
+      "point": "START"
+     },
+     "required": true
+    }
+   ],
+   "returnAnchors": [
+    {
+     "event": "person",
+     "point": "START"
+    },
+    {
+     "event": "slow",
+     "point": "START"
+    },
+    {
+     "event": "slow",
+     "point": "EXTREMUM_POINT"
+    },
+    {
+     "event": "clear",
+     "point": "EXTREMUM_POINT"
+    },
+    {
+     "event": "recover",
+     "point": "START"
+    }
+   ],
+   "scope": {},
+   "selection": {
+    "quantifier": "FIRST"
+   }
+  },
+  "queryId": "chained_turn_person:canonical",
+  "querySet": "demo5",
+  "scope": {},
+  "utterance": "Find the earliest event, across all complete recordings, in which a person or group becomes relevant only after a turn; the robot then reduces speed by at least 30%; lidar clearance reaches a local minimum within two seconds of the speed minimum; and the robot returns to 90% of its pre-event speed before the person disappears from every camera view."
+ }
+]

@@ -1,0 +1,97 @@
+[
+  {
+    "segment_id": "GDC:0004",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_FALSE",
+    "caption": "Spot starts from standstill and accelerates along a brick promenade beside a blue construction fence, passing a large oak on its right with pedestrians far ahead.",
+    "refs": [
+      "GDC/image_raw/compressed#8",
+      "GDC/velodyne_points#19",
+      "GDC/velodyne_points#38",
+      "GDC/odom#0",
+      "GDC/odom#64"
+    ]
+  },
+  {
+    "segment_id": "GDC:0008",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_FALSE",
+    "caption": "Spot walks straight along a brick promenade beside a blue construction fence as pedestrians pass on its left.",
+    "refs": [
+      "GDC/velodyne_points#38",
+      "GDC/velodyne_points#58",
+      "GDC/velodyne_points#78",
+      "GDC/odom#65",
+      "GDC/odom#131"
+    ]
+  },
+  {
+    "segment_id": "GDC:0012",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_FALSE",
+    "caption": "Spot walks straight along the promenade while several pedestrians walk toward it along the left side.",
+    "refs": [
+      "GDC/velodyne_points#78",
+      "GDC/velodyne_points#98",
+      "GDC/velodyne_points#118",
+      "GDC/odom#132",
+      "GDC/odom#196"
+    ]
+  },
+  {
+    "segment_id": "GDC:0016",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_FALSE",
+    "caption": "Spot walks straight along the promenade past a group of pedestrians walking the opposite way on its left.",
+    "refs": [
+      "GDC/velodyne_points#118",
+      "GDC/velodyne_points#138",
+      "GDC/velodyne_points#157",
+      "GDC/odom#197",
+      "GDC/odom#261"
+    ]
+  },
+  {
+    "segment_id": "GDC:0020",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_FALSE",
+    "caption": "Spot walks straight along the tree-lined brick promenade beside the blue fence with distant pedestrians ahead.",
+    "refs": [
+      "GDC/velodyne_points#157",
+      "GDC/velodyne_points#177",
+      "GDC/velodyne_points#197",
+      "GDC/odom#262",
+      "GDC/odom#327"
+    ]
+  }
+]

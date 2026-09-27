@@ -1,0 +1,63 @@
+[
+  {
+    "segment_id": "GDC:0088",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_FALSE",
+    "caption": "Spot speeds back up along the plaza past a blue-fenced construction site with barriers and cones on its right.",
+    "refs": [
+      "GDC/image_raw/compressed#2526",
+      "GDC/velodyne_points#832",
+      "GDC/velodyne_points#851",
+      "GDC/velodyne_points#871",
+      "GDC/odom#1377",
+      "GDC/odom#1442"
+    ]
+  },
+  {
+    "segment_id": "GDC:0092",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_FALSE",
+    "caption": "Spot walks straight along the blue construction fence past a hydrant, cones and a news box, with a pedestrian on its left.",
+    "refs": [
+      "GDC/image_raw/compressed#2646",
+      "GDC/spot/camera/left/image/compressed#404",
+      "GDC/velodyne_points#871",
+      "GDC/velodyne_points#891",
+      "GDC/velodyne_points#911",
+      "GDC/odom#1443",
+      "GDC/odom#1507"
+    ]
+  },
+  {
+    "segment_id": "GDC:0096",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_FALSE",
+    "caption": "Spot walks along the blue construction fence past a cone and slows to a near stop at the end of the segment.",
+    "refs": [
+      "GDC/image_raw/compressed#2766",
+      "GDC/velodyne_points#911",
+      "GDC/velodyne_points#931",
+      "GDC/velodyne_points#951",
+      "GDC/odom#1508",
+      "GDC/odom#1573"
+    ]
+  }
+]

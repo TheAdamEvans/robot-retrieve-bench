@@ -1,0 +1,89 @@
+[
+  {
+    "segment_id": "Brackenridge:0004",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_TRUE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal starts from rest and drives along a campus sidewalk past a rack of parked bicycles on its right while a man walking a dog approaches along the left edge.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#120",
+      "Brackenridge/velodyne_2dscan#38",
+      "Brackenridge/jackal_velocity_controller/odom#0",
+      "Brackenridge/jackal_velocity_controller/odom#298"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0008",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_TRUE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal continues along the sidewalk past bike racks toward a paved lot with a parked white minivan on its left; two pedestrians walk far ahead.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#240",
+      "Brackenridge/jackal_velocity_controller/odom#99",
+      "Brackenridge/jackal_velocity_controller/odom#499"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0012",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_TRUE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal crosses a brick-paved area past a bike rack on its right with a parked white minivan to its left front and pedestrians far ahead.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#300",
+      "Brackenridge/jackal_velocity_controller/odom#299",
+      "Brackenridge/jackal_velocity_controller/odom#698"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0016",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_TRUE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal drives across concrete past a parked white minivan on its left toward a sidewalk lined with parked bicycles.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#375",
+      "Brackenridge/camera/rgb/image_raw/compressed#477",
+      "Brackenridge/jackal_velocity_controller/odom#500",
+      "Brackenridge/jackal_velocity_controller/odom#899"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0020",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal follows a sidewalk toward a sandwich-board sign with parked bicycles along its right and pedestrians far ahead.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#540",
+      "Brackenridge/jackal_velocity_controller/odom#699",
+      "Brackenridge/jackal_velocity_controller/odom#1098"
+    ]
+  }
+]

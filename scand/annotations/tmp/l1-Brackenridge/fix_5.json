@@ -1,0 +1,37 @@
+[
+  {
+    "segment_id": "Brackenridge:0088",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_TRUE",
+    "vehicle_interaction": "TRUTH_TRUE",
+    "bicycle": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal waits on the plaza as a dark SUV drives past close on its right, then turns right and moves off toward barricades.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#2576",
+      "Brackenridge/velodyne_2dscan#850",
+      "Brackenridge/jackal_velocity_controller/odom#4199",
+      "Brackenridge/jackal_velocity_controller/odom#4398"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0092",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_TRUE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal crosses the brick plaza past orange-and-white barricades toward a road with parked SUVs while pedestrians cross at a distance.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#2648",
+      "Brackenridge/jackal_velocity_controller/odom#4399",
+      "Brackenridge/jackal_velocity_controller/odom#4599"
+    ]
+  }
+]

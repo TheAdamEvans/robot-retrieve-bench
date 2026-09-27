@@ -1,0 +1,95 @@
+[
+  {
+    "segment_id": "Brackenridge:0024",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal drives along a sidewalk beside rows of parked bicycles on its right and empty bike racks on its left, with pedestrians walking far ahead.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#660",
+      "Brackenridge/jackal_velocity_controller/odom#900",
+      "Brackenridge/jackal_velocity_controller/odom#1299"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0028",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal continues down the sidewalk past parked bicycles toward a tree-lined area with pedestrians in the distance.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#780",
+      "Brackenridge/jackal_velocity_controller/odom#1099",
+      "Brackenridge/jackal_velocity_controller/odom#1499"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0032",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_TRUE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal drives along a sidewalk past a bike rack on its left as a woman walks toward it along the left edge, outside its path, with other pedestrians beyond.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#869",
+      "Brackenridge/camera/rgb/image_raw/compressed#945",
+      "Brackenridge/velodyne_2dscan#311",
+      "Brackenridge/jackal_velocity_controller/odom#1300",
+      "Brackenridge/jackal_velocity_controller/odom#1698"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0036",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal drives along a sidewalk beside a brick building and a planter, slowing briefly, while pedestrians pass along the edges and walk far ahead.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#989",
+      "Brackenridge/camera/rgb/image_raw/compressed#959",
+      "Brackenridge/camera/rgb/image_raw/compressed#1079",
+      "Brackenridge/velodyne_2dscan#336",
+      "Brackenridge/jackal_velocity_controller/odom#1500",
+      "Brackenridge/jackal_velocity_controller/odom#1898"
+    ]
+  },
+  {
+    "segment_id": "Brackenridge:0040",
+    "persons_in_corridor": "ZERO",
+    "stationary_group": "TRUTH_FALSE",
+    "doorway_traversal": "TRUTH_FALSE",
+    "vehicle_present": "TRUTH_FALSE",
+    "vehicle_interaction": "TRUTH_FALSE",
+    "bicycle": "TRUTH_FALSE",
+    "indoor": "TRUTH_FALSE",
+    "turn_visible": "TRUTH_FALSE",
+    "caption": "Jackal drives along an empty stretch of sidewalk beside a brick building and a planter, with pedestrians far ahead.",
+    "refs": [
+      "Brackenridge/camera/rgb/image_raw/compressed#1079",
+      "Brackenridge/camera/rgb/image_raw/compressed#1139",
+      "Brackenridge/camera/rgb/image_raw/compressed#1199",
+      "Brackenridge/velodyne_2dscan#375",
+      "Brackenridge/jackal_velocity_controller/odom#1699",
+      "Brackenridge/jackal_velocity_controller/odom#2098"
+    ]
+  }
+]

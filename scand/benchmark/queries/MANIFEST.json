@@ -1,0 +1,18 @@
+{
+ "compose_dev": {
+  "queries": 4,
+  "sha256": "474cdaa1e3ab0c9fcae3ea5dbe528ad26217b7c3abbddb0215613a6a9e045fc1"
+ },
+ "compose_test": {
+  "queries": 6,
+  "sha256": "1134124ec191e9f808b4887ff24c26ed61e412305d8ccef985c7e97060417dad"
+ },
+ "demo5": {
+  "queries": 5,
+  "sha256": "fd4799be2588cd6d5c498928352b6e7cccbf96dda69270bfc64f0b0a04da8ad5"
+ },
+ "demo5_para": {
+  "queries": 15,
+  "sha256": "b4a8bb780aa9c21a837773123fbfafb66d5cf8ca07d1a2da05f2eb4c7240e395"
+ }
+}

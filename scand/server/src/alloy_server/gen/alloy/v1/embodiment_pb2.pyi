@@ -208,7 +208,7 @@ class GaitEstimate(_message.Message):
     def __init__(self, period_s: _Optional[float] = ..., frequency_hz: _Optional[float] = ..., peak_to_median: _Optional[float] = ..., windows: _Optional[int] = ...) -> None: ...
 
 class IntakeReport(_message.Message):
-    __slots__ = ("recording_id", "source", "source_sha256", "source_bytes", "embodiment_id", "profile_version", "missing_signature_topics", "unprofiled_topics", "topics", "gait", "anomalies", "duration_s", "intake_version")
+    __slots__ = ("recording_id", "source", "source_sha256", "source_bytes", "embodiment_id", "profile_version", "missing_signature_topics", "unprofiled_topics", "topics", "gait", "anomalies", "duration_s", "intake_version", "speed_floor_mps")
     RECORDING_ID_FIELD_NUMBER: _ClassVar[int]
     SOURCE_FIELD_NUMBER: _ClassVar[int]
     SOURCE_SHA256_FIELD_NUMBER: _ClassVar[int]
@@ -222,6 +222,7 @@ class IntakeReport(_message.Message):
     ANOMALIES_FIELD_NUMBER: _ClassVar[int]
     DURATION_S_FIELD_NUMBER: _ClassVar[int]
     INTAKE_VERSION_FIELD_NUMBER: _ClassVar[int]
+    SPEED_FLOOR_MPS_FIELD_NUMBER: _ClassVar[int]
     recording_id: str
     source: str
     source_sha256: str
@@ -235,4 +236,5 @@ class IntakeReport(_message.Message):
     anomalies: _containers.RepeatedScalarFieldContainer[str]
     duration_s: float
     intake_version: str
-    def __init__(self, recording_id: _Optional[str] = ..., source: _Optional[str] = ..., source_sha256: _Optional[str] = ..., source_bytes: _Optional[int] = ..., embodiment_id: _Optional[str] = ..., profile_version: _Optional[str] = ..., missing_signature_topics: _Optional[_Iterable[str]] = ..., unprofiled_topics: _Optional[_Iterable[str]] = ..., topics: _Optional[_Iterable[_Union[TopicProfile, _Mapping]]] = ..., gait: _Optional[_Union[GaitEstimate, _Mapping]] = ..., anomalies: _Optional[_Iterable[str]] = ..., duration_s: _Optional[float] = ..., intake_version: _Optional[str] = ...) -> None: ...
+    speed_floor_mps: float
+    def __init__(self, recording_id: _Optional[str] = ..., source: _Optional[str] = ..., source_sha256: _Optional[str] = ..., source_bytes: _Optional[int] = ..., embodiment_id: _Optional[str] = ..., profile_version: _Optional[str] = ..., missing_signature_topics: _Optional[_Iterable[str]] = ..., unprofiled_topics: _Optional[_Iterable[str]] = ..., topics: _Optional[_Iterable[_Union[TopicProfile, _Mapping]]] = ..., gait: _Optional[_Union[GaitEstimate, _Mapping]] = ..., anomalies: _Optional[_Iterable[str]] = ..., duration_s: _Optional[float] = ..., intake_version: _Optional[str] = ..., speed_floor_mps: _Optional[float] = ...) -> None: ...

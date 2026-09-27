@@ -29,6 +29,7 @@ enum UnknownReason {
   UNEXPRESSIBLE = 9;            // the generator declared this requirement outside the program grammar
   CLOCK_INCOMPATIBLE = 10;      // header stamps not in the log-time epoch / not before receipt
   NOT_IN_CONTEXT = 11;          // the anchor search found no instance near this candidate
+  BELOW_SENSOR_FLOOR = 12;      // the clause needs values below what this log's sensor ever reports (intake)
 }
 
 enum Boundary { BOUNDARY_UNSPECIFIED = 0; STRICT_BEFORE = 1; INCLUSIVE = 2; }

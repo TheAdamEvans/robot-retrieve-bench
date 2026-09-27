@@ -1,0 +1,276 @@
+[
+ {
+  "expectedStatus": "ANSWERED",
+  "intent": "Moments where the robot stands still for more than 2 seconds.",
+  "intentGroupId": "dev_long_stop",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "comparator": "LTE",
+     "doc": "standing still for more than 2 s",
+     "feature": "speed_mps",
+     "kind": "THRESHOLD",
+     "minDuration": {
+      "unit": "S",
+      "value": 2.0
+     },
+     "name": "stop",
+     "required": true,
+     "threshold": {
+      "unit": "MPS",
+      "value": 0.05
+     }
+    }
+   ],
+   "primaryEvent": "stop",
+   "returnAnchors": [
+    {
+     "event": "stop",
+     "point": "START"
+    },
+    {
+     "event": "stop",
+     "point": "END"
+    }
+   ],
+   "scope": {},
+   "selection": {
+    "quantifier": "ALL"
+   }
+  },
+  "queryId": "dev_long_stop:canonical",
+  "querySet": "compose_dev",
+  "scope": {},
+  "utterance": "Where does the robot stop and stand still for more than two seconds?"
+ },
+ {
+  "expectedStatus": "ANSWERED",
+  "intent": "A bicycle is visible ahead while the robot is moving faster than 1 m/s.",
+  "intentGroupId": "dev_bicycle_ahead",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "comparator": "GTE",
+     "doc": "a bicycle is visible ahead",
+     "feature": "bicycles_visible_front",
+     "kind": "THRESHOLD",
+     "name": "bike",
+     "required": true,
+     "threshold": {
+      "unit": "DIMENSIONLESS",
+      "value": 1.0
+     }
+    },
+    {
+     "comparator": "GT",
+     "doc": "moving faster than 1 m/s",
+     "feature": "speed_mps",
+     "kind": "THRESHOLD",
+     "name": "fast",
+     "required": true,
+     "threshold": {
+      "unit": "MPS",
+      "value": 1.0
+     }
+    }
+   ],
+   "primaryEvent": "bike",
+   "relations": [
+    {
+     "child": {
+      "event": "fast",
+      "point": "START"
+     },
+     "kind": "WITHIN",
+     "maxGap": {
+      "unit": "S",
+      "value": 1.0
+     },
+     "parent": {
+      "event": "bike",
+      "point": "START"
+     },
+     "required": true
+    }
+   ],
+   "returnAnchors": [
+    {
+     "event": "bike",
+     "point": "START"
+    }
+   ],
+   "scope": {},
+   "selection": {
+    "quantifier": "ALL"
+   }
+  },
+  "queryId": "dev_bicycle_ahead:canonical",
+  "querySet": "compose_dev",
+  "scope": {},
+  "utterance": "Show me a bike in front of the robot while it's moving at over 1 m/s."
+ },
+ {
+  "expectedStatus": "ANSWERED_PARTIAL",
+  "intent": "A sharp left turn (more than 60 degrees within 4 s) in a narrow passage (under 2 m wide), indoors.",
+  "intentGroupId": "dev_left_turn_narrow_indoor",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "change": {
+      "unit": "DEG",
+      "value": 60.0
+     },
+     "direction": "UP",
+     "doc": "sharp left turn: >60 deg within 4 s",
+     "feature": "heading_deg",
+     "kind": "CHANGE",
+     "name": "turn",
+     "required": true,
+     "within": {
+      "unit": "S",
+      "value": 4.0
+     }
+    },
+    {
+     "comparator": "LT",
+     "doc": "passage narrower than 2 m",
+     "feature": "gap_width_m",
+     "kind": "THRESHOLD",
+     "name": "narrow",
+     "required": true,
+     "threshold": {
+      "unit": "CM",
+      "value": 200.0
+     }
+    }
+   ],
+   "primaryEvent": "turn",
+   "relations": [
+    {
+     "child": {
+      "event": "narrow",
+      "point": "START"
+     },
+     "kind": "WITHIN",
+     "maxGap": {
+      "unit": "S",
+      "value": 2.0
+     },
+     "parent": {
+      "event": "turn",
+      "point": "START"
+     },
+     "required": true
+    }
+   ],
+   "returnAnchors": [
+    {
+     "event": "turn",
+     "point": "START"
+    },
+    {
+     "event": "turn",
+     "point": "END"
+    }
+   ],
+   "scope": {},
+   "selection": {
+    "quantifier": "ALL"
+   },
+   "unexpressible": [
+    "indoors (no indoor/outdoor feature in the registry)"
+   ]
+  },
+  "queryId": "dev_left_turn_narrow_indoor:canonical",
+  "querySet": "compose_dev",
+  "scope": {},
+  "utterance": "Find a sharp left turn, more than 60 degrees in 4 seconds, taken in a narrow indoor corridor under 2 m wide."
+ },
+ {
+  "expectedStatus": "ANSWERED",
+  "intent": "The lidar scan and odometry available just before the robot comes to a stop, with ages.",
+  "intentGroupId": "dev_evidence_before_stop",
+  "oracleProgram": {
+   "contextAfter": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "contextBefore": {
+    "unit": "S",
+    "value": 4.0
+   },
+   "events": [
+    {
+     "comparator": "LTE",
+     "doc": "the robot comes to a stop",
+     "feature": "speed_mps",
+     "kind": "THRESHOLD",
+     "minDuration": {
+      "unit": "S",
+      "value": 1.0
+     },
+     "name": "halt",
+     "required": true,
+     "threshold": {
+      "unit": "MPS",
+      "value": 0.05
+     }
+    }
+   ],
+   "primaryEvent": "halt",
+   "receipt": {
+    "boundary": "STRICT_BEFORE",
+    "cutoff": {
+     "event": "halt",
+     "point": "START"
+    },
+    "maxAge": {
+     "unit": "S",
+     "value": 0.3
+    },
+    "sensors": [
+     "lidar",
+     "odom"
+    ]
+   },
+   "returnAnchors": [
+    {
+     "event": "halt",
+     "point": "START"
+    }
+   ],
+   "scope": {},
+   "selection": {
+    "quantifier": "ALL"
+   }
+  },
+  "queryId": "dev_evidence_before_stop:canonical",
+  "querySet": "compose_dev",
+  "scope": {},
+  "utterance": "What lidar and odometry did the robot have just before it came to a halt? Include their ages."
+ }
+]

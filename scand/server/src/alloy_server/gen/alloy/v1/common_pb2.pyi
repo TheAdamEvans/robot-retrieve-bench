@@ -26,6 +26,7 @@ class UnknownReason(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     UNEXPRESSIBLE: _ClassVar[UnknownReason]
     CLOCK_INCOMPATIBLE: _ClassVar[UnknownReason]
     NOT_IN_CONTEXT: _ClassVar[UnknownReason]
+    BELOW_SENSOR_FLOOR: _ClassVar[UnknownReason]
 
 class Boundary(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -56,6 +57,7 @@ NO_BINDING: UnknownReason
 UNEXPRESSIBLE: UnknownReason
 CLOCK_INCOMPATIBLE: UnknownReason
 NOT_IN_CONTEXT: UnknownReason
+BELOW_SENSOR_FLOOR: UnknownReason
 BOUNDARY_UNSPECIFIED: Boundary
 STRICT_BEFORE: Boundary
 INCLUSIVE: Boundary

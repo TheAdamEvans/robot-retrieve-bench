@@ -225,7 +225,9 @@ def extremum_instances(s: Series, ev: q.EventSpec) -> list[Instance]:
 
 
 class Executor:
-    def __init__(self, store: FeatureStore, recordings: dict[str, "object"], robots: dict[str, str]):
+    def __init__(self, store: FeatureStore, recordings: dict[str, "object"], robots: dict[str, str],
+                 speed_floor: dict[str, float] | None = None):
+        self.speed_floor = speed_floor or {}   # intake-measured: below this the log's odometry cannot resolve speed
         self.store = store
         self.recordings = recordings    # id → Recording
         self.robots = robots            # id → robot
@@ -250,6 +252,11 @@ class Executor:
         s = self._series(ev.feature, rec_id)
         if s is None or not len(s.t_ns):
             return EventEval([], c.NOT_INDEXED, rec.start_ns, rec.end_ns, exhaustive=False)
+        floor = self.speed_floor.get(rec_id, 0.0) if ev.feature == "speed_mps" else 0.0
+        needs_low = (ev.kind == q.THRESHOLD and ev.comparator in (q.LT, q.LTE) and ev.threshold.value < floor) or \
+                    (ev.kind == q.ONSET and ev.from_below.value < floor)
+        if needs_low:
+            return EventEval([], c.BELOW_SENSOR_FLOOR, rec.start_ns, rec.end_ns, exhaustive=False)
         ee = EventEval([], None, int(s.t_ns[0]), int(s.t_ns[-1]), s.exhaustive, s)
         if ev.kind == q.THRESHOLD:
             ee.instances = threshold_instances(s, ev)
