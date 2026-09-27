@@ -9,7 +9,7 @@ import json
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from alloy_train.eval.report import load_judgments
+from alloy_trainer.eval.report import load_judgments
 from alloy_index.recordings import SCAND_ROOT
 
 

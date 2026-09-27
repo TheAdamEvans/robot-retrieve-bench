@@ -6,7 +6,7 @@ requires-python = "==3.13.*"
 members = [
     "alloy-index",
     "alloy-server",
-    "alloy-train",
+    "alloy-trainer",
     "scand-retrieval-benchmark",
 ]
 
@@ -73,7 +73,7 @@ requires-dist = [
 ]
 
 [[package]]
-name = "alloy-train"
+name = "alloy-trainer"
 version = "0.1.0"
 source = { editable = "trainer" }
 dependencies = [
@@ -1169,7 +1169,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "alloy-index" },
     { name = "alloy-server" },
-    { name = "alloy-train" },
+    { name = "alloy-trainer" },
 ]
 
 [package.dev-dependencies]
@@ -1181,7 +1181,7 @@ dev = [
 requires-dist = [
     { name = "alloy-index", editable = "index" },
     { name = "alloy-server", editable = "server" },
-    { name = "alloy-train", editable = "trainer" },
+    { name = "alloy-trainer", editable = "trainer" },
 ]
 
 [package.metadata.requires-dev]

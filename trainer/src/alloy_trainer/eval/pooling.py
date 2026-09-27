@@ -14,7 +14,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from alloy_server.catalog.windows import parse_window_id, window_span_s, windows
-from alloy_train.eval import querysets
+from alloy_trainer.eval import querysets
 from alloy_index.annotate.store import load_labels
 
 POOL_DEPTH = 20

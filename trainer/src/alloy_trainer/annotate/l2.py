@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 from alloy_server.bundle import Bundle
-from alloy_train.eval import pooling, querysets
+from alloy_trainer.eval import pooling, querysets
 from alloy_index.recordings import SCAND_ROOT
 
 import alloy_index.annotate
@@ -38,7 +38,7 @@ def main() -> None:
     challenge = {q.intent_group_id for name in querysets.challenge_sets() for q in querysets.load_challenge(name)}
     for intent, pool in pools.items():
         if intent in challenge:
-            continue  # judged exhaustively (alloy_train.annotate.episodes --exhaustive), not by pooling
+            continue  # judged exhaustively (alloy_trainer.annotate.episodes --exhaustive), not by pooling
         todo = [w for w in pool["windows"] if (intent, w) not in judged]
         if not todo:
             continue

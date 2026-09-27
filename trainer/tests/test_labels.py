@@ -4,7 +4,7 @@ import os
 import pytest
 
 from alloy_index.annotate.store import load_labels
-from alloy_train.eval.report import load_judgments
+from alloy_trainer.eval.report import load_judgments
 
 
 def write_shard(ann, name, grade):

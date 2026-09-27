@@ -1,4 +1,4 @@
-"""alloy-train providers: build provider tables for every recording."""
+"""alloy-trainer providers: build provider tables for every recording."""
 from __future__ import annotations
 
 import argparse

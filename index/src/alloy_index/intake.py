@@ -1,4 +1,4 @@
-"""alloy-train intake: a new log in → recognised, converted, measured, flagged.
+"""alloy-trainer intake: a new log in → recognised, converted, measured, flagged.
 
 1. Recognise the robot from the log's topics against the embodiment profiles (no match → fail loudly, naming the
    closest profile and its missing signature topics: a new robot needs a reviewed profile, not new code).

@@ -36,7 +36,7 @@ from alloy_server.models.siglip import SPACE_ID, SPEC, SiglipEncoder
 from alloy_index.models.fused import (N_SIGNALS, SIGNALS, Head, encode, image_vectors, save,
                                       standardise, window_signals)
 from alloy_index.recordings import SCAND_ROOT, held_out
-from alloy_train.eval.pooling import l1_labels
+from alloy_trainer.eval.pooling import l1_labels
 
 NS = 1_000_000_000
 

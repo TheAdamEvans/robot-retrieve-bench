@@ -121,7 +121,7 @@ def test_answer_status_and_truth_enums_have_unset_zero():
 # ---------------- isolation and no dispatch ----------------
 
 def test_server_never_imports_train_or_offline_deps():
-    bad = re.compile(r"^\s*(from|import)\s+(alloy_train|alloy_index|rosbags|scipy|duckdb|mcap\b)", re.M)
+    bad = re.compile(r"^\s*(from|import)\s+(alloy_trainer|alloy_index|rosbags|scipy|duckdb|mcap\b)", re.M)
     offenders = [str(p) for p in SERVER.rglob("*.py") if "gen" not in p.parts and bad.search(p.read_text())]
     assert not offenders, offenders
 

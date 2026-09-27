@@ -8,9 +8,9 @@ import statistics
 from collections import defaultdict
 from pathlib import Path
 
-from alloy_train.eval import metrics as M
+from alloy_trainer.eval import metrics as M
 from alloy_index.annotate.store import load_labels
-from alloy_train.eval.run import CONFIGS, EVAL_SETS, generation_costs
+from alloy_trainer.eval.run import CONFIGS, EVAL_SETS, generation_costs
 from alloy_index.recordings import held_out
 from alloy_index.recordings import SCAND_ROOT
 
@@ -52,7 +52,7 @@ def complete_qrels(qrels: dict[str, dict[str, int]], gt: dict[str, dict], bundle
     """For an intent with complete ground truth, every in-scope window that overlaps no relevant episode is a real 0
     (not unjudged). Windows inside relevant episodes keep the judge's own window grades."""
     from alloy_server.catalog.windows import windows
-    from alloy_train.eval import querysets
+    from alloy_trainer.eval import querysets
     scopes = {q.intent_group_id: list(q.scope.recording_ids)
               for name in querysets.challenge_sets() for q in querysets.load_challenge(name)}
     for intent, g in gt.items():

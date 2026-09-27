@@ -23,9 +23,9 @@ Run from the repository root, with the existing dev bundle. Use a fresh run name
 
 ```bash
 uv run pytest -q
-uv run python -m alloy_train.eval.run --run v8-correctness --reuse-programs-from benchmark/results/v7
-uv run python -m alloy_train.eval.run --run v8-correctness --score-all --reuse-programs-from benchmark/results/v7
-uv run python -m alloy_train.eval.report --run v8-correctness
+uv run python -m alloy_trainer.eval.run --run v8-correctness --reuse-programs-from benchmark/results/v7
+uv run python -m alloy_trainer.eval.run --run v8-correctness --score-all --reuse-programs-from benchmark/results/v7
+uv run python -m alloy_trainer.eval.report --run v8-correctness
 ```
 
 The replay reuses v7's generated programs and makes no API calls. A missing cache entry fails explicitly. Generation

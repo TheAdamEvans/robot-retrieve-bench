@@ -96,7 +96,7 @@ class Bundle:
             for r in recs:
                 intake = E.load_intake(root, r)
                 if intake is None:
-                    raise RuntimeError(f"{r}: no intake report; run alloy-train intake")
+                    raise RuntimeError(f"{r}: no intake report; run alloy-trainer intake")
                 self.robots[r] = intake.embodiment_id
             self.windows = {r: windows(r, (rec.end_ns - rec.start_ns) / 1e9) for r, rec in self.recordings.items()}
             self.features = FeatureStore(root)

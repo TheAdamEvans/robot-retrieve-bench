@@ -1,6 +1,6 @@
 """FUSED document-side encoder: [SigLIP2 image mean ; standardised window signals + masks] -> head -> SigLIP2 text space.
 
-Owned by the indexing package because *applying* a trained head to windows is indexing; alloy-train imports this to
+Owned by the indexing package because *applying* a trained head to windows is indexing; alloy-trainer imports this to
 train it. Saved models live in bundle/models/<name>/ (safetensors weights + JSON stats/spec).
 """
 from __future__ import annotations

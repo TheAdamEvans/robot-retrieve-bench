@@ -49,7 +49,7 @@ class ApplyFused(StageImpl):
         for name in names:
             mdir, idx_p = ctx.bundle / "models" / name, ctx.bundle / "index" / f"{name}_windows.parquet"
             if not (mdir / "model.json").exists():
-                info[name] = "no trained model (run alloy_train.learn.fused)"
+                info[name] = "no trained model (run alloy_trainer.learn.fused)"
                 continue
             bundle = bundle or Bundle(ctx.bundle)
             have = set(pq.read_table(idx_p, columns=["window_id"]).column("window_id").to_pylist()) if idx_p.exists() else set()

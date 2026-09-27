@@ -5,8 +5,8 @@ judging plan. The judge sees neutral episode labels in a seeded shuffle, never t
 or roles. Output: `episode` labels (clause verdicts, anchors, grade) plus `judgment` labels for the windows each
 episode covers, so the benchmark and training read them like any other judgment.
 
-    uv run python -m alloy_train.annotate.episodes --set l1_compositions_v1 --split dev            # writes briefs
-    uv run python -m alloy_train.annotate.episodes --set l1_compositions_v1 --split dev --run      # paid: runs jobs
+    uv run python -m alloy_trainer.annotate.episodes --set l1_compositions_v1 --split dev            # writes briefs
+    uv run python -m alloy_trainer.annotate.episodes --set l1_compositions_v1 --split dev --run      # paid: runs jobs
 """
 from __future__ import annotations
 

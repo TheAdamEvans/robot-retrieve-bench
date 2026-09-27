@@ -138,14 +138,14 @@ hill-climb never saw. HYBRID's lower demo5_para nDCG is the one regression to wa
 Pooled judgments cannot support recall claims: a window nobody judged is unknown, not irrelevant. For the
 `benchmark/challenges/` question sets, ground truth is instead built to be **complete** over each question's scope:
 
-1. **Numeric sweep** (`uv run python -m alloy_train.challenge.sweep --set l1_compositions_v1 --split dev`). Every
+1. **Numeric sweep** (`uv run python -m alloy_trainer.challenge.sweep --set l1_compositions_v1 --split dev`). Every
    span that could pass the question's numeric clauses:
    - thresholds are loosened by a stated tolerance;
    - maneuver windows are searched on a grid of 1–10 s, with onsets every 0.25 s;
    - signals are computed as `scandq signals` computes them, plus raw odometry pose.
 
    The sweep must contain every episode already judged relevant (the sweep-recall check), or it fails.
-2. **Exhaustive judging** (`uv run python -m alloy_train.annotate.episodes --set … --split dev --exhaustive --run`).
+2. **Exhaustive judging** (`uv run python -m alloy_trainer.annotate.episodes --set … --split dev --exhaustive --run`).
    The candidates are split into chunks of at most 30 s. Opus judges every episode in every chunk, and each chunk
    needs at least one record, so coverage can be checked by machine.
 3. **Scoring.** Once every chunk of an intent is covered, the intent is *complete*:

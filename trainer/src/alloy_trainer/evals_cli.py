@@ -17,10 +17,10 @@ from pathlib import Path
 
 import alloy_index
 import alloy_server
-import alloy_train
+import alloy_trainer
 from alloy_server.evalkit import REPO, EvalContext, discover, load_suite, run_suite, suite_name
 
-ROOTS = [Path(m.__file__).parent for m in (alloy_server, alloy_index, alloy_train)]
+ROOTS = [Path(m.__file__).parent for m in (alloy_server, alloy_index, alloy_trainer)]
 
 
 def suites() -> dict[str, Path]:

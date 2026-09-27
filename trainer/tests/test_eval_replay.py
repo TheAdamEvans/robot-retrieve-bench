@@ -1,5 +1,5 @@
-from alloy_train.eval.report import build, html_page
-from alloy_train.eval.run import generation_costs
+from alloy_trainer.eval.report import build, html_page
+from alloy_trainer.eval.run import generation_costs
 
 
 def test_replayed_report_preserves_original_generation_cost_and_marks_its_source(tmp_path):

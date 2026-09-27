@@ -23,7 +23,7 @@ from alloy_server.gen.alloy.v1 import answer_pb2 as a
 from alloy_server.gen.alloy.v1 import pipeline_pb2 as pp
 from alloy_server.pipeline.runner import run as pipeline_run
 from alloy_server.programs.openai_generator import OpenAIProgramGenerator
-from alloy_train.eval import querysets
+from alloy_trainer.eval import querysets
 from alloy_index.recordings import SCAND_ROOT
 
 CONFIGS = {
@@ -206,7 +206,7 @@ def main() -> None:
     bundle = Bundle(a_.bundle)
     out = SCAND_ROOT / "results" / "eval" / a_.run
     if a_.score_all:
-        from alloy_train.eval.report import complete_qrels, ground_truth, load_judgments
+        from alloy_trainer.eval.report import complete_qrels, ground_truth, load_judgments
         ann = SCAND_ROOT / "annotations"
         qrels = load_judgments(ann)
         complete_qrels(qrels, ground_truth(ann), a_.bundle)  # exhaustive ground truth: in-scope negatives are real

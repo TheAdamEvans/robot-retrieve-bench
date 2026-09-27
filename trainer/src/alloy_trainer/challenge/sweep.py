@@ -11,7 +11,7 @@ boundaries cannot drop a qualifying span. Every episode already judged relevant 
 sweep-recall check); a miss fails loudly. Signals are computed like `scandq signals` (the judges' tool): profile
 twist frame, profile speed smoother, heading integrated from yaw rate, plus raw odometry pose for displacement.
 
-    uv run python -m alloy_train.challenge.sweep --set l1_compositions_v1 --split dev
+    uv run python -m alloy_trainer.challenge.sweep --set l1_compositions_v1 --split dev
 """
 from __future__ import annotations
 

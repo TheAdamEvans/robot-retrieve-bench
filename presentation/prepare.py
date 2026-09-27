@@ -51,7 +51,7 @@ ORIGINAL = {"Brackenridge", "Butler", "GDC", "JCL", "Library_MLK", "RLM", "Sanja
 
 def generalization() -> dict:
     """compose_test nDCG@10 and ROC-AUC on the original 7 recordings, the 9 new ones, and the 2 held-out Val ones."""
-    import alloy_train.eval.report as R
+    import alloy_trainer.eval.report as R
     from alloy_index.recordings import held_out
     new = {p.stem for p in (ROOT / "bundles/dev/mcap").glob("*.json")} - ORIGINAL
     out = {}
@@ -83,7 +83,7 @@ def generalization() -> dict:
 
 def dream(rows: list[dict]) -> dict:
     """Exhaustive ground truth for the six dream questions, and how many ground-truth episodes each config finds."""
-    from alloy_train.eval.report import episode_recall, ground_truth
+    from alloy_trainer.eval.report import episode_recall, ground_truth
     gt = ground_truth(ROOT / "annotations")
     titles = {json.loads(l)["intentGroupId"]: json.loads(l)["title"]
               for l in (ROOT / "benchmark/challenges/l1_compositions_v1/queries_dev.jsonl").read_text().splitlines() if l}

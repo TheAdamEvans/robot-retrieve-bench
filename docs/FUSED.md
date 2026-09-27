@@ -155,16 +155,16 @@ From the repository root:
 
 ```bash
 # train LORO folds + write the out-of-fold index (also writes diagnostics to bundles/dev/index/fused_v1.json)
-uv run python -m alloy_train.learn.fused --kind mlp --name fused_v1
+uv run python -m alloy_trainer.learn.fused --kind mlp --name fused_v1
 # controls
-uv run python -m alloy_train.learn.fused --kind linear --name fused_linear
-uv run python -m alloy_train.learn.fused --kind concat --name fused_concat
+uv run python -m alloy_trainer.learn.fused --kind linear --name fused_linear
+uv run python -m alloy_trainer.learn.fused --kind concat --name fused_concat
 
 # benchmark: a fresh run name; reuse frozen programs so LLM configs cost nothing
-uv run python -m alloy_train.eval.run --run myexp --configs FUSED,FUSED_LINEAR,FUSED_CONCAT,EMBED --reuse-programs-from benchmark/results/v7
-uv run python -m alloy_train.eval.run --run myexp --score-all --configs FUSED,FUSED_LINEAR,FUSED_CONCAT,EMBED --reuse-programs-from benchmark/results/v7
-uv run python -m alloy_train.annotate.l2 --run myexp --skip-judged   # lists windows your config surfaced that nobody has judged yet
-uv run python -m alloy_train.eval.report --run myexp
+uv run python -m alloy_trainer.eval.run --run myexp --configs FUSED,FUSED_LINEAR,FUSED_CONCAT,EMBED --reuse-programs-from benchmark/results/v7
+uv run python -m alloy_trainer.eval.run --run myexp --score-all --configs FUSED,FUSED_LINEAR,FUSED_CONCAT,EMBED --reuse-programs-from benchmark/results/v7
+uv run python -m alloy_trainer.annotate.l2 --run myexp --skip-judged   # lists windows your config surfaced that nobody has judged yet
+uv run python -m alloy_trainer.eval.report --run myexp
 ```
 
 If `annotate.l2` lists unjudged windows, your top results reach outside the judged pool. Either get them judged,
@@ -174,8 +174,8 @@ which is a labeller job, or report `judged@10` alongside the metrics. Condensed-
 
 | File | What it holds |
 |---|---|
-| `trainer/src/alloy_train/learn/fused.py` | features, pseudo-label programs, head, loss, LORO, diagnostics |
+| `trainer/src/alloy_trainer/learn/fused.py` | features, pseudo-label programs, head, loss, LORO, diagnostics |
 | `server/src/alloy_server/models/siglip.py` | the frozen encoder recipe shared by the query and document sides |
 | `index/src/alloy_index/build/pipelines.py` | the `FUSED`, `FUSED_V`, `FUSED_LINEAR` and `FUSED_CONCAT` specs |
-| `trainer/src/alloy_train/eval/*` | the benchmark runner, pooling, metrics and report |
+| `trainer/src/alloy_trainer/eval/*` | the benchmark runner, pooling, metrics and report |
 | `benchmark/results/v7/`, `benchmark/results/v8-correctness/` | frozen reference results |
