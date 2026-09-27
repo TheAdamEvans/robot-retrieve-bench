@@ -35,6 +35,11 @@ def camera_bands(rb: str) -> dict:
     return EmbodimentContext(profile(rb)).camera_band()
 
 
+W, H = 1280, 720
+
+_model = None
+
+
 def load():
     global _model
     if _model is None:
