@@ -22,7 +22,8 @@ T, F, U = c.TRUTH_TRUE, c.TRUTH_FALSE, c.TRUTH_UNKNOWN
 NS = 1_000_000_000
 BASIS_RANK = {"SPATIAL_NONE": 0, "RECORDED_TF": 1, "NOMINAL": 2, "ESTIMATED": 3}
 EXTREMUM_HALF_S = 1.0
-REL_CHANGE_FLOOR = 0.25   # relative changes are only measured from values >= 25% of the feature's max
+REL_CHANGE_FLOOR = 0.25
+ONSET_EPS = 0.01          # m/s: odometry reads exactly 0 at standstill on both robots   # relative changes are only measured from values >= 25% of the feature's max
 
 
 @dataclass
@@ -193,13 +194,20 @@ def onset_instances(s: Series, ev: q.EventSpec, raw: np.ndarray | None) -> list[
             end = np.searchsorted(t, t[m] + sus_ns, side="right")
             if end >= len(t):
                 break
-            if np.all(yr[m:end] > ev.threshold.value) and t[m] - t[a] >= min_ns:
+            # sustained = the mean over the sustain window, not every sample: a legged gait oscillates below the
+            # threshold within the first stride, and demanding every sample made onsets ~0.6 s late (a causal leak)
+            if np.mean(yr[m:end]) > ev.threshold.value and t[m] - t[a] >= min_ns:
                 k = m
                 break
         if k is None:
             continue
-        lo = int(t[k - 1]) if k > 0 else int(t[k])
-        out.append(Instance(int(t[k]), int(t[k]), int(t[k]), T, float(yr[k]), lo=lo, hi=int(t[k])))
+        # uncertainty band: from the first departure from standstill (walking back over creep > ONSET_EPS) to the
+        # sustained onset. The anchor is the band's low end: for "evidence before the action" the conservative
+        # cutoff is the earliest motion (the labeller caught a 0.6 s late cutoff on JCL).
+        j = k
+        while j - 1 > a and yr[j - 1] > ONSET_EPS:
+            j -= 1
+        out.append(Instance(int(t[j]), int(t[j]), int(t[j]), T, float(yr[k]), lo=int(t[j]), hi=int(t[k])))
     # de-duplicate onsets reached from overlapping stop runs
     uniq: dict[int, Instance] = {}
     for inst in out:

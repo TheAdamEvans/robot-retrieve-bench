@@ -34,6 +34,8 @@ CONFIGS = {
     "HYBRID_ORACLE": ("HYBRID", "oracle"),
     "HYBRID_LUNA": ("HYBRID", "luna"),
     "FUSED": ("FUSED", None),
+    "FUSED_LINEAR": ("FUSED_LINEAR", None),
+    "FUSED_CONCAT": ("FUSED_CONCAT", None),
     "FUSED_V_LUNA": ("FUSED_V", "luna"),
 }
 EVAL_SETS = ["demo5", "demo5_para", "compose_test"]

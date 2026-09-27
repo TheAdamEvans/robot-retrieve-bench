@@ -195,3 +195,19 @@ def test_mcap_bytes_counted_equal_chunk_length(bundle):
     with cost.scope("t") as s:
         rec.read("/odom", 10)
     assert s.totals()["bytes_read"] == int(tl.chunk_len[10])
+
+
+def test_onset_not_delayed_by_gait_oscillation():
+    """Regression: the labeller found onsets ~0.6 s late because early-stride raw speed dips below threshold."""
+    from alloy_server.catalog.features import Series
+    from alloy_server.catalog.registry import REGISTRY
+    from alloy_server.verify.executor import onset_instances
+    t = (np.arange(0, 6, 0.06) * 1e9).astype(np.int64)
+    raw = np.where(t < 3e9, 0.0, 0.8 + 0.75 * np.sin(2 * np.pi * 3.3 * (t / 1e9 - 3)))  # starts at 3.0 s, dips < 0.1
+    smooth = np.convolve(raw, np.ones(15) / 15)[: len(raw)]
+    s = Series(REGISTRY["speed_mps"], t, smooth, None, None, t, 16.0, True, [])
+    ev = json_format.ParseDict({"name": "go", "kind": "ONSET", "feature": "speed_mps", "fromBelow": {"value": 0.05, "unit": "MPS"},
+                                "minDuration": {"value": 1, "unit": "S"}, "threshold": {"value": 0.1, "unit": "MPS"},
+                                "sustain": {"value": 0.5, "unit": "S"}}, q.EventSpec())
+    (inst,) = onset_instances(s, ev, raw)
+    assert abs(inst.start / 1e9 - 3.0) < 0.1
