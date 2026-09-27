@@ -14,17 +14,17 @@ try{
  page.on('request',r=>{if(/^https?:/.test(r.url()))requests.push(r.url());});
  await page.goto(pathToFileURL(path.join(root,'fleet-search.html')).href);
  await page.waitForSelector('#metric-table tr');
- assert.equal(await page.locator('.chapter').count(),10);
+ assert.equal(await page.locator('.chapter').count(),12);
  assert.equal(await page.locator('.diagram svg').count(),3);
  assert.equal(await page.locator('#metric-table tr').count(),7);
  assert.equal(await page.locator('.plot:visible').count(),1);
  assert.equal(await page.locator('video').count(),3);
  const links=await page.locator('a[href^="#"]').evaluateAll(xs=>xs.map(x=>x.getAttribute('href').slice(1)).filter(id=>!document.getElementById(id)));
  assert.deepEqual(links,[],'Broken section links');
- for(const slice of ['compose_test','demo5_para','demo5'])for(const metric of ['ndcg10','roc_pen'])for(const mode of ['fresh','cached']){
+ for(const slice of ['compose_test','demo5_para','demo5','l1_compositions_dev'])for(const metric of ['ndcg10','roc_pen'])for(const mode of ['fresh','cached']){
   await page.selectOption('#slice',slice);await page.selectOption('#metric',metric);await page.selectOption('#latency',mode);
   assert.equal(await page.locator('.plot:visible').getAttribute('data-plot'),`${slice}-${metric}-${mode}`);
-  assert.equal(await page.locator('#metric-table tr').count(),7);
+  assert.equal(await page.locator('#metric-table tr').count(),slice==='l1_compositions_dev'?6:7);  // no oracle program there
  }
  await page.selectOption('#slice','compose_test');await page.selectOption('#metric','ndcg10');await page.selectOption('#latency','fresh');
  await page.selectOption('#budget','100');
@@ -57,6 +57,6 @@ try{
  await page.locator('#results').scrollIntoViewIfNeeded();
  await page.screenshot({path:path.join(root,'.cache','mobile-results.png')});
  assert.deepEqual(errors,[],'Browser errors');assert.deepEqual(requests,[],'Network requests');
- console.log('PASS: offline file:// load, 12 explorer modes, budget controls, section links, all images, three playable videos, desktop/mobile layouts; zero network requests.');
+ console.log('PASS: offline file:// load, 16 explorer modes, budget controls, section links, all images, three playable videos, desktop/mobile layouts; zero network requests.');
  await context.close();
 }finally{await browser.close();}

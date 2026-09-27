@@ -1,7 +1,7 @@
 {
   "causalCutoffNs": "1637263200472140675",
   "boundary": "STRICT_BEFORE",
-  "maxAgeNs": "118000000000",
+  "maxAgeNs": "1000000000000",
   "discoveryMode": "RETROSPECTIVE",
   "items": [
     {

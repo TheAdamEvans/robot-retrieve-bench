@@ -1,8 +1,8 @@
 # When search needs evidence
 
 Open [`fleet-search.html`](fleet-search.html) directly in a browser. It is the portable presentation: a single file,
-with three playable clips, real camera frames, three Mermaid diagrams rendered to SVG, twelve chart variants, and
-the frozen benchmark data embedded. No server or network is required. Optional source links open the SCAND project.
+with three playable clips, real camera frames, three Mermaid diagrams rendered to SVG, sixteen chart variants, and
+the frozen eval v9 data embedded. No server or network is required. Optional source links open the SCAND project.
 
 [`story.md`](story.md) is the editable narrative. `<!-- component: ... -->` markers insert data-backed media,
 charts and tables at build time. Mermaid fences render during the build; the viewer does not need Mermaid installed.
@@ -35,8 +35,9 @@ npm run check
 ```
 
 `prepare.py` reuses existing rendered MP4 files; remove the particular clip under `assets/` if changing its span.
-It makes no model API calls. The benchmark data comes from `benchmark/results/v8-correctness/`; the receipt is
-replayed from that checkpoint's stored generated program against `bundles/dev`.
+It makes no model API calls. The benchmark data comes from `benchmark/results/v9/` (the blind label re-check from
+`benchmark/results/v8-correctness/`); the receipt replays v9's stored generated program on the Library-to-MLK
+recording in `bundles/dev`. The behavior-question table reads the exhaustive ground truth under `annotations/`.
 
 ## Files
 

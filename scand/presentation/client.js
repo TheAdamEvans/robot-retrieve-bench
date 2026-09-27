@@ -7,13 +7,13 @@ function updateExplorer(){
   const split=$('slice').value, metric=$('metric').value, mode=$('latency').value, budget=+$('budget').value;
   const latencyKey=mode==='fresh'?'wall_p50':'wall_cached_p50';
   const table=data.report.tables[split];
-  const rows=selectedConfigs.map(c=>table.find(r=>r.config===c));
+  const rows=selectedConfigs.map(c=>table.find(r=>r.config===c)).filter(Boolean);  // the challenge set has no oracle program
   document.querySelectorAll('.plot').forEach(p=>p.hidden=p.dataset.plot!==`${split}-${metric}-${mode}`);
   $('metric-title').textContent=metric==='ndcg10'?'nDCG@10':'ROC-AUC';
   $('metric-table').innerHTML=rows.map(r=>{
     const m=r[metric],oracle=r.config==='PROGRAM_ORACLE';
     const usage=mode==='cached'&&r.config.endsWith('LUNA')?0:r.tokens.mean;
-    return `<tr class="${oracle?'oracle-row':''} ${!oracle&&r[latencyKey]>budget?'excluded':''}"><td><span class="swatch" style="background:${data.colors[r.config]}"></span>${names[r.config]}${oracle?' †':''}</td><td>${m.mean.toFixed(2)} <span class="ci-note">[${m.ci.map(v=>v.toFixed(2)).join('–')}]</span></td><td>${fmtTime(r[latencyKey])}</td><td>${Math.round(usage).toLocaleString()}</td><td>${(100*r.judged50.mean).toFixed(0)}%</td></tr>`;
+    return `<tr class="${oracle?'oracle-row':''} ${!oracle&&r[latencyKey]>budget?'excluded':''}"><td><span class="swatch" style="background:${data.colors[r.config]}"></span>${names[r.config]}${oracle?' †':''}</td><td>${m.mean.toFixed(2)} ${m.ci?`<span class="ci-note">[${m.ci.map(v=>v.toFixed(2)).join('–')}]</span>`:''}</td><td>${fmtTime(r[latencyKey])}</td><td>${Math.round(usage).toLocaleString()}</td><td>${(100*r.judged50.mean).toFixed(0)}%</td></tr>`;
   }).join('');
   const eligible=rows.filter(r=>r.config!=='PROGRAM_ORACLE'&&r[latencyKey]<=budget).sort((a,b)=>b[metric].mean-a[metric].mean);
   $('budget-result').innerHTML=eligible.length?`<strong>${names[eligible[0].config]}</strong> has the highest point estimate within this median-latency budget.<small>Exploration aid; differences have uncertainty. Oracle excluded. A median is not a tail-latency guarantee.</small>`:'No measured serving approach fits this budget.';
