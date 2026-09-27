@@ -24,3 +24,4 @@ scand/*.pdf
 *.safetensors
 *.parquet
 .env
+scand/annotations/tmp/

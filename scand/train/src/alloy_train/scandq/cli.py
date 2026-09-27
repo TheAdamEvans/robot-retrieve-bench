@@ -194,6 +194,10 @@ def front_corridor_overlay(img: Image.Image, rb: str) -> Image.Image:
     d = ImageDraw.Draw(img)
     d.line(pts, fill=(80, 255, 80), width=3)
     d.text((pts[1][0], pts[1][1] - 18), "corridor 5 m (ESTIMATED)", fill=(80, 255, 80), font=SMALL)
+    for z in (10.0, 20.0):  # ground-distance marks from the nominal camera model
+        v = h / 2 + fx * b["h"][0] / z
+        d.line([(w * 0.3, v), (w * 0.7, v)], fill=(255, 220, 80), width=1)
+        d.text((w * 0.7 + 4, v - 8), f"~{z:.0f} m", fill=(255, 220, 80), font=SMALL)
     return img
 
 
@@ -231,8 +235,9 @@ def bev(r: Recording, t_ns: int, rng: float = 10.0, px: int = 600) -> tuple[Imag
     d.rectangle([px / 2 - fp.width_m / 2 * s, px / 2 - fp.length_m / 2 * s,
                  px / 2 + fp.width_m / 2 * s, px / 2 + fp.length_m / 2 * s], outline=(255, 180, 60), width=2)
     c = emb.corridor(rb)
-    d.rectangle([px / 2 - c.half_width_m * s, px / 2 - c.length_m * s,
-                 px / 2 + c.half_width_m * s, px / 2], outline=(120, 255, 120))
+    fe = fp.length_m / 2
+    d.rectangle([px / 2 - c.half_width_m * s, px / 2 - (fe + c.length_m) * s,
+                 px / 2 + c.half_width_m * s, px / 2 - fe * s], outline=(120, 255, 120))
     rf = ref(r, topic, i, t_ns, native=True)
     d.text((6, px - 40), f"lidar t={rf['t']:.2f}s  rings 2 m  ahead = up", fill=(220, 220, 220), font=SMALL)
     d.text((6, px - 20), "footprint NOMINAL, corridor ESTIMATED" + ("; colour = height" if three_d else ""),
@@ -267,8 +272,9 @@ def signal_series(r: Recording, t0_ns: int, t1_ns: int) -> tuple[dict, list[dict
         rr = np.hypot(xy[:, 0], xy[:, 1])
         sel = np.abs(a) < np.radians(30)
         front.append(float(rr[sel].min()) if sel.any() else np.nan)
-        box = (xy[:, 0] > 0) & (xy[:, 0] < c.length_m) & (np.abs(xy[:, 1]) < c.half_width_m)
-        corr.append(float(xy[box, 0].min()) if box.any() else c.length_m)  # length = corridor clear
+        front_edge = emb.footprint(rb).length_m / 2
+        box = (xy[:, 0] > front_edge) & (xy[:, 0] < front_edge + c.length_m) & (np.abs(xy[:, 1]) < c.half_width_m)
+        corr.append(float(xy[box, 0].min() - front_edge) if box.any() else c.length_m)  # length = corridor clear
         t_sc.append(r.t_rel(int(r.topics[ctopic].log_ns[i])))
     refs = []
     for topic, s_ in ((otopic, sl), (ctopic, ssl)):
@@ -300,7 +306,7 @@ def signal_plot(series: dict, fields: list[str], span: tuple[float, float] | Non
     for ax, f in zip(axes, fields):
         t, y = series[f]
         if f == "speed_mps" and "speed_smooth_mps" in series:
-            ax.plot(t, y, lw=0.8, alpha=0.5, label="raw (Spot gait oscillates)")
+            ax.plot(t, y, lw=0.8, alpha=0.5, label="raw odometry")
             ax.plot(*series["speed_smooth_mps"], lw=1.8, label=series.get("_smoother", "smoothed"))
             ax.legend(fontsize=7, loc="lower left")
         else:
@@ -371,7 +377,14 @@ def cmd_frame(a) -> None:
     _, data = compressed_image(r.read(topic, i).data)
     rot = rotation_for(r, topic)
     ordn = r.topics[topic].ordinal[i]
-    if rot:  # upright for viewing; PNG keeps the decoded pixels exactly
+    if a.crop:
+        x0, y0, x1, y1 = (int(v) for v in a.crop.split(","))
+        im = image(r, topic, i).crop((x0, y0, x1, y1))
+        scale = max(1, 640 // max(1, x1 - x0))
+        im = im.resize((im.width * scale, im.height * scale), Image.NEAREST)  # pixel-replicated zoom: no new detail
+        p = out_dir() / f"frame_{a.rec}_{a.cam}_{ordn}_crop_{x0}_{y0}_{x1}_{y1}.png"
+        im.save(p)
+    elif rot:  # upright for viewing; PNG keeps the decoded pixels exactly
         p = out_dir() / f"frame_{a.rec}_{a.cam}_{ordn}.png"
         image(r, topic, i).save(p)
     else:  # original encoded bytes: native resolution, no re-encode
@@ -389,8 +402,12 @@ def cmd_step(a) -> None:
     tl = r.topics[topic]
     t = r.t_abs(a.t)
     i = pick(r, topic, t, "nearest")
-    idx = [i + k * (1 if a.dir == "fwd" else -1) for k in range(a.n)]
-    idx = sorted(j for j in idx if 0 <= j < len(tl))
+    if a.every:
+        sign = 1 if a.dir == "fwd" else -1
+        idx = sorted({tl.nearest(int(tl.log_ns[i] + sign * k * a.every * 1e9)) for k in range(a.n)})
+    else:
+        idx = [i + k * (1 if a.dir == "fwd" else -1) for k in range(a.n)]
+        idx = sorted(j for j in idx if 0 <= j < len(tl))
     native = a.n <= 4
     tiles, warnings = [], []
     period = float(np.median(np.diff(tl.log_ns))) if len(tl) > 1 else 0
@@ -414,7 +431,15 @@ def cmd_sync(a) -> None:
     t = r.t_abs(a.t)
     rb = robot(a.rec)
     refs, tiles, warnings = [], [], []
-    tiles.append(cam_tile(r, emb.front_camera_topic(rb), t, a.mode, (640, 360), refs, warnings, native=False))
+    ftopic = emb.front_camera_topic(rb)
+    tiles.append(cam_tile(r, ftopic, t, a.mode, (640, 360), [], warnings, native=False))
+    fi = pick(r, ftopic, t, a.mode)
+    front_path = None
+    if fi is not None:  # the full-resolution front frame, saved alongside: its ref is native
+        _, data = compressed_image(r.read(ftopic, fi).data)
+        front_path = out_dir() / f"frame_{a.rec}_front_{r.topics[ftopic].ordinal[fi]}.jpg"
+        front_path.write_bytes(data)
+        refs.append(ref(r, ftopic, fi, t, native=True))
     for topic in emb.body_camera_topics(rb):
         tiles.append(cam_tile(r, topic, t, a.mode, (640, 360), refs, warnings, native=True))
     b, bref = bev(r, t, px=360)
@@ -422,8 +447,9 @@ def cmd_sync(a) -> None:
     if bref:
         refs.append(bref)
     path = save(grid(tiles, cols=2), f"sync_{a.rec}_{a.t:.2f}_{a.mode}.jpg")
-    emit("sync", vars(a), {"path": path, "mode": a.mode, "warnings": warnings,
-                           "note": "front tile downscaled (use `frame` for native); body cams full width. 'age' = "
+    emit("sync", vars(a), {"path": path, "front_native_path": str(front_path) if front_path else None,
+                           "mode": a.mode, "warnings": warnings,
+                           "note": "front ref is native (full frame saved at front_native_path); body cams full width. 'age' = "
                                    "capture-to-receipt latency: the body image shows the scene at header_t",
                            "refs": refs})
 
@@ -461,7 +487,41 @@ def cmd_lidar(a) -> None:
         return
     img, bref = bev(r, t, rng=a.range)
     path = save(img, f"bev_{a.rec}_{a.t:.2f}_{a.range:.0f}m.jpg")
-    emit("lidar", vars(a), {"path": path, "refs": [bref] if bref else []})
+    emit("lidar", vars(a), {"path": path, "clusters": lidar_clusters(r, t, a.range),
+                            "note": "clusters: 0.25 m grid connected components with >= 6 returns; range from the "
+                                    "sensor; bearing + = left; in_corridor uses the ESTIMATED corridor box",
+                            "refs": [bref] if bref else []})
+
+
+def lidar_clusters(r: Recording, t_ns: int, rng: float) -> list[dict]:
+    from scipy import ndimage
+    rb = robot(r.id)
+    prof = emb.prof(rb)
+    xy, _, _, _ = dec_(r.id).obstacle_xy(prof, t_ns)
+    xy = xy[np.hypot(xy[:, 0], xy[:, 1]) < rng]
+    if not len(xy):
+        return []
+    cell = 0.25
+    ij = np.floor((xy + rng) / cell).astype(int)
+    n = int(np.ceil(2 * rng / cell)) + 1
+    grid = np.zeros((n, n), dtype=np.int32)
+    np.add.at(grid, (ij[:, 0], ij[:, 1]), 1)
+    lab, k = ndimage.label(grid > 0, structure=np.ones((3, 3)))
+    point_lab = lab[ij[:, 0], ij[:, 1]]
+    c = emb.corridor(rb)
+    fe = emb.footprint(rb).length_m / 2
+    out = []
+    for L in range(1, k + 1):
+        pts = xy[point_lab == L]
+        if len(pts) < 6:
+            continue
+        cx, cy = pts.mean(0)
+        near = pts[np.argmin(np.hypot(pts[:, 0], pts[:, 1]))]
+        out.append({"range_m": round(float(np.hypot(*near)), 2), "bearing_deg": round(float(np.degrees(np.arctan2(cy, cx))), 1),
+                    "extent_m": round(float(np.ptp(pts, 0).max()), 2), "points": int(len(pts)),
+                    "in_corridor": bool(((pts[:, 0] > fe) & (pts[:, 0] < fe + c.length_m) &
+                                         (np.abs(pts[:, 1]) < c.half_width_m)).any())})
+    return sorted(out, key=lambda d: d["range_m"])[:25]
 
 
 def cmd_signals(a) -> None:
@@ -513,7 +573,8 @@ def cmd_window(a) -> None:
         body = [cam_tile(r, topic, r.t_abs(times[1]), "nearest", (384, 288), refs, warnings, native=False)
                 for topic in emb.body_camera_topics(rb)]
         parts.append(grid(body, cols=5))
-    s, srefs = signal_series(r, r.t_abs(max(0, t0 - 2)), r.t_abs(t1 + 2))
+    s, _ = signal_series(r, r.t_abs(max(0, t0 - 2)), r.t_abs(t1 + 2))
+    _, srefs = signal_series(r, r.t_abs(t0), r.t_abs(t1))  # cite only messages inside the window
     refs += srefs
     parts.append(signal_plot(s, ["speed_mps", "yaw_rate_dps", "min_range_corridor_m"], span=(t0, t1)))
     canvas = label(stack(parts), f"window {a.window_id}  [{t0:.0f}s, {t1:.0f}s]  rows: front | lidar | "
@@ -570,9 +631,11 @@ def main(argv: list[str] | None = None) -> None:
     p = sp.add_parser("frame", help="one camera frame at native resolution (native evidence)")
     p.add_argument("rec"); p.add_argument("--t", type=float, required=True); p.add_argument("--cam", default="front")
     p.add_argument("--mode", choices=["nearest", "last_before"], default="nearest")
+    p.add_argument("--crop", help="x0,y0,x1,y1 in native (upright) pixels; zoomed by pixel replication")
     p = sp.add_parser("step", help="N consecutive native-rate frames (n<=4: native evidence)")
     p.add_argument("rec"); p.add_argument("--t", type=float, required=True); p.add_argument("--cam", default="front")
     p.add_argument("--dir", choices=["back", "fwd"], default="fwd"); p.add_argument("--n", type=int, default=4)
+    p.add_argument("--every", type=float, help="seconds between frames (default: consecutive frames)")
     p = sp.add_parser("sync", help="every camera + lidar at one instant, each with its capture age")
     p.add_argument("rec"); p.add_argument("--t", type=float, required=True)
     p.add_argument("--mode", choices=["nearest", "last_before"], default="nearest")

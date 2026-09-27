@@ -331,6 +331,11 @@ def write() -> dict:
     return manifest
 
 
+def normalise_utt(u: str) -> str:
+    import re
+    return re.sub(r"\s+", " ", u.strip().lower())
+
+
 def load(sets: list[str] | None = None) -> list[eval_pb2.EvalQuery]:
     out = []
     for p in sorted(OUT.glob("*.json")):

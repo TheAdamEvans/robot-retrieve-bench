@@ -60,7 +60,7 @@ Times are seconds from recording start. "Corridor" = the robot's forward travel 
 | `vehicle_interaction` | Truth | A vehicle moves across or near the robot's path within ~10 m, or the robot visibly yields to one. |
 | `bicycle` | Truth | A bicycle or kick/e-scooter (ridden or parked) within ~10 m. |
 | `indoor` | Truth | The robot is inside a building for most of the segment. |
-| `turn_visible` | Truth | The robot's heading changes by ≥ 30° within the segment (check yaw rate: ~30°/s for 1 s). |
+| `turn_visible` | Truth | The robot's heading swings by ≥ 30° within the segment: `heading.max_abs_excursion_deg` ≥ 30. |
 | `caption` | text | One factual sentence: what the robot does and what is around it. No guesses about intent. |
 | `refs` | list of MessageId strings | The refs you relied on. Positive claims (any TRUE, or persons ≥ 1) need ≥ 1 **native** ref. |
 
