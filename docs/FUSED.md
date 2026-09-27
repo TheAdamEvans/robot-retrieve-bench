@@ -242,6 +242,8 @@ online mining was off, but v1 is still stronger on the selection target and
 recall@50. Online mining improved recall but caused a larger top-10 regression.
 Keep v1 as the serving default. This comparison is directional because the
 26 development queries share ten program families.
+See [the query-level error analysis](FUSED_ERROR_ANALYSIS.md) for literal
+first-50 coverage, qualitative examples, and the comparison with PROGRAM.
 
 ```bash
 uv run python -m alloy_trainer.learn.importance --bundle bundles/dev --labels labels
