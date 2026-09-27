@@ -29,6 +29,9 @@ from .timeline.store import parse_mid
 
 BUNDLE = Path(os.environ.get("ALLOY_BUNDLE", Path(__file__).resolve().parents[3] / "bundles" / "dev"))
 bundle = Bundle(BUNDLE)
+if os.environ.get("ALLOY_WARM", "1") == "1":  # model load is startup cost: never paid by the first live query
+    from .models.siglip import SPACE_ID
+    bundle.encode_query(SPACE_ID, "warm-up")
 app = FastAPI(title="alloy search")
 _generator = None
 
