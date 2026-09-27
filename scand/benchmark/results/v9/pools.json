@@ -1,0 +1,8882 @@
+{
+ "l1x_dream_steer_or_brake": {
+  "intent": "Find two oncoming-pedestrian encounters with baseline speeds within 0.3 m/s and the same corridor-count band: one with at least 30 degrees heading excursion and less than 20% speed loss, the other with at least 30% speed loss and less than 15 degrees heading excursion. Show approach and separation, report closest supported separation, and flag differences in terrain or other actors that weaken the comparison. Required: Oncoming pedestrian in both episodes; Baseline speeds within 0.3 m/s and same corridor-count band; Steering case: >=30-degree excursion and <20% speed loss; Slowing case: >=30% speed loss and <15-degree excursion; Physical separation only if object association supports it.",
+  "scope": [
+   "Library_Jester_75",
+   "Stadium_Sanjac_90",
+   "Thompson_Thompson_100"
+  ],
+  "windows": [
+   "Library_Jester_75:0006",
+   "Library_Jester_75:0007",
+   "Library_Jester_75:0013",
+   "Library_Jester_75:0014",
+   "Library_Jester_75:0015",
+   "Library_Jester_75:0016",
+   "Library_Jester_75:0017",
+   "Library_Jester_75:0018",
+   "Library_Jester_75:0019",
+   "Library_Jester_75:0020",
+   "Library_Jester_75:0021",
+   "Library_Jester_75:0028",
+   "Library_Jester_75:0041",
+   "Library_Jester_75:0051",
+   "Library_Jester_75:0052",
+   "Library_Jester_75:0059",
+   "Library_Jester_75:0060",
+   "Library_Jester_75:0061",
+   "Library_Jester_75:0081",
+   "Stadium_Sanjac_90:0004",
+   "Stadium_Sanjac_90:0005",
+   "Stadium_Sanjac_90:0008",
+   "Stadium_Sanjac_90:0026",
+   "Stadium_Sanjac_90:0027",
+   "Stadium_Sanjac_90:0031",
+   "Stadium_Sanjac_90:0032",
+   "Stadium_Sanjac_90:0039",
+   "Stadium_Sanjac_90:0041",
+   "Stadium_Sanjac_90:0042",
+   "Stadium_Sanjac_90:0043",
+   "Stadium_Sanjac_90:0044",
+   "Stadium_Sanjac_90:0045",
+   "Stadium_Sanjac_90:0046",
+   "Stadium_Sanjac_90:0047",
+   "Stadium_Sanjac_90:0048",
+   "Stadium_Sanjac_90:0050",
+   "Stadium_Sanjac_90:0051",
+   "Stadium_Sanjac_90:0052",
+   "Stadium_Sanjac_90:0053",
+   "Stadium_Sanjac_90:0068",
+   "Stadium_Sanjac_90:0069",
+   "Stadium_Sanjac_90:0070",
+   "Stadium_Sanjac_90:0071",
+   "Stadium_Sanjac_90:0076",
+   "Stadium_Sanjac_90:0077",
+   "Stadium_Sanjac_90:0078",
+   "Stadium_Sanjac_90:0079",
+   "Stadium_Sanjac_90:0080",
+   "Stadium_Sanjac_90:0082",
+   "Stadium_Sanjac_90:0087",
+   "Stadium_Sanjac_90:0093",
+   "Stadium_Sanjac_90:0094",
+   "Thompson_Thompson_100:0004",
+   "Thompson_Thompson_100:0006",
+   "Thompson_Thompson_100:0007",
+   "Thompson_Thompson_100:0008",
+   "Thompson_Thompson_100:0009",
+   "Thompson_Thompson_100:0013",
+   "Thompson_Thompson_100:0028",
+   "Thompson_Thompson_100:0100",
+   "Thompson_Thompson_100:0149",
+   "Thompson_Thompson_100:0150",
+   "Thompson_Thompson_100:0151",
+   "Thompson_Thompson_100:0152",
+   "Thompson_Thompson_100:0153",
+   "Thompson_Thompson_100:0154",
+   "Thompson_Thompson_100:0159",
+   "Thompson_Thompson_100:0183",
+   "Thompson_Thompson_100:0184",
+   "Thompson_Thompson_100:0185",
+   "Thompson_Thompson_100:0186",
+   "Thompson_Thompson_100:0187",
+   "Thompson_Thompson_100:0188",
+   "Thompson_Thompson_100:0197",
+   "Thompson_Thompson_100:0201",
+   "Thompson_Thompson_100:0202",
+   "Thompson_Thompson_100:0203",
+   "Thompson_Thompson_100:0204",
+   "Thompson_Thompson_100:0205",
+   "Thompson_Thompson_100:0206",
+   "Thompson_Thompson_100:0246"
+  ],
+  "n": 81,
+  "sources": {
+   "Stadium_Sanjac_90:0044": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0043": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0045": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0046": [
+    "EMBED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0042": [
+    "EMBED",
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0047": [
+    "EMBED"
+   ],
+   "Library_Jester_75:0016": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0048": [
+    "EMBED"
+   ],
+   "Library_Jester_75:0015": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0017": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0018": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0027": [
+    "EMBED"
+   ],
+   "Stadium_Sanjac_90:0041": [
+    "EMBED",
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0053": [
+    "EMBED"
+   ],
+   "Stadium_Sanjac_90:0051": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0052": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0026": [
+    "EMBED"
+   ],
+   "Stadium_Sanjac_90:0087": [
+    "EMBED"
+   ],
+   "Thompson_Thompson_100:0004": [
+    "EMBED",
+    "FUSED_LINEAR"
+   ],
+   "Library_Jester_75:0014": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Thompson_Thompson_100:0202": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0201": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0203": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0204": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0205": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0206": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0150": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0149": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0151": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0152": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0153": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0154": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0184": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0183": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0185": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0186": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0187": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0188": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0094": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0093": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0078": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0050": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0079": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0069": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Library_Jester_75:0019": [
+    "FUSED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0051": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0076": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0008": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0077": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0039": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0005": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0004": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0070": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0080": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0068": [
+    "FUSED_LINEAR"
+   ],
+   "Library_Jester_75:0052": [
+    "FUSED_LINEAR",
+    "RANDOM"
+   ],
+   "Stadium_Sanjac_90:0071": [
+    "FUSED_LINEAR"
+   ],
+   "Thompson_Thompson_100:0008": [
+    "FUSED_CONCAT"
+   ],
+   "Thompson_Thompson_100:0009": [
+    "FUSED_CONCAT"
+   ],
+   "Thompson_Thompson_100:0007": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0007": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0060": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0006": [
+    "FUSED_CONCAT"
+   ],
+   "Thompson_Thompson_100:0006": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0059": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0061": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0020": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0013": [
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0032": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0021": [
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0031": [
+    "FUSED_CONCAT"
+   ],
+   "Thompson_Thompson_100:0197": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0082": [
+    "RANDOM"
+   ],
+   "Library_Jester_75:0081": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0028": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0159": [
+    "RANDOM"
+   ],
+   "Library_Jester_75:0028": [
+    "RANDOM"
+   ],
+   "Library_Jester_75:0041": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0246": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0100": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0013": [
+    "RANDOM"
+   ]
+  }
+ },
+ "l1x_dream_opportunity_to_go": {
+  "intent": "Find a pedestrian crossing after which the route is visibly clear for at least two seconds but robot speed remains below half its pre-encounter baseline. Return the clearance-to-recovery delay and any remaining visible constraint that could explain it. Required: Pedestrian crossing localized; Corridor clear >=2 s afterward with sufficient coverage; Speed remains <50% baseline during those 2 s; Search side views, terrain and next maneuver for remaining constraints.",
+  "scope": [
+   "GDC_Library_42",
+   "Library_Jester_75",
+   "Stadium_Sanjac_90"
+  ],
+  "windows": [
+   "GDC_Library_42:0020",
+   "GDC_Library_42:0021",
+   "GDC_Library_42:0022",
+   "GDC_Library_42:0023",
+   "GDC_Library_42:0024",
+   "GDC_Library_42:0042",
+   "GDC_Library_42:0063",
+   "GDC_Library_42:0075",
+   "GDC_Library_42:0092",
+   "GDC_Library_42:0096",
+   "GDC_Library_42:0223",
+   "GDC_Library_42:0244",
+   "GDC_Library_42:0245",
+   "GDC_Library_42:0246",
+   "GDC_Library_42:0247",
+   "GDC_Library_42:0248",
+   "GDC_Library_42:0249",
+   "GDC_Library_42:0250",
+   "GDC_Library_42:0261",
+   "GDC_Library_42:0262",
+   "GDC_Library_42:0263",
+   "GDC_Library_42:0264",
+   "GDC_Library_42:0271",
+   "GDC_Library_42:0272",
+   "GDC_Library_42:0273",
+   "GDC_Library_42:0346",
+   "GDC_Library_42:0347",
+   "GDC_Library_42:0348",
+   "GDC_Library_42:0349",
+   "GDC_Library_42:0350",
+   "GDC_Library_42:0351",
+   "Library_Jester_75:0013",
+   "Library_Jester_75:0014",
+   "Library_Jester_75:0015",
+   "Library_Jester_75:0016",
+   "Library_Jester_75:0017",
+   "Library_Jester_75:0018",
+   "Library_Jester_75:0083",
+   "Library_Jester_75:0084",
+   "Library_Jester_75:0085",
+   "Library_Jester_75:0086",
+   "Library_Jester_75:0087",
+   "Library_Jester_75:0088",
+   "Library_Jester_75:0089",
+   "Stadium_Sanjac_90:0004",
+   "Stadium_Sanjac_90:0008",
+   "Stadium_Sanjac_90:0009",
+   "Stadium_Sanjac_90:0010",
+   "Stadium_Sanjac_90:0013",
+   "Stadium_Sanjac_90:0027",
+   "Stadium_Sanjac_90:0038",
+   "Stadium_Sanjac_90:0039",
+   "Stadium_Sanjac_90:0040",
+   "Stadium_Sanjac_90:0041",
+   "Stadium_Sanjac_90:0042",
+   "Stadium_Sanjac_90:0043",
+   "Stadium_Sanjac_90:0044",
+   "Stadium_Sanjac_90:0045",
+   "Stadium_Sanjac_90:0050",
+   "Stadium_Sanjac_90:0051",
+   "Stadium_Sanjac_90:0052",
+   "Stadium_Sanjac_90:0068",
+   "Stadium_Sanjac_90:0069",
+   "Stadium_Sanjac_90:0070",
+   "Stadium_Sanjac_90:0075",
+   "Stadium_Sanjac_90:0076",
+   "Stadium_Sanjac_90:0077",
+   "Stadium_Sanjac_90:0078",
+   "Stadium_Sanjac_90:0079",
+   "Stadium_Sanjac_90:0080",
+   "Stadium_Sanjac_90:0085",
+   "Stadium_Sanjac_90:0086",
+   "Stadium_Sanjac_90:0087",
+   "Stadium_Sanjac_90:0088",
+   "Stadium_Sanjac_90:0089",
+   "Stadium_Sanjac_90:0090",
+   "Stadium_Sanjac_90:0091",
+   "Stadium_Sanjac_90:0092",
+   "Stadium_Sanjac_90:0093",
+   "Stadium_Sanjac_90:0094"
+  ],
+  "n": 80,
+  "sources": {
+   "Stadium_Sanjac_90:0094": [
+    "EMBED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0090": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0093": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0092": [
+    "EMBED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0246": [
+    "EMBED"
+   ],
+   "Stadium_Sanjac_90:0089": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0245": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0042": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0091": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0043": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0244": [
+    "EMBED"
+   ],
+   "Stadium_Sanjac_90:0044": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0247": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0015": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0262": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0045": [
+    "EMBED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0248": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0249": [
+    "EMBED"
+   ],
+   "Stadium_Sanjac_90:0088": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA",
+    "RANDOM"
+   ],
+   "Stadium_Sanjac_90:0027": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0348": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0347": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0349": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0350": [
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0351": [
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0346": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0084": [
+    "PROGRAM_LUNA",
+    "RANDOM"
+   ],
+   "Library_Jester_75:0083": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0085": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0086": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0087": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0088": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0089": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0087": [
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0086": [
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0085": [
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0050": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0051": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0078": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0041": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0052": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0008": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0069": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0039": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0009": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0038": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0077": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0079": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0076": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0010": [
+    "FUSED"
+   ],
+   "GDC_Library_42:0022": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0068": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0040": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0004": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0070": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0021": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0024": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0020": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0023": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0080": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0075": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0263": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0016": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0014": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0261": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0271": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0264": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0272": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0013": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0273": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0017": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0018": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0063": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0223": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0042": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0092": [
+    "RANDOM"
+   ],
+   "Stadium_Sanjac_90:0013": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0075": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0250": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0096": [
+    "RANDOM"
+   ]
+  }
+ },
+ "l1x_dream_recover_person_present": {
+  "intent": "Find a speed loss of at least 30% followed by recovery to 90% of baseline, where the same pedestrian has left the travel corridor but remains visible beside the robot at recovery. Return corridor exit, recovery and last supported visibility times separately. Required: Same person associated across episode; Slowdown >=30%; Corridor exit before recovery >=90%; Person still visible beside robot at recovery.",
+  "scope": [
+   "GDC_Library_42",
+   "Library_Jester_75",
+   "Stadium_Sanjac_90"
+  ],
+  "windows": [
+   "GDC_Library_42:0004",
+   "GDC_Library_42:0005",
+   "GDC_Library_42:0006",
+   "GDC_Library_42:0019",
+   "GDC_Library_42:0020",
+   "GDC_Library_42:0021",
+   "GDC_Library_42:0022",
+   "GDC_Library_42:0023",
+   "GDC_Library_42:0024",
+   "GDC_Library_42:0047",
+   "GDC_Library_42:0048",
+   "GDC_Library_42:0050",
+   "GDC_Library_42:0051",
+   "GDC_Library_42:0052",
+   "GDC_Library_42:0053",
+   "GDC_Library_42:0054",
+   "GDC_Library_42:0055",
+   "GDC_Library_42:0056",
+   "GDC_Library_42:0057",
+   "GDC_Library_42:0058",
+   "GDC_Library_42:0059",
+   "GDC_Library_42:0064",
+   "GDC_Library_42:0067",
+   "GDC_Library_42:0078",
+   "GDC_Library_42:0079",
+   "GDC_Library_42:0083",
+   "GDC_Library_42:0084",
+   "GDC_Library_42:0087",
+   "GDC_Library_42:0088",
+   "GDC_Library_42:0089",
+   "GDC_Library_42:0090",
+   "GDC_Library_42:0091",
+   "GDC_Library_42:0109",
+   "GDC_Library_42:0110",
+   "GDC_Library_42:0130",
+   "GDC_Library_42:0140",
+   "GDC_Library_42:0230",
+   "GDC_Library_42:0232",
+   "Library_Jester_75:0015",
+   "Library_Jester_75:0050",
+   "Library_Jester_75:0051",
+   "Library_Jester_75:0052",
+   "Library_Jester_75:0053",
+   "Library_Jester_75:0056",
+   "Library_Jester_75:0057",
+   "Library_Jester_75:0058",
+   "Library_Jester_75:0059",
+   "Library_Jester_75:0060",
+   "Library_Jester_75:0061",
+   "Library_Jester_75:0062",
+   "Library_Jester_75:0063",
+   "Library_Jester_75:0064",
+   "Library_Jester_75:0065",
+   "Library_Jester_75:0066",
+   "Library_Jester_75:0067",
+   "Library_Jester_75:0068",
+   "Library_Jester_75:0069",
+   "Library_Jester_75:0070",
+   "Library_Jester_75:0076",
+   "Library_Jester_75:0077",
+   "Library_Jester_75:0078",
+   "Library_Jester_75:0079",
+   "Library_Jester_75:0080",
+   "Library_Jester_75:0090",
+   "Stadium_Sanjac_90:0004",
+   "Stadium_Sanjac_90:0008",
+   "Stadium_Sanjac_90:0027",
+   "Stadium_Sanjac_90:0028",
+   "Stadium_Sanjac_90:0029",
+   "Stadium_Sanjac_90:0038",
+   "Stadium_Sanjac_90:0039",
+   "Stadium_Sanjac_90:0041",
+   "Stadium_Sanjac_90:0042",
+   "Stadium_Sanjac_90:0043",
+   "Stadium_Sanjac_90:0044",
+   "Stadium_Sanjac_90:0045",
+   "Stadium_Sanjac_90:0047",
+   "Stadium_Sanjac_90:0048",
+   "Stadium_Sanjac_90:0050",
+   "Stadium_Sanjac_90:0051",
+   "Stadium_Sanjac_90:0052",
+   "Stadium_Sanjac_90:0064",
+   "Stadium_Sanjac_90:0067",
+   "Stadium_Sanjac_90:0068",
+   "Stadium_Sanjac_90:0069",
+   "Stadium_Sanjac_90:0070",
+   "Stadium_Sanjac_90:0073",
+   "Stadium_Sanjac_90:0074",
+   "Stadium_Sanjac_90:0075",
+   "Stadium_Sanjac_90:0076",
+   "Stadium_Sanjac_90:0077",
+   "Stadium_Sanjac_90:0078",
+   "Stadium_Sanjac_90:0079",
+   "Stadium_Sanjac_90:0093",
+   "Stadium_Sanjac_90:0094"
+  ],
+  "n": 95,
+  "sources": {
+   "GDC_Library_42:0004": [
+    "EMBED"
+   ],
+   "Library_Jester_75:0060": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0005": [
+    "EMBED"
+   ],
+   "Library_Jester_75:0059": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0028": [
+    "EMBED"
+   ],
+   "Stadium_Sanjac_90:0047": [
+    "EMBED"
+   ],
+   "Library_Jester_75:0061": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0027": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0058": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0006": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0078": [
+    "EMBED"
+   ],
+   "Library_Jester_75:0077": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0076": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0079": [
+    "EMBED"
+   ],
+   "Library_Jester_75:0090": [
+    "EMBED",
+    "RANDOM"
+   ],
+   "Stadium_Sanjac_90:0029": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0084": [
+    "EMBED"
+   ],
+   "Library_Jester_75:0058": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0083": [
+    "EMBED"
+   ],
+   "Stadium_Sanjac_90:0048": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0020": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0019": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0021": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0022": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0023": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0024": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0051": [
+    "PROGRAM_LUNA",
+    "RANDOM"
+   ],
+   "GDC_Library_42:0050": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0052": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0053": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0054": [
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA",
+    "RANDOM"
+   ],
+   "GDC_Library_42:0055": [
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0074": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0073": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0075": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0076": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0077": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0078": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0053": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0052": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0062": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "RANDOM"
+   ],
+   "GDC_Library_42:0056": [
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0047": [
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0057": [
+    "HYBRID_LUNA"
+   ],
+   "Library_Jester_75:0057": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0059": [
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0048": [
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0094": [
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0093": [
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0043": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0050": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0051": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0044": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0052": [
+    "FUSED"
+   ],
+   "GDC_Library_42:0110": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0008": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0069": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0041": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0039": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0042": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0079": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0038": [
+    "FUSED"
+   ],
+   "Library_Jester_75:0051": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0045": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0087": [
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0004": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0089": [
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0070": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0109": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0088": [
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0090": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0091": [
+    "FUSED_LINEAR"
+   ],
+   "Library_Jester_75:0063": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0078": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0064": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0069": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0079": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0080": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0065": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0068": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0067": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0066": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0070": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0015": [
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0068": [
+    "FUSED_V_LUNA"
+   ],
+   "Library_Jester_75:0050": [
+    "FUSED_V_LUNA"
+   ],
+   "Library_Jester_75:0056": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0067": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0064": [
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0064": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0130": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0232": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0067": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0230": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0140": [
+    "RANDOM"
+   ]
+  }
+ },
+ "l1x_dream_turn_creates_exposure": {
+  "intent": "Find a turn of at least 45 degrees that brings a previously side-visible pedestrian into the forward travel corridor without that person crossing the robot path. Measure whether slowing begins before or after this change of relative geometry. Required: Turn >=45 degrees; Same pedestrian visible at side before turn; Corridor occupancy changes because robot reorients, not pedestrian crossing; Compare slowdown onset with geometric transition.",
+  "scope": [
+   "GDC_Library_42",
+   "Library_Jester_75",
+   "Parlin_Parlin_51"
+  ],
+  "windows": [
+   "GDC_Library_42:0020",
+   "GDC_Library_42:0021",
+   "GDC_Library_42:0022",
+   "GDC_Library_42:0023",
+   "GDC_Library_42:0024",
+   "GDC_Library_42:0025",
+   "GDC_Library_42:0026",
+   "GDC_Library_42:0033",
+   "GDC_Library_42:0035",
+   "GDC_Library_42:0053",
+   "GDC_Library_42:0054",
+   "GDC_Library_42:0055",
+   "GDC_Library_42:0056",
+   "GDC_Library_42:0058",
+   "GDC_Library_42:0064",
+   "GDC_Library_42:0073",
+   "GDC_Library_42:0077",
+   "GDC_Library_42:0079",
+   "GDC_Library_42:0080",
+   "GDC_Library_42:0081",
+   "GDC_Library_42:0082",
+   "GDC_Library_42:0083",
+   "GDC_Library_42:0084",
+   "GDC_Library_42:0085",
+   "GDC_Library_42:0086",
+   "GDC_Library_42:0087",
+   "GDC_Library_42:0088",
+   "GDC_Library_42:0089",
+   "GDC_Library_42:0090",
+   "GDC_Library_42:0091",
+   "GDC_Library_42:0092",
+   "GDC_Library_42:0094",
+   "GDC_Library_42:0109",
+   "GDC_Library_42:0110",
+   "GDC_Library_42:0111",
+   "GDC_Library_42:0152",
+   "GDC_Library_42:0161",
+   "GDC_Library_42:0218",
+   "GDC_Library_42:0260",
+   "GDC_Library_42:0261",
+   "GDC_Library_42:0262",
+   "GDC_Library_42:0263",
+   "GDC_Library_42:0264",
+   "GDC_Library_42:0269",
+   "GDC_Library_42:0270",
+   "GDC_Library_42:0271",
+   "GDC_Library_42:0272",
+   "GDC_Library_42:0273",
+   "GDC_Library_42:0280",
+   "GDC_Library_42:0290",
+   "GDC_Library_42:0296",
+   "GDC_Library_42:0350",
+   "GDC_Library_42:0351",
+   "Library_Jester_75:0005",
+   "Library_Jester_75:0006",
+   "Library_Jester_75:0007",
+   "Library_Jester_75:0013",
+   "Library_Jester_75:0014",
+   "Library_Jester_75:0015",
+   "Library_Jester_75:0016",
+   "Library_Jester_75:0017",
+   "Library_Jester_75:0018",
+   "Library_Jester_75:0048",
+   "Library_Jester_75:0049",
+   "Library_Jester_75:0050",
+   "Library_Jester_75:0051",
+   "Library_Jester_75:0052",
+   "Library_Jester_75:0053",
+   "Library_Jester_75:0054",
+   "Library_Jester_75:0055",
+   "Library_Jester_75:0056",
+   "Library_Jester_75:0057",
+   "Library_Jester_75:0058",
+   "Library_Jester_75:0059",
+   "Library_Jester_75:0060",
+   "Library_Jester_75:0061",
+   "Library_Jester_75:0062",
+   "Library_Jester_75:0063",
+   "Library_Jester_75:0064",
+   "Library_Jester_75:0073",
+   "Library_Jester_75:0089",
+   "Library_Jester_75:0090",
+   "Parlin_Parlin_51:0020",
+   "Parlin_Parlin_51:0038",
+   "Parlin_Parlin_51:0039",
+   "Parlin_Parlin_51:0040",
+   "Parlin_Parlin_51:0041",
+   "Parlin_Parlin_51:0042",
+   "Parlin_Parlin_51:0043",
+   "Parlin_Parlin_51:0044",
+   "Parlin_Parlin_51:0045",
+   "Parlin_Parlin_51:0049"
+  ],
+  "n": 92,
+  "sources": {
+   "Library_Jester_75:0015": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0016": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0014": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0262": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0263": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0055": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0261": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0013": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0054": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0056": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0260": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0271": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0053": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0272": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0270": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0058": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0269": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0264": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0094": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0273": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0052": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0051": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0053": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0054": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0055": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0056": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0039": [
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0038": [
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0040": [
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0041": [
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0042": [
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0043": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0080": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0079": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0081": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0082": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0083": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0084": [
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0044": [
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0045": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0057": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Library_Jester_75:0058": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Library_Jester_75:0059": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Library_Jester_75:0060": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Library_Jester_75:0061": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Parlin_Parlin_51:0049": [
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0090": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0085": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Library_Jester_75:0062": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0351": [
+    "HYBRID_LUNA"
+   ],
+   "Library_Jester_75:0090": [
+    "HYBRID_LUNA"
+   ],
+   "Library_Jester_75:0089": [
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0350": [
+    "HYBRID_LUNA"
+   ],
+   "GDC_Library_42:0022": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0023": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0021": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0024": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0110": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0020": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0111": [
+    "FUSED"
+   ],
+   "Library_Jester_75:0050": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0025": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0073": [
+    "FUSED"
+   ],
+   "GDC_Library_42:0035": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Library_Jester_75:0049": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0109": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0092": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0087": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0089": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0091": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0088": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0026": [
+    "FUSED_LINEAR"
+   ],
+   "Parlin_Parlin_51:0020": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0033": [
+    "FUSED_LINEAR"
+   ],
+   "Library_Jester_75:0063": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0006": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0007": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0018": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0064": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0017": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0048": [
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0086": [
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0152": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0218": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0077": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0280": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0064": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0296": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0161": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0290": [
+    "RANDOM"
+   ],
+   "Library_Jester_75:0073": [
+    "RANDOM"
+   ],
+   "Library_Jester_75:0005": [
+    "RANDOM"
+   ]
+  }
+ },
+ "l1x_dream_multiple_attempts": {
+  "intent": "Find an eight-second crowded passage with at least two left-right steering reversals of 15 degrees or more, two speed dips of at least 0.2 m/s, and less than two metres net displacement. Return the sequence and show whether a stable opening remained available or the crowd kept changing. Required: 8 s crowded passage; At least two signed steering reversals of >=15 degrees each; At least two speed dips >=0.2 m/s; Net planar displacement <2 m from raw pose; Available opening tracked over time.",
+  "scope": [
+   "Library_Jester_75",
+   "Stadium_Sanjac_90",
+   "Thompson_Thompson_100"
+  ],
+  "windows": [
+   "Library_Jester_75:0028",
+   "Library_Jester_75:0029",
+   "Library_Jester_75:0030",
+   "Library_Jester_75:0046",
+   "Library_Jester_75:0047",
+   "Library_Jester_75:0048",
+   "Library_Jester_75:0049",
+   "Library_Jester_75:0050",
+   "Library_Jester_75:0051",
+   "Library_Jester_75:0052",
+   "Library_Jester_75:0053",
+   "Library_Jester_75:0056",
+   "Library_Jester_75:0057",
+   "Library_Jester_75:0058",
+   "Library_Jester_75:0060",
+   "Library_Jester_75:0061",
+   "Stadium_Sanjac_90:0004",
+   "Stadium_Sanjac_90:0005",
+   "Stadium_Sanjac_90:0008",
+   "Stadium_Sanjac_90:0009",
+   "Stadium_Sanjac_90:0010",
+   "Stadium_Sanjac_90:0011",
+   "Stadium_Sanjac_90:0012",
+   "Stadium_Sanjac_90:0013",
+   "Stadium_Sanjac_90:0015",
+   "Stadium_Sanjac_90:0016",
+   "Stadium_Sanjac_90:0017",
+   "Stadium_Sanjac_90:0018",
+   "Stadium_Sanjac_90:0019",
+   "Stadium_Sanjac_90:0020",
+   "Stadium_Sanjac_90:0030",
+   "Stadium_Sanjac_90:0031",
+   "Stadium_Sanjac_90:0032",
+   "Stadium_Sanjac_90:0041",
+   "Stadium_Sanjac_90:0042",
+   "Stadium_Sanjac_90:0043",
+   "Stadium_Sanjac_90:0044",
+   "Stadium_Sanjac_90:0045",
+   "Stadium_Sanjac_90:0046",
+   "Stadium_Sanjac_90:0047",
+   "Stadium_Sanjac_90:0048",
+   "Stadium_Sanjac_90:0049",
+   "Stadium_Sanjac_90:0050",
+   "Stadium_Sanjac_90:0051",
+   "Stadium_Sanjac_90:0052",
+   "Stadium_Sanjac_90:0053",
+   "Stadium_Sanjac_90:0054",
+   "Stadium_Sanjac_90:0055",
+   "Stadium_Sanjac_90:0068",
+   "Stadium_Sanjac_90:0069",
+   "Stadium_Sanjac_90:0070",
+   "Stadium_Sanjac_90:0078",
+   "Stadium_Sanjac_90:0079",
+   "Stadium_Sanjac_90:0080",
+   "Stadium_Sanjac_90:0094",
+   "Thompson_Thompson_100:0004",
+   "Thompson_Thompson_100:0005",
+   "Thompson_Thompson_100:0006",
+   "Thompson_Thompson_100:0007",
+   "Thompson_Thompson_100:0008",
+   "Thompson_Thompson_100:0009",
+   "Thompson_Thompson_100:0016",
+   "Thompson_Thompson_100:0061",
+   "Thompson_Thompson_100:0062",
+   "Thompson_Thompson_100:0063",
+   "Thompson_Thompson_100:0064",
+   "Thompson_Thompson_100:0091",
+   "Thompson_Thompson_100:0092",
+   "Thompson_Thompson_100:0093",
+   "Thompson_Thompson_100:0094",
+   "Thompson_Thompson_100:0106",
+   "Thompson_Thompson_100:0118",
+   "Thompson_Thompson_100:0123",
+   "Thompson_Thompson_100:0153",
+   "Thompson_Thompson_100:0190"
+  ],
+  "n": 75,
+  "sources": {
+   "Stadium_Sanjac_90:0043": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0044": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0042": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0045": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0048": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0046": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0047": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0049": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0012": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0041": [
+    "EMBED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0011": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0050": [
+    "EMBED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0051": [
+    "EMBED",
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0013": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "RANDOM"
+   ],
+   "Stadium_Sanjac_90:0053": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0052": [
+    "EMBED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0054": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0010": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0094": [
+    "EMBED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0055": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0004": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0005": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0004": [
+    "FUSED_LINEAR",
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0005": [
+    "PROGRAM_LUNA"
+   ],
+   "Thompson_Thompson_100:0006": [
+    "FUSED_CONCAT",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0016": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0015": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0017": [
+    "FUSED_LINEAR",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0018": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0019": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0020": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_Jester_75:0051": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Library_Jester_75:0052": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Library_Jester_75:0050": [
+    "FUSED"
+   ],
+   "Library_Jester_75:0049": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Library_Jester_75:0047": [
+    "FUSED"
+   ],
+   "Library_Jester_75:0048": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0078": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Library_Jester_75:0053": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "RANDOM"
+   ],
+   "Library_Jester_75:0046": [
+    "FUSED"
+   ],
+   "Library_Jester_75:0058": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0079": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Thompson_Thompson_100:0063": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Thompson_Thompson_100:0062": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Library_Jester_75:0057": [
+    "FUSED"
+   ],
+   "Thompson_Thompson_100:0061": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0069": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0070": [
+    "FUSED_LINEAR"
+   ],
+   "Thompson_Thompson_100:0092": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0080": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Thompson_Thompson_100:0091": [
+    "FUSED_LINEAR"
+   ],
+   "Thompson_Thompson_100:0094": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0068": [
+    "FUSED_LINEAR"
+   ],
+   "Thompson_Thompson_100:0093": [
+    "FUSED_LINEAR"
+   ],
+   "Thompson_Thompson_100:0008": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0030": [
+    "FUSED_CONCAT"
+   ],
+   "Thompson_Thompson_100:0007": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0029": [
+    "FUSED_CONCAT"
+   ],
+   "Thompson_Thompson_100:0009": [
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0032": [
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0031": [
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0030": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0028": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0060": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Jester_75:0061": [
+    "FUSED_CONCAT"
+   ],
+   "Thompson_Thompson_100:0064": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0008": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0009": [
+    "RANDOM"
+   ],
+   "Library_Jester_75:0056": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0123": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0118": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0153": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0016": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0106": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0190": [
+    "RANDOM"
+   ]
+  }
+ },
+ "l1x_dream_person_adjusts": {
+  "intent": "Find an oncoming encounter where the pedestrian visibly changes course before passing while robot speed changes by less than 0.2 m/s and heading by less than 15 degrees. Return the pedestrian trajectory change and robot signals; do not infer discomfort or intent from the maneuver. Required: Oncoming person changes world-relative course; Robot speed range <0.2 m/s; Robot heading excursion <15 degrees; Person adjustment precedes passing.",
+  "scope": [
+   "GDC_Library_42",
+   "Library_Fountain_5",
+   "Sanjac_Rec_91"
+  ],
+  "windows": [
+   "GDC_Library_42:0021",
+   "GDC_Library_42:0022",
+   "GDC_Library_42:0024",
+   "GDC_Library_42:0065",
+   "GDC_Library_42:0068",
+   "GDC_Library_42:0087",
+   "GDC_Library_42:0088",
+   "GDC_Library_42:0089",
+   "GDC_Library_42:0214",
+   "GDC_Library_42:0262",
+   "GDC_Library_42:0263",
+   "GDC_Library_42:0264",
+   "GDC_Library_42:0271",
+   "GDC_Library_42:0272",
+   "GDC_Library_42:0325",
+   "GDC_Library_42:0329",
+   "GDC_Library_42:0330",
+   "Library_Fountain_5:0012",
+   "Library_Fountain_5:0013",
+   "Library_Fountain_5:0014",
+   "Library_Fountain_5:0015",
+   "Library_Fountain_5:0016",
+   "Library_Fountain_5:0017",
+   "Library_Fountain_5:0018",
+   "Library_Fountain_5:0019",
+   "Library_Fountain_5:0020",
+   "Library_Fountain_5:0048",
+   "Library_Fountain_5:0055",
+   "Library_Fountain_5:0056",
+   "Library_Fountain_5:0068",
+   "Library_Fountain_5:0083",
+   "Library_Fountain_5:0084",
+   "Library_Fountain_5:0085",
+   "Library_Fountain_5:0093",
+   "Sanjac_Rec_91:0004",
+   "Sanjac_Rec_91:0005",
+   "Sanjac_Rec_91:0006",
+   "Sanjac_Rec_91:0012",
+   "Sanjac_Rec_91:0019",
+   "Sanjac_Rec_91:0022",
+   "Sanjac_Rec_91:0031",
+   "Sanjac_Rec_91:0032",
+   "Sanjac_Rec_91:0033",
+   "Sanjac_Rec_91:0034",
+   "Sanjac_Rec_91:0035",
+   "Sanjac_Rec_91:0036",
+   "Sanjac_Rec_91:0037",
+   "Sanjac_Rec_91:0047",
+   "Sanjac_Rec_91:0048",
+   "Sanjac_Rec_91:0050",
+   "Sanjac_Rec_91:0053",
+   "Sanjac_Rec_91:0054",
+   "Sanjac_Rec_91:0055",
+   "Sanjac_Rec_91:0056",
+   "Sanjac_Rec_91:0057",
+   "Sanjac_Rec_91:0064",
+   "Sanjac_Rec_91:0066",
+   "Sanjac_Rec_91:0075",
+   "Sanjac_Rec_91:0080",
+   "Sanjac_Rec_91:0092",
+   "Sanjac_Rec_91:0097",
+   "Sanjac_Rec_91:0098",
+   "Sanjac_Rec_91:0099",
+   "Sanjac_Rec_91:0100",
+   "Sanjac_Rec_91:0101",
+   "Sanjac_Rec_91:0102",
+   "Sanjac_Rec_91:0106",
+   "Sanjac_Rec_91:0114",
+   "Sanjac_Rec_91:0118",
+   "Sanjac_Rec_91:0120",
+   "Sanjac_Rec_91:0121",
+   "Sanjac_Rec_91:0122",
+   "Sanjac_Rec_91:0127",
+   "Sanjac_Rec_91:0129",
+   "Sanjac_Rec_91:0130",
+   "Sanjac_Rec_91:0131",
+   "Sanjac_Rec_91:0132",
+   "Sanjac_Rec_91:0133",
+   "Sanjac_Rec_91:0134",
+   "Sanjac_Rec_91:0135"
+  ],
+  "n": 80,
+  "sources": {
+   "Sanjac_Rec_91:0075": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0032": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0050": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0122": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0047": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0118": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0134": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0127": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0056": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0098": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0121": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0019": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0012": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0080": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0064": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0120": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0114": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0092": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0106": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0097": [
+    "TAGS"
+   ],
+   "Sanjac_Rec_91:0131": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Sanjac_Rec_91:0130": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Sanjac_Rec_91:0132": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Sanjac_Rec_91:0129": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0013": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0015": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0084": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0016": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0083": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0012": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0017": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0055": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0085": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Sanjac_Rec_91:0048": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0014": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0068": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0056": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Sanjac_Rec_91:0133": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0048": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Sanjac_Rec_91:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0035": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0034": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "RANDOM"
+   ],
+   "Sanjac_Rec_91:0036": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0055": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0005": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0033": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0054": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0100": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0037": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0101": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0099": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0057": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0006": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0053": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0031": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0021": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0089": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0087": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0024": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0088": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0022": [
+    "FUSED_LINEAR"
+   ],
+   "Library_Fountain_5:0019": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Fountain_5:0020": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0262": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0263": [
+    "FUSED_CONCAT"
+   ],
+   "Library_Fountain_5:0018": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0330": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0329": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0271": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0272": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0264": [
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0068": [
+    "RANDOM"
+   ],
+   "Sanjac_Rec_91:0135": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0065": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0214": [
+    "RANDOM"
+   ],
+   "Sanjac_Rec_91:0066": [
+    "RANDOM"
+   ],
+   "Sanjac_Rec_91:0102": [
+    "RANDOM"
+   ],
+   "Library_Fountain_5:0093": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0325": [
+    "RANDOM"
+   ],
+   "Sanjac_Rec_91:0022": [
+    "RANDOM"
+   ]
+  }
+ },
+ "test_speedup_after_person": {
+  "intent": "The robot speeds up (by at least 0.3 m/s within 2 s) shortly after a new person appears in front of it.",
+  "scope": [
+   "Bass_Garage_134",
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "GDC_Library_42",
+   "JCL",
+   "Library_Fountain_5",
+   "Library_Jester_75",
+   "Library_MLK",
+   "Parlin_Parlin_51",
+   "RLM",
+   "Rec_Tent_129",
+   "Sanjac",
+   "Sanjac_Rec_91",
+   "Stadium_Sanjac_90",
+   "Thompson_Thompson_100"
+  ],
+  "windows": [
+   "Bass_Garage_134:0010",
+   "Bass_Garage_134:0011",
+   "Bass_Garage_134:0013",
+   "Bass_Garage_134:0015",
+   "Bass_Garage_134:0016",
+   "Bass_Garage_134:0017",
+   "Bass_Garage_134:0018",
+   "Bass_Garage_134:0019",
+   "Bass_Garage_134:0020",
+   "Bass_Garage_134:0021",
+   "Bass_Garage_134:0022",
+   "Bass_Garage_134:0024",
+   "Bass_Garage_134:0025",
+   "Bass_Garage_134:0028",
+   "Bass_Garage_134:0029",
+   "Bass_Garage_134:0030",
+   "Bass_Garage_134:0031",
+   "Bass_Garage_134:0034",
+   "Bass_Garage_134:0035",
+   "Bass_Garage_134:0039",
+   "Bass_Garage_134:0040",
+   "Bass_Garage_134:0048",
+   "Bass_Garage_134:0058",
+   "Bass_Garage_134:0059",
+   "Bass_Garage_134:0087",
+   "Bass_Garage_134:0088",
+   "Bass_Garage_134:0089",
+   "Bass_Garage_134:0096",
+   "Brackenridge:0058",
+   "Brackenridge:0059",
+   "Brackenridge:0060",
+   "Brackenridge:0061",
+   "Brackenridge:0062",
+   "Brackenridge:0063",
+   "Brackenridge:0066",
+   "Brackenridge:0067",
+   "Brackenridge:0068",
+   "Brackenridge:0069",
+   "Butler:0047",
+   "Butler:0064",
+   "Butler:0065",
+   "Butler:0080",
+   "GDC:0069",
+   "GDC_Library_42:0300",
+   "JCL:0008",
+   "JCL:0016",
+   "JCL:0029",
+   "JCL:0038",
+   "JCL:0039",
+   "JCL:0064",
+   "Library_Fountain_5:0012",
+   "Library_Fountain_5:0013",
+   "Library_Fountain_5:0015",
+   "Library_Fountain_5:0060",
+   "Library_Jester_75:0048",
+   "Library_Jester_75:0064",
+   "Library_MLK:0028",
+   "Library_MLK:0029",
+   "Library_MLK:0030",
+   "Library_MLK:0035",
+   "Library_MLK:0074",
+   "Library_MLK:0078",
+   "Library_MLK:0079",
+   "Library_MLK:0108",
+   "Rec_Tent_129:0004",
+   "Rec_Tent_129:0005",
+   "Rec_Tent_129:0010",
+   "Rec_Tent_129:0011",
+   "Rec_Tent_129:0012",
+   "Rec_Tent_129:0013",
+   "Rec_Tent_129:0014",
+   "Rec_Tent_129:0015",
+   "Rec_Tent_129:0044",
+   "Rec_Tent_129:0056",
+   "Rec_Tent_129:0066",
+   "Rec_Tent_129:0120",
+   "Rec_Tent_129:0136",
+   "Rec_Tent_129:0160",
+   "Rec_Tent_129:0161",
+   "Rec_Tent_129:0188",
+   "Rec_Tent_129:0248",
+   "Rec_Tent_129:0250",
+   "Rec_Tent_129:0251",
+   "Rec_Tent_129:0252",
+   "Rec_Tent_129:0253",
+   "Rec_Tent_129:0254",
+   "Rec_Tent_129:0255",
+   "Rec_Tent_129:0288",
+   "Rec_Tent_129:0303",
+   "Rec_Tent_129:0304",
+   "Sanjac:0004",
+   "Sanjac:0005",
+   "Sanjac:0006",
+   "Sanjac:0064",
+   "Sanjac:0065",
+   "Sanjac:0066",
+   "Sanjac:0068",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac:0072",
+   "Sanjac_Rec_91:0004",
+   "Sanjac_Rec_91:0005",
+   "Sanjac_Rec_91:0032",
+   "Sanjac_Rec_91:0033",
+   "Sanjac_Rec_91:0034",
+   "Sanjac_Rec_91:0060",
+   "Sanjac_Rec_91:0061",
+   "Sanjac_Rec_91:0068",
+   "Sanjac_Rec_91:0123",
+   "Stadium_Sanjac_90:0004",
+   "Stadium_Sanjac_90:0043",
+   "Stadium_Sanjac_90:0044",
+   "Stadium_Sanjac_90:0045",
+   "Stadium_Sanjac_90:0057",
+   "Stadium_Sanjac_90:0069",
+   "Stadium_Sanjac_90:0070",
+   "Stadium_Sanjac_90:0076",
+   "Thompson_Thompson_100:0036",
+   "Thompson_Thompson_100:0059",
+   "Thompson_Thompson_100:0076",
+   "Thompson_Thompson_100:0100",
+   "Thompson_Thompson_100:0147",
+   "Thompson_Thompson_100:0148",
+   "Thompson_Thompson_100:0149",
+   "Thompson_Thompson_100:0150",
+   "Thompson_Thompson_100:0151",
+   "Thompson_Thompson_100:0152",
+   "Thompson_Thompson_100:0168",
+   "Thompson_Thompson_100:0200",
+   "Thompson_Thompson_100:0204"
+  ],
+  "n": 130,
+  "sources": {
+   "Library_Fountain_5:0012": [
+    "EMBED"
+   ],
+   "Brackenridge:0061": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_Fountain_5:0013": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0030": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0010": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0088": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0028": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0029": [
+    "EMBED"
+   ],
+   "JCL:0039": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0059": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0089": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0058": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0015": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0087": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0040": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Brackenridge:0067": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0011": [
+    "EMBED"
+   ],
+   "Brackenridge:0060": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0038": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0096": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Rec_Tent_129:0011": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0010": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0012": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0013": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0014": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0015": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0148": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0147": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0149": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0150": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0151": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0152": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0251": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0250": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0252": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0253": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0254": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0255": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac_Rec_91:0061": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac_Rec_91:0060": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Brackenridge:0062": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0068": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0059": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0069": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0066": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0035": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0064": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0030": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0063": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0058": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_Jester_75:0048": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0070": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0303": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0072": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0005": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0029": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0078": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0068": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac_Rec_91:0034": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0028": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0304": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0079": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0006": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0066": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0005": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0005": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0029": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0032": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0033": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0004": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0065": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0044": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0043": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0070": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0066": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0069": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0045": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0064": [
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0035": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0016": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0017": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0019": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0020": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0034": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0021": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0018": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0015": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0022": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0025": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0024": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0031": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0039": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0048": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0013": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0064": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0300": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0008": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0016": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_Fountain_5:0060": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_Jester_75:0064": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0108": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0044": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0056": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0136": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0160": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0188": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0248": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0288": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac_Rec_91:0068": [
+    "L1_ATTRIBUTES"
+   ],
+   "Stadium_Sanjac_90:0076": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0036": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0076": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0100": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0168": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0200": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0204": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0120": [
+    "RANDOM"
+   ],
+   "Rec_Tent_129:0161": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0059": [
+    "RANDOM"
+   ],
+   "Sanjac_Rec_91:0123": [
+    "RANDOM"
+   ],
+   "Butler:0080": [
+    "RANDOM"
+   ],
+   "GDC:0069": [
+    "RANDOM"
+   ],
+   "Library_MLK:0074": [
+    "RANDOM"
+   ],
+   "Stadium_Sanjac_90:0057": [
+    "RANDOM"
+   ],
+   "Butler:0065": [
+    "RANDOM"
+   ],
+   "Butler:0047": [
+    "RANDOM"
+   ]
+  }
+ },
+ "test_tight_right": {
+  "intent": "The robot squeezes past something with less than 40 cm of room on its right side.",
+  "scope": [
+   "Bass_Garage_134",
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "GDC_Library_42",
+   "JCL",
+   "Library_Fountain_5",
+   "Library_Jester_75",
+   "Library_MLK",
+   "Parlin_Parlin_51",
+   "RLM",
+   "Rec_Tent_129",
+   "Sanjac",
+   "Sanjac_Rec_91",
+   "Stadium_Sanjac_90",
+   "Thompson_Thompson_100"
+  ],
+  "windows": [
+   "Bass_Garage_134:0048",
+   "Bass_Garage_134:0049",
+   "Bass_Garage_134:0050",
+   "Bass_Garage_134:0051",
+   "Bass_Garage_134:0052",
+   "Bass_Garage_134:0053",
+   "Bass_Garage_134:0058",
+   "Bass_Garage_134:0059",
+   "Bass_Garage_134:0060",
+   "Bass_Garage_134:0067",
+   "Bass_Garage_134:0068",
+   "Bass_Garage_134:0069",
+   "Bass_Garage_134:0070",
+   "Bass_Garage_134:0071",
+   "Bass_Garage_134:0072",
+   "Bass_Garage_134:0074",
+   "Bass_Garage_134:0075",
+   "Bass_Garage_134:0076",
+   "Bass_Garage_134:0080",
+   "Bass_Garage_134:0081",
+   "Bass_Garage_134:0082",
+   "Bass_Garage_134:0083",
+   "Bass_Garage_134:0084",
+   "Bass_Garage_134:0085",
+   "Bass_Garage_134:0086",
+   "Bass_Garage_134:0087",
+   "Bass_Garage_134:0088",
+   "Bass_Garage_134:0089",
+   "Bass_Garage_134:0090",
+   "Bass_Garage_134:0091",
+   "Bass_Garage_134:0092",
+   "Bass_Garage_134:0094",
+   "Bass_Garage_134:0096",
+   "Bass_Garage_134:0104",
+   "Bass_Garage_134:0105",
+   "Bass_Garage_134:0106",
+   "GDC_Library_42:0020",
+   "GDC_Library_42:0021",
+   "GDC_Library_42:0022",
+   "GDC_Library_42:0023",
+   "GDC_Library_42:0024",
+   "GDC_Library_42:0025",
+   "GDC_Library_42:0027",
+   "GDC_Library_42:0043",
+   "GDC_Library_42:0044",
+   "GDC_Library_42:0057",
+   "GDC_Library_42:0058",
+   "GDC_Library_42:0069",
+   "GDC_Library_42:0072",
+   "GDC_Library_42:0073",
+   "GDC_Library_42:0281",
+   "GDC_Library_42:0291",
+   "GDC_Library_42:0292",
+   "GDC_Library_42:0293",
+   "GDC_Library_42:0294",
+   "GDC_Library_42:0295",
+   "GDC_Library_42:0296",
+   "JCL:0029",
+   "JCL:0039",
+   "Library_Fountain_5:0046",
+   "Library_MLK:0025",
+   "Library_MLK:0028",
+   "Library_MLK:0029",
+   "Library_MLK:0030",
+   "Library_MLK:0031",
+   "Parlin_Parlin_51:0019",
+   "Parlin_Parlin_51:0020",
+   "Parlin_Parlin_51:0046",
+   "Parlin_Parlin_51:0048",
+   "RLM:0053",
+   "RLM:0059",
+   "Rec_Tent_129:0004",
+   "Rec_Tent_129:0148",
+   "Rec_Tent_129:0182",
+   "Rec_Tent_129:0266",
+   "Rec_Tent_129:0267",
+   "Rec_Tent_129:0268",
+   "Rec_Tent_129:0269",
+   "Rec_Tent_129:0270",
+   "Rec_Tent_129:0271",
+   "Rec_Tent_129:0303",
+   "Rec_Tent_129:0304",
+   "Rec_Tent_129:0307",
+   "Sanjac:0004",
+   "Sanjac:0006",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac_Rec_91:0004",
+   "Sanjac_Rec_91:0034",
+   "Sanjac_Rec_91:0045",
+   "Sanjac_Rec_91:0080",
+   "Sanjac_Rec_91:0131",
+   "Sanjac_Rec_91:0132",
+   "Sanjac_Rec_91:0133",
+   "Sanjac_Rec_91:0134",
+   "Stadium_Sanjac_90:0007",
+   "Stadium_Sanjac_90:0043",
+   "Stadium_Sanjac_90:0044",
+   "Stadium_Sanjac_90:0094",
+   "Thompson_Thompson_100:0211",
+   "Thompson_Thompson_100:0212",
+   "Thompson_Thompson_100:0213",
+   "Thompson_Thompson_100:0214",
+   "Thompson_Thompson_100:0215",
+   "Thompson_Thompson_100:0216"
+  ],
+  "n": 105,
+  "sources": {
+   "Bass_Garage_134:0082": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0083": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0081": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Sanjac_Rec_91:0132": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0084": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0052": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0051": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac_Rec_91:0133": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0050": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0075": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0074": [
+    "EMBED"
+   ],
+   "Sanjac_Rec_91:0131": [
+    "EMBED"
+   ],
+   "Sanjac_Rec_91:0045": [
+    "EMBED"
+   ],
+   "Sanjac_Rec_91:0134": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0085": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0053": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0076": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0086": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0087": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0080": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Thompson_Thompson_100:0212": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0211": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0213": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0214": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0215": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0216": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0292": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0291": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0293": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0294": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0295": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0296": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0267": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0266": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0268": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0269": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0270": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0271": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0044": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0043": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Bass_Garage_134:0088": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0089": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0090": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0049": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0091": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0105": [
+    "FUSED_LINEAR",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0104": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0048": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0106": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0094": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC_Library_42:0058": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0092": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Parlin_Parlin_51:0048": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC_Library_42:0069": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "JCL:0039": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_Fountain_5:0046": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC_Library_42:0057": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Parlin_Parlin_51:0046": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0029": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0022": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0030": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "RLM:0059": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0023": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0024": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0303": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0025": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0031": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0034": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0028": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Bass_Garage_134:0094": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0027": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0070": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0020": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0025": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0073": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0004": [
+    "FUSED_LINEAR"
+   ],
+   "GDC_Library_42:0021": [
+    "FUSED_LINEAR"
+   ],
+   "Parlin_Parlin_51:0020": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0029": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0044": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0043": [
+    "FUSED_LINEAR"
+   ],
+   "Rec_Tent_129:0004": [
+    "FUSED_LINEAR"
+   ],
+   "Parlin_Parlin_51:0019": [
+    "FUSED_LINEAR",
+    "RANDOM"
+   ],
+   "Sanjac:0006": [
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0068": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0069": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0071": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0070": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0059": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0072": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0058": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0067": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0060": [
+    "FUSED_CONCAT"
+   ],
+   "Rec_Tent_129:0304": [
+    "FUSED_V_LUNA"
+   ],
+   "RLM:0053": [
+    "RANDOM"
+   ],
+   "Sanjac_Rec_91:0080": [
+    "RANDOM"
+   ],
+   "Rec_Tent_129:0307": [
+    "RANDOM"
+   ],
+   "Rec_Tent_129:0148": [
+    "RANDOM"
+   ],
+   "Bass_Garage_134:0096": [
+    "RANDOM"
+   ],
+   "Stadium_Sanjac_90:0007": [
+    "RANDOM"
+   ],
+   "Rec_Tent_129:0182": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0281": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0072": [
+    "RANDOM"
+   ]
+  }
+ },
+ "test_turn_then_brake": {
+  "intent": "Ordered: the robot turns (>=45 degrees within 3 s) and then brakes (>=30% speed drop) within 5 s after the turn starts.",
+  "scope": [
+   "Bass_Garage_134",
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "GDC_Library_42",
+   "JCL",
+   "Library_Fountain_5",
+   "Library_Jester_75",
+   "Library_MLK",
+   "Parlin_Parlin_51",
+   "RLM",
+   "Rec_Tent_129",
+   "Sanjac",
+   "Sanjac_Rec_91",
+   "Stadium_Sanjac_90",
+   "Thompson_Thompson_100"
+  ],
+  "windows": [
+   "Bass_Garage_134:0040",
+   "Bass_Garage_134:0048",
+   "Bass_Garage_134:0049",
+   "Bass_Garage_134:0050",
+   "Bass_Garage_134:0051",
+   "Bass_Garage_134:0052",
+   "Bass_Garage_134:0053",
+   "Bass_Garage_134:0054",
+   "Bass_Garage_134:0058",
+   "Bass_Garage_134:0059",
+   "Bass_Garage_134:0060",
+   "Bass_Garage_134:0061",
+   "Bass_Garage_134:0067",
+   "Bass_Garage_134:0068",
+   "Bass_Garage_134:0069",
+   "Bass_Garage_134:0070",
+   "Bass_Garage_134:0071",
+   "Bass_Garage_134:0072",
+   "Bass_Garage_134:0080",
+   "Bass_Garage_134:0081",
+   "Bass_Garage_134:0082",
+   "Bass_Garage_134:0088",
+   "Butler:0020",
+   "Butler:0032",
+   "GDC:0025",
+   "GDC_Library_42:0004",
+   "GDC_Library_42:0006",
+   "GDC_Library_42:0031",
+   "GDC_Library_42:0032",
+   "GDC_Library_42:0033",
+   "GDC_Library_42:0034",
+   "GDC_Library_42:0035",
+   "GDC_Library_42:0036",
+   "GDC_Library_42:0048",
+   "GDC_Library_42:0049",
+   "GDC_Library_42:0050",
+   "GDC_Library_42:0051",
+   "GDC_Library_42:0052",
+   "GDC_Library_42:0053",
+   "GDC_Library_42:0084",
+   "GDC_Library_42:0128",
+   "GDC_Library_42:0211",
+   "GDC_Library_42:0212",
+   "GDC_Library_42:0314",
+   "GDC_Library_42:0339",
+   "JCL:0008",
+   "JCL:0029",
+   "JCL:0032",
+   "JCL:0084",
+   "JCL:0092",
+   "Library_Fountain_5:0012",
+   "Library_Fountain_5:0013",
+   "Library_Fountain_5:0014",
+   "Library_Fountain_5:0015",
+   "Library_Fountain_5:0023",
+   "Library_Fountain_5:0024",
+   "Library_Fountain_5:0025",
+   "Library_Fountain_5:0026",
+   "Library_Fountain_5:0027",
+   "Library_Fountain_5:0028",
+   "Library_Jester_75:0006",
+   "Library_Jester_75:0011",
+   "Library_MLK:0028",
+   "Library_MLK:0029",
+   "Library_MLK:0030",
+   "Library_MLK:0031",
+   "Library_MLK:0032",
+   "Library_MLK:0033",
+   "Library_MLK:0045",
+   "Library_MLK:0071",
+   "Library_MLK:0072",
+   "Library_MLK:0073",
+   "Library_MLK:0074",
+   "Library_MLK:0075",
+   "Library_MLK:0076",
+   "Library_MLK:0078",
+   "Parlin_Parlin_51:0004",
+   "Parlin_Parlin_51:0031",
+   "Parlin_Parlin_51:0032",
+   "Parlin_Parlin_51:0036",
+   "Parlin_Parlin_51:0044",
+   "Parlin_Parlin_51:0048",
+   "Parlin_Parlin_51:0060",
+   "RLM:0016",
+   "RLM:0040",
+   "Rec_Tent_129:0004",
+   "Rec_Tent_129:0172",
+   "Rec_Tent_129:0303",
+   "Rec_Tent_129:0304",
+   "Rec_Tent_129:0317",
+   "Rec_Tent_129:0336",
+   "Sanjac:0004",
+   "Sanjac:0005",
+   "Sanjac:0006",
+   "Sanjac:0044",
+   "Sanjac:0062",
+   "Sanjac:0063",
+   "Sanjac:0065",
+   "Sanjac:0066",
+   "Sanjac:0068",
+   "Sanjac:0069",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac:0072",
+   "Sanjac:0091",
+   "Sanjac_Rec_91:0004",
+   "Sanjac_Rec_91:0005",
+   "Sanjac_Rec_91:0006",
+   "Sanjac_Rec_91:0034",
+   "Sanjac_Rec_91:0035",
+   "Sanjac_Rec_91:0036",
+   "Sanjac_Rec_91:0131",
+   "Sanjac_Rec_91:0132",
+   "Sanjac_Rec_91:0133",
+   "Sanjac_Rec_91:0134",
+   "Sanjac_Rec_91:0135",
+   "Sanjac_Rec_91:0136",
+   "Stadium_Sanjac_90:0004",
+   "Stadium_Sanjac_90:0043",
+   "Stadium_Sanjac_90:0044",
+   "Stadium_Sanjac_90:0045",
+   "Stadium_Sanjac_90:0050",
+   "Stadium_Sanjac_90:0051",
+   "Stadium_Sanjac_90:0052",
+   "Stadium_Sanjac_90:0068",
+   "Stadium_Sanjac_90:0069",
+   "Stadium_Sanjac_90:0070",
+   "Stadium_Sanjac_90:0078",
+   "Stadium_Sanjac_90:0092",
+   "Thompson_Thompson_100:0011",
+   "Thompson_Thompson_100:0124",
+   "Thompson_Thompson_100:0200",
+   "Thompson_Thompson_100:0209",
+   "Thompson_Thompson_100:0210",
+   "Thompson_Thompson_100:0211",
+   "Thompson_Thompson_100:0212",
+   "Thompson_Thompson_100:0213",
+   "Thompson_Thompson_100:0214",
+   "Thompson_Thompson_100:0256"
+  ],
+  "n": 139,
+  "sources": {
+   "Library_Fountain_5:0025": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0026": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0024": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0027": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0023": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0052": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0050": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Fountain_5:0028": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0051": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Fountain_5:0012": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0013": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0053": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "RANDOM"
+   ],
+   "Sanjac_Rec_91:0131": [
+    "EMBED"
+   ],
+   "Sanjac_Rec_91:0132": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0081": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0014": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0049": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0082": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0015": [
+    "EMBED"
+   ],
+   "Sanjac_Rec_91:0133": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC_Library_42:0049": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0048": [
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0050": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0051": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0052": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0053": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0210": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0209": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0211": [
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0212": [
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0213": [
+    "PROGRAM_ORACLE"
+   ],
+   "Thompson_Thompson_100:0214": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0072": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0071": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0073": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0074": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0075": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0076": [
+    "PROGRAM_ORACLE"
+   ],
+   "Parlin_Parlin_51:0032": [
+    "PROGRAM_ORACLE"
+   ],
+   "Parlin_Parlin_51:0031": [
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0032": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0031": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0033": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0034": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0035": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0036": [
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0029": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0028": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0030": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0031": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0032": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0033": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0134": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac_Rec_91:0135": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac_Rec_91:0136": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC_Library_42:0006": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC_Library_42:0004": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0070": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0072": [
+    "FUSED"
+   ],
+   "Rec_Tent_129:0303": [
+    "FUSED"
+   ],
+   "Sanjac:0062": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0091": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0043": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0006": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0005": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0004": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0066": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0034": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0044": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0050": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0035": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0036": [
+    "FUSED"
+   ],
+   "Rec_Tent_129:0304": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0044": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0051": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0005": [
+    "FUSED_LINEAR"
+   ],
+   "Rec_Tent_129:0004": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0029": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0045": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0006": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0070": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0004": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0069": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0078": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0065": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Bass_Garage_134:0088": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0080": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0048": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0068": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0059": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0067": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0072": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0069": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0061": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0071": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0060": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0070": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0058": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0040": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0054": [
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0068": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0063": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0069": [
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0078": [
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0317": [
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0020": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0032": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0084": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0128": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0008": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0032": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0084": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0092": [
+    "L1_ATTRIBUTES"
+   ],
+   "Parlin_Parlin_51:0004": [
+    "L1_ATTRIBUTES"
+   ],
+   "Parlin_Parlin_51:0036": [
+    "L1_ATTRIBUTES"
+   ],
+   "Parlin_Parlin_51:0044": [
+    "L1_ATTRIBUTES"
+   ],
+   "Parlin_Parlin_51:0048": [
+    "L1_ATTRIBUTES"
+   ],
+   "Parlin_Parlin_51:0060": [
+    "L1_ATTRIBUTES"
+   ],
+   "RLM:0016": [
+    "L1_ATTRIBUTES"
+   ],
+   "RLM:0040": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0172": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0336": [
+    "L1_ATTRIBUTES"
+   ],
+   "Stadium_Sanjac_90:0052": [
+    "L1_ATTRIBUTES"
+   ],
+   "Stadium_Sanjac_90:0068": [
+    "L1_ATTRIBUTES"
+   ],
+   "Stadium_Sanjac_90:0092": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0124": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0200": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0256": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0211": [
+    "RANDOM"
+   ],
+   "GDC:0025": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0314": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0212": [
+    "RANDOM"
+   ],
+   "Library_Jester_75:0006": [
+    "RANDOM"
+   ],
+   "Library_Jester_75:0011": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0011": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0339": [
+    "RANDOM"
+   ],
+   "Library_MLK:0045": [
+    "RANDOM"
+   ]
+  }
+ },
+ "test_car_close_fast": {
+  "intent": "A vehicle close in front (large in the image) while the robot moves faster than 1.5 m/s.",
+  "scope": [
+   "Bass_Garage_134",
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "GDC_Library_42",
+   "JCL",
+   "Library_Fountain_5",
+   "Library_Jester_75",
+   "Library_MLK",
+   "Parlin_Parlin_51",
+   "RLM",
+   "Rec_Tent_129",
+   "Sanjac",
+   "Sanjac_Rec_91",
+   "Stadium_Sanjac_90",
+   "Thompson_Thompson_100"
+  ],
+  "windows": [
+   "Bass_Garage_134:0004",
+   "Bass_Garage_134:0015",
+   "Bass_Garage_134:0016",
+   "Bass_Garage_134:0017",
+   "Bass_Garage_134:0018",
+   "Bass_Garage_134:0019",
+   "Bass_Garage_134:0020",
+   "Bass_Garage_134:0021",
+   "Bass_Garage_134:0040",
+   "Bass_Garage_134:0048",
+   "Bass_Garage_134:0049",
+   "Bass_Garage_134:0050",
+   "Bass_Garage_134:0051",
+   "Bass_Garage_134:0052",
+   "Bass_Garage_134:0053",
+   "Bass_Garage_134:0058",
+   "Bass_Garage_134:0059",
+   "Bass_Garage_134:0060",
+   "Bass_Garage_134:0061",
+   "Bass_Garage_134:0080",
+   "Bass_Garage_134:0088",
+   "Brackenridge:0049",
+   "Brackenridge:0050",
+   "Brackenridge:0084",
+   "Brackenridge:0092",
+   "Butler:0004",
+   "Butler:0014",
+   "Butler:0040",
+   "Butler:0116",
+   "GDC_Library_42:0008",
+   "GDC_Library_42:0012",
+   "GDC_Library_42:0043",
+   "GDC_Library_42:0140",
+   "GDC_Library_42:0196",
+   "GDC_Library_42:0212",
+   "GDC_Library_42:0216",
+   "GDC_Library_42:0257",
+   "GDC_Library_42:0340",
+   "JCL:0028",
+   "JCL:0029",
+   "Library_Fountain_5:0012",
+   "Library_Fountain_5:0013",
+   "Library_Fountain_5:0025",
+   "Library_Fountain_5:0026",
+   "Library_Fountain_5:0027",
+   "Library_Fountain_5:0028",
+   "Library_Fountain_5:0030",
+   "Library_Fountain_5:0040",
+   "Library_Fountain_5:0043",
+   "Library_Fountain_5:0044",
+   "Library_Fountain_5:0045",
+   "Library_Fountain_5:0046",
+   "Library_Fountain_5:0047",
+   "Library_Fountain_5:0048",
+   "Library_Fountain_5:0049",
+   "Library_Fountain_5:0050",
+   "Library_Fountain_5:0051",
+   "Library_Fountain_5:0082",
+   "Library_Fountain_5:0083",
+   "Library_Fountain_5:0084",
+   "Library_Fountain_5:0092",
+   "Library_Jester_75:0024",
+   "Library_MLK:0004",
+   "Library_MLK:0008",
+   "Rec_Tent_129:0004",
+   "Rec_Tent_129:0005",
+   "Rec_Tent_129:0064",
+   "Rec_Tent_129:0066",
+   "Rec_Tent_129:0080",
+   "Rec_Tent_129:0119",
+   "Rec_Tent_129:0124",
+   "Rec_Tent_129:0248",
+   "Rec_Tent_129:0340",
+   "Rec_Tent_129:0360",
+   "Sanjac:0004",
+   "Sanjac:0005",
+   "Sanjac:0006",
+   "Sanjac:0044",
+   "Sanjac:0062",
+   "Sanjac:0063",
+   "Sanjac:0064",
+   "Sanjac:0065",
+   "Sanjac:0066",
+   "Sanjac:0067",
+   "Sanjac:0068",
+   "Sanjac:0069",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac:0072",
+   "Sanjac:0083",
+   "Sanjac:0084",
+   "Sanjac:0085",
+   "Sanjac:0086",
+   "Sanjac:0087",
+   "Sanjac:0088",
+   "Sanjac:0091",
+   "Sanjac:0105",
+   "Sanjac:0106",
+   "Sanjac:0107",
+   "Sanjac_Rec_91:0004",
+   "Sanjac_Rec_91:0005",
+   "Sanjac_Rec_91:0006",
+   "Sanjac_Rec_91:0012",
+   "Sanjac_Rec_91:0034",
+   "Sanjac_Rec_91:0035",
+   "Sanjac_Rec_91:0036",
+   "Sanjac_Rec_91:0039",
+   "Sanjac_Rec_91:0041",
+   "Sanjac_Rec_91:0042",
+   "Sanjac_Rec_91:0043",
+   "Sanjac_Rec_91:0044",
+   "Sanjac_Rec_91:0047",
+   "Sanjac_Rec_91:0048",
+   "Sanjac_Rec_91:0054",
+   "Sanjac_Rec_91:0059",
+   "Sanjac_Rec_91:0090",
+   "Sanjac_Rec_91:0091",
+   "Sanjac_Rec_91:0092",
+   "Sanjac_Rec_91:0093",
+   "Sanjac_Rec_91:0094",
+   "Sanjac_Rec_91:0095",
+   "Sanjac_Rec_91:0131",
+   "Sanjac_Rec_91:0132",
+   "Sanjac_Rec_91:0133",
+   "Sanjac_Rec_91:0136",
+   "Stadium_Sanjac_90:0004",
+   "Stadium_Sanjac_90:0008",
+   "Stadium_Sanjac_90:0017",
+   "Stadium_Sanjac_90:0018",
+   "Stadium_Sanjac_90:0019",
+   "Stadium_Sanjac_90:0020",
+   "Stadium_Sanjac_90:0021",
+   "Stadium_Sanjac_90:0022",
+   "Stadium_Sanjac_90:0043",
+   "Stadium_Sanjac_90:0044",
+   "Stadium_Sanjac_90:0045",
+   "Stadium_Sanjac_90:0050",
+   "Stadium_Sanjac_90:0051",
+   "Stadium_Sanjac_90:0052",
+   "Stadium_Sanjac_90:0061",
+   "Stadium_Sanjac_90:0062",
+   "Stadium_Sanjac_90:0063",
+   "Stadium_Sanjac_90:0064",
+   "Stadium_Sanjac_90:0065",
+   "Stadium_Sanjac_90:0066",
+   "Stadium_Sanjac_90:0067",
+   "Stadium_Sanjac_90:0070",
+   "Stadium_Sanjac_90:0078",
+   "Thompson_Thompson_100:0004",
+   "Thompson_Thompson_100:0008",
+   "Thompson_Thompson_100:0024",
+   "Thompson_Thompson_100:0222"
+  ],
+  "n": 152,
+  "sources": {
+   "Library_Fountain_5:0047": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0048": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0046": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0049": [
+    "EMBED"
+   ],
+   "Sanjac_Rec_91:0131": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0045": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0050": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0044": [
+    "EMBED"
+   ],
+   "Sanjac_Rec_91:0132": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0026": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0025": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0028": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0027": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0084": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0083": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0043": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0030": [
+    "EMBED"
+   ],
+   "Sanjac_Rec_91:0133": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0082": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0051": [
+    "EMBED"
+   ],
+   "Stadium_Sanjac_90:0018": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0017": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0019": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0020": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0021": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0022": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0084": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0083": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0085": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0086": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0087": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0088": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0063": [
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0062": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0064": [
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0065": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0066": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0067": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0106": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac:0105": [
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0062": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0061": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0063": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0064": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0065": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0066": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0091": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0090": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0092": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0093": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0094": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0095": [
+    "PROGRAM_LUNA"
+   ],
+   "Stadium_Sanjac_90:0067": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0054": [
+    "PROGRAM_LUNA"
+   ],
+   "Bass_Garage_134:0053": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0052": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0050": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0051": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0049": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0048": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac_Rec_91:0047": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac_Rec_91:0042": [
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0012": [
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0013": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac_Rec_91:0043": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac_Rec_91:0048": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac_Rec_91:0041": [
+    "HYBRID_LUNA"
+   ],
+   "Brackenridge:0049": [
+    "HYBRID_LUNA"
+   ],
+   "Brackenridge:0050": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac_Rec_91:0039": [
+    "HYBRID_LUNA"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0004": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0005": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0005": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0006": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0066": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0051": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0034": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0072": [
+    "FUSED"
+   ],
+   "Sanjac:0044": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0004": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0052": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0050": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0064": [
+    "FUSED"
+   ],
+   "Sanjac:0107": [
+    "FUSED"
+   ],
+   "Sanjac:0091": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0070": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0045": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0004": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0044": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0029": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0043": [
+    "FUSED_LINEAR"
+   ],
+   "Thompson_Thompson_100:0004": [
+    "FUSED_LINEAR"
+   ],
+   "JCL:0028": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0070": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0006": [
+    "FUSED_LINEAR"
+   ],
+   "Rec_Tent_129:0005": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0035": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Bass_Garage_134:0059": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0016": [
+    "FUSED_CONCAT",
+    "L1_ATTRIBUTES"
+   ],
+   "Bass_Garage_134:0017": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0058": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0040": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0020": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0061": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0015": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0060": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0019": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0088": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0080": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0018": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0021": [
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0068": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0078": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0036": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0069": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0008": [
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0084": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0092": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0004": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0040": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0116": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0140": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0196": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0216": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0340": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_Fountain_5:0040": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_Fountain_5:0092": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_Jester_75:0024": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0004": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0008": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0080": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0124": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0248": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0340": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0360": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac_Rec_91:0012": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac_Rec_91:0044": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac_Rec_91:0136": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0008": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0024": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac_Rec_91:0059": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0257": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0043": [
+    "RANDOM"
+   ],
+   "Rec_Tent_129:0119": [
+    "RANDOM"
+   ],
+   "Butler:0014": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0012": [
+    "RANDOM"
+   ],
+   "Bass_Garage_134:0004": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0212": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0222": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0008": [
+    "RANDOM"
+   ]
+  }
+ },
+ "test_body_cam_person": {
+  "intent": "Spot's body cameras see a person while the front camera sees nobody.",
+  "scope": [
+   "Bass_Garage_134",
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "GDC_Library_42",
+   "JCL",
+   "Library_Fountain_5",
+   "Library_Jester_75",
+   "Library_MLK",
+   "Parlin_Parlin_51",
+   "RLM",
+   "Rec_Tent_129",
+   "Sanjac",
+   "Sanjac_Rec_91",
+   "Stadium_Sanjac_90",
+   "Thompson_Thompson_100"
+  ],
+  "windows": [
+   "Bass_Garage_134:0004",
+   "Bass_Garage_134:0005",
+   "Bass_Garage_134:0006",
+   "Bass_Garage_134:0010",
+   "Bass_Garage_134:0013",
+   "Bass_Garage_134:0015",
+   "Bass_Garage_134:0016",
+   "Bass_Garage_134:0017",
+   "Bass_Garage_134:0018",
+   "Bass_Garage_134:0019",
+   "Bass_Garage_134:0020",
+   "Bass_Garage_134:0021",
+   "Bass_Garage_134:0022",
+   "Bass_Garage_134:0040",
+   "Bass_Garage_134:0047",
+   "Bass_Garage_134:0048",
+   "Bass_Garage_134:0049",
+   "Bass_Garage_134:0050",
+   "Bass_Garage_134:0051",
+   "Bass_Garage_134:0052",
+   "Bass_Garage_134:0053",
+   "Bass_Garage_134:0059",
+   "Bass_Garage_134:0060",
+   "Bass_Garage_134:0061",
+   "Bass_Garage_134:0062",
+   "Bass_Garage_134:0063",
+   "Bass_Garage_134:0064",
+   "Bass_Garage_134:0072",
+   "Bass_Garage_134:0086",
+   "Bass_Garage_134:0087",
+   "Bass_Garage_134:0088",
+   "Bass_Garage_134:0092",
+   "Bass_Garage_134:0098",
+   "Bass_Garage_134:0105",
+   "Brackenridge:0044",
+   "Brackenridge:0056",
+   "Brackenridge:0088",
+   "Brackenridge:0096",
+   "Butler:0024",
+   "Butler:0065",
+   "Butler:0074",
+   "Butler:0075",
+   "GDC:0004",
+   "GDC:0005",
+   "GDC:0012",
+   "GDC:0018",
+   "GDC:0028",
+   "GDC:0031",
+   "GDC:0033",
+   "GDC:0038",
+   "GDC:0048",
+   "GDC:0052",
+   "GDC:0053",
+   "GDC:0054",
+   "GDC:0056",
+   "GDC:0061",
+   "GDC:0063",
+   "GDC:0068",
+   "GDC:0073",
+   "GDC:0074",
+   "GDC:0076",
+   "GDC:0077",
+   "GDC:0086",
+   "GDC:0092",
+   "GDC_Library_42:0011",
+   "GDC_Library_42:0016",
+   "GDC_Library_42:0068",
+   "GDC_Library_42:0104",
+   "GDC_Library_42:0116",
+   "GDC_Library_42:0183",
+   "GDC_Library_42:0212",
+   "GDC_Library_42:0220",
+   "GDC_Library_42:0224",
+   "GDC_Library_42:0228",
+   "GDC_Library_42:0232",
+   "GDC_Library_42:0254",
+   "JCL:0044",
+   "JCL:0068",
+   "JCL:0085",
+   "JCL:0090",
+   "JCL:0091",
+   "JCL:0092",
+   "JCL:0093",
+   "JCL:0094",
+   "Library_Fountain_5:0032",
+   "Library_Fountain_5:0046",
+   "Library_Fountain_5:0047",
+   "Library_Fountain_5:0048",
+   "Library_Fountain_5:0082",
+   "Library_Fountain_5:0083",
+   "Library_Fountain_5:0084",
+   "Library_Fountain_5:0085",
+   "Library_Fountain_5:0086",
+   "Library_Fountain_5:0087",
+   "Library_Fountain_5:0088",
+   "Library_Fountain_5:0089",
+   "Library_Fountain_5:0090",
+   "Library_Fountain_5:0091",
+   "Library_MLK:0018",
+   "Library_MLK:0019",
+   "Library_MLK:0020",
+   "Library_MLK:0021",
+   "Library_MLK:0022",
+   "Library_MLK:0023",
+   "Library_MLK:0053",
+   "Library_MLK:0060",
+   "Library_MLK:0068",
+   "Library_MLK:0069",
+   "Library_MLK:0070",
+   "Library_MLK:0071",
+   "Library_MLK:0072",
+   "Library_MLK:0073",
+   "RLM:0004",
+   "RLM:0005",
+   "RLM:0006",
+   "Rec_Tent_129:0004",
+   "Rec_Tent_129:0005",
+   "Rec_Tent_129:0008",
+   "Rec_Tent_129:0009",
+   "Rec_Tent_129:0010",
+   "Rec_Tent_129:0011",
+   "Rec_Tent_129:0012",
+   "Rec_Tent_129:0063",
+   "Rec_Tent_129:0064",
+   "Rec_Tent_129:0066",
+   "Rec_Tent_129:0067",
+   "Rec_Tent_129:0068",
+   "Rec_Tent_129:0069",
+   "Rec_Tent_129:0071",
+   "Rec_Tent_129:0072",
+   "Rec_Tent_129:0130",
+   "Rec_Tent_129:0174",
+   "Rec_Tent_129:0303",
+   "Rec_Tent_129:0304",
+   "Rec_Tent_129:0305",
+   "Rec_Tent_129:0339",
+   "Sanjac:0004",
+   "Sanjac:0005",
+   "Sanjac:0065",
+   "Sanjac:0067",
+   "Sanjac:0084",
+   "Sanjac_Rec_91:0004",
+   "Sanjac_Rec_91:0020",
+   "Sanjac_Rec_91:0032",
+   "Sanjac_Rec_91:0033",
+   "Sanjac_Rec_91:0034",
+   "Stadium_Sanjac_90:0004",
+   "Stadium_Sanjac_90:0042",
+   "Stadium_Sanjac_90:0076",
+   "Stadium_Sanjac_90:0090",
+   "Stadium_Sanjac_90:0091",
+   "Stadium_Sanjac_90:0092",
+   "Thompson_Thompson_100:0139",
+   "Thompson_Thompson_100:0188",
+   "Thompson_Thompson_100:0260"
+  ],
+  "n": 155,
+  "sources": {
+   "GDC:0077": [
+    "TAGS"
+   ],
+   "GDC:0053": [
+    "TAGS"
+   ],
+   "GDC:0054": [
+    "TAGS"
+   ],
+   "GDC:0052": [
+    "TAGS"
+   ],
+   "GDC:0056": [
+    "TAGS"
+   ],
+   "GDC:0074": [
+    "TAGS"
+   ],
+   "GDC:0063": [
+    "TAGS"
+   ],
+   "GDC:0068": [
+    "TAGS"
+   ],
+   "GDC:0033": [
+    "TAGS"
+   ],
+   "GDC:0028": [
+    "TAGS"
+   ],
+   "GDC:0031": [
+    "TAGS"
+   ],
+   "GDC:0073": [
+    "TAGS"
+   ],
+   "GDC:0061": [
+    "TAGS"
+   ],
+   "GDC:0038": [
+    "TAGS"
+   ],
+   "GDC:0076": [
+    "TAGS"
+   ],
+   "GDC:0092": [
+    "TAGS"
+   ],
+   "GDC:0005": [
+    "TAGS"
+   ],
+   "GDC:0012": [
+    "TAGS"
+   ],
+   "GDC:0018": [
+    "TAGS"
+   ],
+   "GDC:0086": [
+    "TAGS"
+   ],
+   "Library_Fountain_5:0085": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0084": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0083": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0086": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0082": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0090": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0089": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0087": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0088": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0091": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0004": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0005": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0048": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0062": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0061": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0047": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0060": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0046": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0047": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0048": [
+    "EMBED"
+   ],
+   "Library_MLK:0069": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0068": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0070": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0071": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0072": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0073": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0091": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0090": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0092": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0093": [
+    "PROGRAM_ORACLE"
+   ],
+   "JCL:0094": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0019": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0018": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0020": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0021": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0022": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0023": [
+    "PROGRAM_ORACLE"
+   ],
+   "RLM:0004": [
+    "PROGRAM_ORACLE"
+   ],
+   "RLM:0005": [
+    "PROGRAM_ORACLE"
+   ],
+   "RLM:0006": [
+    "PROGRAM_ORACLE"
+   ],
+   "Bass_Garage_134:0049": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0059": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0063": [
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0053": [
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0087": [
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0064": [
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0052": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0006": [
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0086": [
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0019": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0050": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0020": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0040": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Rec_Tent_129:0066": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0033": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Rec_Tent_129:0011": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0010": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0067": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0012": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0005": [
+    "FUSED"
+   ],
+   "Rec_Tent_129:0303": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0075": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0069": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0304": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0063": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0068": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0005": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0339": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0065": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0064": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0034": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0004": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0067": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0042": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0065": [
+    "FUSED_LINEAR"
+   ],
+   "Rec_Tent_129:0009": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0092": [
+    "FUSED_LINEAR",
+    "L1_ATTRIBUTES"
+   ],
+   "Stadium_Sanjac_90:0091": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0090": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0004": [
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0105": [
+    "FUSED_LINEAR"
+   ],
+   "Rec_Tent_129:0008": [
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0010": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0032": [
+    "FUSED_LINEAR"
+   ],
+   "Butler:0074": [
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0016": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0051": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0015": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0017": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0018": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0021": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0013": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0088": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0022": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0072": [
+    "FUSED_CONCAT"
+   ],
+   "Rec_Tent_129:0174": [
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0305": [
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0072": [
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0071": [
+    "FUSED_V_LUNA"
+   ],
+   "Bass_Garage_134:0092": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0044": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0056": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0088": [
+    "L1_ATTRIBUTES"
+   ],
+   "Brackenridge:0096": [
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0024": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0004": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0048": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0016": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0068": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0104": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0116": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0212": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0220": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0224": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0228": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0232": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0044": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0068": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_Fountain_5:0032": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0060": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac:0084": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac_Rec_91:0020": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0260": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0183": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0011": [
+    "RANDOM"
+   ],
+   "Rec_Tent_129:0130": [
+    "RANDOM"
+   ],
+   "Library_MLK:0053": [
+    "RANDOM"
+   ],
+   "Stadium_Sanjac_90:0076": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0254": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0139": [
+    "RANDOM"
+   ],
+   "Bass_Garage_134:0098": [
+    "RANDOM"
+   ],
+   "JCL:0085": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0188": [
+    "RANDOM"
+   ]
+  }
+ },
+ "crowd_hesitation": {
+  "intent": "In the Butler run: the first time at least six people occupy the robot's forward travel corridor and the robot loses at least 0.7 m/s within 3 s; anchors: just before deceleration, minimum speed, recovery to 90% of the pre-event speed.",
+  "scope": [
+   "Butler"
+  ],
+  "windows": [
+   "Butler:0004",
+   "Butler:0005",
+   "Butler:0006",
+   "Butler:0007",
+   "Butler:0008",
+   "Butler:0014",
+   "Butler:0015",
+   "Butler:0017",
+   "Butler:0019",
+   "Butler:0020",
+   "Butler:0021",
+   "Butler:0022",
+   "Butler:0023",
+   "Butler:0024",
+   "Butler:0025",
+   "Butler:0028",
+   "Butler:0029",
+   "Butler:0030",
+   "Butler:0031",
+   "Butler:0041",
+   "Butler:0042",
+   "Butler:0046",
+   "Butler:0049",
+   "Butler:0050",
+   "Butler:0052",
+   "Butler:0053",
+   "Butler:0054",
+   "Butler:0055",
+   "Butler:0056",
+   "Butler:0057",
+   "Butler:0058",
+   "Butler:0062",
+   "Butler:0063",
+   "Butler:0064",
+   "Butler:0065",
+   "Butler:0066",
+   "Butler:0067",
+   "Butler:0068",
+   "Butler:0069",
+   "Butler:0070",
+   "Butler:0071",
+   "Butler:0072",
+   "Butler:0073",
+   "Butler:0074",
+   "Butler:0075",
+   "Butler:0076",
+   "Butler:0077",
+   "Butler:0078",
+   "Butler:0080",
+   "Butler:0081",
+   "Butler:0082",
+   "Butler:0083",
+   "Butler:0084",
+   "Butler:0085",
+   "Butler:0086",
+   "Butler:0087",
+   "Butler:0088",
+   "Butler:0089",
+   "Butler:0090",
+   "Butler:0091",
+   "Butler:0092",
+   "Butler:0093",
+   "Butler:0094",
+   "Butler:0096",
+   "Butler:0097",
+   "Butler:0098",
+   "Butler:0099",
+   "Butler:0100",
+   "Butler:0101",
+   "Butler:0102",
+   "Butler:0103",
+   "Butler:0104",
+   "Butler:0105",
+   "Butler:0106",
+   "Butler:0107",
+   "Butler:0108",
+   "Butler:0109",
+   "Butler:0110",
+   "Butler:0111",
+   "Butler:0112",
+   "Butler:0113",
+   "Butler:0114",
+   "Butler:0115",
+   "Butler:0116"
+  ],
+  "n": 84,
+  "sources": {
+   "Butler:0041": [
+    "TAGS"
+   ],
+   "Butler:0102": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Butler:0071": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "RANDOM",
+    "TAGS"
+   ],
+   "Butler:0075": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "TAGS"
+   ],
+   "Butler:0073": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "RANDOM",
+    "TAGS"
+   ],
+   "Butler:0004": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "TAGS"
+   ],
+   "Butler:0029": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "TAGS"
+   ],
+   "Butler:0049": [
+    "TAGS"
+   ],
+   "Butler:0107": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Butler:0111": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "TAGS"
+   ],
+   "Butler:0052": [
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Butler:0069": [
+    "EMBED",
+    "FUSED",
+    "TAGS"
+   ],
+   "Butler:0096": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Butler:0088": [
+    "EMBED",
+    "TAGS"
+   ],
+   "Butler:0103": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Butler:0081": [
+    "EMBED",
+    "TAGS"
+   ],
+   "Butler:0104": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Butler:0028": [
+    "EMBED",
+    "TAGS"
+   ],
+   "Butler:0083": [
+    "EMBED",
+    "TAGS"
+   ],
+   "Butler:0053": [
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Butler:0023": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0022": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "RANDOM"
+   ],
+   "Butler:0024": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0030": [
+    "EMBED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0070": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0067": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0085": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0082": [
+    "EMBED"
+   ],
+   "Butler:0084": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0086": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "RANDOM"
+   ],
+   "Butler:0025": [
+    "EMBED"
+   ],
+   "Butler:0021": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0031": [
+    "EMBED"
+   ],
+   "Butler:0112": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0113": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0114": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM"
+   ],
+   "Butler:0115": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0116": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Butler:0108": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0109": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0110": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Butler:0076": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0074": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0077": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0065": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0066": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0068": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0072": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "L1_ATTRIBUTES"
+   ],
+   "Butler:0078": [
+    "FUSED"
+   ],
+   "Butler:0005": [
+    "EMBED",
+    "FUSED"
+   ],
+   "Butler:0064": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0020": [
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0019": [
+    "FUSED_LINEAR"
+   ],
+   "Butler:0063": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Butler:0105": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0106": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0057": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0056": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0097": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0055": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0054": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0098": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0099": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0058": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0046": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0100": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0093": [
+    "EMBED"
+   ],
+   "Butler:0101": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "RANDOM"
+   ],
+   "Butler:0090": [
+    "EMBED"
+   ],
+   "Butler:0091": [
+    "EMBED"
+   ],
+   "Butler:0094": [
+    "EMBED"
+   ],
+   "Butler:0092": [
+    "EMBED",
+    "RANDOM"
+   ],
+   "Butler:0089": [
+    "EMBED"
+   ],
+   "Butler:0062": [
+    "FUSED_LINEAR"
+   ],
+   "Butler:0080": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0087": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0006": [
+    "EMBED"
+   ],
+   "Butler:0007": [
+    "EMBED",
+    "RANDOM"
+   ],
+   "Butler:0008": [
+    "EMBED"
+   ],
+   "Butler:0015": [
+    "EMBED"
+   ],
+   "Butler:0014": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Butler:0017": [
+    "FUSED_CONCAT"
+   ],
+   "Butler:0050": [
+    "RANDOM"
+   ],
+   "Butler:0042": [
+    "RANDOM"
+   ]
+  }
+ },
+ "doorway_crossing": {
+  "intent": "In the Library_MLK run: the narrowest doorway the robot actually passes through (not beside); approach, threshold crossing and full-body-clear times, minimum left/right clearance.",
+  "scope": [
+   "Library_MLK"
+  ],
+  "windows": [
+   "Library_MLK:0004",
+   "Library_MLK:0005",
+   "Library_MLK:0006",
+   "Library_MLK:0007",
+   "Library_MLK:0008",
+   "Library_MLK:0009",
+   "Library_MLK:0011",
+   "Library_MLK:0012",
+   "Library_MLK:0013",
+   "Library_MLK:0014",
+   "Library_MLK:0015",
+   "Library_MLK:0016",
+   "Library_MLK:0017",
+   "Library_MLK:0018",
+   "Library_MLK:0019",
+   "Library_MLK:0020",
+   "Library_MLK:0021",
+   "Library_MLK:0022",
+   "Library_MLK:0023",
+   "Library_MLK:0024",
+   "Library_MLK:0025",
+   "Library_MLK:0026",
+   "Library_MLK:0027",
+   "Library_MLK:0028",
+   "Library_MLK:0029",
+   "Library_MLK:0030",
+   "Library_MLK:0031",
+   "Library_MLK:0032",
+   "Library_MLK:0033",
+   "Library_MLK:0034",
+   "Library_MLK:0035",
+   "Library_MLK:0036",
+   "Library_MLK:0037",
+   "Library_MLK:0046",
+   "Library_MLK:0049",
+   "Library_MLK:0050",
+   "Library_MLK:0055",
+   "Library_MLK:0056",
+   "Library_MLK:0057",
+   "Library_MLK:0059",
+   "Library_MLK:0060",
+   "Library_MLK:0063",
+   "Library_MLK:0064",
+   "Library_MLK:0065",
+   "Library_MLK:0066",
+   "Library_MLK:0067",
+   "Library_MLK:0068",
+   "Library_MLK:0069",
+   "Library_MLK:0070",
+   "Library_MLK:0071",
+   "Library_MLK:0072",
+   "Library_MLK:0073",
+   "Library_MLK:0074",
+   "Library_MLK:0075",
+   "Library_MLK:0076",
+   "Library_MLK:0077",
+   "Library_MLK:0078",
+   "Library_MLK:0079",
+   "Library_MLK:0080",
+   "Library_MLK:0083",
+   "Library_MLK:0085",
+   "Library_MLK:0086",
+   "Library_MLK:0087",
+   "Library_MLK:0092",
+   "Library_MLK:0093",
+   "Library_MLK:0102",
+   "Library_MLK:0105",
+   "Library_MLK:0107",
+   "Library_MLK:0108",
+   "Library_MLK:0112",
+   "Library_MLK:0114",
+   "Library_MLK:0115",
+   "Library_MLK:0116",
+   "Library_MLK:0117",
+   "Library_MLK:0118"
+  ],
+  "n": 75,
+  "sources": {
+   "Library_MLK:0046": [
+    "TAGS"
+   ],
+   "Library_MLK:0005": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Library_MLK:0078": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "TAGS"
+   ],
+   "Library_MLK:0068": [
+    "TAGS"
+   ],
+   "Library_MLK:0105": [
+    "TAGS"
+   ],
+   "Library_MLK:0055": [
+    "TAGS"
+   ],
+   "Library_MLK:0063": [
+    "TAGS"
+   ],
+   "Library_MLK:0066": [
+    "FUSED_LINEAR",
+    "TAGS"
+   ],
+   "Library_MLK:0117": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Library_MLK:0108": [
+    "TAGS"
+   ],
+   "Library_MLK:0032": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM",
+    "TAGS"
+   ],
+   "Library_MLK:0067": [
+    "TAGS"
+   ],
+   "Library_MLK:0083": [
+    "TAGS"
+   ],
+   "Library_MLK:0036": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "TAGS"
+   ],
+   "Library_MLK:0004": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "TAGS"
+   ],
+   "Library_MLK:0080": [
+    "FUSED",
+    "TAGS"
+   ],
+   "Library_MLK:0008": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Library_MLK:0057": [
+    "TAGS"
+   ],
+   "Library_MLK:0116": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "Library_MLK:0009": [
+    "TAGS"
+   ],
+   "Library_MLK:0025": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "RANDOM"
+   ],
+   "Library_MLK:0023": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0024": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0022": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0021": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0026": [
+    "EMBED",
+    "FUSED",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0020": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0027": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0118": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0028": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0019": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0018": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0072": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0071": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0029": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0014": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0017": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0074": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0033": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0034": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0035": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0037": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM"
+   ],
+   "Library_MLK:0030": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0031": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0070": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM"
+   ],
+   "Library_MLK:0069": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0073": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0016": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0075": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0115": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0015": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "RANDOM"
+   ],
+   "Library_MLK:0013": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0012": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0114": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0086": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0087": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0085": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0050": [
+    "FUSED_CONCAT",
+    "RANDOM"
+   ],
+   "Library_MLK:0049": [
+    "FUSED_CONCAT",
+    "RANDOM"
+   ],
+   "Library_MLK:0056": [
+    "FUSED_CONCAT",
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0107": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0011": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0006": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0007": [
+    "EMBED"
+   ],
+   "Library_MLK:0079": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Library_MLK:0077": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0065": [
+    "FUSED_LINEAR"
+   ],
+   "Library_MLK:0064": [
+    "FUSED_LINEAR"
+   ],
+   "Library_MLK:0059": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0060": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0076": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0092": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0093": [
+    "RANDOM"
+   ],
+   "Library_MLK:0112": [
+    "RANDOM"
+   ],
+   "Library_MLK:0102": [
+    "RANDOM"
+   ]
+  }
+ },
+ "vehicle_interaction_gdc": {
+  "intent": "In the GDC run: the strongest localized vehicle interaction (a vehicle near the robot with a motion response by the robot), or insufficient evidence. The recording-level tag is not evidence.",
+  "scope": [
+   "GDC"
+  ],
+  "windows": [
+   "GDC:0004",
+   "GDC:0005",
+   "GDC:0006",
+   "GDC:0007",
+   "GDC:0008",
+   "GDC:0012",
+   "GDC:0018",
+   "GDC:0028",
+   "GDC:0031",
+   "GDC:0032",
+   "GDC:0033",
+   "GDC:0034",
+   "GDC:0035",
+   "GDC:0036",
+   "GDC:0037",
+   "GDC:0038",
+   "GDC:0039",
+   "GDC:0040",
+   "GDC:0041",
+   "GDC:0042",
+   "GDC:0043",
+   "GDC:0044",
+   "GDC:0045",
+   "GDC:0046",
+   "GDC:0047",
+   "GDC:0048",
+   "GDC:0049",
+   "GDC:0050",
+   "GDC:0052",
+   "GDC:0053",
+   "GDC:0054",
+   "GDC:0055",
+   "GDC:0056",
+   "GDC:0057",
+   "GDC:0058",
+   "GDC:0059",
+   "GDC:0061",
+   "GDC:0062",
+   "GDC:0063",
+   "GDC:0064",
+   "GDC:0065",
+   "GDC:0066",
+   "GDC:0067",
+   "GDC:0068",
+   "GDC:0069",
+   "GDC:0070",
+   "GDC:0071",
+   "GDC:0072",
+   "GDC:0073",
+   "GDC:0074",
+   "GDC:0075",
+   "GDC:0076",
+   "GDC:0077",
+   "GDC:0078",
+   "GDC:0079",
+   "GDC:0080",
+   "GDC:0081",
+   "GDC:0082",
+   "GDC:0083",
+   "GDC:0084",
+   "GDC:0085",
+   "GDC:0086",
+   "GDC:0087",
+   "GDC:0088",
+   "GDC:0089",
+   "GDC:0090",
+   "GDC:0091",
+   "GDC:0092",
+   "GDC:0093",
+   "GDC:0094",
+   "GDC:0096"
+  ],
+  "n": 71,
+  "sources": {
+   "GDC:0077": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "TAGS"
+   ],
+   "GDC:0053": [
+    "TAGS"
+   ],
+   "GDC:0054": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "GDC:0052": [
+    "TAGS"
+   ],
+   "GDC:0056": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "GDC:0074": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "TAGS"
+   ],
+   "GDC:0063": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "TAGS"
+   ],
+   "GDC:0068": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "RANDOM",
+    "TAGS"
+   ],
+   "GDC:0033": [
+    "TAGS"
+   ],
+   "GDC:0028": [
+    "RANDOM",
+    "TAGS"
+   ],
+   "GDC:0031": [
+    "TAGS"
+   ],
+   "GDC:0073": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "RANDOM",
+    "TAGS"
+   ],
+   "GDC:0061": [
+    "TAGS"
+   ],
+   "GDC:0038": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "TAGS"
+   ],
+   "GDC:0076": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "TAGS"
+   ],
+   "GDC:0092": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "TAGS"
+   ],
+   "GDC:0005": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "TAGS"
+   ],
+   "GDC:0012": [
+    "TAGS"
+   ],
+   "GDC:0018": [
+    "TAGS"
+   ],
+   "GDC:0086": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "TAGS"
+   ],
+   "GDC:0044": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0045": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC:0046": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "RANDOM"
+   ],
+   "GDC:0043": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC:0047": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC:0042": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC:0075": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "GDC:0064": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "GDC:0041": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC:0072": [
+    "EMBED",
+    "FUSED_LINEAR",
+    "RANDOM"
+   ],
+   "GDC:0071": [
+    "EMBED",
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC:0036": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC:0040": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC:0065": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "GDC:0062": [
+    "EMBED"
+   ],
+   "GDC:0081": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC:0080": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC:0082": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM"
+   ],
+   "GDC:0083": [
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC:0084": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC:0085": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM"
+   ],
+   "GDC:0079": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0087": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0088": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0089": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0090": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0091": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "GDC:0078": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC:0006": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC:0008": [
+    "HYBRID_ORACLE"
+   ],
+   "GDC:0007": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC:0093": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC:0094": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "GDC:0069": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC:0070": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "GDC:0035": [
+    "FUSED"
+   ],
+   "GDC:0067": [
+    "FUSED_LINEAR"
+   ],
+   "GDC:0037": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0057": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC:0058": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0049": [
+    "EMBED"
+   ],
+   "GDC:0048": [
+    "EMBED",
+    "L1_ATTRIBUTES"
+   ],
+   "GDC:0055": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "RANDOM"
+   ],
+   "GDC:0066": [
+    "EMBED"
+   ],
+   "GDC:0039": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC:0050": [
+    "EMBED"
+   ],
+   "GDC:0096": [
+    "HYBRID_ORACLE"
+   ],
+   "GDC:0059": [
+    "FUSED_CONCAT"
+   ],
+   "GDC:0032": [
+    "RANDOM"
+   ],
+   "GDC:0034": [
+    "RANDOM"
+   ]
+  }
+ },
+ "last_safe_evidence": {
+  "intent": "Immediately before the robot accelerates from a stop: the latest available front image, side/rear images, lidar scan, pose and transform that could have informed the action, with each age.",
+  "scope": [
+   "Bass_Garage_134",
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "GDC_Library_42",
+   "JCL",
+   "Library_Fountain_5",
+   "Library_Jester_75",
+   "Library_MLK",
+   "Parlin_Parlin_51",
+   "RLM",
+   "Rec_Tent_129",
+   "Sanjac",
+   "Sanjac_Rec_91",
+   "Stadium_Sanjac_90",
+   "Thompson_Thompson_100"
+  ],
+  "windows": [
+   "Bass_Garage_134:0004",
+   "Bass_Garage_134:0005",
+   "Bass_Garage_134:0010",
+   "Bass_Garage_134:0011",
+   "Bass_Garage_134:0012",
+   "Bass_Garage_134:0013",
+   "Bass_Garage_134:0014",
+   "Bass_Garage_134:0015",
+   "Bass_Garage_134:0016",
+   "Bass_Garage_134:0017",
+   "Bass_Garage_134:0018",
+   "Bass_Garage_134:0019",
+   "Bass_Garage_134:0020",
+   "Bass_Garage_134:0031",
+   "Bass_Garage_134:0034",
+   "Bass_Garage_134:0035",
+   "Bass_Garage_134:0040",
+   "Bass_Garage_134:0047",
+   "Bass_Garage_134:0048",
+   "Bass_Garage_134:0049",
+   "Bass_Garage_134:0050",
+   "Bass_Garage_134:0051",
+   "Bass_Garage_134:0052",
+   "Bass_Garage_134:0053",
+   "Bass_Garage_134:0054",
+   "Bass_Garage_134:0058",
+   "Bass_Garage_134:0059",
+   "Bass_Garage_134:0060",
+   "Bass_Garage_134:0061",
+   "Bass_Garage_134:0062",
+   "Bass_Garage_134:0063",
+   "Bass_Garage_134:0064",
+   "Bass_Garage_134:0065",
+   "Bass_Garage_134:0066",
+   "Bass_Garage_134:0067",
+   "Bass_Garage_134:0068",
+   "Bass_Garage_134:0069",
+   "Bass_Garage_134:0070",
+   "Bass_Garage_134:0071",
+   "Bass_Garage_134:0072",
+   "Bass_Garage_134:0073",
+   "Bass_Garage_134:0074",
+   "Bass_Garage_134:0075",
+   "Bass_Garage_134:0080",
+   "Bass_Garage_134:0081",
+   "Bass_Garage_134:0082",
+   "Bass_Garage_134:0083",
+   "Bass_Garage_134:0084",
+   "Bass_Garage_134:0087",
+   "Bass_Garage_134:0088",
+   "Bass_Garage_134:0089",
+   "Bass_Garage_134:0090",
+   "Bass_Garage_134:0091",
+   "Bass_Garage_134:0094",
+   "Bass_Garage_134:0096",
+   "Bass_Garage_134:0103",
+   "Bass_Garage_134:0104",
+   "Bass_Garage_134:0105",
+   "Bass_Garage_134:0106",
+   "Brackenridge:0004",
+   "Brackenridge:0005",
+   "Brackenridge:0015",
+   "Brackenridge:0019",
+   "GDC_Library_42:0004",
+   "GDC_Library_42:0005",
+   "GDC_Library_42:0006",
+   "GDC_Library_42:0015",
+   "GDC_Library_42:0016",
+   "GDC_Library_42:0017",
+   "GDC_Library_42:0018",
+   "GDC_Library_42:0019",
+   "GDC_Library_42:0020",
+   "GDC_Library_42:0021",
+   "GDC_Library_42:0022",
+   "GDC_Library_42:0023",
+   "GDC_Library_42:0024",
+   "GDC_Library_42:0246",
+   "GDC_Library_42:0247",
+   "JCL:0026",
+   "JCL:0027",
+   "JCL:0028",
+   "JCL:0029",
+   "JCL:0063",
+   "Library_Fountain_5:0012",
+   "Library_Fountain_5:0013",
+   "Library_Fountain_5:0014",
+   "Library_Fountain_5:0023",
+   "Library_Fountain_5:0082",
+   "Library_MLK:0023",
+   "Library_MLK:0024",
+   "Library_MLK:0025",
+   "Library_MLK:0026",
+   "Library_MLK:0027",
+   "Library_MLK:0028",
+   "Library_MLK:0029",
+   "Library_MLK:0030",
+   "Library_MLK:0031",
+   "Library_MLK:0032",
+   "Library_MLK:0077",
+   "Library_MLK:0078",
+   "Library_MLK:0079",
+   "Library_MLK:0113",
+   "RLM:0058",
+   "RLM:0059",
+   "Rec_Tent_129:0004",
+   "Rec_Tent_129:0005",
+   "Rec_Tent_129:0006",
+   "Rec_Tent_129:0010",
+   "Rec_Tent_129:0066",
+   "Rec_Tent_129:0140",
+   "Rec_Tent_129:0141",
+   "Rec_Tent_129:0142",
+   "Rec_Tent_129:0143",
+   "Rec_Tent_129:0144",
+   "Rec_Tent_129:0145",
+   "Rec_Tent_129:0183",
+   "Rec_Tent_129:0303",
+   "Rec_Tent_129:0304",
+   "Rec_Tent_129:0317",
+   "Sanjac:0004",
+   "Sanjac:0005",
+   "Sanjac:0006",
+   "Sanjac:0044",
+   "Sanjac:0062",
+   "Sanjac:0065",
+   "Sanjac:0066",
+   "Sanjac:0068",
+   "Sanjac:0069",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac:0072",
+   "Sanjac:0091",
+   "Sanjac:0107",
+   "Sanjac_Rec_91:0004",
+   "Sanjac_Rec_91:0005",
+   "Sanjac_Rec_91:0006",
+   "Sanjac_Rec_91:0032",
+   "Sanjac_Rec_91:0033",
+   "Sanjac_Rec_91:0034",
+   "Sanjac_Rec_91:0035",
+   "Stadium_Sanjac_90:0004",
+   "Stadium_Sanjac_90:0043",
+   "Stadium_Sanjac_90:0044",
+   "Stadium_Sanjac_90:0045",
+   "Stadium_Sanjac_90:0050",
+   "Stadium_Sanjac_90:0069",
+   "Stadium_Sanjac_90:0070",
+   "Thompson_Thompson_100:0043",
+   "Thompson_Thompson_100:0145"
+  ],
+  "n": 149,
+  "sources": {
+   "Bass_Garage_134:0050": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Fountain_5:0013": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0051": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Fountain_5:0012": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0052": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0081": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0082": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0066": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0067": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0049": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0246": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0053": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0065": [
+    "EMBED"
+   ],
+   "GDC_Library_42:0247": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0023": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0012": [
+    "EMBED",
+    "FUSED",
+    "FUSED_CONCAT",
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0088": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_Fountain_5:0014": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0013": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0068": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "GDC_Library_42:0004": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0005": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0006": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0005": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Rec_Tent_129:0006": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0026": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0025": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0027": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0028": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0029": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0030": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM"
+   ],
+   "GDC_Library_42:0017": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0016": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0018": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0019": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0020": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0021": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Brackenridge:0004": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Brackenridge:0005": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Bass_Garage_134:0105": [
+    "FUSED_LINEAR",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0106": [
+    "FUSED_V_LUNA",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0104": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0006": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Rec_Tent_129:0303": [
+    "FUSED"
+   ],
+   "Sanjac:0062": [
+    "FUSED"
+   ],
+   "Sanjac:0072": [
+    "FUSED"
+   ],
+   "Sanjac:0005": [
+    "FUSED"
+   ],
+   "Sanjac_Rec_91:0034": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0066": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0070": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0069": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Rec_Tent_129:0317": [
+    "FUSED"
+   ],
+   "Rec_Tent_129:0304": [
+    "FUSED"
+   ],
+   "Sanjac:0091": [
+    "FUSED"
+   ],
+   "Sanjac:0044": [
+    "FUSED"
+   ],
+   "Sanjac_Rec_91:0005": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0066": [
+    "FUSED"
+   ],
+   "Sanjac:0068": [
+    "FUSED"
+   ],
+   "JCL:0029": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0070": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0044": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0004": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0043": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0045": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0065": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0033": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0006": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "JCL:0028": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "JCL:0027": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Bass_Garage_134:0016": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0017": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0018": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0059": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0015": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0080": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0019": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0048": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0020": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0040": [
+    "FUSED_CONCAT"
+   ],
+   "JCL:0026": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0107": [
+    "FUSED_V_LUNA"
+   ],
+   "Bass_Garage_134:0089": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0047": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0090": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0083": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0054": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0087": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0010": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0058": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0074": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0075": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0103": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Library_MLK:0078": [
+    "FUSED"
+   ],
+   "Sanjac:0069": [
+    "FUSED"
+   ],
+   "Sanjac_Rec_91:0032": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0035": [
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0035": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0096": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0034": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0072": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0060": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0031": [
+    "FUSED_CONCAT"
+   ],
+   "RLM:0058": [
+    "FUSED_V_LUNA"
+   ],
+   "RLM:0059": [
+    "FUSED_V_LUNA"
+   ],
+   "Bass_Garage_134:0084": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0064": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0062": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0063": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0061": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Rec_Tent_129:0141": [
+    "PROGRAM_LUNA"
+   ],
+   "Rec_Tent_129:0140": [
+    "PROGRAM_LUNA"
+   ],
+   "Rec_Tent_129:0142": [
+    "PROGRAM_LUNA"
+   ],
+   "Rec_Tent_129:0143": [
+    "PROGRAM_LUNA"
+   ],
+   "Rec_Tent_129:0144": [
+    "PROGRAM_LUNA"
+   ],
+   "Rec_Tent_129:0145": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0024": [
+    "PROGRAM_LUNA"
+   ],
+   "Library_MLK:0023": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0015": [
+    "PROGRAM_LUNA"
+   ],
+   "Bass_Garage_134:0011": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0004": [
+    "FUSED"
+   ],
+   "Bass_Garage_134:0094": [
+    "FUSED"
+   ],
+   "Bass_Garage_134:0005": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0014": [
+    "FUSED"
+   ],
+   "Library_MLK:0031": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Bass_Garage_134:0069": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0071": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0070": [
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0032": [
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0010": [
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0022": [
+    "FUSED_V_LUNA"
+   ],
+   "Bass_Garage_134:0073": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0091": [
+    "EMBED"
+   ],
+   "Library_MLK:0077": [
+    "FUSED"
+   ],
+   "Library_MLK:0079": [
+    "FUSED"
+   ],
+   "GDC_Library_42:0024": [
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0023": [
+    "FUSED_V_LUNA"
+   ],
+   "Library_Fountain_5:0082": [
+    "RANDOM"
+   ],
+   "JCL:0063": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0145": [
+    "RANDOM"
+   ],
+   "Thompson_Thompson_100:0043": [
+    "RANDOM"
+   ],
+   "Rec_Tent_129:0183": [
+    "RANDOM"
+   ],
+   "Brackenridge:0019": [
+    "RANDOM"
+   ],
+   "Brackenridge:0015": [
+    "RANDOM"
+   ],
+   "Library_MLK:0113": [
+    "RANDOM"
+   ],
+   "Stadium_Sanjac_90:0050": [
+    "RANDOM"
+   ]
+  }
+ },
+ "chained_turn_person": {
+  "intent": "Earliest event across recordings: a person becomes visible only after a turn; the robot then slows >=30%; lidar clearance reaches a local minimum within 2 s of the speed minimum; the robot returns to 90% of pre-event speed before the person disappears from every camera view.",
+  "scope": [
+   "Bass_Garage_134",
+   "Brackenridge",
+   "Butler",
+   "GDC",
+   "GDC_Library_42",
+   "JCL",
+   "Library_Fountain_5",
+   "Library_Jester_75",
+   "Library_MLK",
+   "Parlin_Parlin_51",
+   "RLM",
+   "Rec_Tent_129",
+   "Sanjac",
+   "Sanjac_Rec_91",
+   "Stadium_Sanjac_90",
+   "Thompson_Thompson_100"
+  ],
+  "windows": [
+   "Bass_Garage_134:0004",
+   "Bass_Garage_134:0005",
+   "Bass_Garage_134:0009",
+   "Bass_Garage_134:0010",
+   "Bass_Garage_134:0011",
+   "Bass_Garage_134:0012",
+   "Bass_Garage_134:0013",
+   "Bass_Garage_134:0014",
+   "Bass_Garage_134:0015",
+   "Bass_Garage_134:0016",
+   "Bass_Garage_134:0017",
+   "Bass_Garage_134:0018",
+   "Bass_Garage_134:0019",
+   "Bass_Garage_134:0020",
+   "Bass_Garage_134:0021",
+   "Bass_Garage_134:0022",
+   "Bass_Garage_134:0023",
+   "Bass_Garage_134:0024",
+   "Bass_Garage_134:0025",
+   "Bass_Garage_134:0026",
+   "Bass_Garage_134:0027",
+   "Bass_Garage_134:0028",
+   "Bass_Garage_134:0029",
+   "Bass_Garage_134:0030",
+   "Bass_Garage_134:0031",
+   "Bass_Garage_134:0032",
+   "Bass_Garage_134:0033",
+   "Bass_Garage_134:0034",
+   "Bass_Garage_134:0035",
+   "Bass_Garage_134:0037",
+   "Bass_Garage_134:0038",
+   "Bass_Garage_134:0039",
+   "Bass_Garage_134:0040",
+   "Bass_Garage_134:0041",
+   "Bass_Garage_134:0047",
+   "Bass_Garage_134:0048",
+   "Bass_Garage_134:0049",
+   "Bass_Garage_134:0050",
+   "Bass_Garage_134:0051",
+   "Bass_Garage_134:0059",
+   "Bass_Garage_134:0060",
+   "Bass_Garage_134:0061",
+   "Bass_Garage_134:0067",
+   "Bass_Garage_134:0068",
+   "Bass_Garage_134:0069",
+   "Bass_Garage_134:0070",
+   "Bass_Garage_134:0071",
+   "Bass_Garage_134:0072",
+   "Bass_Garage_134:0074",
+   "Bass_Garage_134:0080",
+   "Bass_Garage_134:0087",
+   "Bass_Garage_134:0088",
+   "Bass_Garage_134:0089",
+   "Bass_Garage_134:0090",
+   "Bass_Garage_134:0094",
+   "Bass_Garage_134:0096",
+   "Bass_Garage_134:0097",
+   "Bass_Garage_134:0106",
+   "Brackenridge:0033",
+   "Brackenridge:0034",
+   "Brackenridge:0035",
+   "Brackenridge:0036",
+   "Brackenridge:0037",
+   "Brackenridge:0038",
+   "Brackenridge:0053",
+   "Brackenridge:0061",
+   "Brackenridge:0062",
+   "Brackenridge:0080",
+   "Brackenridge:0081",
+   "Brackenridge:0082",
+   "Brackenridge:0083",
+   "Brackenridge:0084",
+   "Brackenridge:0085",
+   "Brackenridge:0086",
+   "Brackenridge:0087",
+   "Brackenridge:0088",
+   "Brackenridge:0089",
+   "Brackenridge:0090",
+   "Butler:0068",
+   "Butler:0074",
+   "Butler:0075",
+   "GDC:0041",
+   "GDC_Library_42:0022",
+   "GDC_Library_42:0023",
+   "GDC_Library_42:0024",
+   "GDC_Library_42:0032",
+   "GDC_Library_42:0079",
+   "GDC_Library_42:0080",
+   "GDC_Library_42:0084",
+   "GDC_Library_42:0324",
+   "JCL:0008",
+   "JCL:0012",
+   "JCL:0029",
+   "JCL:0032",
+   "JCL:0039",
+   "JCL:0061",
+   "JCL:0085",
+   "Library_Fountain_5:0005",
+   "Library_Fountain_5:0010",
+   "Library_Fountain_5:0011",
+   "Library_Fountain_5:0012",
+   "Library_Fountain_5:0013",
+   "Library_Fountain_5:0014",
+   "Library_Fountain_5:0015",
+   "Library_Fountain_5:0016",
+   "Library_Fountain_5:0017",
+   "Library_Fountain_5:0018",
+   "Library_Fountain_5:0019",
+   "Library_Fountain_5:0020",
+   "Library_Fountain_5:0021",
+   "Library_Fountain_5:0022",
+   "Library_Fountain_5:0023",
+   "Library_Fountain_5:0028",
+   "Library_Fountain_5:0029",
+   "Library_Fountain_5:0030",
+   "Library_Fountain_5:0031",
+   "Library_Fountain_5:0032",
+   "Library_Fountain_5:0033",
+   "Library_Fountain_5:0041",
+   "Library_Fountain_5:0042",
+   "Library_Fountain_5:0045",
+   "Library_Fountain_5:0046",
+   "Library_Fountain_5:0048",
+   "Library_Fountain_5:0055",
+   "Library_Fountain_5:0056",
+   "Library_Fountain_5:0057",
+   "Library_Fountain_5:0097",
+   "Library_Fountain_5:0098",
+   "Library_Fountain_5:0099",
+   "Library_Fountain_5:0100",
+   "Library_Fountain_5:0101",
+   "Library_MLK:0029",
+   "Library_MLK:0030",
+   "Library_MLK:0031",
+   "Library_MLK:0032",
+   "Library_MLK:0033",
+   "Library_MLK:0034",
+   "Library_MLK:0035",
+   "Library_MLK:0036",
+   "Library_MLK:0076",
+   "Library_MLK:0078",
+   "Parlin_Parlin_51:0004",
+   "Parlin_Parlin_51:0024",
+   "Parlin_Parlin_51:0038",
+   "Parlin_Parlin_51:0039",
+   "Parlin_Parlin_51:0040",
+   "Parlin_Parlin_51:0041",
+   "Parlin_Parlin_51:0042",
+   "Parlin_Parlin_51:0043",
+   "Parlin_Parlin_51:0055",
+   "Parlin_Parlin_51:0056",
+   "Parlin_Parlin_51:0057",
+   "Parlin_Parlin_51:0058",
+   "Parlin_Parlin_51:0059",
+   "Parlin_Parlin_51:0060",
+   "Rec_Tent_129:0004",
+   "Rec_Tent_129:0005",
+   "Rec_Tent_129:0010",
+   "Rec_Tent_129:0012",
+   "Rec_Tent_129:0066",
+   "Rec_Tent_129:0088",
+   "Rec_Tent_129:0303",
+   "Rec_Tent_129:0304",
+   "Rec_Tent_129:0305",
+   "Rec_Tent_129:0316",
+   "Rec_Tent_129:0318",
+   "Rec_Tent_129:0336",
+   "Rec_Tent_129:0348",
+   "Sanjac:0004",
+   "Sanjac:0005",
+   "Sanjac:0006",
+   "Sanjac:0044",
+   "Sanjac:0055",
+   "Sanjac:0056",
+   "Sanjac:0057",
+   "Sanjac:0058",
+   "Sanjac:0059",
+   "Sanjac:0060",
+   "Sanjac:0062",
+   "Sanjac:0064",
+   "Sanjac:0065",
+   "Sanjac:0066",
+   "Sanjac:0067",
+   "Sanjac:0068",
+   "Sanjac:0069",
+   "Sanjac:0070",
+   "Sanjac:0071",
+   "Sanjac:0072",
+   "Sanjac:0076",
+   "Sanjac:0077",
+   "Sanjac:0078",
+   "Sanjac:0079",
+   "Sanjac:0083",
+   "Sanjac:0084",
+   "Sanjac:0085",
+   "Sanjac:0086",
+   "Sanjac:0087",
+   "Sanjac:0088",
+   "Sanjac:0090",
+   "Sanjac:0091",
+   "Sanjac:0092",
+   "Sanjac:0093",
+   "Sanjac:0094",
+   "Sanjac:0095",
+   "Sanjac:0096",
+   "Sanjac:0097",
+   "Sanjac:0098",
+   "Sanjac_Rec_91:0004",
+   "Sanjac_Rec_91:0005",
+   "Sanjac_Rec_91:0006",
+   "Sanjac_Rec_91:0012",
+   "Sanjac_Rec_91:0018",
+   "Sanjac_Rec_91:0019",
+   "Sanjac_Rec_91:0032",
+   "Sanjac_Rec_91:0033",
+   "Sanjac_Rec_91:0034",
+   "Sanjac_Rec_91:0035",
+   "Sanjac_Rec_91:0036",
+   "Sanjac_Rec_91:0039",
+   "Sanjac_Rec_91:0056",
+   "Sanjac_Rec_91:0116",
+   "Sanjac_Rec_91:0126",
+   "Sanjac_Rec_91:0127",
+   "Sanjac_Rec_91:0128",
+   "Sanjac_Rec_91:0129",
+   "Sanjac_Rec_91:0130",
+   "Sanjac_Rec_91:0131",
+   "Stadium_Sanjac_90:0013",
+   "Stadium_Sanjac_90:0040",
+   "Stadium_Sanjac_90:0041",
+   "Stadium_Sanjac_90:0043",
+   "Stadium_Sanjac_90:0044",
+   "Stadium_Sanjac_90:0045",
+   "Stadium_Sanjac_90:0050",
+   "Stadium_Sanjac_90:0051",
+   "Stadium_Sanjac_90:0052",
+   "Stadium_Sanjac_90:0066",
+   "Stadium_Sanjac_90:0067",
+   "Stadium_Sanjac_90:0068",
+   "Stadium_Sanjac_90:0069",
+   "Stadium_Sanjac_90:0070",
+   "Stadium_Sanjac_90:0071",
+   "Stadium_Sanjac_90:0072",
+   "Stadium_Sanjac_90:0073",
+   "Stadium_Sanjac_90:0074",
+   "Stadium_Sanjac_90:0075",
+   "Stadium_Sanjac_90:0076",
+   "Stadium_Sanjac_90:0077",
+   "Stadium_Sanjac_90:0078",
+   "Stadium_Sanjac_90:0079",
+   "Stadium_Sanjac_90:0084",
+   "Thompson_Thompson_100:0124",
+   "Thompson_Thompson_100:0148",
+   "Thompson_Thompson_100:0184",
+   "Thompson_Thompson_100:0212",
+   "Thompson_Thompson_100:0224"
+  ],
+  "n": 256,
+  "sources": {
+   "Bass_Garage_134:0088": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0012": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0013": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0089": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0087": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0018": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0011": [
+    "EMBED",
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0028": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE",
+    "L1_ATTRIBUTES"
+   ],
+   "Bass_Garage_134:0020": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0010": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0019": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0090": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0030": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0017": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0021": [
+    "EMBED",
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0027": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0029": [
+    "EMBED",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0014": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0074": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0015": [
+    "EMBED",
+    "FUSED_CONCAT"
+   ],
+   "Library_MLK:0031": [
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0030": [
+    "FUSED",
+    "FUSED_V_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0032": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0033": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0034": [
+    "PROGRAM_ORACLE"
+   ],
+   "Library_MLK:0035": [
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0070": [
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0069": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0071": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0072": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0073": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Stadium_Sanjac_90:0074": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE",
+    "RANDOM"
+   ],
+   "Parlin_Parlin_51:0039": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Parlin_Parlin_51:0038": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Parlin_Parlin_51:0040": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Parlin_Parlin_51:0041": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Parlin_Parlin_51:0042": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "Parlin_Parlin_51:0043": [
+    "PROGRAM_LUNA",
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0080": [
+    "PROGRAM_ORACLE"
+   ],
+   "GDC_Library_42:0079": [
+    "PROGRAM_ORACLE"
+   ],
+   "Sanjac_Rec_91:0127": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0126": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0128": [
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0129": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0130": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0131": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0056": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0055": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0057": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0058": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0059": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0060": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0024": [
+    "PROGRAM_LUNA"
+   ],
+   "GDC_Library_42:0023": [
+    "PROGRAM_LUNA"
+   ],
+   "Bass_Garage_134:0022": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0023": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0040": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0039": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0024": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0026": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0025": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0038": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0031": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0037": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0097": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0041": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0033": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0032": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0035": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0048": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0049": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Bass_Garage_134:0050": [
+    "FUSED_CONCAT",
+    "HYBRID_LUNA"
+   ],
+   "Sanjac:0071": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0034": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0070": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0072": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0029": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0004": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0004": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Rec_Tent_129:0303": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0035": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0036": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0044": [
+    "FUSED"
+   ],
+   "Rec_Tent_129:0004": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0005": [
+    "FUSED",
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0068": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0304": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0056": [
+    "FUSED"
+   ],
+   "Rec_Tent_129:0010": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0078": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Bass_Garage_134:0094": [
+    "FUSED"
+   ],
+   "Sanjac_Rec_91:0006": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0066": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0006": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac_Rec_91:0033": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac:0065": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0044": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0043": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0075": [
+    "FUSED_LINEAR"
+   ],
+   "Sanjac_Rec_91:0032": [
+    "FUSED_LINEAR",
+    "RANDOM"
+   ],
+   "JCL:0029": [
+    "FUSED_LINEAR"
+   ],
+   "Butler:0074": [
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0016": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0096": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0051": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0059": [
+    "FUSED_CONCAT"
+   ],
+   "Sanjac:0091": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Library_MLK:0078": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0069": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "GDC_Library_42:0022": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0005": [
+    "FUSED",
+    "FUSED_LINEAR",
+    "FUSED_V_LUNA"
+   ],
+   "Library_Fountain_5:0015": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0013": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0016": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0017": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0014": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0018": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0012": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0019": [
+    "EMBED"
+   ],
+   "Brackenridge:0062": [
+    "EMBED"
+   ],
+   "Brackenridge:0061": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0021": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0020": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0032": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0033": [
+    "EMBED",
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0022": [
+    "EMBED"
+   ],
+   "JCL:0039": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0031": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0057": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0056": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0055": [
+    "EMBED"
+   ],
+   "Brackenridge:0086": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0085": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0087": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0088": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0089": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0090": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0094": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0093": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0095": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0096": [
+    "FUSED_V_LUNA",
+    "L1_ATTRIBUTES",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0097": [
+    "FUSED_V_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0098": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0084": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0083": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0062": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0305": [
+    "FUSED"
+   ],
+   "Sanjac:0064": [
+    "FUSED_LINEAR",
+    "L1_ATTRIBUTES"
+   ],
+   "Bass_Garage_134:0009": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0068": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0061": [
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0077": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0068": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0090": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0079": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0076": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0067": [
+    "FUSED_V_LUNA"
+   ],
+   "Sanjac:0092": [
+    "FUSED_V_LUNA"
+   ],
+   "Stadium_Sanjac_90:0075": [
+    "FUSED_V_LUNA"
+   ],
+   "Brackenridge:0035": [
+    "EMBED"
+   ],
+   "Brackenridge:0036": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0098": [
+    "EMBED",
+    "HYBRID_ORACLE"
+   ],
+   "Brackenridge:0034": [
+    "EMBED"
+   ],
+   "Brackenridge:0037": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0097": [
+    "EMBED"
+   ],
+   "Sanjac_Rec_91:0012": [
+    "EMBED"
+   ],
+   "Brackenridge:0038": [
+    "EMBED"
+   ],
+   "Sanjac_Rec_91:0019": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0101": [
+    "EMBED",
+    "HYBRID_ORACLE"
+   ],
+   "Library_Fountain_5:0100": [
+    "EMBED",
+    "HYBRID_ORACLE"
+   ],
+   "Library_Fountain_5:0099": [
+    "EMBED",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac_Rec_91:0018": [
+    "EMBED"
+   ],
+   "Brackenridge:0033": [
+    "EMBED"
+   ],
+   "Brackenridge:0053": [
+    "EMBED"
+   ],
+   "Sanjac:0078": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0079": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0077": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Sanjac:0076": [
+    "HYBRID_ORACLE"
+   ],
+   "Library_Fountain_5:0011": [
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0010": [
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0041": [
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0042": [
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0005": [
+    "HYBRID_LUNA"
+   ],
+   "Brackenridge:0081": [
+    "HYBRID_LUNA",
+    "PROGRAM_LUNA"
+   ],
+   "Library_Fountain_5:0045": [
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0048": [
+    "HYBRID_LUNA"
+   ],
+   "Library_Fountain_5:0046": [
+    "HYBRID_LUNA"
+   ],
+   "Rec_Tent_129:0005": [
+    "FUSED"
+   ],
+   "Sanjac:0067": [
+    "FUSED_LINEAR"
+   ],
+   "Bass_Garage_134:0069": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0067": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0070": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0060": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0072": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0080": [
+    "FUSED_CONCAT"
+   ],
+   "Bass_Garage_134:0071": [
+    "FUSED_CONCAT"
+   ],
+   "Stadium_Sanjac_90:0041": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Rec_Tent_129:0066": [
+    "FUSED",
+    "FUSED_V_LUNA"
+   ],
+   "Bass_Garage_134:0004": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0029": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0030": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0023": [
+    "EMBED"
+   ],
+   "Library_Fountain_5:0028": [
+    "EMBED"
+   ],
+   "Bass_Garage_134:0005": [
+    "EMBED"
+   ],
+   "Parlin_Parlin_51:0056": [
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0055": [
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0057": [
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0058": [
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0059": [
+    "PROGRAM_LUNA"
+   ],
+   "Parlin_Parlin_51:0060": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0085": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0086": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0087": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac:0088": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0080": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0082": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0083": [
+    "PROGRAM_LUNA"
+   ],
+   "Brackenridge:0084": [
+    "PROGRAM_LUNA"
+   ],
+   "Sanjac_Rec_91:0039": [
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0106": [
+    "HYBRID_LUNA",
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0034": [
+    "HYBRID_ORACLE"
+   ],
+   "Bass_Garage_134:0047": [
+    "HYBRID_LUNA"
+   ],
+   "Stadium_Sanjac_90:0050": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0051": [
+    "FUSED"
+   ],
+   "Stadium_Sanjac_90:0045": [
+    "FUSED_LINEAR"
+   ],
+   "Stadium_Sanjac_90:0066": [
+    "FUSED_V_LUNA"
+   ],
+   "JCL:0085": [
+    "FUSED_V_LUNA"
+   ],
+   "Butler:0068": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0032": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0008": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0012": [
+    "L1_ATTRIBUTES"
+   ],
+   "JCL:0032": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0036": [
+    "L1_ATTRIBUTES"
+   ],
+   "Library_MLK:0076": [
+    "L1_ATTRIBUTES"
+   ],
+   "Parlin_Parlin_51:0004": [
+    "L1_ATTRIBUTES"
+   ],
+   "Parlin_Parlin_51:0024": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0012": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0316": [
+    "L1_ATTRIBUTES"
+   ],
+   "Rec_Tent_129:0336": [
+    "L1_ATTRIBUTES"
+   ],
+   "Sanjac_Rec_91:0116": [
+    "L1_ATTRIBUTES"
+   ],
+   "Stadium_Sanjac_90:0040": [
+    "L1_ATTRIBUTES"
+   ],
+   "Stadium_Sanjac_90:0052": [
+    "L1_ATTRIBUTES"
+   ],
+   "Stadium_Sanjac_90:0084": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0124": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0148": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0184": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0212": [
+    "L1_ATTRIBUTES"
+   ],
+   "Thompson_Thompson_100:0224": [
+    "L1_ATTRIBUTES"
+   ],
+   "GDC_Library_42:0084": [
+    "RANDOM"
+   ],
+   "Rec_Tent_129:0318": [
+    "RANDOM"
+   ],
+   "JCL:0061": [
+    "RANDOM"
+   ],
+   "GDC_Library_42:0324": [
+    "RANDOM"
+   ],
+   "Rec_Tent_129:0088": [
+    "RANDOM"
+   ],
+   "GDC:0041": [
+    "RANDOM"
+   ],
+   "Rec_Tent_129:0348": [
+    "RANDOM"
+   ],
+   "Stadium_Sanjac_90:0013": [
+    "RANDOM"
+   ]
+  }
+ }
+}
