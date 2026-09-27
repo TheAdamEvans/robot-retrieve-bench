@@ -90,7 +90,14 @@ REGISTRY: dict[str, Feature] = {f.name: f for f in FEATURES}
 # Sensors a ReceiptSpec may name → topics per robot, straight from the embodiment profiles.
 from .embodiment import profiles as _profiles, sensors_by_name as _sensors_by_name
 
-SENSORS = {pid: _sensors_by_name(p) for pid, p in _profiles().items()}
+def _with_aliases(d: dict[str, list[str]]) -> dict[str, list[str]]:
+    # "lidar" means the best lidar the robot has (Jackal only has the flattened 2D scan)
+    if "lidar" not in d and "lidar_2d" in d:
+        d = {**d, "lidar": d["lidar_2d"]}
+    return d
+
+
+SENSORS = {pid: _with_aliases(_sensors_by_name(p)) for pid, p in _profiles().items()}
 ALL_SENSORS = sorted({s for m in SENSORS.values() for s in m})
 
 

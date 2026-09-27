@@ -352,7 +352,7 @@ class Executor:
                                       best.value, REGISTRY[ev.feature].unit))
             else:
                 bound[ev.name] = None
-                covered = ee.t0 <= max(lo, rec.start_ns) and min(hi, rec.end_ns) <= ee.t1 and hi <= rec.end_ns
+                covered = self._covered(ee, lo, hi, rec)
                 clauses.append(Clause(ev.name, doc, required, F if covered else U,
                                       c.UNKNOWN_REASON_UNSPECIFIED if covered else c.OUTSIDE_COVERAGE))
         for i, text in enumerate(program.unexpressible):
@@ -370,12 +370,20 @@ class Executor:
         exhaustive = all(evals[n].exhaustive and evals[n].unknown_reason is None for n in events) and \
             not program.unexpressible
         m = Match(rec_id, bound, clauses, ordinal, definite, basis, exhaustive)
-        refs = list(program.return_anchors) or [q.AnchorRef(event=program.primary_event, point=q.START)]
+        refs = [q.AnchorRef(event=program.primary_event, point=q.START)] + \
+            [a for a in program.return_anchors if not (a.event == program.primary_event and a.point == q.START)]
         for a in refs:
             b = bound.get(a.event)
             if b is not None:
                 m.anchors.append((f"{a.event}.{q.AnchorPoint.Name(a.point)}", b.at(a.point), b.lo, b.hi))
         return m
+
+    @staticmethod
+    def _covered(ee: EventEval, lo: int, hi: int, rec) -> bool:
+        """FALSE needs the feature to cover the searched window. A window that runs past the end of the recording is
+        never covered (the event may happen after recording stopped); the recording start is a hard edge."""
+        edge = NS  # providers start within a second of the recording
+        return hi <= rec.end_ns and max(lo, rec.start_ns) >= ee.t0 - edge and hi <= ee.t1 + edge
 
     @staticmethod
     def _bfs(program: q.QueryProgram) -> list[q.Relation]:
@@ -410,7 +418,7 @@ class Executor:
             return None, Clause(pe_spec.name, pe_spec.doc, True, U, pe.unknown_reason)
         near = [i for i in pe.instances if i.start <= hi and i.end >= lo]
         if not near:
-            covered = pe.t0 <= lo and hi <= pe.t1
+            covered = self._covered(pe, lo, hi, self.recordings[rec_id])
             return None, Clause(pe_spec.name, pe_spec.doc, True, F if covered else U,
                                 c.UNKNOWN_REASON_UNSPECIFIED if covered else c.OUTSIDE_COVERAGE)
         ms = [self.bind(program, rec_id, i, ev) for i in near]

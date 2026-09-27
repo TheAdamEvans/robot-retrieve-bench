@@ -26,6 +26,7 @@ class Series:
     available_at_ns: np.ndarray
     coverage_hz: float
     exhaustive: bool          # computed over the full recording at the provider's declared rate
+    source_topics: list[str]
 
 
 @dataclass
@@ -66,7 +67,17 @@ class FeatureStore:
             return None
         return Series(f, c["t_ns"].astype(np.int64), c[col].astype(float),
                       c.get(f"{col}_lo"), c.get(f"{col}_hi"), c["available_at_ns"].astype(np.int64),
-                      float(tab["meta"].get("hz", 0)), bool(tab["meta"].get("exhaustive", True)))
+                      float(tab["meta"].get("hz", 0)), bool(tab["meta"].get("exhaustive", True)),
+                      list(tab["meta"].get("source_topics", [])))
+
+    def source_topics(self, name: str, rec: str) -> list[str]:
+        f = REGISTRY[name]
+        tab = self._table(f.provider, rec) if f.indexed else None
+        return [] if tab is None else list(tab["meta"].get("source_topics", []))
+
+    def series_column(self, provider: str, rec: str, column: str) -> np.ndarray | None:
+        tab = self._table(provider, rec)
+        return None if tab is None or column not in tab["cols"] else tab["cols"][column].astype(float)
 
     def tracks(self, name: str, rec: str) -> Tracks | None:
         f = REGISTRY[name]

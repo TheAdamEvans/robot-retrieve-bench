@@ -1,0 +1,20 @@
+[
+{"segment_id":"Butler:0016","persons_in_corridor":"ZERO","stationary_group":"TRUTH_FALSE","doorway_traversal":"TRUTH_FALSE","vehicle_present":"TRUTH_TRUE","vehicle_interaction":"TRUTH_FALSE","bicycle":"TRUTH_FALSE","indoor":"TRUTH_FALSE","turn_visible":"TRUTH_TRUE",
+ "caption":"Spot veers about 30 degrees left across the roadway past orange bollards and a parked bus toward a sidewalk where pedestrians walk past tailgate tents.",
+ "refs":["Butler/image_raw/compressed#423","Butler/velodyne_points#157","Butler/odom#197","Butler/odom#262"]},
+{"segment_id":"Butler:0044","persons_in_corridor":"ONE_TWO","stationary_group":"TRUTH_TRUE","doorway_traversal":"TRUTH_FALSE","vehicle_present":"TRUTH_FALSE","vehicle_interaction":"TRUTH_FALSE","bicycle":"TRUTH_FALSE","indoor":"TRUTH_FALSE","turn_visible":"TRUTH_FALSE",
+ "caption":"Spot walks a paved path through the tailgate area past people standing by tents on its left as a woman with a backpack crosses the path just ahead of it.",
+ "refs":["Butler/image_raw/compressed#1236","Butler/image_raw/compressed#1265","Butler/velodyne_points#425","Butler/spot/camera/back/image/compressed#187","Butler/odom#658","Butler/odom#722"]},
+{"segment_id":"Butler:0048","persons_in_corridor":"ZERO","stationary_group":"TRUTH_TRUE","doorway_traversal":"TRUTH_FALSE","vehicle_present":"TRUTH_FALSE","vehicle_interaction":"TRUTH_FALSE","bicycle":"TRUTH_TRUE","indoor":"TRUTH_FALSE","turn_visible":"TRUTH_FALSE",
+ "caption":"Spot walks the paved path past people standing and sitting under a tent on its left, with a woman and a man on crutches walking toward it along the path ahead and a parked bicycle by a tent on the right.",
+ "refs":["Butler/image_raw/compressed#1322","Butler/image_raw/compressed#1382","Butler/velodyne_points#474","Butler/odom#723","Butler/odom#787"]},
+{"segment_id":"Butler:0052","persons_in_corridor":"ONE_TWO","stationary_group":"TRUTH_TRUE","doorway_traversal":"TRUTH_FALSE","vehicle_present":"TRUTH_FALSE","vehicle_interaction":"TRUTH_FALSE","bicycle":"TRUTH_TRUE","indoor":"TRUTH_FALSE","turn_visible":"TRUTH_FALSE",
+ "caption":"Spot walks the paved path as a woman in boots passes close on its right, past people gathered under a tent on its left and a parked bicycle on the right, with a man on crutches just ahead-right.",
+ "refs":["Butler/image_raw/compressed#1424","Butler/velodyne_points#488","Butler/odom#788","Butler/odom#853"]},
+{"segment_id":"Butler:0056","persons_in_corridor":"ZERO","stationary_group":"TRUTH_TRUE","doorway_traversal":"TRUTH_FALSE","vehicle_present":"TRUTH_FALSE","vehicle_interaction":"TRUTH_FALSE","bicycle":"TRUTH_TRUE","indoor":"TRUTH_FALSE","turn_visible":"TRUTH_FALSE",
+ "caption":"Spot overtakes a man on crutches walking beside it on the right and continues along the path toward groups of people standing near tents ahead.",
+ "refs":["Butler/spot/camera/right/image/compressed#237","Butler/spot/camera/frontleft/image/compressed#237","Butler/velodyne_points#524","Butler/odom#854","Butler/odom#918"]},
+{"segment_id":"Butler:0060","persons_in_corridor":"ZERO","stationary_group":"TRUTH_TRUE","doorway_traversal":"TRUTH_FALSE","vehicle_present":"TRUTH_FALSE","vehicle_interaction":"TRUTH_FALSE","bicycle":"TRUTH_TRUE","indoor":"TRUTH_FALSE","turn_visible":"TRUTH_FALSE",
+ "caption":"Spot walks past groups of people standing by tents and heads off the path toward a sandwich-board sign and a parked bicycle as a woman in a number 17 jersey passes close on its left.",
+ "refs":["Butler/image_raw/compressed#1741","Butler/velodyne_points#592","Butler/odom#919","Butler/odom#983"]}
+]

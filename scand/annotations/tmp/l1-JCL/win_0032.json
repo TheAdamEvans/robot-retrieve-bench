@@ -1,0 +1,35 @@
+{
+ "path": "/Users/adam.e/robots/scand/annotations/renders/l1-JCL/window_JCL_0032.jpg",
+ "window": "JCL:0032",
+ "span_s": [
+  28.0,
+  32.0
+ ],
+ "warnings": [
+  "JCL/spot/camera/frontleft/image/compressed#133 is -105 ms from the requested time (gap or edge of recording)",
+  "JCL/spot/camera/frontright/image/compressed#133 is -105 ms from the requested time (gap or edge of recording)"
+ ],
+ "heading": {
+  "net_deg": 79.6,
+  "max_abs_excursion_deg": 79.6,
+  "max_change_in_any_1s_deg": 28.4
+ },
+ "note": "composite for proposing; confirm claims with frame/step/sync/lidar. Front and lidar at start/mid/end; body cameras at mid-window.",
+ "refs": [
+  {"mid": "JCL/image_raw/compressed#787", "t": 28.017, "native": false, "header_t": 28.005, "dt_ms": 16.7},
+  {"mid": "JCL/image_raw/compressed#847", "t": 30.015, "native": false, "header_t": 30.005, "dt_ms": 14.7},
+  {"mid": "JCL/image_raw/compressed#907", "t": 32.012, "native": false, "header_t": 32.005, "dt_ms": 12.3},
+  {"mid": "JCL/velodyne_points#277", "t": 27.954, "native": true, "header_t": 27.951, "dt_ms": -45.7},
+  {"mid": "JCL/velodyne_points#297", "t": 29.972, "native": true, "header_t": 29.968, "dt_ms": -27.9},
+  {"mid": "JCL/velodyne_points#317", "t": 31.989, "native": true, "header_t": 31.985, "dt_ms": -11.5},
+  {"mid": "JCL/spot/camera/frontleft/image/compressed#133", "t": 29.895, "native": false, "header_t": 29.436, "dt_ms": -104.9},
+  {"mid": "JCL/spot/camera/frontright/image/compressed#133", "t": 29.895, "native": false, "header_t": 29.433, "dt_ms": -104.7},
+  {"mid": "JCL/spot/camera/left/image/compressed#134", "t": 30.027, "native": false, "header_t": 29.571, "dt_ms": 27.1},
+  {"mid": "JCL/spot/camera/right/image/compressed#134", "t": 30.028, "native": false, "header_t": 29.567, "dt_ms": 27.6},
+  {"mid": "JCL/spot/camera/back/image/compressed#134", "t": 29.933, "native": false, "header_t": 29.504, "dt_ms": -67.2},
+  {"mid": "JCL/odom#424", "t": 26.021, "native": true, "header_t": 26.024},
+  {"mid": "JCL/odom#554", "t": 33.96, "native": true, "header_t": 33.962},
+  {"mid": "JCL/velodyne_points#258", "t": 26.039, "native": true, "header_t": 26.034},
+  {"mid": "JCL/velodyne_points#336", "t": 33.906, "native": true, "header_t": 33.901}
+ ]
+}

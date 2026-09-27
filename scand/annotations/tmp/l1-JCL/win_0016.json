@@ -1,0 +1,31 @@
+{
+ "path": "/Users/adam.e/robots/scand/annotations/renders/l1-JCL/window_JCL_0016.jpg",
+ "window": "JCL:0016",
+ "span_s": [
+  12.0,
+  16.0
+ ],
+ "heading": {
+  "net_deg": 7.5,
+  "max_abs_excursion_deg": 7.5,
+  "max_change_in_any_1s_deg": 5.8
+ },
+ "note": "composite for proposing; confirm claims with frame/step/sync/lidar. Front and lidar at start/mid/end; body cameras at mid-window.",
+ "refs": [
+  {"mid": "JCL/image_raw/compressed#307", "t": 12.012, "native": false, "header_t": 12.005, "dt_ms": 11.9},
+  {"mid": "JCL/image_raw/compressed#367", "t": 14.015, "native": false, "header_t": 14.006, "dt_ms": 15.3},
+  {"mid": "JCL/image_raw/compressed#427", "t": 16.015, "native": false, "header_t": 16.005, "dt_ms": 15.4},
+  {"mid": "JCL/velodyne_points#118", "t": 11.918, "native": true, "header_t": 11.915, "dt_ms": -82.3},
+  {"mid": "JCL/velodyne_points#138", "t": 13.936, "native": true, "header_t": 13.932, "dt_ms": -63.8},
+  {"mid": "JCL/velodyne_points#158", "t": 15.952, "native": true, "header_t": 15.949, "dt_ms": -47.9},
+  {"mid": "JCL/spot/camera/frontleft/image/compressed#62", "t": 14.041, "native": false, "header_t": 13.835, "dt_ms": 41.2},
+  {"mid": "JCL/spot/camera/frontright/image/compressed#62", "t": 14.046, "native": false, "header_t": 13.835, "dt_ms": 46.1},
+  {"mid": "JCL/spot/camera/left/image/compressed#62", "t": 13.952, "native": false, "header_t": 13.497, "dt_ms": -47.6},
+  {"mid": "JCL/spot/camera/right/image/compressed#62", "t": 13.954, "native": false, "header_t": 13.5, "dt_ms": -46.0},
+  {"mid": "JCL/spot/camera/back/image/compressed#63", "t": 14.079, "native": false, "header_t": 13.634, "dt_ms": 78.6},
+  {"mid": "JCL/odom#163", "t": 10.036, "native": true, "header_t": 10.04},
+  {"mid": "JCL/odom#294", "t": 17.99, "native": true, "header_t": 18.002},
+  {"mid": "JCL/velodyne_points#99", "t": 10.002, "native": true, "header_t": 9.999},
+  {"mid": "JCL/velodyne_points#178", "t": 17.969, "native": true, "header_t": 17.966}
+ ]
+}

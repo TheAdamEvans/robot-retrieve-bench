@@ -1,0 +1,26 @@
+{
+ "path": "/Users/adam.e/robots/scand/annotations/renders/l1-Sanjac/window_Sanjac_0104.jpg",
+ "window": "Sanjac:0104",
+ "span_s": [
+  100.0,
+  104.0
+ ],
+ "heading": {
+  "net_deg": 18.0,
+  "max_abs_excursion_deg": 31.6,
+  "max_change_in_any_1s_deg": 37.7
+ },
+ "note": "composite for proposing; confirm claims with frame/step/sync/lidar. Front and lidar at start/mid/end; body cameras at mid-window.",
+ "refs": [
+  {"mid": "Sanjac/camera/rgb/image_raw/compressed#2999", "t": 99.997, "native": false, "header_t": 99.992, "dt_ms": -3.3},
+  {"mid": "Sanjac/camera/rgb/image_raw/compressed#3059", "t": 101.997, "native": false, "header_t": 101.992, "dt_ms": -3.3},
+  {"mid": "Sanjac/camera/rgb/image_raw/compressed#3119", "t": 103.998, "native": false, "header_t": 103.993, "dt_ms": -1.7},
+  {"mid": "Sanjac/velodyne_2dscan#991", "t": 99.987, "native": true, "header_t": 99.984, "dt_ms": -12.5},
+  {"mid": "Sanjac/velodyne_2dscan#1010", "t": 101.904, "native": true, "header_t": 101.9, "dt_ms": -96.1},
+  {"mid": "Sanjac/velodyne_2dscan#1030", "t": 103.922, "native": true, "header_t": 103.917, "dt_ms": -78.2},
+  {"mid": "Sanjac/jackal_velocity_controller/odom#4900", "t": 98.011, "native": true, "header_t": 98.01},
+  {"mid": "Sanjac/jackal_velocity_controller/odom#5298", "t": 105.982, "native": true, "header_t": 105.97},
+  {"mid": "Sanjac/velodyne_2dscan#972", "t": 98.073, "native": true, "header_t": 98.068},
+  {"mid": "Sanjac/velodyne_2dscan#1050", "t": 105.939, "native": true, "header_t": 105.934}
+ ]
+}

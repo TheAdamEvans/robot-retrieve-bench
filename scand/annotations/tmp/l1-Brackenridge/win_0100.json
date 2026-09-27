@@ -1,0 +1,26 @@
+{
+ "path": "/Users/adam.e/robots/scand/annotations/renders/l1-Brackenridge/window_Brackenridge_0100.jpg",
+ "window": "Brackenridge:0100",
+ "span_s": [
+  96.0,
+  100.0
+ ],
+ "heading": {
+  "net_deg": -32.8,
+  "max_abs_excursion_deg": 32.9,
+  "max_change_in_any_1s_deg": 21.6
+ },
+ "note": "composite for proposing; confirm claims with frame/step/sync/lidar. Front and lidar at start/mid/end; body cameras at mid-window.",
+ "refs": [
+  {"mid": "Brackenridge/camera/rgb/image_raw/compressed#2879", "t": 96.009, "native": false, "header_t": 96.001, "dt_ms": 9.3},
+  {"mid": "Brackenridge/camera/rgb/image_raw/compressed#2938", "t": 97.984, "native": false, "header_t": 97.977, "dt_ms": -15.6},
+  {"mid": "Brackenridge/camera/rgb/image_raw/compressed#2999", "t": 100.006, "native": false, "header_t": 100.002, "dt_ms": 6.4},
+  {"mid": "Brackenridge/velodyne_2dscan#951", "t": 95.998, "native": true, "header_t": 95.992, "dt_ms": -2.0},
+  {"mid": "Brackenridge/velodyne_2dscan#970", "t": 97.915, "native": true, "header_t": 97.909, "dt_ms": -85.3},
+  {"mid": "Brackenridge/velodyne_2dscan#990", "t": 99.93, "native": true, "header_t": 99.926, "dt_ms": -70.1},
+  {"mid": "Brackenridge/jackal_velocity_controller/odom#4700", "t": 94.028, "native": true, "header_t": 94.0},
+  {"mid": "Brackenridge/jackal_velocity_controller/odom#5099", "t": 101.996, "native": true, "header_t": 101.98},
+  {"mid": "Brackenridge/velodyne_2dscan#932", "t": 94.08, "native": true, "header_t": 94.076},
+  {"mid": "Brackenridge/velodyne_2dscan#1010", "t": 101.948, "native": true, "header_t": 101.943}
+ ]
+}
