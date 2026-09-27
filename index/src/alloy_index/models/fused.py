@@ -63,16 +63,21 @@ def standardise(raw: tuple[np.ndarray, np.ndarray], mu: np.ndarray, sd: np.ndarr
 
 
 class Head(nn.Module):
-    def __init__(self, d_sig: int, kind: str, dim: int = SPEC["dim"]):
+    def __init__(self, d_sig: int, kind: str, dim: int = SPEC["dim"], hidden_dim: int = 512,
+                 dropout: float = 0.2):
         super().__init__()
         self.kind = kind
+        self.hidden_dim = hidden_dim
+        self.dropout = dropout
         if kind == "linear":
             self.net = nn.Linear(dim + d_sig, dim)
             last = self.net
-        else:
-            self.net = nn.Sequential(nn.Dropout(0.2), nn.Linear(dim + d_sig, 512), nn.GELU(), nn.Dropout(0.2),
-                                     nn.Linear(512, dim))
+        elif kind == "mlp":
+            self.net = nn.Sequential(nn.Dropout(dropout), nn.Linear(dim + d_sig, hidden_dim), nn.GELU(),
+                                     nn.Dropout(dropout), nn.Linear(hidden_dim, dim))
             last = self.net[-1]
+        else:
+            raise ValueError(f"unsupported FUSED head kind {kind!r}")
         nn.init.zeros_(last.weight)  # start exactly at the image vector (= EMBED) and learn a correction
         nn.init.zeros_(last.bias)
         self.t = nn.Parameter(torch.tensor(np.log(10.0), dtype=torch.float32))
@@ -98,7 +103,9 @@ def save(dir_: Path, kind: str, head: Head | None, mu: np.ndarray, sd: np.ndarra
     if head is not None:
         save_file(head.state_dict(), str(dir_ / "head.safetensors"))
     (dir_ / "model.json").write_text(json.dumps({"kind": kind, "mu": mu.tolist(), "sd": sd.tolist(),
-                                                 "n_signals": N_SIGNALS, "dim": SPEC["dim"], **info}, indent=1))
+                                                 "n_signals": N_SIGNALS, "dim": SPEC["dim"],
+                                                 "hidden_dim": head.hidden_dim if head else 512,
+                                                 "dropout": head.dropout if head else 0.2, **info}, indent=1))
 
 
 def load(dir_: Path) -> tuple[str, Head | None, np.ndarray, np.ndarray, dict]:
@@ -107,6 +114,7 @@ def load(dir_: Path) -> tuple[str, Head | None, np.ndarray, np.ndarray, dict]:
     head = None
     if kind != "concat":
         from safetensors.torch import load_file
-        head = Head(2 * meta["n_signals"], kind)
+        head = Head(2 * meta["n_signals"], kind, hidden_dim=meta.get("hidden_dim", 512),
+                    dropout=meta.get("dropout", 0.2))
         head.load_state_dict(load_file(str(dir_ / "head.safetensors")))
     return kind, head, np.array(meta["mu"], np.float32), np.array(meta["sd"], np.float32), meta

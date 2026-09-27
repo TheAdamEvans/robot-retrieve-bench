@@ -36,9 +36,12 @@ CONFIGS = {
     "FUSED": ("FUSED", None),
     "FUSED_LINEAR": ("FUSED_LINEAR", None),
     "FUSED_CONCAT": ("FUSED_CONCAT", None),
+    "FUSED_V2_UNIFORM_OOF": ("FUSED_V2_UNIFORM_OOF", None),
+    "FUSED_V2_IMPORTANCE_OOF": ("FUSED_V2_IMPORTANCE_OOF", None),
     "FUSED_V_LUNA": ("FUSED_V", "luna"),
 }
 EVAL_SETS = ["demo5", "demo5_para", "compose_test", "l1_compositions_dev", "abstain_controls"]
+DEFAULT_CONFIGS = [name for name in CONFIGS if not name.startswith("FUSED_V2_")]
 
 
 def interval_windows(bundle: Bundle, cd) -> list[str]:
@@ -197,7 +200,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--bundle", type=Path, default=SCAND_ROOT / "bundles" / "dev")
     ap.add_argument("--run", required=True)
-    ap.add_argument("--configs", default=",".join(CONFIGS))
+    ap.add_argument("--configs", default=",".join(DEFAULT_CONFIGS))
     ap.add_argument("--sets", default=",".join(EVAL_SETS))
     ap.add_argument("--score-all", action="store_true", help="SCORE_ALL over each intent's judged windows")
     ap.add_argument("--reuse-programs-from", type=Path,

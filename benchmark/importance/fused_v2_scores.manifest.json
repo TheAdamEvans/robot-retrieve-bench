@@ -1,0 +1,45 @@
+{
+  "recipe": "train_episode_coverage_v1",
+  "input": "raw 1152D SigLIP2 frame vector; no PCA",
+  "target": "distinct positive Train answer intents active at frame; zero means unlabeled",
+  "pooling": "mean frame prediction over trailing four-second window",
+  "params": {
+    "objective": "count:poisson",
+    "tree_method": "hist",
+    "device": "cpu",
+    "max_depth": 2,
+    "eta": 0.05,
+    "min_child_weight": 10,
+    "colsample_bytree": 0.5,
+    "subsample": 0.8,
+    "lambda": 10,
+    "nthread": 4,
+    "seed": 0
+  },
+  "rounds": 100,
+  "xgboost": "3.4.1",
+  "train_recordings": [
+    "Brackenridge",
+    "Butler",
+    "GDC",
+    "GDC_Library_42",
+    "JCL",
+    "Library_Fountain_5",
+    "Library_Jester_75",
+    "Library_MLK",
+    "Parlin_Parlin_51",
+    "RLM",
+    "Sanjac",
+    "Sanjac_Rec_91",
+    "Stadium_Sanjac_90",
+    "Thompson_Thompson_100"
+  ],
+  "held_out_recordings": [
+    "Bass_Garage_134",
+    "Rec_Tent_129"
+  ],
+  "positive_intervals": 30,
+  "windows": 2253,
+  "loro_top_decile_interval_lift": 0.09718,
+  "interval_sha256": "b152d879e328b8409513442a9ee883df9dce97103d7a0f85d5c950988e2fbf75"
+}

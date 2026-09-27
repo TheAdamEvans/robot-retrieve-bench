@@ -15,7 +15,7 @@ def S(sid: str, impl: str, **params) -> pp.StageSpec:
 
 def specs() -> list[pp.PipelineSpec]:
     embed = S("embed", "EmbeddingCandidates", space="siglip2", top_k=100)
-    return [
+    base = [
         pp.PipelineSpec(pipeline_id="TAGS", role=pp.TOP_LEVEL, final_k=10, spec_version="1",
                         doc="BM25 over recording-level tags; every window of a matching recording ties",
                         generators=[S("tags", "TagCandidates")], rankers=[S("bm25", "BM25Ranker"), S("merge", "MergeAdjacent", gap_s=1.0, max_span_s=20), S("top", "Truncate")]),
@@ -61,6 +61,20 @@ def specs() -> list[pp.PipelineSpec]:
         pp.PipelineSpec(pipeline_id="EMBED_WEMM_CARD", role=pp.TOP_LEVEL, stub=True, spec_version="0",
                         doc="stub: WeMM-2B signal-card only"),
     ]
+    # Serving uses the full-Train head. OOF specs are benchmark-only and keep
+    # training recordings out of their own document encoder.
+    for mode in ("uniform", "importance"):
+        for oof in (False, True):
+            suffix = "_OOF" if oof else ""
+            space = f"fused_v2_{mode}" + ("_oof" if oof else "")
+            base.append(pp.PipelineSpec(
+                pipeline_id=f"FUSED_V2_{mode.upper()}{suffix}", role=pp.TOP_LEVEL,
+                final_k=10, spec_version="1",
+                doc=f"FUSED v2 {mode} sampling; {'LORO evaluation' if oof else 'full-Train serving'}",
+                generators=[S("embed", "EmbeddingCandidates", space=space, top_k=100)],
+                rankers=[S("sim", "SimilarityRanker", space=space),
+                         S("merge", "MergeAdjacent", gap_s=1.0, max_span_s=20), S("top", "Truncate")]))
+    return base
 
 
 def build(bundle: Path) -> list[str]:

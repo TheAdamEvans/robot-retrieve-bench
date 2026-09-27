@@ -29,7 +29,7 @@ stages { name: "annotate.l1"          impl: "L1Labeller"        enabled: true  r
          params { key: "max_segments_per_job" value: "30" } params { key: "parallel" value: "8" } }
 stages { name: "windows.siglip2"      impl: "SiglipWindows"     enabled: true }
 stages { name: "tags"                 impl: "Tags"              enabled: true }
-stages { name: "apply.fused"          impl: "ApplyFused"        enabled: true params { key: "names" value: "fused_v1,fused_linear,fused_concat" } }
+stages { name: "apply.fused"          impl: "ApplyFused"        enabled: true params { key: "names" value: "fused_v1,fused_linear,fused_concat,fused_v2_uniform,fused_v2_importance" } }
 stages { name: "pipelines"            impl: "PipelineSpecs"     enabled: true }
 stages { name: "prompts"              impl: "PromptAssets"      enabled: true }
 

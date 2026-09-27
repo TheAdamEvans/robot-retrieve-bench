@@ -142,12 +142,95 @@ right-side room, close car while fast). Adding them would leak the held-out test
 
 ## Guardrails (non-negotiable)
 
-- **Never train on L2 judgments.** They are the test labels.
+- **Never train the retriever's relevance targets on L2 judgments.** The v2 salience hint uses positive Train episodes only, as described below; Eval labels stay out of training.
 - **LORO always.** Standardisation statistics come from training folds only.
 - **Don't add the `compose_test` pairings** to the pseudo-label programs or templates.
 - **Keep the Val recordings out** of anything used for training or tuning.
 - **Report changes on the benchmark** with CIs, next to the controls. Pseudo-label AUC is a diagnostic only.
 - **Keep the zero-init residual,** or show on the benchmark why removing it helps.
+
+## FUSED v2: interval salience and verified negatives
+
+The trainer and server remain separate. `alloy_trainer.learn.fused_v2` executes
+Train programs, creates window/text labels, fits the document-side head and writes
+two indexes. `fused_v2_<sampler>_oof_windows.parquet` is the LORO benchmark
+artifact. `fused_v2_<sampler>_windows.parquet` is made by the full Train model
+for serving and for newly indexed windows. The server loads either index and
+uses its existing SigLIP2 text encoder and dot-product lookup. The query path
+has no program synthesis.
+
+`alloy_trainer.learn.importance` fits a shallow CPU XGBoost Poisson regressor
+directly on the **1152-dimensional frame vectors**, without PCA. The weak target
+is the number of distinct positive `labels/train/episodes` answer intents
+whose interval covers each frame. No known interval means *unlabeled*, not
+confirmed irrelevant. Background frames are subsampled with inverse sampling
+weights. A frame-level prediction is averaged into each four-second window.
+The public `benchmark/importance/fused_v2_scores.jsonl` gives one prediction
+per window: Train scores are leave-one-recording-out; Val scores use Train only.
+The manifest records the recipe and provenance.
+Nested fold scores are cached inside the ignored bundle by a separate CPU
+process; this avoids an OpenMP runtime conflict between XGBoost and PyTorch on
+some machines. On macOS, XGBoost may also require `brew install libomp`.
+
+The answer intervals influence
+only the **sampling probability**, not window/text truth labels or the online
+ranker. It still carries a query-set bias; compare against the uniform sampler
+on the same frozen benchmark, especially on held-out Val and composition
+questions. The importance sampler uses 50% uniform and 50% score-proportional
+selection within each recording, with a four-times-uniform cap.
+
+The v2 retriever expands the 20 fixed programs into numeric threshold variants
+and safe compositions. It excludes the held-out `compose_test` pairings.
+The executor supplies temporal and co-occurrence supervision; these
+observations alone do not establish that one event caused another.
+Each required clause is executed on the Train recording. A definite match is
+positive; a fully covered one-clause failure is a hard negative; an unknown
+never becomes a negative. L1 captions and attributes add visual supervision.
+Each step samples one positive, one near miss when available and one other
+verified negative, with equal total positive and negative loss weight. Both
+sampling arms use the same program pool, architecture, seed, steps and negatives.
+The loss also gives a small weight to a positive-over-negative ranking term and
+to an in-batch caption contrastive term, which preserve text specificity.
+The one-hidden-layer head defaults to width 512 and is configurable with
+`--hidden-dim` and `--dropout`.
+
+```bash
+uv run python -m alloy_trainer.learn.importance --bundle bundles/dev --labels labels
+uv run python -m alloy_trainer.learn.fused_v2 --bundle bundles/dev --labels labels --sampler both
+uv run python -m alloy_trainer.learn.fused_v2 --bundle bundles/dev --labels labels --sampler both --diagnose-only
+uv run python -c "from pathlib import Path; from alloy_index.build.pipelines import build; build(Path('bundles/dev'))"
+uv run python -m alloy_trainer.eval.run --run fused-v2 --configs EMBED,FUSED,FUSED_V2_UNIFORM_OOF,FUSED_V2_IMPORTANCE_OOF --sets demo5_para,compose_test
+uv run python -m alloy_trainer.eval.run --run fused-v2 --score-all --configs EMBED,FUSED,FUSED_V2_UNIFORM_OOF,FUSED_V2_IMPORTANCE_OOF --sets demo5_para,compose_test
+uv run python -m alloy_trainer.eval.report --run fused-v2
+```
+
+The diagnostic command writes per-family out-of-fold AUC and hard-negative
+pair win rates to `bundle/index/fused_v2_<sampler>_diagnostics.json`. The
+benchmark report then shows query-level retrieval metrics and judged coverage.
+
+### Measured result (16 recordings, 14 Train LORO folds; 150 steps, seed 0)
+
+| Retriever | demo5_para ROC / nDCG@10 | compose_test ROC / nDCG@10 | compose_test Val ROC / nDCG@10 | compose_test judged@10 |
+|---|---:|---:|---:|---:|
+| EMBED | .463 / .246 | .466 / .225 | .246 / .236 | 1.00 |
+| FUSED v1 | .726 / .467 | .591 / .456 | .754 / .539 | 1.00 |
+| v2 uniform | .768 / .366 | .698 / .450 | .784 / .000 | .40 |
+| v2 importance | .778 / .358 | .704 / .437 | .784 / .000 | .44 |
+
+The v2 head discriminates judged positive and negative windows better, but
+its global top results miss known Val positives and have low judged coverage.
+**Keep FUSED v1 as the default serving retriever** until top-rank recall and
+judgment coverage improve. The importance sampler adds only a small ROC change
+against the matched uniform arm and does not improve nDCG@10 here.
+
+The interval-salience regressor has only 30 positive Train intervals across
+five recordings. Its global LORO top-decile interval lift is .097, so its
+predictions are a weak sampling hint, not evidence that importance transfer
+has been solved. Within-program diagnostics are stronger: the v2 importance
+index has macro family AUC .788 and a .740 positive-over-hard-negative win
+rate. Fast-speed variants and crowd/slow compositions are among the weak
+families to target with additional verified data. These metrics use overlapping
+windows and few query groups, so differences are directional.
 
 ## How to run
 

@@ -242,7 +242,8 @@ COLS = [("roc_pen", "ROC-AUC (penalised)", False), ("coverage", "coverage", True
 
 
 FAMILY = {"TAGS": 1, "EMBED": 1, "FUSED_CONCAT": 1, "PROGRAM_ORACLE": 2, "PROGRAM_LUNA": 2, "HYBRID_ORACLE": 2,
-          "HYBRID_LUNA": 2, "FUSED_V_LUNA": 2, "FUSED": 3, "FUSED_LINEAR": 3}
+          "HYBRID_LUNA": 2, "FUSED_V_LUNA": 2, "FUSED": 3, "FUSED_LINEAR": 3,
+          "FUSED_V2_UNIFORM_OOF": 3, "FUSED_V2_IMPORTANCE_OOF": 3}
 FAMILY_NAME = {1: "baselines", 2: "program-based (LLM or oracle)", 3: "learned single-vector (Stage C)"}
 
 
