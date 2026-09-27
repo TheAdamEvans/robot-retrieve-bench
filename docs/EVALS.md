@@ -172,26 +172,34 @@ evaluation could not see this failure.
 
 A question whose **true answer is "nowhere"**, and which the system can prove, measures whether an approach will say
 so instead of returning plausible-looking results. The sets live in `benchmark/controls/` (they are not part of the
-fingerprinted `benchmark/queries/`) and join `EVAL_SETS` as `abstain_controls`. The report's `abstain_ok` scores
-**every** config, unverified ones included: it is 1 only for `none_found_exhaustive` with no results.
+fingerprinted `benchmark/queries/`) and join `EVAL_SETS` as `abstain_controls`. The report scores **every** config,
+unverified ones included:
+- `abstained`: returned no results (`none_found_exhaustive` or `insufficient_evidence`);
+- `proved_none`: `none_found_exhaustive` with no results, meaning it checked everything and can say "nowhere".
 
 **abstain_v1 / ctl_odom_gyro_agree:** "Where does the Jackal's wheel odometry disagree with its gyro about how fast it
 is turning, by more than 30 °/s for at least half a second?" The feature `odom_gyro_yaw_disagreement_dps` never
 crosses 30 °/s at any instant, and never crosses 11 °/s for half a second, on any Jackal log. The evidence is in
 the set's README.
 
-Frozen run: `benchmark/results/v9-abstain`.
+| Config | abstained | proved_none |
+|---|---|---|
+| PROGRAM_ORACLE, PROGRAM_LUNA | 1.00 | **1.00**. The generated program picked the new feature itself. |
+| HYBRID_ORACLE, HYBRID_LUNA, FUSED_V_LUNA | 1.00 | 0.00: `insufficient_evidence`. They verified only their top candidates, so they cannot claim exhaustiveness. |
+| TAGS, EMBED, FUSED (all heads) | 0.00 | 0.00: 50 unverified windows each |
 
-| Config | abstain_ok |
-|---|---|
-| PROGRAM_ORACLE, PROGRAM_LUNA | **1.00**: `none_found_exhaustive`, no results. The generated program picked the new feature itself. |
-| HYBRID, FUSED_V | 0.00: `insufficient_evidence`, or `answered_partial` with 1–2 windows |
-| TAGS, EMBED, FUSED (all heads) | 0.00: 50 unverified windows each |
+Frozen runs: `benchmark/results/v9-abstain` (first run) and `benchmark/results/v9-abstain-r2` (coverage rule below).
 
-**What it caught.** The verify configs keep Jackal windows from the very end of a recording (`Sanjac:0107`,
-`Sanjac_Rec_91:0139`) as partial matches. The clause's 0.5 s minimum plus 2 s of context runs past the end of the
-data, so it evaluates to `UNKNOWN (outside coverage)`, and an unknown clause never filters. The program path scans
-the recorded data and correctly finds nothing.
+**What the first run caught, and the rule it led to.** The verify configs kept Jackal windows from the very end of a
+recording (`Sanjac:0107`, `Sanjac_Rec_91:0139`) as partial matches. The clause's context ran past the end of the
+data, so it was marked UNKNOWN. The executor's coverage rule is now:
+- **Context around a candidate** that runs beyond the log's start or end keeps a FALSE false: the log is the world.
+- **A relation's own window** (the time the question waits for, such as "recovers within 20 s") that runs past the
+  end cannot be FALSE, because the event may come after recording stopped. Butler's crowd slowdown at ~111 s in a
+  ~114 s log therefore stays `answered_partial`.
+- **Missing data inside the log** makes a clause UNKNOWN (outside coverage) either way: a sensor dropout (no sample
+  for more than 5 periods, and at least 1 s), or a feature that stops before the log does.
 
-**Follow-up.** Decide whether context that falls beyond the end of a log should make a clause unknown when the event
-itself would lie inside the covered span. Today the verifier cannot say "nowhere", even when the executor can.
+Replaying v9's oracle configs under the rule: ROC-AUC rises 0.009 on demo5 and demo5_para, and moves by at most
+−0.004 on compose_test. nDCG, recall and status accuracy are unchanged. The `verify/coverage` module suite (8
+cases) pins every branch.

@@ -20,6 +20,7 @@ from ..gen.alloy.v1 import query_pb2 as q
 
 T, F, U = c.TRUTH_TRUE, c.TRUTH_FALSE, c.TRUTH_UNKNOWN
 NS = 1_000_000_000
+GAP_PERIODS = 5  # a dropout inside the log: no sample for this many periods (and >= 1 s)
 BASIS_RANK = {"SPATIAL_NONE": 0, "RECORDED_TF": 1, "NOMINAL": 2, "ESTIMATED": 3}
 EXTREMUM_HALF_S = 1.0
 REL_CHANGE_FLOOR = 0.25
@@ -375,7 +376,7 @@ class Executor:
                                       best.value, REGISTRY[ev.feature].unit))
             else:
                 bound[ev.name] = None
-                covered = self._covered(ee, lo, hi, rec)
+                covered = self._covered(ee, lo, hi, rec, hard_edges=False)  # the relation's own window
                 clauses.append(Clause(ev.name, doc, required, F if covered else U,
                                       c.UNKNOWN_REASON_UNSPECIFIED if covered else c.OUTSIDE_COVERAGE))
         for i, text in enumerate(program.unexpressible):
@@ -402,11 +403,34 @@ class Executor:
         return m
 
     @staticmethod
-    def _covered(ee: EventEval, lo: int, hi: int, rec) -> bool:
-        """FALSE needs the feature to cover the searched window. A window that runs past the end of the recording is
-        never covered (the event may happen after recording stopped); the recording start is a hard edge."""
-        edge = NS  # providers start within a second of the recording
-        return hi <= rec.end_ns and max(lo, rec.start_ns) >= ee.t0 - edge and hi <= ee.t1 + edge
+    def _covered(ee: EventEval, lo: int, hi: int, rec, hard_edges: bool = True) -> bool:
+        """FALSE needs the feature to have looked at the searched window.
+
+        hard_edges=True (context around a candidate): the recording's start and end are hard edges. The part of the
+        window beyond them is outside the log, not missing data, so it keeps a FALSE false.
+        hard_edges=False (a relation's window: the time the question waits for, e.g. "recovers within 20 s"): if that
+        window runs past the end (or before the start) of the log, the event may happen after recording stopped, so
+        the clause cannot be FALSE.
+        Either way, inside the log the feature must span the window (to within a second of each edge) with no dropout:
+        a gap between samples longer than GAP_PERIODS periods (and at least 1 s) means the sensor stopped reporting
+        there, and the clause is UNKNOWN (OUTSIDE_COVERAGE)."""
+        if not hard_edges and (hi > rec.end_ns or lo < rec.start_ns):
+            return False
+        lo, hi = max(lo, rec.start_ns), min(hi, rec.end_ns)
+        if hi <= lo:
+            return True  # the window lies entirely outside the log: nothing recorded there can satisfy the clause
+        edge = NS  # providers start and stop within a second of the recording
+        if lo < ee.t0 - edge or hi > ee.t1 + edge:
+            return False
+        s = ee.series
+        if s is not None and len(s.t_ns) > 1:
+            i = max(int(np.searchsorted(s.t_ns, lo, side="right")) - 1, 0)
+            j = min(int(np.searchsorted(s.t_ns, hi, side="left")) + 1, len(s.t_ns))
+            seg = s.t_ns[i:j]
+            period = NS / s.coverage_hz if s.coverage_hz else float(np.median(np.diff(s.t_ns)))
+            if len(seg) > 1 and float(np.diff(seg).max()) > max(NS, GAP_PERIODS * period):
+                return False
+        return True
 
     @staticmethod
     def _bfs(program: q.QueryProgram) -> list[q.Relation]:

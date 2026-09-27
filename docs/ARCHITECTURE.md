@@ -117,7 +117,9 @@ evidence. Each stage reports candidates in and out, filter reasons and its cost.
 | FUSED_V | FUSED candidates, then program verification |
 
 **Honest answers.** Clauses are three-valued (TRUE, FALSE or UNKNOWN), and every UNKNOWN carries its reason. A
-candidate is filtered only when a required clause is definitively FALSE. Answers carry `answered`,
+candidate is filtered only when a required clause is definitively FALSE. A log's start and end are hard edges
+(context beyond them keeps FALSE false), but a relation window that runs past the end, such as "recovers within
+20 s" near the end of a log, cannot be FALSE. A sensor dropout inside the log makes a clause UNKNOWN. Answers carry `answered`,
 `answered_partial`, `answered_unverified`, `insufficient_evidence` or `none_found_exhaustive`. Superlatives need
 exhaustive coverage. Detector silence is never proof of absence.
 

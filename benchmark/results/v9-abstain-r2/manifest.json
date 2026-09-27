@@ -1,0 +1,9 @@
+{
+ "note": "abstain_v1 under the coverage rule: context beyond a log's edges keeps FALSE false; relation windows past the end and mid-log dropouts are UNKNOWN. Programs replayed from benchmark/results/v9-abstain.",
+ "files": {
+  "report.html": "8e712164a61eec91b068e64189e0f178707f2f2bf0e15a6712ec5596d287b24f",
+  "report.json": "633bcd3582977316992b31cfce6fd012655cdaa949e70b67a1e8d26b16689bc2",
+  "runs.jsonl": "1f409650da716c36d28bca08cdaa8c2f75bc6ee068d65d2f6852d5d15917b484",
+  "score_all.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+ }
+}

@@ -1,7 +1,8 @@
 # Abstention controls
 
-Questions whose **true answer is "nowhere"**, and which the system can prove. A correct system returns
-`none_found_exhaustive` with no results. Returning ranked results is a failure to abstain, however plausible
+Questions whose **true answer is "nowhere"**, and which the system can prove. The best answer is
+`none_found_exhaustive` with no results (`proved_none`). Returning nothing with `insufficient_evidence` is an
+honest abstention without proof (`abstained`). Returning ranked results is a failure to abstain, however plausible
 they look. These measure the ability to say "nowhere, it's tight" from the data.
 
 ## ctl_odom_gyro_agree: wheel odometry against the gyro (Jackal)

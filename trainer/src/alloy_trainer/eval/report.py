@@ -176,7 +176,9 @@ def build(run_dir: Path, root: Path = LABELS, bundle_dir: Path = SCAND_ROOT / "b
                 if judged and npos == 0 and not any(g == 1 for g in judged.values()):
                     ok = {"NONE_FOUND_EXHAUSTIVE", "INSUFFICIENT_EVIDENCE"}  # judgments say nothing qualifies
                 if r["query_set"].startswith("abstain"):  # every config: returning results here is a failure to abstain
-                    per["abstain_ok"][qid] = float(r["status"] == "NONE_FOUND_EXHAUSTIVE" and not r["windows"])
+                    empty = not r["windows"]
+                    per["abstained"][qid] = float(empty and r["status"] in ("NONE_FOUND_EXHAUSTIVE", "INSUFFICIENT_EVIDENCE"))
+                    per["proved_none"][qid] = float(empty and r["status"] == "NONE_FOUND_EXHAUSTIVE")
                 if r["status"] != "ANSWERED_UNVERIFIED" and r["expected_status"] != "ANSWER_STATUS_UNSPECIFIED":
                     per["status_ok"][qid] = float(r["status"] in ok)
                 c = r["cost"]
