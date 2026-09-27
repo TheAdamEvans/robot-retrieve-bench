@@ -249,6 +249,13 @@ def html_page(rep: dict) -> str:
            "<p>Judgments are single-judge, agent-provisional (Opus labeller with audited tools). Unjudged windows are never counted "
            "as non-relevant except in the labelled <i>unj=0</i> column. AUC is macro over queries; <b>penalised</b> scores an "
            "abstaining config at chance. CIs: bootstrap over intent groups; <b>n is small</b> — read differences as directional.</p>"]
+    ag = SCAND_ROOT / "results" / "eval" / "agreement.json"
+    if ag.exists():
+        g = json.loads(ag.read_text())
+        out.append(f"<p><b>Label consistency.</b> A fresh labeller instance, blind to earlier grades, re-graded {g['n']} stratified "
+                   f"windows: exact agreement {100 * g['exact']:.0f}%, within one grade {100 * g['within_one']:.0f}%, relevant-or-not "
+                   f"{100 * g['binary_pos']:.0f}%, Cohen's κ {g['kappa_graded']:.2f}. Same model family and tools: this measures "
+                   f"consistency, not independence.</p>")
     for qset, rows in rep["tables"].items():
         if not rows:
             continue
