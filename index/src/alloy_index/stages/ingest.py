@@ -15,7 +15,7 @@ from alloy_index.stages.base import StageImpl, register
 
 @register
 class Ingest(StageImpl):
-    IMPL, VERSION, SCOPE = "Ingest", "ingest@2", "PER_RECORDING"  # @2: intake records stale leading frames
+    IMPL, VERSION, SCOPE = "Ingest", "ingest@3", "PER_RECORDING"  # @3: intake schema check
 
     def _paths(self, ctx, rid: str) -> list[str] | None:
         info_p = ctx.bundle / "mcap" / f"{rid}.json"

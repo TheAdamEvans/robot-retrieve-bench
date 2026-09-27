@@ -25,6 +25,8 @@ class _Provider(StageImpl):
 
     def applies(self, ctx, rec):
         intake = E.load_intake(ctx.bundle, rec.recording_id)
+        if self.SENSOR and intake is not None and self.SENSOR not in {s.name for s in E.profile(intake.embodiment_id).sensors}:
+            return False, f"{intake.embodiment_id} has no {self.SENSOR} sensor"
         if self.SENSOR and intake is not None and self.SENSOR in intake.absent_sensors:
             return False, f"{self.SENSOR} absent in this log"
         return True, ""
@@ -53,6 +55,11 @@ class MotionProvider(_Provider):
 @register
 class ClearanceProvider(_Provider):
     IMPL, MODULE, OUTPUTS = "ClearanceProvider", "clearance", ("clearance",)
+
+
+@register
+class IMUProvider(_Provider):
+    IMPL, MODULE, OUTPUTS, SENSOR = "IMUProvider", "imu", ("imu",), "imu"
 
 
 @register

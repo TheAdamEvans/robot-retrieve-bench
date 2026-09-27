@@ -21,6 +21,7 @@ source {
 stages { name: "ingest"               impl: "Ingest"            enabled: true  params { key: "layout" value: "by_sensor" } }
 stages { name: "providers.motion"     impl: "MotionProvider"    enabled: true }
 stages { name: "providers.clearance"  impl: "ClearanceProvider" enabled: true }
+stages { name: "providers.imu"        impl: "IMUProvider"       enabled: true }
 stages { name: "providers.detections" impl: "DetectionsProvider" enabled: true params { key: "hz" value: "10" } }
 stages { name: "frames.siglip2"       impl: "SiglipFrames"      enabled: true params { key: "front_hz" value: "10" } params { key: "body_hz" value: "native" } }
 stages { name: "annotate.l1"          impl: "L1Labeller"        enabled: true  requires_flag: true

@@ -78,7 +78,10 @@ Video now dominates clip bytes. The next saving would be a video-proxy stage (a 
   nominal maximum speed, and the sensors with topics and camera bands (ESTIMATED ranges where nothing was recorded).
   `identity_topics` is the minimum set that recognises the robot. Every other sensor is optional per log.
 - **Intake** measures each log. It records the robot, `absent_sensors`, stale leading frames (buffer flushes from
-  another moment), gait period and speed floor. A log missing a profiled sensor is **degraded, not rejected**.
+  another moment), gait period and speed floor. Its **schema check** requires a message definition for every
+  topic. An empty one (three Jackal topics in SCAND) is repaired only when a standard ROS1 definition's md5 matches
+  the recorded md5, and the byte surplus must be identical across sampled messages. Otherwise the topic is recorded
+  as undecodable. A log missing a profiled sensor is **degraded, not rejected**.
   `Bass_Garage_134` is a Spot log with no front camera.
 - **`EmbodimentContext`** is the one place measurements are normalised: body-side room (a follower directly behind
   is not side room), front margin from the front edge, corridor, camera band, speed as a fraction of nominal

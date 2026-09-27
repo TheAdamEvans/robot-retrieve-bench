@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import functools
+import struct
 from pathlib import Path
 
 import numpy as np
@@ -12,37 +13,85 @@ from alloy_server.timeline.store import Recording
 
 
 @functools.lru_cache(maxsize=None)
-def typestore_for(*mcap_paths: str):
+def _load(*mcap_paths: str):
+    """Types from the MCAP's own schemas. A channel recorded with an EMPTY definition (some SCAND Jackal topics) is
+    repaired only when its recorded ROS1 md5 equals a standard ROS1 definition's md5; otherwise it is undecodable."""
     ts = get_typestore(Stores.EMPTY)
-    types, topic_type = {}, {}
+    types, topic_type, md5s, empty = {}, {}, {}, set()
     for mcap_path in mcap_paths:
-        tt, ty = _schemas(mcap_path)
-        types.update(ty)
-        topic_type.update(tt)
-    ts.register(types)
+        with open(mcap_path, "rb") as f:
+            summary = make_reader(f).get_summary()
+        for ch in summary.channels.values():
+            schema = summary.schemas[ch.schema_id]
+            topic_type[ch.topic] = schema.name
+            md5s[ch.topic] = ch.metadata.get("md5sum", "")
+            if schema.data:
+                types.update(get_types_from_msg(schema.data.decode(), schema.name))
+            else:
+                empty.add(ch.topic)
+    repairs, undecodable = {}, {}
+    if empty:
+        std = get_typestore(Stores.ROS1_NOETIC)
+        for topic in sorted(empty):
+            name = topic_type[topic]
+            if name in std.fielddefs:
+                text, md5 = std.generate_msgdef(name)
+                if md5 == md5s[topic]:
+                    types.update(get_types_from_msg(text, name))
+                    repairs[topic] = {"msgtype": name, "md5": md5, "definition": "ros1_noetic"}
+                    continue
+                undecodable[topic] = f"empty definition; md5 {md5s[topic]} differs from standard {name} ({md5})"
+            else:
+                undecodable[topic] = f"empty definition; {name} is not a standard ROS1 type"
+    ts.register({k: v for k, v in types.items()})
+    for topic in undecodable:
+        topic_type.pop(topic)
+    return ts, topic_type, repairs, undecodable
+
+
+def typestore_for(*mcap_paths: str):
+    ts, topic_type, _, _ = _load(*mcap_paths)
     return ts, topic_type
 
 
-def _schemas(mcap_path: str):
-    """Types from the MCAP's own schemas only: the bag is the source of truth."""
-    with open(mcap_path, "rb") as f:
-        summary = make_reader(f).get_summary()
-    types, topic_type = {}, {}
-    for ch in summary.channels.values():
-        schema = summary.schemas[ch.schema_id]
-        topic_type[ch.topic] = schema.name
-        types.update(get_types_from_msg(schema.data.decode(), schema.name))
-    return topic_type, types
+def schema_status(*mcap_paths: str) -> tuple[dict, dict]:
+    """(repaired topics -> how, undecodable topics -> why) for these MCAP files."""
+    _, _, repairs, undecodable = _load(*mcap_paths)
+    return repairs, undecodable
 
 
 class Decoder:
     def __init__(self, bundle: Path, rec: Recording):
         self.rec = rec
         files = sorted({tl.file for tl in rec.topics.values()})
-        self.ts, self.types = typestore_for(*(str(bundle / f) for f in files))
+        paths = tuple(str(bundle / f) for f in files)
+        self.ts, self.types = typestore_for(*paths)
+        self.repairs, self.undecodable = schema_status(*paths)
+        self.trailing: dict[str, int] = {}
 
     def msg(self, topic: str, i: int):
-        return self.ts.deserialize_ros1(self.rec.read(topic, i).data, self.types[topic])
+        raw = self.rec.read(topic, i).data
+        if topic in self.undecodable:
+            raise ValueError(f"{topic} cannot be decoded: {self.undecodable[topic]}")
+        if topic not in self.repairs:
+            return self.ts.deserialize_ros1(raw, self.types[topic])
+        return self.ts.deserialize_ros1(raw[:len(raw) - self.trailing_bytes(topic, raw)], self.types[topic])
+
+    def trailing_bytes(self, topic: str, raw: bytes | None = None) -> int:
+        """Surplus bytes after a repaired message's standard fields, measured once per topic (0-3) and then required to
+        hold for every message: a message that needs a different surplus fails to decode instead of shifting fields."""
+        if topic not in self.trailing:
+            raw = raw if raw is not None else self.rec.read(topic, 0).data
+            for k in range(4):
+                try:
+                    self.ts.deserialize_ros1(raw[:len(raw) - k], self.types[topic])
+                    self.trailing[topic] = k
+                    break
+                except (AssertionError, ValueError, IndexError, struct.error):
+                    continue
+            else:
+                raise ValueError(f"{topic}: the repaired {self.types[topic]} definition does not fit its payload")
+        return self.trailing[topic]
 
     def points_xyz(self, topic: str, i: int) -> np.ndarray:
         m = self.msg(topic, i)

@@ -1,0 +1,8 @@
+{"id": "sanjac_rec_91_standstill_at_start", "input": {"recording": "Sanjac_Rec_91", "op": "vibration", "t0": 0, "t1": 1}, "expect": {"vib_max": 0.05}, "note": "odometry 0.00 m/s, joystick not yet pushed"}
+{"id": "sanjac_standstill_at_start", "input": {"recording": "Sanjac", "op": "vibration", "t0": 0, "t1": 1}, "expect": {"vib_max": 0.05}}
+{"id": "brackenridge_turbo_released_is_slow_driving_not_a_stop", "input": {"recording": "Brackenridge", "op": "vibration", "t0": 83, "t1": 85}, "expect": {"vib_min": 0.1, "vib_max": 0.4}, "source": "OPEN_QUESTIONS: labeller judged 'clearly stopped'; joystick shows turbo released, odometry 0.50 m/s"}
+{"id": "brackenridge_turbo_released_again", "input": {"recording": "Brackenridge", "op": "vibration", "t0": 98, "t1": 100}, "expect": {"vib_min": 0.1, "vib_max": 0.4}}
+{"id": "brackenridge_turbo_2mps", "input": {"recording": "Brackenridge", "op": "vibration", "t0": 89, "t1": 93}, "expect": {"vib_min": 0.4}}
+{"id": "gyro_agrees_with_odometry_brackenridge", "input": {"recording": "Brackenridge", "op": "yaw_agreement"}, "expect": {"yaw_r": 0.95, "scale_min": 0.9, "scale_max": 1.1}}
+{"id": "gyro_agrees_with_odometry_stadium", "input": {"recording": "Stadium_Sanjac_90", "op": "yaw_agreement"}, "expect": {"yaw_r": 0.95, "scale_min": 0.9, "scale_max": 1.1}}
+{"id": "intake_records_imu_schema_repair", "input": {"recording": "Library_Fountain_5", "op": "repair", "topic": "/imu/data_raw"}, "expect": {"repair": {"msgtype": "sensor_msgs/msg/Imu", "trailing_bytes": 1}}}

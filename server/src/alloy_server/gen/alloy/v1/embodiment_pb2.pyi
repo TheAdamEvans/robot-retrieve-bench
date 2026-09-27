@@ -209,8 +209,24 @@ class GaitEstimate(_message.Message):
     windows: int
     def __init__(self, period_s: _Optional[float] = ..., frequency_hz: _Optional[float] = ..., peak_to_median: _Optional[float] = ..., windows: _Optional[int] = ...) -> None: ...
 
+class SchemaRepair(_message.Message):
+    __slots__ = ("topic", "msgtype", "md5", "definition", "trailing_bytes", "sampled")
+    TOPIC_FIELD_NUMBER: _ClassVar[int]
+    MSGTYPE_FIELD_NUMBER: _ClassVar[int]
+    MD5_FIELD_NUMBER: _ClassVar[int]
+    DEFINITION_FIELD_NUMBER: _ClassVar[int]
+    TRAILING_BYTES_FIELD_NUMBER: _ClassVar[int]
+    SAMPLED_FIELD_NUMBER: _ClassVar[int]
+    topic: str
+    msgtype: str
+    md5: str
+    definition: str
+    trailing_bytes: int
+    sampled: int
+    def __init__(self, topic: _Optional[str] = ..., msgtype: _Optional[str] = ..., md5: _Optional[str] = ..., definition: _Optional[str] = ..., trailing_bytes: _Optional[int] = ..., sampled: _Optional[int] = ...) -> None: ...
+
 class IntakeReport(_message.Message):
-    __slots__ = ("recording_id", "source", "source_sha256", "source_bytes", "embodiment_id", "profile_version", "missing_signature_topics", "unprofiled_topics", "topics", "gait", "anomalies", "duration_s", "intake_version", "speed_floor_mps", "absent_sensors", "stale_leading_frames")
+    __slots__ = ("recording_id", "source", "source_sha256", "source_bytes", "embodiment_id", "profile_version", "missing_signature_topics", "unprofiled_topics", "topics", "gait", "anomalies", "duration_s", "intake_version", "speed_floor_mps", "absent_sensors", "stale_leading_frames", "schema_repairs", "undecodable_topics")
     class StaleLeadingFramesEntry(_message.Message):
         __slots__ = ("key", "value")
         KEY_FIELD_NUMBER: _ClassVar[int]
@@ -218,6 +234,13 @@ class IntakeReport(_message.Message):
         key: str
         value: int
         def __init__(self, key: _Optional[str] = ..., value: _Optional[int] = ...) -> None: ...
+    class UndecodableTopicsEntry(_message.Message):
+        __slots__ = ("key", "value")
+        KEY_FIELD_NUMBER: _ClassVar[int]
+        VALUE_FIELD_NUMBER: _ClassVar[int]
+        key: str
+        value: str
+        def __init__(self, key: _Optional[str] = ..., value: _Optional[str] = ...) -> None: ...
     RECORDING_ID_FIELD_NUMBER: _ClassVar[int]
     SOURCE_FIELD_NUMBER: _ClassVar[int]
     SOURCE_SHA256_FIELD_NUMBER: _ClassVar[int]
@@ -234,6 +257,8 @@ class IntakeReport(_message.Message):
     SPEED_FLOOR_MPS_FIELD_NUMBER: _ClassVar[int]
     ABSENT_SENSORS_FIELD_NUMBER: _ClassVar[int]
     STALE_LEADING_FRAMES_FIELD_NUMBER: _ClassVar[int]
+    SCHEMA_REPAIRS_FIELD_NUMBER: _ClassVar[int]
+    UNDECODABLE_TOPICS_FIELD_NUMBER: _ClassVar[int]
     recording_id: str
     source: str
     source_sha256: str
@@ -250,4 +275,6 @@ class IntakeReport(_message.Message):
     speed_floor_mps: float
     absent_sensors: _containers.RepeatedScalarFieldContainer[str]
     stale_leading_frames: _containers.ScalarMap[str, int]
-    def __init__(self, recording_id: _Optional[str] = ..., source: _Optional[str] = ..., source_sha256: _Optional[str] = ..., source_bytes: _Optional[int] = ..., embodiment_id: _Optional[str] = ..., profile_version: _Optional[str] = ..., missing_signature_topics: _Optional[_Iterable[str]] = ..., unprofiled_topics: _Optional[_Iterable[str]] = ..., topics: _Optional[_Iterable[_Union[TopicProfile, _Mapping]]] = ..., gait: _Optional[_Union[GaitEstimate, _Mapping]] = ..., anomalies: _Optional[_Iterable[str]] = ..., duration_s: _Optional[float] = ..., intake_version: _Optional[str] = ..., speed_floor_mps: _Optional[float] = ..., absent_sensors: _Optional[_Iterable[str]] = ..., stale_leading_frames: _Optional[_Mapping[str, int]] = ...) -> None: ...
+    schema_repairs: _containers.RepeatedCompositeFieldContainer[SchemaRepair]
+    undecodable_topics: _containers.ScalarMap[str, str]
+    def __init__(self, recording_id: _Optional[str] = ..., source: _Optional[str] = ..., source_sha256: _Optional[str] = ..., source_bytes: _Optional[int] = ..., embodiment_id: _Optional[str] = ..., profile_version: _Optional[str] = ..., missing_signature_topics: _Optional[_Iterable[str]] = ..., unprofiled_topics: _Optional[_Iterable[str]] = ..., topics: _Optional[_Iterable[_Union[TopicProfile, _Mapping]]] = ..., gait: _Optional[_Union[GaitEstimate, _Mapping]] = ..., anomalies: _Optional[_Iterable[str]] = ..., duration_s: _Optional[float] = ..., intake_version: _Optional[str] = ..., speed_floor_mps: _Optional[float] = ..., absent_sensors: _Optional[_Iterable[str]] = ..., stale_leading_frames: _Optional[_Mapping[str, int]] = ..., schema_repairs: _Optional[_Iterable[_Union[SchemaRepair, _Mapping]]] = ..., undecodable_topics: _Optional[_Mapping[str, str]] = ...) -> None: ...

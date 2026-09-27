@@ -94,8 +94,9 @@ FEATURES: list[Feature] = [
             "People visible in Spot's five body cameras. NOT INDEXED.", robots=("spot",), indexed=False,
             source_sensor="body_cameras"),
     Feature("imu_vibration_rms", "imu", "MPS2", "continuous",
-            "High-frequency IMU vibration (terrain roughness). Jackal only. NOT INDEXED.", robots=("jackal",),
-            indexed=False),
+            "Accelerometer vibration: |a| high-passed (minus its trailing 0.5 s mean), RMS over 0.5 s. Rough terrain "
+            "and hard braking or acceleration raise it; it collapses at a true standstill (< 0.05). Typical: ~0.5-1 "
+            "driving at 2 m/s, ~0.2-0.3 at 0.5 m/s. Jackal only (Spot records no IMU).", robots=("jackal",)),
 ]
 
 # Which sensor each provider reads: if a log did not record it, the feature is UNKNOWN(SENSOR_ABSENT_IN_LOG).

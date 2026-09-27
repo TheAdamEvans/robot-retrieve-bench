@@ -87,6 +87,16 @@ message TopicProfile {
 
 message GaitEstimate { double period_s = 1; double frequency_hz = 2; double peak_to_median = 3; uint32 windows = 4; }
 
+// A topic recorded with an empty message definition, decoded with a standard definition whose md5 matches.
+message SchemaRepair {
+  string topic = 1;
+  string msgtype = 2;
+  string md5 = 3;
+  string definition = 4;             // where the definition came from, e.g. "ros1_noetic"
+  uint32 trailing_bytes = 5;         // surplus bytes after the standard fields, identical on every sampled message
+  uint32 sampled = 6;                // messages decoded to verify it
+}
+
 message IntakeReport {
   string recording_id = 1;
   string source = 2;                 // bag file name
@@ -104,4 +114,6 @@ message IntakeReport {
   optional double speed_floor_mps = 14;      // 1st percentile of raw odometry speed: stops below it are unresolvable
   repeated string absent_sensors = 15;       // profiled sensors with no recorded topic in this log
   map<string, uint32> stale_leading_frames = 16;  // topic -> leading messages flushed from a buffer before a gap
+  repeated SchemaRepair schema_repairs = 17;
+  map<string, string> undecodable_topics = 18;    // topic -> why (empty definition with no verifiable standard)
 }

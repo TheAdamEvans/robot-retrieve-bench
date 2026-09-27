@@ -23,7 +23,7 @@ from alloy_index.convert.bag_to_mcap import convert, file_sha256
 from alloy_index.decode import Decoder, odom_arrays
 from alloy_index.recordings import RECORDINGS, bag_path
 
-VERSION = "intake@1"
+VERSION = "intake@2"  # @2: schema check (empty definitions repaired only by md5 match, or undecodable)
 LATENCY_NOTE_MS = 200.0
 RATE_TOL = 0.2
 
@@ -125,6 +125,7 @@ def measure(bundle: Path, rec_id: str, prof: e.EmbodimentProfile, src: Path) -> 
         for t in s.topics:
             if present and t not in r.topics:
                 rep.anomalies.append(f"{t}: in profile ({s.name}) but absent from this log")
+    schema_check(Decoder(bundle, r), r, rep)
     odom = E.sensor(prof, "odom")
     raw = odom_arrays(Decoder(bundle, r), odom.topics[0], prof)
     rep.speed_floor_mps = float(np.percentile(raw["speed_mps"], 1))
@@ -140,6 +141,25 @@ def measure(bundle: Path, rec_id: str, prof: e.EmbodimentProfile, src: Path) -> 
             if g.peak_to_median < 50:
                 rep.anomalies.append(f"weak gait peak ({g.frequency_hz:.2f} Hz, peak/median {g.peak_to_median:.0f})")
     return rep
+
+
+def schema_check(dec: Decoder, r: Recording, rep: e.IntakeReport, samples: int = 50) -> None:
+    """Every topic needs a message definition. SCAND's Jackal bags record some topics with an EMPTY one: those are
+    decoded with a standard ROS1 definition only when its md5 equals the recorded md5 and every sampled message fits
+    it with the same surplus; anything else is recorded as undecodable (its features resolve to UNKNOWN)."""
+    for topic, how in sorted(dec.repairs.items()):
+        n = len(r.topics[topic])
+        idx = sorted({int(i) for i in np.linspace(0, n - 1, min(samples, n))})
+        for i in idx:
+            dec.msg(topic, i)  # raises if any sampled message needs a different surplus
+        rep.schema_repairs.append(e.SchemaRepair(topic=topic, msgtype=how["msgtype"], md5=how["md5"],
+                                                 definition=how["definition"], trailing_bytes=dec.trailing_bytes(topic),
+                                                 sampled=len(idx)))
+        rep.anomalies.append(f"{topic}: recorded without a message definition; decoded as standard {how['msgtype']} "
+                             f"(md5 match, {len(idx)} messages verified, {dec.trailing_bytes(topic)} trailing byte(s) each)")
+    for topic, why in sorted(dec.undecodable.items()):
+        rep.undecodable_topics[topic] = why
+        rep.anomalies.append(f"{topic}: undecodable ({why})")
 
 
 def intake(bundle: Path, rec_id: str, src: Path, skip_convert: bool = False) -> e.IntakeReport:
