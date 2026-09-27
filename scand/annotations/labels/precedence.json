@@ -36,7 +36,12 @@
   "l2-test_tight_right-v9-p2.jsonl": -1,
   "l2-test_turn_then_brake-v9-p1.jsonl": -1,
   "l2-test_turn_then_brake-v9-p2.jsonl": -1,
-  "l2-vehicle_interaction_gdc-v9.jsonl": -1
+  "l2-vehicle_interaction_gdc-v9.jsonl": -1,
+  "l2-chained_turn_person-v9-p1.jsonl": -1,
+  "l2-chained_turn_person-v9-p2.jsonl": -1,
+  "l2-chained_turn_person-v9-p3.jsonl": -1,
+  "l2-chained_turn_person-v9-p4.jsonl": -1,
+  "l2-last_safe_evidence-v9-p2.jsonl": -1
  },
  "episode": {
   "ex-l1x_dream_opportunity_to_go-j1.jsonl": 2,
