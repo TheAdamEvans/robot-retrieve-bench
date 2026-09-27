@@ -94,4 +94,20 @@ This prints a dev/test table (validity, feature recall, forbidden features, part
 tokens) and writes `results/evals/hillclimb/<suite>-<time>.json`. **Choose on dev only.** Test is for reporting.
 Then confirm on the benchmark.
 
-**Baseline (prompt v1, gpt-6-luna, 16 recordings in the prompt):** see the latest file in `results/evals/hillclimb/`.
+**Baseline, 27 Sep (prompt v1, gpt-6-luna, 16 recordings in the prompt):**
+
+| reasoning | split | n | valid | feature recall | forbidden absent | partial correct | leak-free | attempts | tokens (mean / p90) |
+|---|---|---|---|---|---|---|---|---|---|
+| low | dev | 10 | 1.00 | 0.91 | 1.00 | 0.63 | 1.00 | 1.00 | 5.3k / 5.8k |
+| low | test | 21 | 0.95 | 0.87 | – | 0.70 | 1.00 | 1.05 | 5.4k / 6.4k |
+| medium | dev | 10 | 0.90 | 0.93 | 1.00 | 0.86 | 0.89 | 1.00 | 5.4k / 6.8k |
+| medium | test | 21 | 0.86 | 0.91 | – | 0.67 | 1.00 | 1.14 | 5.9k / 12.3k |
+
+Medium reasoning is not a clear win: it recalls slightly more features, but its validity drops. On test,
+`chained_turn_person` paraphrases fail validation 3 times out of 3. **Low stays the default.**
+
+The failures that recur at both settings are what v2 should target:
+- **Over-partial answers.** Reportable details ("full-body-clear times", "supporting frames") are put in
+  `unexpressible`, which marks answers partial. Rule 2 already says these are not requirements.
+- **Vehicle interaction without a motion response.** `speed_mps` is omitted.
+- **"Close car".** It uses `vehicles_visible_front` rather than `vehicle_box_frac`.

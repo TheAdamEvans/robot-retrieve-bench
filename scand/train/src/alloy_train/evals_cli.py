@@ -138,7 +138,7 @@ def main() -> None:
     h.add_argument("suite")
     h.add_argument("--grid", action="append", required=True, help="knob=v1,v2 (repeatable)")
     h.add_argument("--metrics", default="valid.accuracy,features.recall,features_none.clean,partial.accuracy,"
-                                        "leak_free.accuracy,attempts.value,tokens.value")
+                                        "leak_free.accuracy,attempts.value.mean,tokens.value.mean,tokens.value.p90")
     a = ap.parse_args()
     if a.cmd == "list":
         for name, p in suites().items():
