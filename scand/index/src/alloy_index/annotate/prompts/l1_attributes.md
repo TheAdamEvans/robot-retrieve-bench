@@ -10,7 +10,7 @@ Job id: `{JOB}`. Label these segments (each is a 4 s span `[EEEE-4 s, EEEE s]` o
 {SEGMENTS}
 
 ## Tools — the only way you may look at the data
-Run from `/Users/adam.e/robots/scand`, always with the job id set:
+Run from the `scand/` directory (your working directory), always with the job id set:
 
 ```
 SCANDQ_JOB={JOB} uv run scandq <command> ...

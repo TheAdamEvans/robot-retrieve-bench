@@ -15,7 +15,7 @@ Job id: `{JOB}`. Intent group: `{INTENT_ID}`.
 {WINDOWS}
 
 ## Tools
-These are the same `scandq` tools as L1, run from `/Users/adam.e/robots/scand` with `SCANDQ_JOB={JOB}`:
+These are the same `scandq` tools as L1, run from the `scand/` directory (your working directory) with `SCANDQ_JOB={JOB}`:
 `signals`, `strip`, `window`, `frame` (and `--crop` to zoom), `step --every`, `sync`, `lidar` (with its cluster list),
 `coverage`, `message`, `label put judgment`, `label get judgment`.
 

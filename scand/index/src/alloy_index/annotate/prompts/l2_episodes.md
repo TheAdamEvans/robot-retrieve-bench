@@ -28,7 +28,7 @@ the data; they may be shorter or longer than the context, but stay on the same e
 
 ## Tools
 
-Run from `/Users/adam.e/robots/scand` with `SCANDQ_JOB={JOB}`: `signals` (COMPUTED speed, yaw, heading change,
+Run from the `scand/` directory (your working directory) with `SCANDQ_JOB={JOB}`: `signals` (COMPUTED speed, yaw, heading change,
 ranges), `strip`, `window`, `frame` (and `--crop`), `step`, `sync` (every camera plus lidar at one instant),
 `lidar` (with its cluster list), `coverage`, `message`, `label put episode|judgment`, `label get episode|judgment`.
 Numbers come from code: read speeds, heading changes, ranges and ages from `signals`, `lidar` and `coverage`, and

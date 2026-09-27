@@ -41,7 +41,7 @@ deliberately looser than the clauses):
 
 ## Tools
 
-Run from `/Users/adam.e/robots/scand` with `SCANDQ_JOB={JOB}`: `signals`, `strip`, `window`, `frame` (`--crop`),
+Run from the `scand/` directory (your working directory) with `SCANDQ_JOB={JOB}`: `signals`, `strip`, `window`, `frame` (`--crop`),
 `step`, `sync`, `lidar`, `coverage`, `message`, `label put episode|judgment`, `label get episode|judgment`. Read the
 numbers from `signals` and cite its refs; you judge who is where, identity across phases, and visual clearance.
 
