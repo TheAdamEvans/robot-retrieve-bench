@@ -256,7 +256,8 @@ class Executor:
                 return EventEval([], c.NOT_INDEXED, rec.start_ns, rec.end_ns, exhaustive=False)
             insts = [Instance(int(a), int(a), int(a), T, float(n), track_id=int(i))
                      for i, a, n in zip(tr.track_id, tr.first_ns, tr.n_obs)] if ev.kind == q.TRACK_APPEAR else []
-            return EventEval(sorted(insts, key=lambda z: z.start), None, rec.start_ns, rec.end_ns)
+            return EventEval(sorted(insts, key=lambda z: z.start), None, rec.start_ns, rec.end_ns,
+                             exhaustive=f.supports_absence)
         s = self._series(ev.feature, rec_id)
         if s is None or not len(s.t_ns):
             return EventEval([], c.NOT_INDEXED, rec.start_ns, rec.end_ns, exhaustive=False)
@@ -265,7 +266,7 @@ class Executor:
                     (ev.kind == q.ONSET and ev.from_below.value < floor)
         if needs_low:
             return EventEval([], c.BELOW_SENSOR_FLOOR, rec.start_ns, rec.end_ns, exhaustive=False)
-        ee = EventEval([], None, int(s.t_ns[0]), int(s.t_ns[-1]), s.exhaustive, s)
+        ee = EventEval([], None, int(s.t_ns[0]), int(s.t_ns[-1]), s.exhaustive and f.supports_absence, s)
         if ev.kind == q.THRESHOLD:
             ee.instances = threshold_instances(s, ev)
         elif ev.kind == q.CHANGE:

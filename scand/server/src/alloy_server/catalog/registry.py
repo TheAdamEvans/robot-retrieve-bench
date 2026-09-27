@@ -29,6 +29,7 @@ class Feature:
     spatial_basis: str = "SPATIAL_NONE"
     column: str = ""             # column in the provider table (default: name)
     uncertain: bool = False      # provider also writes <column>_lo / <column>_hi
+    supports_absence: bool = True  # False for learned detectors: their silence is not evidence of absence
 
     @property
     def dimension(self) -> str:
@@ -62,20 +63,22 @@ FEATURES: list[Feature] = [
             "1 while the robot passes through a doorway-like gap (gap_width_m < 1.6 m for 0.3-5 s). Geometric, "
             "not a semantic door detector.", spatial_basis="NOMINAL"),
     Feature("persons_visible_front", "detections", "DIMENSIONLESS", "count",
-            "People detected in the front camera (RT-DETRv2, 10 Hz)."),
+            "People detected in the front camera (RT-DETRv2, 10 Hz).", supports_absence=False),
     Feature("persons_in_corridor", "detections", "DIMENSIONLESS", "count",
             "People whose feet project into the robot's forward travel corridor (~1.5 m wide, 5 m ahead) using a "
             "NOMINAL camera model; reported as a [lo, hi] range, so thresholds can be UNKNOWN.",
-            spatial_basis="ESTIMATED", uncertain=True),
+            spatial_basis="ESTIMATED", uncertain=True, supports_absence=False),
     Feature("vehicles_visible_front", "detections", "DIMENSIONLESS", "count",
-            "Motor vehicles (car, truck, bus, motorcycle) detected in the front camera."),
+            "Motor vehicles (car, truck, bus, motorcycle) detected in the front camera.", supports_absence=False),
     Feature("vehicle_box_frac", "detections", "RATIO", "continuous",
-            "Image area fraction of the largest detected vehicle: a proximity proxy (bigger = closer)."),
+            "Image area fraction of the largest detected vehicle: a proximity proxy (bigger = closer).",
+            supports_absence=False),
     Feature("bicycles_visible_front", "detections", "DIMENSIONLESS", "count",
-            "Bicycles detected in the front camera."),
+            "Bicycles detected in the front camera.", supports_absence=False),
     Feature("person_tracks_front", "detections", "DIMENSIONLESS", "track",
-            "Person tracks in the front camera (causal IoU tracker at 10 Hz). Use with TRACK_APPEAR / "
-            "TRACK_DISAPPEAR."),
+            "Person tracks in the FRONT camera only (causal IoU tracker at 10 Hz). Use with TRACK_APPEAR / "
+            "TRACK_DISAPPEAR. For 'every camera' / 'all views' use person_tracks_all_cameras instead.",
+            supports_absence=False),
     Feature("person_tracks_all_cameras", "detections", "DIMENSIONLESS", "track",
             "Person tracks fused across every camera (front + body). NOT INDEXED: body cameras are not run through "
             "the detector.", indexed=False),

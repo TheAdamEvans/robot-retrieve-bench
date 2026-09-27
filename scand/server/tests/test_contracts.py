@@ -226,3 +226,16 @@ def test_unexpressible_only_program_abstains_or_is_unverified(bundle):
     hyb = run(bundle, bundle.specs["HYBRID"], a.SearchRequest(utterance="legs close up", pipeline_id="HYBRID", k=3, program=p))
     assert prog.status == a.INSUFFICIENT_EVIDENCE and not prog.results
     assert hyb.status == a.ANSWERED_UNVERIFIED and hyb.results and any("not expressible" in n for n in hyb.notes)
+
+
+@needs_bundle
+def test_detector_silence_never_yields_none_found_exhaustive(bundle):
+    """A clause on a learned-detector feature that matches nothing is not proof of absence."""
+    from alloy_server.pipeline.runner import run
+    p = json_format.ParseDict({"primaryEvent": "e", "selection": {"quantifier": "ALL"},
+                               "contextBefore": {"value": 4, "unit": "S"}, "contextAfter": {"value": 4, "unit": "S"},
+                               "events": [{"name": "e", "kind": "THRESHOLD", "feature": "persons_visible_front",
+                                           "comparator": "GTE", "threshold": {"value": 500, "unit": "DIMENSIONLESS"},
+                                           "required": True}]}, q.QueryProgram())
+    resp = run(bundle, bundle.specs["PROGRAM"], a.SearchRequest(utterance="x", pipeline_id="PROGRAM", program=p))
+    assert not resp.results and resp.status == a.INSUFFICIENT_EVIDENCE

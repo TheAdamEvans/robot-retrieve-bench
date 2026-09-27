@@ -113,7 +113,10 @@ class ProgramCandidates(Stage):
         out, exhaustive = [], True
         for rec in ctx.program_recordings(prog):
             ms, pe = ex.matches(prog, rec)
-            exhaustive &= pe.unknown_reason is None and pe.exhaustive
+            # exhaustive only if every required event's feature can support an absence claim over the full scope
+            ev_all = ex.evals(prog, rec)
+            exhaustive &= all(ev_all[e.name].unknown_reason is None and ev_all[e.name].exhaustive
+                              for e in prog.events if e.required)
             for m in ms:
                 if m.ordinal <= 0:  # a required clause is definitively FALSE: not a candidate
                     continue
