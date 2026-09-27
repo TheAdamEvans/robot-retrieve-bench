@@ -1,0 +1,18 @@
+{
+ "campaign": "l2-rank-audit-20260928-r5",
+ "kinds": [
+  "judgment"
+ ],
+ "brief": "rlm_resolution.md",
+ "judge": "claude-opus-5-5",
+ "use": "eval",
+ "priority": 0,
+ "purpose": "Blinded resolution of three unavailable top-rank RLM judgments from the v2 audit.",
+ "jobs": 1,
+ "cost_usd": 0.27,
+ "source_run": "fused-expanded-error",
+ "source_config": "FUSED_V2_UNIFORM_OOF",
+ "top_k": 50,
+ "submitted": 3,
+ "missing": {}
+}

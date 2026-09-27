@@ -1,0 +1,27 @@
+{
+ "campaign": "l2-rank-audit-20260928-r3",
+ "kinds": [
+  "judgment"
+ ],
+ "brief": "l2_judgments.md",
+ "judge": "claude-opus-5-5",
+ "use": "eval",
+ "priority": -1,
+ "purpose": "Blinded top-rank relevance top-up on previously unjudged windows.",
+ "jobs": 2,
+ "cost_usd": 5.96,
+ "assignment_sha256": "eb15f214bafccfc143c50df645bcc2e4691a1559e174a679a7f78d0b19f01fb1",
+ "source_run": "fused-expanded-error",
+ "source_config": "FUSED_V2_UNIFORM_OOF",
+ "top_k": 50,
+ "submitted": 62,
+ "missing": {
+  "test_speedup_after_person": [
+   "RLM:0057"
+  ],
+  "test_turn_then_brake": [
+   "RLM:0056",
+   "RLM:0057"
+  ]
+ }
+}
