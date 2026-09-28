@@ -46,3 +46,42 @@ system is allowed to claim.
 - **Status.** Intake recognises it as Spot from its identity topics and records `absent_sensors: [front_camera]`.
   Front-camera clauses evaluate to `UNKNOWN(SENSOR_ABSENT_IN_LOG)`, detections are not applicable, and its windows
   use front-stereo body-camera vectors (`source=body_cameras`). Its eval rows are reported separately.
+
+## Features the grammar names but nothing computes
+- **Observation.** The registry lists two features no provider computes (`indexed=False`):
+  `person_tracks_all_cameras` (person tracks fused across the front and body cameras) and
+  `persons_visible_body_cameras` (people in Spot's five body cameras). The detector runs on the front camera only.
+- **Where it matters.** `chained_turn_person` (a demo intent: "before the person disappears from every camera
+  view") and `test_body_cam_person` ("side or rear cameras see a person but the front camera sees nobody").
+- **Decision (pending the removal below).** Drop both features from the registry until body-camera detection
+  exists. A query that needs one cannot be expressed and gets `insufficient_evidence`, the same path as the
+  battery query. `chained_turn_person` uses front-camera tracks (`person_tracks_front`) as a documented proxy,
+  so it still answers.
+
+## Removing three-valued logic (UNKNOWN)
+- **Why.** UNKNOWN and its reasons add a lot of machinery and confuse readers of the results more than they
+  help. The plan is plain TRUE/FALSE, with every UNKNOWN folded into FALSE.
+- **What goes.** The `UnknownReason` enum and `ClauseResult.reason`; the coverage rule (`_covered`) and its eval
+  suite; the `[lo, hi]` band on `persons_in_corridor` (the provider can keep writing it); `supports_absence`;
+  `unexpressible` and `abstain_if_insufficient` in `QueryProgram`; the `answered_partial` status and
+  `ResultItem.unsupported`; the dead `BELOW_SENSOR_FLOOR` path. Statuses reduce to `answered`, `none_found`,
+  `answered_unverified` (embedding-only configs) and `insufficient_evidence` (no program could be written).
+- **What stays.** Receipt checks become a boolean plus a reason (stale, future-stamped, header missing, …).
+  Retrieval completeness stays (`EXHAUSTIVE` versus `CANDIDATE_LIMITED`). The labellers' TRUE/FALSE/UNKNOWN
+  vocabulary stays: it describes what a judge could see, not what the system asserts.
+- **No re-judging and no FUSED retrain.** L2 judgments are per (intent, window) and independent of system
+  output. UNKNOWN candidates already rank after every definite one, so folding them into FALSE only truncates
+  lists without promoting unjudged windows. FUSED pseudo-labels already count only definite matches as positive.
+  One exception: the `chained_turn_person` proxy turns clauses TRUE or FALSE where they were UNKNOWN, which can
+  re-rank windows from ranks 21–50 (74 unjudged). A small top-up judging run is needed only if judged@10 drops.
+- **What does change.**
+  - Scoring code: the acceptable-status table, `proved_none`, abstention flags and `clause_set` in
+    `alloy_trainer.eval`.
+  - Frozen files: expected statuses in the four query sets and `abstain_v1`, so `MANIFEST.json`, the challenge
+    `protectedFiles` and the control manifest are re-frozen. The program prompt (rules on `unexpressible` and
+    `NOT INDEXED`) and the few-shot pool change, which invalidates the program cache, so gpt-6-luna programs are
+    regenerated.
+  - Three queries are defined only by their status and need a new correctness rule: `test_battery_abstain`
+    (`insufficient_evidence`), `ctl_odom_gyro_agree` (`none_found`) and `vehicle_interaction_gdc`.
+  - Numbers: PROGRAM, HYBRID and FUSED_V rankings change. The result is a new checkpoint (`v10`), with `v9`
+    left frozen as it is, then the docs and presentation are updated.
