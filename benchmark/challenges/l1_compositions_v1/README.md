@@ -5,6 +5,13 @@ The active JSONL files contain only these eight. Each asks about a behavior deci
 that could inform review and selection of demonstrations. Narrow scene lookups, redundant variants and standalone
 sensor diagnostics have been removed from the additions.
 
+> **Status, 27 Sep.** The bounded first pass below was run: 18 dev and 5 test episodes, in the campaign
+> `episodes-l1_compositions_v1-leads`. The six **dev** intents then got **complete ground truth**: a numeric sweep
+> of every candidate span, with every chunk judged, in `episodes-l1_compositions_v1-exhaustive` (priority 2). For
+> dev, exhaustive episode recall and "none in scope" conclusions *are* now supported; they are scored as
+> `l1_compositions_dev` (see [`docs/EVALS.md`](../../../docs/EVALS.md#exhaustive-ground-truth-challenge-sets)).
+> The two **test** intents keep the bounded first pass only, so the recall caveats below still apply to them.
+
 | Priority | Question | Why spend a judgment on it? |
 |---|---|---|
 | 1 · dev | [When does it steer instead of brake?](catalog_dev.md#l1x_dream_steer_or_brake) | Compare response choices under similar initial conditions |

@@ -9,8 +9,8 @@ keep the numbers honest.
 no LLM call, no program and no per-query tokens.
 
 **The target to beat is PROGRAM.** PROGRAM uses an LLM (`gpt-6-luna`) to write a `QueryProgram` that is executed
-over structured features, and it is more precise on compositional questions. It also costs 5–8 s and about 5–6k
-tokens per query when the program isn't cached. FUSED runs in about 28 ms.
+over structured features, and it is more precise on compositional questions. It also costs 5–12 s and about 5–8k
+tokens per query when the program isn't cached. FUSED runs in about 30 ms.
 
 The goal is to close the quality gap to PROGRAM without giving up that cost profile.
 
@@ -21,8 +21,8 @@ document side (learned):         window w ──► [ SigLIP2 image mean (frozen
 score(q, w) = q · f(w)          (exact dot product over the window index; same pipeline runner as every config)
 ```
 
-- **Windows.** A window is a 4 s trailing span at a 1 s stride: `Rec:EEEE` covers `[EEEE-4 s, EEEE]`, about 680
-  windows across 7 recordings.
+- **Windows.** A window is a 4 s trailing span at a 1 s stride: `Rec:EEEE` covers `[EEEE-4 s, EEEE]`, 2,253
+  windows across 16 recordings.
 - **Image features.** The mean of L2-normalised SigLIP2 (`google/siglip2-so400m-patch14-384`) vectors from the front
   camera's frames at 10 Hz inside the window. Per-frame vectors are kept in `bundle/features/siglip2_frames/`.
 - **`s(w)`.** 23 window statistics from the provider features: speed (mean, min, max, Δ, max drop), yaw-rate max,
@@ -61,7 +61,8 @@ right-side room, close car while fast). Adding them would leak the held-out test
 ## Evaluation
 
 - **Leave-one-recording-out (LORO), always.**
-  - Each of 7 folds trains on 6 recordings, then embeds the held-out recording.
+  - Each fold holds out one of the 14 Train recordings, trains on the other 13, then embeds the held-out one.
+  - The 2 Val recordings are never in a fold: the full-data model (trained on all 14) embeds them.
   - The out-of-fold vectors from all folds form one corpus index, `bundle/index/fused_v1_windows.parquet`. Every
     window is embedded by a model that never saw its recording.
   - The benchmark queries that index through the standard pipeline specs `FUSED` (lookup) and `FUSED_V` (lookup,
@@ -70,45 +71,33 @@ right-side room, close car while fast). Adding them would leak the held-out test
   - Judgments: pooled relevance, graded 0/1/2 by an Opus labeller with audited tools. Unjudged windows are never
     counted as 0.
   - Metrics: macro ROC-AUC (penalised for abstention), nDCG@10, and R@10/R@50 on condensed lists.
-  - Query sets: `demo5_para` (15 paraphrases) and `compose_test` (6 held-out compositions).
+  - Query sets: `demo5_para` (15 paraphrases), `compose_test` (6 held-out compositions, also sliced to the Val
+    recordings as `compose_test@val`) and `l1_compositions_dev` (6 behavior questions with complete ground truth).
   - Uncertainty: bootstrap CIs over intent groups, with n = 5–6 groups per set, so read differences as directional.
 - **Diagnostics** (cheap, and *not* ground truth), written to `bundle/index/<name>.json`:
   - out-of-fold pseudo-label AUC (EMBED vs FUSED) per held-out recording, which measures distillation fidelity;
   - hubness: the top-5 concentration over probe texts.
 
-### Results (eval v7; v8-correctness leaves AUC unchanged)
+### Where FUSED stands (eval v9)
 
-| Config | demo5_para ROC | demo5_para nDCG@10 | compose_test ROC | compose_test nDCG@10 | p50 latency | tokens |
-|---|---|---|---|---|---|---|
-| EMBED (image only) | 0.47 | 0.25 | 0.38 | 0.07 | 24 ms | 0 |
-| FUSED_CONCAT (control: no learning) | 0.47 | 0.21 | 0.41 | 0.20 | 24 ms | 0 |
-| FUSED_LINEAR (control: linear head) | 0.62 | 0.33 | 0.47 | 0.39 | 26 ms | 0 |
-| **FUSED (MLP head)** | **0.64** | **0.44** | 0.54 | 0.45 | 28 ms | 0 |
-| FUSED_V (FUSED + LLM program verification) | 0.61 | 0.31 | 0.74 | 0.54 | ~5–7 s cold, ~40 ms cached | ~5k |
-| PROGRAM_LUNA (LLM program) | 0.60 | 0.27 | 0.69 | 0.45 | ~5–7 s cold | ~5k |
-| PROGRAM_ORACLE (hand-written program: the ceiling) | 0.58 | 0.40 | **0.77** | **0.74** | 17–58 ms | 0 |
-
-- **Out-of-fold pseudo-label AUC:** EMBED 0.51, FUSED 0.69 (clearance@3 signals).
-- **Hubness:** the busiest window appears in the top 5 twenty times for FUSED, against fifteen for EMBED.
-- **v8-correctness, compose_test R@50:** FUSED 0.29, PROGRAM_LUNA 0.55, PROGRAM_ORACLE 0.83.
-
-### Results, eval v9 (16 recordings; LORO over the 14 Train recordings; Val embedded by the full-data model)
-
-| Config | demo5_para ROC / nDCG@10 | compose_test ROC / nDCG@10 | compose_test, original 7 recordings | compose_test, 9 new recordings | compose_test, Val (2 held out) |
+| Config | demo5_para ROC / nDCG@10 | compose_test ROC / nDCG@10 | compose_test@val ROC / nDCG@10 | p50 latency | tokens |
 |---|---|---|---|---|---|
-| EMBED | 0.46 / 0.25 | 0.47 / 0.22 | 0.39 / 0.02 | 0.40 / 0.25 | 0.25 / 0.24 |
-| **FUSED** | **0.73 / 0.47** | 0.59 / 0.46 | 0.64 / 0.59 | 0.57 / 0.45 | **0.75 / 0.54** |
-| FUSED_V_LUNA | 0.58 / 0.32 | 0.61 / 0.47 | 0.77 / 0.65 | 0.60 / 0.46 | 0.61 / 0.37 |
-| PROGRAM_LUNA | 0.55 / 0.24 | 0.59 / 0.38 | 0.69 / 0.52 | 0.68 / 0.38 | 0.58 / 0.39 |
-| PROGRAM_ORACLE | 0.56 / 0.35 | 0.66 / 0.45 | 0.78 / 0.74 | 0.65 / 0.38 | 0.58 / 0.39 |
+| EMBED (image only) | 0.46 / 0.25 | 0.47 / 0.22 | 0.25 / 0.24 | 28 ms | 0 |
+| FUSED_CONCAT (control: no learning) | 0.43 / 0.19 | 0.44 / 0.11 | 0.23 / 0.19 | 30 ms | 0 |
+| FUSED_LINEAR (control: linear head) | 0.65 / 0.42 | 0.58 / 0.35 | 0.71 / 0.25 | 31 ms | 0 |
+| **FUSED (MLP head)** | **0.73 / 0.47** | 0.59 / 0.46 | **0.75 / 0.54** | 33 ms | 0 |
+| FUSED_V_LUNA | 0.58 / 0.32 | 0.61 / 0.47 | 0.61 / 0.37 | ~5–6 s cold | ~5–7k |
+| PROGRAM_LUNA | 0.55 / 0.24 | 0.59 / 0.38 | 0.58 / 0.39 | ~5–7 s cold | ~5–7k |
+| PROGRAM_ORACLE (the ceiling) | 0.56 / 0.35 | **0.66** / 0.45 | 0.58 / 0.39 | 40–60 ms | 0 |
 
-- **On the original 7 recordings, v9 reproduces v7.** PROGRAM_ORACLE scores 0.78 / 0.74, against 0.77 / 0.74.
-  FUSED improves from 0.54 / 0.45 to 0.64 / 0.59 with twice the training data.
-- **The 9 new recordings are harder for everything,** including hand-written programs. That is a transfer gap in the
-  structured signals.
-- **FUSED holds up best on the two held-out Val recordings.**
-- **Out-of-fold pseudo-label AUC:** EMBED 0.51, FUSED 0.70. **Hubness** (the busiest window's top-5 count): 15,
-  down from 20.
+- **The head is doing the work.** Concatenation alone is no better than EMBED; a linear head gets most of the
+  gain; the MLP adds the rest.
+- **FUSED leads on paraphrases and on the two held-out Val recordings,** at no per-query cost. Hand-written
+  programs still lead on compositions over the original 7 recordings (0.78 / 0.74 against FUSED's 0.64 / 0.59).
+- **Diagnostics.** Out-of-fold pseudo-label AUC: EMBED 0.51, FUSED 0.70. Hubness (the busiest window's top-5
+  count): 15, down from 20 in v7.
+
+Every set, the v7 → v9 history and the per-slice breakdown are in [RESULTS.md](RESULTS.md).
 
 ## Known weaknesses (the improvement surface)
 
@@ -138,7 +127,8 @@ right-side room, close car while fast). Adding them would leak the held-out test
    program generator would remove its LLM cost.
 6. **Tune the loss**: temperature and bias, balancing the loss between multi-positive templates and single-positive
    captions, and a hubness penalty (CSLS or centring).
-7. **More data** from the new recordings, once indexed, run through LORO over all Train recordings.
+7. **More data.** Doubling the training recordings in v9 lifted compose_test on the original 7 from 0.54 / 0.45 to
+   0.64 / 0.59. New bags go through the same LORO, so this lever stays open.
 
 ## Guardrails (non-negotiable)
 
@@ -161,8 +151,8 @@ uv run python -m alloy_trainer.learn.fused --kind linear --name fused_linear
 uv run python -m alloy_trainer.learn.fused --kind concat --name fused_concat
 
 # benchmark: a fresh run name; reuse frozen programs so LLM configs cost nothing
-uv run python -m alloy_trainer.eval.run --run myexp --configs FUSED,FUSED_LINEAR,FUSED_CONCAT,EMBED --reuse-programs-from benchmark/results/v7
-uv run python -m alloy_trainer.eval.run --run myexp --score-all --configs FUSED,FUSED_LINEAR,FUSED_CONCAT,EMBED --reuse-programs-from benchmark/results/v7
+uv run python -m alloy_trainer.eval.run --run myexp --configs FUSED,FUSED_LINEAR,FUSED_CONCAT,EMBED --reuse-programs-from benchmark/results/v9
+uv run python -m alloy_trainer.eval.run --run myexp --score-all --configs FUSED,FUSED_LINEAR,FUSED_CONCAT,EMBED --reuse-programs-from benchmark/results/v9
 uv run python -m alloy_trainer.annotate.l2 --run myexp --skip-judged   # lists windows your config surfaced that nobody has judged yet
 uv run python -m alloy_trainer.eval.report --run myexp
 ```
@@ -174,8 +164,9 @@ which is a labeller job, or report `judged@10` alongside the metrics. Condensed-
 
 | File | What it holds |
 |---|---|
-| `trainer/src/alloy_trainer/learn/fused.py` | features, pseudo-label programs, head, loss, LORO, diagnostics |
+| `index/src/alloy_index/models/fused.py` | `SIGNALS`, window features and the head (shared by training and `apply.fused`) |
+| `trainer/src/alloy_trainer/learn/fused.py` | pseudo-label programs, loss, LORO training, diagnostics |
 | `server/src/alloy_server/models/siglip.py` | the frozen encoder recipe shared by the query and document sides |
 | `index/src/alloy_index/build/pipelines.py` | the `FUSED`, `FUSED_V`, `FUSED_LINEAR` and `FUSED_CONCAT` specs |
 | `trainer/src/alloy_trainer/eval/*` | the benchmark runner, pooling, metrics and report |
-| `benchmark/results/v7/`, `benchmark/results/v8-correctness/` | frozen reference results |
+| `benchmark/results/v9/` | the current frozen reference (earlier checkpoints: [RESULTS.md](RESULTS.md)) |

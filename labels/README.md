@@ -36,7 +36,7 @@ labels/
 | Campaign | Kinds | Priority | Notes |
 |---|---|---|---|
 | `l1-smoke` | attributes | −1 | first smoke run; superseded where l1-original labels the same segment |
-| `l1-original`, `l1-wave1` | attributes | 0 | original 7 recordings; data wave 1 (9 recordings, $84.06) |
+| `l1-original`, `l1-wave1` | attributes | 0 | original 7 recordings; data wave 1 (9 recordings, $84.05) |
 | `l1-corrections-2026-09-27` | attributes | 1 | Brackenridge 0084, 0088, 0100 re-labelled after the joystick/IMU/odometry cross-check ($1.05) |
 | `l2-original` | judgments | 0 | pooled judgments for eval v7 |
 | `l2-followups` | judgments | 1 | follow-up rounds; supersede l2-original where they re-grade |

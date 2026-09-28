@@ -12,7 +12,7 @@ uv run alloy-index status    # stages × recordings grid
 
 ```
 Source (LocalBagSource: raw/*.bag + SCAND_index.csv)
-  └─ per recording: ingest ─► providers.{motion, clearance, detections} ─► frames.siglip2 ─► [annotate.l1]
+  └─ per recording: ingest ─► providers.{motion, clearance, imu, detections} ─► frames.siglip2 ─► [annotate.l1]
   └─ corpus:        windows.siglip2 ─► tags ─► apply.fused ─► pipelines ─► prompts
 Sink (LocalBundleSink: bundles/dev + manifest.json)
 ```
@@ -38,17 +38,17 @@ A second source (for example, downloading by `FileName` from the SCAND index lin
 
 | Stage | Scope | Version | Writes |
 |---|---|---|---|
-| `ingest` | recording | ingest@2 | `mcap/<rec>/*.mcap` (`layout: by_sensor`), `timeline/<rec>`, `intake/<rec>` |
+| `ingest` | recording | ingest@3 (intake@2) | `mcap/<rec>/*.mcap` (`layout: by_sensor`), `timeline/<rec>`, `intake/<rec>` |
 | `providers.motion` | recording | motion@3 | speed, yaw rate, heading, acceleration, `speed_frac_max` |
 | `providers.clearance` | recording | clearance@4 | front, any-direction and body-side clearance, gap, doorway, `clearance_margin_front_m` |
 | `providers.imu` | recording | imu@2 | `imu_vibration_rms`, gyro yaw rate, `odom_gyro_yaw_disagreement_dps`. Jackal only; Spot has no IMU (not applicable) |
 | `providers.detections` | recording | detections@2 | RT-DETR counts, corridor occupancy, tracks, boxes. Not applicable without a front camera |
-| `frames.siglip2` | recording | params `front_hz: 10`, `body_hz: native` | per-frame SigLIP2 vectors |
-| `annotate.l1` | recording | `requires_flag` | L1 per-segment labels (paid; see below) |
-| `windows.siglip2` | corpus | | 4 s windows at a 1 s stride; body-camera fallback when the front camera is absent (`source` column) |
-| `tags` | corpus | | recording-level tags |
-| `apply.fused` | corpus | | FUSED vectors for windows the saved full-data models haven't embedded |
-| `pipelines`, `prompts` | corpus | | every `PipelineSpec`; the generator's few-shot pool |
+| `frames.siglip2` | recording | siglip2_frames@1; params `front_hz: 10`, `body_hz: native` | per-frame SigLIP2 vectors |
+| `annotate.l1` | recording | l1_labeller@1; `requires_flag` | L1 per-segment labels (paid; see below) |
+| `windows.siglip2` | corpus | siglip2_windows@2 | 4 s windows at a 1 s stride; body-camera fallback when the front camera is absent (`source` column) |
+| `tags` | corpus | tags@2 | recording-level tags |
+| `apply.fused` | corpus | apply_fused@1 | FUSED vectors for windows the saved full-data models haven't embedded |
+| `pipelines`, `prompts` | corpus | pipelines@2, prompts@2 | every `PipelineSpec`; the generator's few-shot pool |
 
 A stage declares `IMPL`, `VERSION`, `SCOPE` and `DEPENDS`, and implements `run`. Optionally it also implements
 `applies` (for example, "front camera absent in this log"), `adopt` (register outputs built earlier by the same
@@ -101,7 +101,8 @@ uv run alloy-index run --stages annotate.l1 --annotate
 **Data wave 1, measured.** Nine recordings, 1,608 s, **397 segments in 17 jobs, $84.05 total** with Opus 5.5
 (measured `total_cost_usd`). That is **$0.21 per segment**, about **$5.20 per 100 s of recording**. Jobs took 2–21
 min each, 7.7–12 min for a typical 30-segment job, with 8 running in parallel. Every segment was labelled
-(`unlabelled_after=0`). The corpus now has 570 L1 segments.
+(`unlabelled_after=0`). The corpus now has 570 L1 segments; three Brackenridge captions were later corrected
+(`l1-corrections-2026-09-27`, see [`benchmark/OPEN_QUESTIONS.md`](../benchmark/OPEN_QUESTIONS.md)).
 
 The plan estimated about $0.24 per segment, about $95 for this wave. Cheaper future options: a
 smaller model for L1 (with Opus reserved for L2 judging), or caption-only L1.

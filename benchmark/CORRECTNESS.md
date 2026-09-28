@@ -1,8 +1,12 @@
-# Correctness checkpoint
+# Correctness checkpoint (v8)
+
+The fixes made after v7, and the scoring rules they established. Every later checkpoint inherits these rules.
+**The current checkpoint is v9.** Its numbers, the other checkpoints and the replay commands are in
+[`docs/RESULTS.md`](../docs/RESULTS.md).
 
 The original v7 artifacts are preserved in [`results/v7/`](results/v7/). The corrected run is
-[`results/v8-correctness/report.html`](results/v8-correctness/report.html); `report.html` in this directory is a copy
-of the current report. Both checkpoints include hashes of their artifacts.
+[`results/v8-correctness/report.html`](results/v8-correctness/report.html). Both checkpoints include hashes of their
+artifacts.
 
 ## Changes
 
@@ -17,7 +21,7 @@ of the current report. Both checkpoints include hashes of their artifacts.
   conflicts fail. The resolved 173 L1 labels and 1,061 L2 judgments match the original checkpoint.
 - The report distinguishes supplied ORACLE programs from generated LUNA programs and includes R@50 and judged@50.
 
-## Replaying the benchmark
+## Replaying v8
 
 Run from the repository root, with the existing dev bundle. Use a fresh run name: the runner resumes completed query/config rows.
 

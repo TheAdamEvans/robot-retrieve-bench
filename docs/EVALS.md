@@ -3,7 +3,8 @@
 There are two levels:
 
 - **The benchmark** answers "which config should serve this query?" end to end, with pooled graded relevance
-  judgments. See [`benchmark/CORRECTNESS.md`](../benchmark/CORRECTNESS.md) and [FUSED.md](FUSED.md#evaluation).
+  judgments. Frozen checkpoints and their numbers are in [RESULTS.md](RESULTS.md); the scoring rules are in
+  [`benchmark/CORRECTNESS.md`](../benchmark/CORRECTNESS.md) and [FUSED.md](FUSED.md#evaluation).
 - **Module evals** answer "does this one module still do its job?" They are cheap, run in pytest, and adding a
   case takes one line.
 
@@ -50,8 +51,10 @@ A case is `{"id", "input": {...}, "expect": {...}, "note"?, "source"?}`. A score
 |---|---|---|
 | `catalog/embodiment` | body-side room, front margin, robot-relative speed | the labeller's follower-behind finding |
 | `verify/onsets` | ONSET timing on synthetic gait oscillation and on JCL | the labeller's finding that onsets were ~0.6 s late; JCL stop→go at 24.15 s |
+| `verify/coverage` | when an unmatched clause may be FALSE rather than UNKNOWN: log edges, relation windows past the end, mid-log dropouts (8 cases) | the abstention control's end-of-log partial matches (see below) |
 | `pipeline/merge_adjacent` | which results merge, spans shown, weak results never widen a span | W6 |
 | `providers/detections` (index) | the pinned RT-DETR loads and re-detects known frames | the refactor that deleted the model cache |
+| `providers/imu` (index) | Jackal IMU vibration separates standstill, slow and fast driving; gyro agrees with wheel odometry; intake records the schema repair (8 cases) | the Brackenridge "stops" that were the operator releasing turbo |
 | `programs/generator` | valid programs, oracle features recalled, forbidden features absent, partial when it should be, no system words leaked, tokens | demo5 and regressions (dev); compose_test and demo5_para (test) |
 
 ### Running

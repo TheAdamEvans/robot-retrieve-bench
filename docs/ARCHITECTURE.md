@@ -33,7 +33,7 @@ The protos are the interfaces between packages. Regenerate them with `./tools_co
 |---|---|
 | `common.proto` | truth values, UNKNOWN reasons (`NOT_INDEXED`, `STALE`, `SENSOR_ABSENT_IN_LOG`, …), boundaries |
 | `query.proto` | `QueryProgram`: events, relations, selection, receipt and context |
-| `pipeline.proto` | `PipelineSpec`, `Candidate` (`WINDOW`, `EVENT`, `MERGED`), stage scores, filter records, stage reports |
+| `pipeline.proto` | `PipelineSpec`, `Candidate` (`WINDOW`, `INTERVAL`, `MERGED`), stage scores, filter records, stage reports |
 | `answer.proto` | `SearchRequest` and `SearchResponse`, answer statuses, completeness, cost reports |
 | `embodiment.proto` | `EmbodimentProfile` (reviewed robot facts) and `IntakeReport` (measured per log) |
 | `index.proto` | `IndexSpec` (Source, Stages, Sink), `ArtifactRecord` and `SinkManifest` |
@@ -115,6 +115,14 @@ evidence. Each stage reports candidates in and out, filter reasons and its cost.
 | HYBRID | EMBED candidates, then deterministic verification |
 | FUSED | one lookup in a learned window index (image plus signals); see [FUSED.md](FUSED.md) |
 | FUSED_V | FUSED candidates, then program verification |
+| FUSED_LINEAR, FUSED_CONCAT | FUSED controls: a linear head, and no learning (image and signals concatenated) |
+| stubs | HYBRID_X, ENSEMBLE, EMBED_WEMM_{FUSED,IMAGE,CARD}: specified and loadable; running one returns `UNAVAILABLE` |
+
+**Pipelines versus eval configs.** The table above lists pipeline ids (`index/src/alloy_index/build/pipelines.py`).
+The benchmark runs them as **eval configs** (`CONFIGS` in `trainer/src/alloy_trainer/eval/run.py`). A config that
+needs a program comes in two forms: `*_ORACLE` is given the query's hand-written `QueryProgram` (the ceiling for the
+executor and features), and `*_LUNA` generates one with gpt-6-luna (the real system). So PROGRAM runs as
+PROGRAM_ORACLE and PROGRAM_LUNA, HYBRID as HYBRID_ORACLE and HYBRID_LUNA, and FUSED_V as FUSED_V_LUNA.
 
 **Honest answers.** Clauses are three-valued (TRUE, FALSE or UNKNOWN), and every UNKNOWN carries its reason. A
 candidate is filtered only when a required clause is definitively FALSE. A log's start and end are hard edges
@@ -151,3 +159,4 @@ of every labeller tool call. The FUSED trainer reads only `train/`. One loader
   abstention), nDCG@10, recall on condensed lists, bootstrap CIs over intent groups, and latency and token costs.
   See [`benchmark/CORRECTNESS.md`](../benchmark/CORRECTNESS.md).
 - **Module evals**: each module keeps small, self-contained suites. See [EVALS.md](EVALS.md).
+- **Results**: every frozen checkpoint, its headline numbers and how to replay it. See [RESULTS.md](RESULTS.md).
