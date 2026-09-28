@@ -1,4 +1,4 @@
-"""imu@1 on Jackal: vibration separates standstill, slow and fast driving; the gyro agrees with wheel odometry on the
+"""imu@2 on Jackal: vibration separates standstill, slow and fast driving; the gyro agrees with wheel odometry on the
 same 0.5 s window (r >= 0.95, scale 0.9-1.1); the intake records the schema repair. Seeded by the Brackenridge "stop" question: the operator only released turbo (0.5 m/s)."""
 import numpy as np
 import pyarrow.parquet as pq
